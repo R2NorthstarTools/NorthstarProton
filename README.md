@@ -1,5 +1,5 @@
 # NorthstarProton
-A Proton build based on TKG's proton-tkg build system to run the Northstar client along with some enhancements out-of-the-box.
+A Proton build based on TKG's proton-tkg build system to run the Northstar client on Linux and SteamDeck, along with some enhancements out-of-the-box.
 
 **Please report any issues on this repo, do not take them to upstream wine or TKG's github.**
 
