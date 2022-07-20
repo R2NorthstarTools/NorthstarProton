@@ -12,7 +12,7 @@ glibc 2.33 is a hard minimum requirement for the time being.
 - DXVK-async enabled by default, no launch options required.
 - `wsock32.dll` as a DLL override by default to enable Northstar, no launch options required.
 - LatencyFleX wine components to reduce setup. Users need to set up the vulkan layer and add `LFX=1` to enable.
-- Allows for Northstar to run on SteamDeck with forced DLL override. Hopefully we can make SteamDeck as easy as Desktop in the future.
+- Allows for Northstar to run on SteamDeck.
 
 ## Building
 
