@@ -55,7 +55,7 @@ rm -dvrf latencyflex-v$lfx_release
 
 echo ""
 echo "Northstar-Proton generation is complete. The final step is naming the build."
-echo "Be consistent. Three files with a total of four locations must be changed to the same string to update the visual and internal version"
+echo "Be consistent. Four files with a total of five locations must be changed to the same string to update the visual and internal version"
 echo "Copy the name to your clipboard. The files will open automatically."
 echo ""
 read -p "Press any key to continue"
@@ -64,6 +64,7 @@ cd proton_tkg*
 nano compatibilitytool.vdf
 nano version
 nano files/version
+nano proton
 cd ..
 
 echo "Generation complete"
