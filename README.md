@@ -1,5 +1,5 @@
 # NorthstarProton
-A Proton build based on TKG's proton-tkg build system to run the Northstar client with minimal end-user interaction. Users can switch between running Northstar and running vanilla Titanfall 2 simply by switching proton builds between this one and official Valve proton.
+A Proton build based on TKG's proton-tkg build system to run the Northstar client along with some enhancements out-of-the-box.
 
 **Please report any issues on this repo, do not take them to upstream wine or TKG's github.**
 
