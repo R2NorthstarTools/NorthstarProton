@@ -14,16 +14,31 @@ cd wine-tkg-git/proton-tkg
 ./proton-tkg.sh
 
 echo "TKG-Proton base built"
-echo "The next add the following line to the file that automatically opens:"
+#
+# Adding the DLL Override to user_settings has been replaced with protonfixes
+#
+#echo "The next add the following line to the file that automatically opens:"
+#echo ""
+#echo "\"WINEDLLOVERRIDES\": \"wsock32=n,b\","
+#echo ""
+#read -p "Press any key when ready"
+
+cd built
+echo "Installing Protonfixes"
+cp -rvf ../../../protonfixes/ proton_tkg*/
+
+cd proton_tkg*
+
+echo "To enable Protonfixes, add the following python import to the very top of the file that automatically opens."
 echo ""
-echo "\"WINEDLLOVERRIDES\": \"wsock32=n,b\","
+echo "   import protonfixes   "
 echo ""
 read -p "Press any key when ready"
 
-cd built/*
 nano user_settings.py
 
-echo "DLL override added"
+#echo "DLL override added"
+echo "Protonfixes installed and enabled."
 cd ..
 echo "Downloading DXVK-async..."
 wget "https://github.com/Sporif/dxvk-async/releases/download/$dxvk_async_release/dxvk-async-$dxvk_async_release.tar.gz"
