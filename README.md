@@ -38,3 +38,5 @@ cd NorthstarProton
 
 **Amine Hassane ([Sporif](https://github.com/Sporif))**, for continually maintaining DXVK-async.
 
+**Chris Simons ([simons-public](https://github.com/simons-public))** for Protonfixes, which I have shamelessly butchered into this project.
+
