@@ -2,6 +2,7 @@
 
 dxvk_async_release="1.10.2"
 lfx_release="0.1.0"
+nsprtn_rel_name="NorthstarProton-7.13-dev"
 
 echo "Cloning wine-tkg-git repository..."
 git clone https://github.com/Frogging-Family/wine-tkg-git.git
@@ -23,19 +24,27 @@ echo "TKG-Proton base built"
 #echo ""
 #read -p "Press any key when ready"
 
+echo "Renaming directory"
 cd built
+mv proton_tkg* $nsprtn_rel_name
+
 echo "Installing Protonfixes"
-cp -rvf ../../../protonfixes/ proton_tkg*/
+cp -rvf ../../../protonfixes/ $nsprtn_rel_name/
 
-cd proton_tkg*
+cd $nsprtn_rel_name
 
-echo "To enable Protonfixes, add the following python import to the very top of the file that automatically opens."
-echo ""
-echo "   import protonfixes   "
-echo ""
-read -p "Press any key when ready"
 
-nano user_settings.py
+# Trying to automate this process. It will end well, right?
+#echo "To enable Protonfixes, add the following python import to the very top of the file that automatically opens."
+#echo ""
+#echo "   import protonfixes   "
+#echo ""
+#read -p "Press any key when ready"
+
+#nano user_settings.py
+
+echo "Enabling Protonfixes"
+sed -i '1s/^/import protonfixes\n/' user_settings.py
 
 #echo "DLL override added"
 echo "Protonfixes installed and enabled."
