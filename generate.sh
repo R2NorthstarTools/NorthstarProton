@@ -65,11 +65,8 @@ rm -vf "latencyflex-v$lfx_release.tar.xz"
 rm -dvrf latencyflex-v$lfx_release
 
 echo ""
-echo "Northstar-Proton generation is complete. The final step is naming the build."
-echo "Be consistent. Four files with a total of five locations must be changed to the same string to update the visual and internal version"
-echo "Copy the name to your clipboard. The files will open automatically."
+echo "Northstar-Proton generation is complete. Naming build."
 echo ""
-read -p "Press any key to continue"
 
 cd $nsprtn_rel_name
 old_version=$(cat version | cut -f 2 -d ' ')
