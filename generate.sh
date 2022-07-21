@@ -55,8 +55,8 @@ echo "Extracting..."
 tar -xvf "dxvk-async-$dxvk_async_release.tar.gz"
 
 echo "Installing DXVK-async binaries"
-cp -vf dxvk-async-$dxvk_async_release/x32/* proton_tkg*/files/lib/wine/dxvk/
-cp -vf dxvk-async-$dxvk_async_release/x64/* proton_tkg*/files/lib64/wine/dxvk/
+cp -vf dxvk-async-$dxvk_async_release/x32/* $nsprtn_rel_name/files/lib/wine/dxvk/
+cp -vf dxvk-async-$dxvk_async_release/x64/* $nsprtn_rel_name/files/lib64/wine/dxvk/
 echo "Cleaning up DXVK-async"
 rm -vf "dxvk-async-$dxvk_async_release.tar.gz"
 rm -dvrf dxvk-async-$dxvk_async_release
@@ -66,11 +66,11 @@ echo "Installing LatencyFleX Wine components."
 wget "https://github.com/ishitatsuyuki/LatencyFleX/releases/download/v$lfx_release/latencyflex-v$lfx_release.tar.xz"
 tar -xvf "latencyflex-v$lfx_release.tar.xz"
 
-cp -vf latencyflex-v$lfx_release/wine/usr/lib/wine/x86_64-windows/latencyflex_layer.dll proton_tkg*/files/lib64/wine/x86_64-windows/
-cp -vf latencyflex-v$lfx_release/wine/usr/lib/wine/x86_64-windows/latencyflex_wine.dll proton_tkg*/files/lib64/wine/x86_64-windows/
-cp -vf latencyflex-v$lfx_release/wine/usr/lib/wine/x86_64-unix/latencyflex_layer.so proton_tkg*/files/lib64/wine/x86_64-unix/
-cp -vf latencyflex-v$lfx_release/wine/usr/lib/wine/x86_64-windows/latencyflex_layer.dll proton_tkg*/files/share/default_pfx/drive_c/windows/system32/
-cp -vf latencyflex-v$lfx_release/wine/usr/lib/wine/x86_64-windows/latencyflex_wine.dll proton_tkg*/files/share/default_pfx/drive_c/windows/system32/
+cp -vf latencyflex-v$lfx_release/wine/usr/lib/wine/x86_64-windows/latencyflex_layer.dll $nsprtn_rel_name/files/lib64/wine/x86_64-windows/
+cp -vf latencyflex-v$lfx_release/wine/usr/lib/wine/x86_64-windows/latencyflex_wine.dll $nsprtn_rel_name/files/lib64/wine/x86_64-windows/
+cp -vf latencyflex-v$lfx_release/wine/usr/lib/wine/x86_64-unix/latencyflex_layer.so $nsprtn_rel_name/files/lib64/wine/x86_64-unix/
+cp -vf latencyflex-v$lfx_release/wine/usr/lib/wine/x86_64-windows/latencyflex_layer.dll $nsprtn_rel_name/files/share/default_pfx/drive_c/windows/system32/
+cp -vf latencyflex-v$lfx_release/wine/usr/lib/wine/x86_64-windows/latencyflex_wine.dll $nsprtn_rel_name/files/share/default_pfx/drive_c/windows/system32/
 
 echo "LatencyFleX Wine components installed"
 echo "Cleaning up"
@@ -84,7 +84,7 @@ echo "Copy the name to your clipboard. The files will open automatically."
 echo ""
 read -p "Press any key to continue"
 
-cd proton_tkg*
+cd $nsprtn_rel_name
 nano compatibilitytool.vdf
 nano version
 nano files/version
