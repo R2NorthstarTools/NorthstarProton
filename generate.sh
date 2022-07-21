@@ -3,6 +3,7 @@
 dxvk_async_release="1.10.2"
 lfx_release="0.1.0"
 nsprtn_rel_name="NorthstarProton-7.13-dev"
+tkg_protonpy_changeme="7.13-0" #This is the string to replace in the proton python file in the main directory. This is usually <wine-staging version>-<number>
 
 echo "Cloning wine-tkg-git repository..."
 git clone https://github.com/Frogging-Family/wine-tkg-git.git
@@ -85,15 +86,18 @@ echo ""
 read -p "Press any key to continue"
 
 cd $nsprtn_rel_name
-nano compatibilitytool.vdf
-nano version
-nano files/version
-nano proton
+old_version=$(cat version | cut -f 2 -d ' ')
+sed -i "s/$old_version/$nsprtn_rel_name/g" compatibilitytool.vdf
+sed -i "s/$old_version/$nsprtn_rel_name/g" version
+sed -i "s/$old_version/$nsprtn_rel_name/g" files/version
+sed -i "s/$tkg_protonpy_changeme/$nsprtn_rel_name/g" proton
+#nano compatibilitytool.vdf
+#nano version
+#nano files/version
+#nano proton
 cd ..
 
 echo "Generation complete"
 read -p "Press any key to compress to .tar.gz"
-version=$(cat proton_tkg*/files/version | cut -f 2 -d ' ')
-mv proton_tkg* $version
-tar -zcvf $version.tar.gz $version
+tar -zcvf $nsprtn_rel_name.tar.gz $nsprtn_rel_name
 
