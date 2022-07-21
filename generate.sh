@@ -15,15 +15,12 @@ echo "Building TKG-Proton base"
 cd wine-tkg-git/proton-tkg
 ./proton-tkg.sh
 
+echo ""
 echo "TKG-Proton base built"
-#
-# Adding the DLL Override to user_settings has been replaced with protonfixes
-#
-#echo "The next add the following line to the file that automatically opens:"
-#echo ""
-#echo "\"WINEDLLOVERRIDES\": \"wsock32=n,b\","
-#echo ""
-#read -p "Press any key when ready"
+echo "If TKG-Proton failed to build, press good ol' ctrl+c to restart."
+echo ""
+
+read -p "Otherwise, press any key to add the special sauce :^)"
 
 echo "Renaming directory"
 cd built
@@ -34,20 +31,9 @@ cp -rvf ../../../protonfixes/ $nsprtn_rel_name/
 
 cd $nsprtn_rel_name
 
-
-# Trying to automate this process. It will end well, right?
-#echo "To enable Protonfixes, add the following python import to the very top of the file that automatically opens."
-#echo ""
-#echo "   import protonfixes   "
-#echo ""
-#read -p "Press any key when ready"
-
-#nano user_settings.py
-
 echo "Enabling Protonfixes"
 sed -i '1s/^/import protonfixes\n/' user_settings.py
 
-#echo "DLL override added"
 echo "Protonfixes installed and enabled."
 cd ..
 echo "Downloading DXVK-async..."
@@ -91,10 +77,6 @@ sed -i "s/$old_version/$nsprtn_rel_name/g" compatibilitytool.vdf
 sed -i "s/$old_version/$nsprtn_rel_name/g" version
 sed -i "s/$old_version/$nsprtn_rel_name/g" files/version
 sed -i "s/$tkg_protonpy_changeme/$nsprtn_rel_name/g" proton
-#nano compatibilitytool.vdf
-#nano version
-#nano files/version
-#nano proton
 cd ..
 
 echo "Generation complete"
