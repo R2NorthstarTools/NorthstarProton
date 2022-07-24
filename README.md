@@ -1,6 +1,10 @@
 # NorthstarProton
 A Proton build based on TKG's proton-tkg build system to run the Northstar client on Linux and SteamDeck, along with some enhancements out-of-the-box.
 
+Officially supported runner for playing TF|2 + Northstar through Steam on Linux and SteamDeck.
+
+https://r2northstar.gitbook.io/r2northstar-wiki/using-northstar/playing-on-linux
+
 ## IMPORTANT
 
 - This is a custom build of Proton, and is *not* affiliated with Valve's Proton.
