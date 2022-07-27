@@ -20,6 +20,14 @@ https://r2northstar.gitbook.io/r2northstar-wiki/using-northstar/playing-on-linux
 - LatencyFleX wine components to reduce setup. Users need to set up the vulkan layer and add `LFX=1` to enable.
 - Allows for Northstar to run on SteamDeck.
 
+## Releases
+
+Releases for NorthstarProton will be done if:
+- There is a new tagged release for wine-staging, DXVK, or LatencyFleX.
+- New features, workarounds, or fixes need to be added.
+
+Users likely do not *need* to update every release as the state of Titanfall 2 is unlikely to change, however it is recommended. Updates are conducted to keep the runner current.
+
 ## Usage
 
 ### Prerequisites
