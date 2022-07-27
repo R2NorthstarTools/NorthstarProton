@@ -19,6 +19,7 @@ https://r2northstar.gitbook.io/r2northstar-wiki/using-northstar/playing-on-linux
 - `wsock32.dll` as a DLL override by default to enable Northstar, no launch options required.
 - LatencyFleX wine components to reduce setup. Users need to set up the vulkan layer and add `LFX=1` to enable.
 - Allows for Northstar to run on SteamDeck.
+- Some users report Origin is less miserable, an entirely unintended but welcome feature.
 
 ## Releases
 
