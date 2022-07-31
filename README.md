@@ -38,7 +38,7 @@ Users likely do not *need* to update every release as the state of Titanfall 2 i
 ### Manual Installation
 1) Download the latest release from the [Releases](https://github.com/cyrv6737/NorthstarProton/releases/tag/latest) page.
 2) Extract downloaded release archive to the appropriate directory. 
-   * [Native and SteamDeck] `~/.steam/root/compatibilitytools.d`.
+   * [Native and SteamDeck] `~/.local/share/Steam/compatibilitytools.d`.
    * [Flatpak] `~/.var/app/com.valvesoftware.Steam/data/Steam/compatibilitytools.d/`.
    * Create directory if it does not exist.
 3) Restart Steam.
