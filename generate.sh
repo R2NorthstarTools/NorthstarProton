@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 dxvk_async_release="1.10.2" #Use a tagged release here
 lfx_release="0.1.0" #Use a tagged release here
