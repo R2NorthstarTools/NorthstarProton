@@ -11,7 +11,7 @@ https://r2northstar.gitbook.io/r2northstar-wiki/using-northstar/playing-on-linux
 - The use of this Proton build, or any Proton build, outside of Steam is universally unsupported.
 - Report any issues with *this* Proton build to *this* repo. Do not take them to upstream wine, Valve, or TKG.
 - Do not use this Proton runner for any games other than TF|2 / Northstar
-- Currently, builds are done on Arch Linux with `glibc 2.33-6`. At the moment, we track whatever is on SteamOS/SteamDeck.
+- Currently, builds are done on Arch Linux with `glibc 2.33-5`. At the moment, we track whatever is on SteamOS/SteamDeck.
 
 ## Features
 - Latest DXVK release patched with DXVK-async.
