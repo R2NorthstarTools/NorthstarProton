@@ -9,7 +9,7 @@ https://r2northstar.gitbook.io/r2northstar-wiki/using-northstar/playing-on-linux
 
 - This is a custom build of Proton, and is *not* affiliated with Valve's Proton.
 - The use of this Proton build, or any Proton build, outside of Steam is universally unsupported.
-- Report any issues with *this* Proton build to *this* repo. Do not take them to upstream wine, Valve, or TKG.
+- Report any issues with *this* Proton build to *this* repo -OR- make a ticket on the Northstar Discord [[invite link](https://discord.com/invite/northstar)]. Do not take them to upstream wine, Valve, or TKG.
 - Do not use this Proton runner for any games other than TF|2 / Northstar
 - Builds are currently done on SteamOS. This means that `glibc 2.33` is a hard minimum requirement.
 
@@ -70,7 +70,7 @@ This section is for the sake of documentation. Users are not recommended to make
 
 ### Requirements:
 
-- A clean and stable building environment that does *not* have Steam installed and has the appropriate glibc version. We are currently targetting whatever SteamOS 3.0 has.
+- A clean and stable building environment that does *not* have Steam installed.
 - All depdencies installed. For this an Arch-based environment is recommended. See the proton-tkg PKGBUILD for a complete list of dependencies.
 
 ```shell
