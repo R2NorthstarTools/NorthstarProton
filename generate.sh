@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-dxvk_async_release="1.10.2" #Use a tagged release here
-lfx_release="0.1.0" #Use a tagged release here
-nsprtn_rel_name="NorthstarProton-7.13-dev" #Name of the new NorthstarProton build
-tkg_protonpy_changeme="7.13-0" #This is the string to replace in the proton python file in the main directory. This is usually <wine-staging version>-0 when using a tagged wine-staging release in files/customization.cfg
+dxvk_async_release="1.10.3" #Use a tagged release here
+lfx_release="0.1.1" #Use a tagged release here
+nsprtn_rel_name="NorthstarProton-7.19-dev" #Name of the new NorthstarProton build
+tkg_protonpy_changeme="7.19-0" #This is the string to replace in the proton python file in the main directory. This is usually <wine-staging version>-0 when using a tagged wine-staging release in files/customization.cfg
 
 echo "Cloning wine-tkg-git repository..."
 git clone https://github.com/Frogging-Family/wine-tkg-git.git
