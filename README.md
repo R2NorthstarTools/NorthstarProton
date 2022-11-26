@@ -79,6 +79,12 @@ cd NorthstarProton
 ./generate.sh
 ```
 
+## Troubleshooting
+
+### Gentoo
+- Make sure `sys-libs/libunwind` is installed before using NorthstarProton, otherwise it may not work.
+
+
 ## Why?
 
 - Northstar does not run on any Proton build that is based on Valve's wine base. As such, this build is made with upstream wine-staging.
