@@ -82,7 +82,7 @@ cd NorthstarProton
 ## Troubleshooting
 
 ### Gentoo
-- Make sure `sys-libs/libunwind` is installed before using NorthstarProton, otherwise it may not work.
+- Make sure `sys-libs/libunwind` is installed before using NorthstarProton, otherwise it may not work (https://github.com/cyrv6737/NorthstarProton/issues/4).
 
 
 ## Why?
