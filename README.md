@@ -3,7 +3,7 @@ A Proton build based on TKG's proton-tkg build system to run the Northstar clien
 
 Officially supported runner for playing TF|2 + Northstar through Steam on Linux and SteamDeck.
 
-https://r2northstar.gitbook.io/r2northstar-wiki/using-northstar/playing-on-linux
+https://r2northstar.gitbook.io/r2northstar-wiki/installing-northstar/steamdeck-and-linux/installing-on-steamdeck-and-linux
 
 ## IMPORTANT
 
