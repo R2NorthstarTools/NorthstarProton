@@ -94,6 +94,9 @@ cd NorthstarProton
 - Northstar has native support for LatencyFleX built directly into the client. LFX wine components have been added to this build to significantly cut down on setup steps.
 - As with all Respawn games, Titanfall 2 has a *ton* of stuttering until you generate all the shaders. Granted, it's not nearly as bad as Apex, but having DXVK-async enabled out of the gate is a huge improvement.
 
+## Contributing
+
+PRs will only be accepted to `generate.sh` and `1237970.py`. If you would like to see configuration changes done to the way NorthstarProton is built, please make an issue instead of a PR.
 
 ## Credits
 
