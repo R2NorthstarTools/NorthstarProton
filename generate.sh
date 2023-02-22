@@ -10,6 +10,7 @@ git clone https://github.com/Frogging-Family/wine-tkg-git.git
 
 cp -vf files/proton-tkg.cfg wine-tkg-git/proton-tkg/proton-tkg.cfg
 cp -vf files/advanced-customization.cfg wine-tkg-git/proton-tkg/proton-tkg-profiles/advanced-customization.cfg
+wget https://github.com/ValveSoftware/Proton/pull/6555.patch -O wine-tkg-git/proton-tkg/proton-tkg-userpatches/steam_helper.myprotonpatch
 
 echo "Building TKG-Proton base"
 cd wine-tkg-git/proton-tkg
