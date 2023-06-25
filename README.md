@@ -11,7 +11,6 @@ https://r2northstar.gitbook.io/r2northstar-wiki/installing-northstar/steamdeck-a
 - The use of this Proton build, or any Proton build, outside of Steam is universally unsupported.
 - Report any issues with *this* Proton build to *this* repo -OR- make a ticket on the Northstar Discord [[invite link](https://discord.com/invite/northstar)]. Do not take them to upstream wine, Valve, or TKG.
 - Do not use this Proton runner for any games other than TF|2 / Northstar
-- Builds are currently done on SteamOS. This means that `glibc 2.33` is a hard minimum requirement.
 
 ## Features
 - ~~Latest DXVK release patched with DXVK-async.~~
