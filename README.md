@@ -14,8 +14,9 @@ https://r2northstar.gitbook.io/r2northstar-wiki/installing-northstar/steamdeck-a
 - Builds are currently done on SteamOS. This means that `glibc 2.33` is a hard minimum requirement.
 
 ## Features
-- Latest DXVK release patched with DXVK-async.
-- DXVK-async enabled by default, no launch options required.
+- ~~Latest DXVK release patched with DXVK-async.~~
+  - DXVK-Async has been replaced with latest release of upstream DXVK since both Nvidia and AMD support GPL by default.
+- ~~DXVK-async enabled by default, no launch options required.~~
 - `wsock32.dll` as a DLL override by default to enable Northstar, no launch options required.
 - LatencyFleX wine components to reduce setup. Users need to set up the vulkan layer and add `LFX=1` to enable.
 - Allows for Northstar to run on SteamDeck.
@@ -32,7 +33,8 @@ Users likely do not *need* to update every release as the state of Titanfall 2 i
 ## Usage
 
 ### Prerequisites
-- `glibc 2.33` or higher.
+- `glibc 2.33` or higher. (For 8.1-1 and prior)
+- `glibc 2.37` or higher. (For 8.1-2 and later)
 - Titanfall 2 on Steam.
 
 ### Manual Installation
