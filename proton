@@ -1228,15 +1228,19 @@ def default_compat_config():
             ret.add("noforcelgadd")
 
         if appid in [
-        	"280790", #Creativerse
-                "1341820", #As Dusk Falls
-                "306130" #Elder Scrolls Online
+                "1341820", #As Dusk falls
+                "280790", #Creativerse
+                "306130", #The Elder Scrolls Online
+                "24010", #Train Simulator
+                "374320", #DARK SOULS III
+                "65500", #Aura: Fate of the Ages
                 ]:
             ret.add("gamedrive")
 
         if appid in [
                 "202990", #Call of Duty: Black Ops II - Multiplayer
                 "212910", #Call of Duty: Black Ops II - Zombies
+                "499100", #Dark Parables: The Exiled Prince Collector's Edition (499100)
                 ]:
             ret.add("heapdelayfree")
 
@@ -1248,12 +1252,17 @@ def default_compat_config():
 
         if appid in [
                 # enable dxvknvapi for titles verified to benefit (e.g. working DLSS)
+                "1938800", #Alone in the Dark Prologue
+                "1310410", #Alone in the Dark
                 "673130", #amid evil
                 "1182900", #A Plague Tale: Requiem
                 "1291680", #apocalypse: 2.0 edition
                 "979690", #the ascent
                 "805550", #assetto corsa competizione
+                "668580", #Atomic Heart
+                "2407990", #Atomic Heart demo
                 "924970", #back 4 blood
+                "1086940", #Baldur's Gate 3
                 "1178830", #bright memory infinite
                 "1409670", #bright memory infinite benchmark
                 "1016800", #chernobylite enhanced edition
@@ -1270,6 +1279,12 @@ def default_compat_config():
                 "1252330", #deathloop
                 "548430", #deep rock galactic
                 "428660", #deliver us the moon
+                "1929610", #Demonologist
+                "2302560", #Demonologist demo
+                "2097490", #Desordre
+                "2373430", #Desordre (demo)
+                "2211940", #Doge Simulator
+                "2312000", #Doge Simulator (demo)
                 "534380", #dying light 2
                 "269190", #edge of eternity
                 "1871990", #engine evolution 2022
@@ -1295,10 +1310,14 @@ def default_compat_config():
                 "1659040", #hitman 3
                 "1847520", #hitman 3 free starter pack
                 "1151640", #Horizon Zero Dawn
+                "1149460", #Icarus
                 "1650150", #island of the ancients
                 "1987940", #island of the ancients demo
                 "1371480", #iron conflict
+                "1946700", #Layers of Fear
+                "2237040", #Layers of Fear (demo)
                 "1544360", #lego builder's journey
+                "1265780", #Lord of the Rings: Gollum
                 "1363080", #Manor Lords
                 "2122820", #Manor Lords Demo
                 "997070", #marvel's avengers
@@ -1314,21 +1333,32 @@ def default_compat_config():
                 "1140100", #the persistence
                 "1322170", #pluviophile
                 "400", #Portal [RTX]
+                "2410180", #Portal Prelude RTX
                 "1549180", #propnight
                 "1186640", #pumpkin jack
+                "1895880", #Ratchet & Clank: Rift Apart
                 "1144200", #Ready Or Not
                 "1404210", #Red Dead Online
                 "1174180", #Red Dead Redemption 2
                 "1294810", #Redfall
+                "1282100", #Remnant 2
                 "1649240", #returnal
                 "391220", #rise of the tomb raider
                 "1599660", #sackboy: a big adventure
                 "872670", #SCP: 5K - alpha testing
                 "513710", #scum
+                "1227690", #Severed Steel
+                "1631910", #Severed Steel demo
                 "750920", #shadow of the tomb raider
+                "1949030", #Sherlock Holmes: The Awakened
+                "1155330", #Showgunners
+                "2022460", #Showgunners demo
                 "1602080", #soulstice
                 "2015300", #soulstice demo
+                "1817190", #Spider-Man: Miles Morales
                 "1296010", #stay in the light
+                "2162020", #Strayed Lights
+                "2311720", #Strayed Lights demo
                 "813630", #supraland
                 "487390", #system shock demo
                 "868270", #the cycle: frontier
@@ -1338,8 +1368,13 @@ def default_compat_config():
                 "1843860", #the redress of mira
                 "2050550", #the redress of mira demo
                 "1567740", #to hell with it
+                "1164940", #Trepang2
+                "1210600", #Trepang2 (demo)
                 "1662690", #twin stones: the journey of bukka
                 "1659420", #Uncharted Legacy of Thieves
+                "1159690", #Voidtrain
+                "1321660", #Voidtrain demo
+                "1361210", #Warhammer 40,000: Darktide
                 "236390", #war thunder
                 "2239550", #watch dogs legion
                 "936720", #wrench
@@ -1487,7 +1522,6 @@ class Session:
             self.env.setdefault("DXVK_LOG_LEVEL", "info")
             self.env.setdefault("VKD3D_DEBUG", "warn")
             self.env.setdefault("VKD3D_SHADER_DEBUG", "fixme")
-            self.env.setdefault("VKD3D_FEATURE_LEVEL", "12_0")
             self.env.setdefault("WINE_MONO_TRACE", "E:System.NotImplementedException")
 
             if self.env["PROTON_LOG"] != "1":
@@ -1497,7 +1531,6 @@ class Session:
         self.env.setdefault("WINEDEBUG", "-all")
         self.env.setdefault("DXVK_LOG_LEVEL", "none")
         self.env.setdefault("VKD3D_DEBUG", "none")
-        self.env.setdefault("VKD3D_FEATURE_LEVEL", "12_0")
         self.env.setdefault("VKD3D_SHADER_DEBUG", "none")
 
         #disable XIM support until libx11 >= 1.7 is widespread
