@@ -348,8 +348,8 @@
     echo "WINE: -FSR- fullscreen hack fsr patch"
     patch -Np1 < ../patches/proton/48-proton-fshack_amd_fsr.patch
     
-    echo "WINE: -FSR- enable FSR flag by default (fixes broken fs hack scaling in some games like Apex and FFXIV)"
-    patch -Np1 < ../patches/proton/71-invert-fsr-logic.patch
+    #echo "WINE: -FSR- enable FSR flag by default (fixes broken fs hack scaling in some games like Apex and FFXIV)"
+    #patch -Np1 < ../patches/proton/71-invert-fsr-logic.patch
 
 ### END PROTON-GE ADDITIONAL CUSTOM PATCHES ###
 ### END WINE PATCHING ###
