@@ -152,7 +152,7 @@
     # ** ntdll-Exception - applied manually
     # ** ntdll-Hide_Wine_Exports - applied manually
     # ** ntdll-Serial_Port_Detection - applied manually
-    # server-default_integrity - causes steam.exe to stay open after game closes
+    # ** server-default_integrity - applied manually, only need 0005 for ealink, full patchset causes steam.exe to stay open after a gam closes
     # user32-rawinput-mouse - already applied
     # user32-rawinput-mouse-experimental - already applied
     # user32-recursive-activation - already applied
@@ -264,6 +264,9 @@
 
     # ntdll-RtlQueryPackageIdentity
     patch -Np1 < ../patches/wine-hotfixes/staging/ntdll-RtlQueryPackageIdentity/0003-ntdll-tests-Add-basic-tests-for-RtlQueryPackageIdent.patch
+    
+    # server-default_integrity - ONLY ENABLE FOR WINE BUILDS, NOT PROTON BUILDS. CAUSES STEAM.EXE TO STAY OPEN AFTER GAME ENDS.
+    #patch -Np1 < ../wine-staging/patches/server-default_integrity/0005-ntdll-Always-start-the-initial-process-through-start.patch
 
     # packager-DllMain
     patch -Np1 < ../patches/wine-hotfixes/staging/packager-DllMain/0001-packager-Prefer-native-version.patch
@@ -309,9 +312,13 @@
     echo "WINE: -GAME FIXES- Add Star Citizen EAC patch and wrap it around SteamGameId=starcitizen envvar"
     patch -Np1 < ../patches/game-patches/star-citizen-eac.patch
     
-    #https://github.com/ValveSoftware/Proton/issues/580#issuecomment-1588435182
+    # https://github.com/ValveSoftware/Proton/issues/580#issuecomment-1588435182
     echo "WINE: -GAME FIXES- Fix FFXIV not playing Hydaelyn intro video on new install"
     patch -Np1 < ../patches/game-patches/ffxiv_hydaelyn_intro_playback_fix.patch
+    
+    # https://github.com/ValveSoftware/Proton/issues/6717
+    echo "WINE: -GAME FIXES- Fix Farlight 84 dxva crash"
+    patch -Np1 < ../patches/game-patches/farlight84.patch
 
 ### END GAME PATCH SECTION ###
 
