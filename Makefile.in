@@ -1169,7 +1169,7 @@ all-dist: $(DIST_GECKO32) $(DIST_GECKO64)
 ## wine-mono
 ##
 
-WINEMONO_VER := 8.0.0
+WINEMONO_VER := 8.0.1
 WINEMONO_TARBALL := wine-mono-$(WINEMONO_VER)-x86.tar.xz
 DIST_WINEMONO_DIR := $(DST_DIR)/share/wine/mono
 DIST_WINEMONO := $(OBJ)/.wine-mono-dist
@@ -1372,8 +1372,8 @@ DOCKER_BASE = $(CONTAINER_ENGINE) run --rm -v $(SRC):$(SRC)$(CONTAINER_MOUNT_OPT
                 -w $(OBJ) -e MAKEFLAGS \
                 $(DOCKER_OPTS) $(STEAMRT_IMAGE)
 
-.PHONY: dist deploy redist
-.DEFAULT dist deploy redist:
+.PHONY: dist deploy redist symstore-tarball
+.DEFAULT dist deploy redist symstore-tarball:
 	if [ "$(ENABLE_CCACHE)" -eq "1" ]; then mkdir -p $(CCACHE_DIR); fi
 	mkdir -p $(CARGO_HOME)
 	$(DOCKER_BASE) $(MAKE) -j$(J) $(filter -j%,$(MAKEFLAGS)) -f $(firstword $(MAKEFILE_LIST)) $(MFLAGS) $(MAKEOVERRIDES) CONTAINER=1 $@
