@@ -344,7 +344,6 @@ GST_BAD_MESON_ARGS := \
 	-Ddts=disabled \
 	-Dfaac=disabled \
 	-Dfaad=disabled \
-	-Dlibmms=disabled \
 	-Dmpeg2enc=disabled \
 	-Dmplex=disabled \
 	-Dneon=disabled \
