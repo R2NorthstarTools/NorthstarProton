@@ -152,7 +152,7 @@
     # ** ntdll-Exception - applied manually
     # ** ntdll-Hide_Wine_Exports - applied manually
     # ** ntdll-Serial_Port_Detection - applied manually
-    # ** server-default_integrity - applied manually, only need 0005 for ealink, full patchset causes steam.exe to stay open after a gam closes
+    # server-default_integrity - causes steam.exe to stay open after a game closes
     # user32-rawinput-mouse - already applied
     # user32-rawinput-mouse-experimental - already applied
     # user32-recursive-activation - already applied
@@ -264,9 +264,6 @@
 
     # ntdll-RtlQueryPackageIdentity
     patch -Np1 < ../patches/wine-hotfixes/staging/ntdll-RtlQueryPackageIdentity/0003-ntdll-tests-Add-basic-tests-for-RtlQueryPackageIdent.patch
-    
-    # server-default_integrity - ONLY ENABLE FOR WINE BUILDS, NOT PROTON BUILDS. CAUSES STEAM.EXE TO STAY OPEN AFTER GAME ENDS.
-    #patch -Np1 < ../wine-staging/patches/server-default_integrity/0005-ntdll-Always-start-the-initial-process-through-start.patch
 
     # packager-DllMain
     patch -Np1 < ../patches/wine-hotfixes/staging/packager-DllMain/0001-packager-Prefer-native-version.patch
