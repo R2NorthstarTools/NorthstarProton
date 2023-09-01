@@ -335,10 +335,6 @@
     # https://bugs.winehq.org/show_bug.cgi?id=51683
     echo "WINE: -PENDING- Guild Wars 2 patch"
     patch -Np1 < ../patches/wine-hotfixes/pending/hotfix-guild_wars_2.patch
-    
-    # https://bugs.winehq.org/show_bug.cgi?id=22904
-    echo "WINE: -PENDING- EALink patch"
-    patch -Np1 < ../patches/wine-hotfixes/pending/ealink_fixup.patch
 
 ### END WINE PENDING UPSTREAM SECTION ###
 
