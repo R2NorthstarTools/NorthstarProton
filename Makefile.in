@@ -1202,6 +1202,28 @@ $(DIST_OVR64): $(SRCDIR)/openvr/bin/win64/openvr_api.dll | $(DST_DIR)
 
 all-dist: $(DIST_OVR32) $(DIST_OVR64)
 
+##
+## LatencyFlex
+##
+
+LATENCYFLEX_VER := 0.1.1
+LATENCYFLEX_TARBALL := latencyflex-v$(LATENCYFLEX_VER).tar.xz 
+DIST_LATENCYFLEX_DIR := $(DST_DIR)/lib64
+DIST_LATENCYFLEX := $(OBJ)/.latencyflex-dist
+LATENCYFLEX_TARBALL_URL := https://github.com/ishitatsuyuki/LatencyFleX/releases/download/v$(LATENCYFLEX_VER)/$(LATENCYFLEX_TARBALL)
+
+$(SRC)/contrib/$(LATENCYFLEX_TARBALL):
+	mkdir -p $(dir $@)
+	wget -O $@ $(LATENCYFLEX_TARBALL_URL)
+
+$(DIST_LATENCYFLEX): $(SRC)/contrib/$(LATENCYFLEX_TARBALL) | default_pfx
+	mkdir -p $(DIST_LATENCYFLEX_DIR)
+
+	(TEMP_DIR=`mktemp -d` && tar --no-same-owner -xf $< -C $$TEMP_DIR &&  cp -RT "$$TEMP_DIR/latencyflex-v$(LATENCYFLEX_VER)/wine/usr/lib" $(DIST_LATENCYFLEX_DIR) && cp "$$TEMP_DIR/latencyflex-v$(LATENCYFLEX_VER)/wine/usr/lib/wine/x86_64-windows"/*.dll "$(DST_DIR)/share/default_pfx/drive_c/windows/system32" && rm -fr $$TEMP_DIR)
+	touch $@
+
+all-dist: $(DIST_LATENCYFLEX)
+
 
 ##
 ## default_pfx
