@@ -40,7 +40,7 @@ from random import randrange
 #To enable debug logging, copy "user_settings.sample.py" to "user_settings.py"
 #and edit it if needed.
 
-CURRENT_PREFIX_VERSION="GE-Proton8-15"
+CURRENT_PREFIX_VERSION="GE-Proton8-16"
 
 PFX="Proton: "
 ld_path_var = "LD_LIBRARY_PATH"
@@ -1245,6 +1245,7 @@ def default_compat_config():
                 "202990", #Call of Duty: Black Ops II - Multiplayer
                 "212910", #Call of Duty: Black Ops II - Zombies
                 "499100", #Dark Parables: The Exiled Prince Collector's Edition (499100)
+                "1404090", #Trivia Tricks
                 ]:
             ret.add("heapdelayfree")
 
