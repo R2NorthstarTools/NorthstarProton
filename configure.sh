@@ -170,6 +170,9 @@ function configure() {
     if [[ -n "$arg_enable_ccache" ]]; then
       echo "ENABLE_CCACHE := 1"
     fi
+    if [[ -n "$arg_enable_bear" ]]; then
+      echo "ENABLE_BEAR := 1"
+    fi
 
     # Include base
     echo ""
@@ -190,6 +193,7 @@ arg_container_engine=""
 arg_docker_opts=""
 arg_relabel_volumes=""
 arg_enable_ccache=""
+arg_enable_bear=""
 arg_help=""
 invalid_args=""
 function parse_args() {
@@ -236,6 +240,8 @@ function parse_args() {
       arg_relabel_volumes="1"
     elif [[ $arg = --enable-ccache ]]; then
       arg_enable_ccache="1"
+    elif [[ $arg = --enable-bear ]]; then
+      arg_enable_bear="1"
     elif [[ $arg = --proton-sdk-image ]]; then
       val_used=1
       arg_protonsdk_image="$val"
@@ -273,7 +279,7 @@ function parse_args() {
 }
 
 usage() {
-  "$1" "Usage: $0 { --no-proton-sdk | --proton-sdk-image=<image> --steam-runtime=<name> }"
+  "$1" "Usage: $0 { --proton-sdk-image=<image> }"
   "$1" "  Generate a Makefile for building Proton.  May be run from another directory to create"
   "$1" "  out-of-tree build directories (e.g. mkdir mybuild && cd mybuild && ../configure.sh)"
   "$1" ""
@@ -291,6 +297,8 @@ usage() {
   "$1" ""
   "$1" "    --enable-ccache Mount \$CCACHE_DIR or \$HOME/.ccache inside of the container and use ccache for the build."
   "$1" ""
+  "$1" "    --enable-bear Invokes make via bear creating compile_commands.json."
+  "$1" ""
   "$1" "  Steam Runtime"
   "$1" "    Proton builds that are to be installed & run under the steam client must be built with"
   "$1" "    the Steam Runtime SDK to ensure compatibility.  See README.md for more information."
@@ -299,10 +307,6 @@ usage() {
   "$1" "                                for build steps that must be run in an SDK"
   "$1" "                                environment.  See README.md for instructions to"
   "$1" "                                create this image."
-  "$1" "    --steam-runtime=soldier  Name of the steam runtime release to build for (soldier, scout)."
-  "$1" ""
-  "$1" "    --no-proton-sdk  Do not automatically invoke any runtime SDK as part of the build."
-  "$1" "                     Build steps may still be manually run in a runtime environment."
   exit 1;
 }
 
@@ -310,3 +314,4 @@ parse_args "$@" || usage err
 [[ -z $arg_help ]] || usage info
 
 configure
+
