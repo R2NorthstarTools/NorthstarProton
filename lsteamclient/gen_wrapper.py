@@ -3,19 +3,17 @@
 #NOTE: If you make modifications here, consider whether they should
 #be duplicated in ../vrclient/gen_wrapper.py
 
-from __future__ import print_function
-
-CLANG_PATH='/usr/lib/clang/16'
+CLANG_PATH='/usr/lib/clang/15'
 
 from clang.cindex import CursorKind, Index, Type, TypeKind
 from collections import namedtuple
-import pprint
-import sys
+import concurrent.futures
 import os
 import re
 import math
 
-sdk_versions = [
+SDK_VERSIONS = [
+    "158",
     "157",
     "156",
     "155",
@@ -101,8 +99,10 @@ sdk_versions = [
     "099u",
 ]
 
-files = [
-    ("steam_api.h", [
+ABIS = ['u32', 'u64', 'w32', 'w64']
+
+SDK_SOURCES = {
+    "steam_api.h": [
         "ISteamApps",
         "ISteamAppList",
         "ISteamClient",
@@ -128,46 +128,49 @@ files = [
         "ISteamUserStats",
         "ISteamUtils",
         "ISteamVideo"
-    ]),
-    ("isteamappticket.h", [
+    ],
+    "isteamappticket.h": [
         "ISteamAppTicket"
-    ]),
-    ("isteamgameserver.h", [
+    ],
+    "isteamgameserver.h": [
         "ISteamGameServer"
-    ]),
-    ("isteamgameserverstats.h", [
+    ],
+    "isteamgameserverstats.h": [
         "ISteamGameServerStats"
-    ]),
-    ("isteamgamestats.h", [
+    ],
+    "isteamgamestats.h": [
         "ISteamGameStats"
-    ]),
-    ("isteammasterserverupdater.h", [
+    ],
+    "isteammasterserverupdater.h": [
         "ISteamMasterServerUpdater"
-    ]),
-    ("isteamgamecoordinator.h", [
+    ],
+    "isteamgamecoordinator.h": [
         "ISteamGameCoordinator"
-    ]),
-    ("isteamparentalsettings.h", [
+    ],
+    "isteamparentalsettings.h": [
         "ISteamParentalSettings"
-    ]),
-    ("isteamnetworkingmessages.h", [
+    ],
+    "isteamnetworkingmessages.h": [
         "ISteamNetworkingMessages"
-    ]),
-    ("isteamnetworkingsockets.h", [
+    ],
+    "isteamnetworkingsockets.h": [
         "ISteamNetworkingSockets"
-    ]),
-    ("isteamnetworkingsocketsserialized.h", [
+    ],
+    "isteamnetworkingsocketsserialized.h": [
         "ISteamNetworkingSocketsSerialized"
-    ]),
-    ("isteamnetworkingutils.h", [
+    ],
+    "isteamnetworkingutils.h": [
         "ISteamNetworkingUtils"
-    ]),
-    ("steamnetworkingfakeip.h", [
+    ],
+    "steamnetworkingfakeip.h": [
         "ISteamNetworkingFakeUDPPort"
-    ]),
-]
+    ],
+}
 
-aliases = {
+SDK_CLASSES = {klass: source for source, klasses in SDK_SOURCES.items()
+               for klass in klasses}
+
+VERSION_ALIASES = {
     #these interfaces are undocumented and binary compatible
     #"target interface": ["alias 1", "alias 2"],
     "SteamUtils004":["SteamUtils003"],
@@ -175,100 +178,100 @@ aliases = {
     "SteamGameServer008":["SteamGameServer007","SteamGameServer006"],
     "SteamNetworkingSocketsSerialized002":["SteamNetworkingSocketsSerialized001"],
     "STEAMAPPS_INTERFACE_VERSION001":["SteamApps001"],
-    "STEAMAPPS_INTERFACE_VERSION001":["SteamApps001"],
     "SteamNetworkingSockets002":["SteamNetworkingSockets003"],
 }
 
 # these structs are manually confirmed to be equivalent
-exempt_structs = [
-        "CSteamID",
-        "CGameID",
-        "CCallbackBase",
-        "SteamPS3Params_t",
-        "ValvePackingSentinel_t"
+EXEMPT_STRUCTS = [
+    "CSteamID",
+    "CGameID",
+    "CCallbackBase",
+    "SteamPS3Params_t",
+    "ValvePackingSentinel_t"
 ]
 
 # we have converters for these written by hand because they're too complicated to generate
-manually_handled_structs = [
-        "SteamNetworkingMessage_t"
+MANUAL_STRUCTS = [
+    "SteamNetworkingMessage_t"
 ]
 
 Method = namedtuple('Method', ['name', 'version_func'], defaults=[lambda _: True])
 
-manually_handled_methods = {
-        #TODO: 001 005 007
-        #NOTE: 003 never appeared in a public SDK, but is an alias for 002 (the version in SDK 1.45 is actually 004 but incorrectly versioned as 003)
-        "cppISteamNetworkingSockets_SteamNetworkingSockets": [
-            Method("ReceiveMessagesOnConnection"),
-            Method("ReceiveMessagesOnListenSocket"),
-            Method("ReceiveMessagesOnPollGroup"),
-            Method("SendMessages"),
-            Method("CreateFakeUDPPort"),
-        ],
-        "cppISteamNetworkingUtils_SteamNetworkingUtils": [
-            Method("AllocateMessage"),
-            Method("SetConfigValue", lambda version: version >= 3)
-        ],
-        "cppISteamNetworkingMessages_SteamNetworkingMessages": [
-            Method("ReceiveMessagesOnChannel"),
-        ],
-        "cppISteamInput_SteamInput": [
-            Method("EnableActionEventCallbacks"),
-            Method("GetGlyphForActionOrigin"),
-            Method("GetGlyphPNGForActionOrigin"),
-            Method("GetGlyphSVGForActionOrigin"),
-            Method("GetGlyphForActionOrigin_Legacy"),
-            Method("GetGlyphForXboxOrigin"),
-        ],
-        "cppISteamController_SteamController": [
-            Method("GetGlyphForActionOrigin"),
-            Method("GetGlyphForXboxOrigin"),
-        ],
-        "cppISteamNetworkingFakeUDPPort_SteamNetworkingFakeUDPPort": [
-            Method("DestroyFakeUDPPort"),
-            Method("ReceiveMessages"),
-        ],
-        "cppISteamUser_SteamUser": [
-            #TODO: Do we need the the value -> pointer conversion for other versions of the interface?
-            Method("InitiateGameConnection", lambda version: version == 8),
-        ],
-        #"cppISteamClient_SteamClient": [
-        #    Method("BShutdownIfAllPipesClosed"),
-        #],
+MANUAL_METHODS = {
+    #TODO: 001 005 007
+    #NOTE: 003 never appeared in a public SDK, but is an alias for 002 (the version in SDK 1.45 is actually 004 but incorrectly versioned as 003)
+    "cppISteamNetworkingSockets_SteamNetworkingSockets": [
+        Method("ReceiveMessagesOnConnection"),
+        Method("ReceiveMessagesOnListenSocket"),
+        Method("ReceiveMessagesOnPollGroup"),
+        Method("SendMessages"),
+        Method("CreateFakeUDPPort"),
+    ],
+    "cppISteamNetworkingUtils_SteamNetworkingUtils": [
+        Method("AllocateMessage"),
+        Method("SetConfigValue", lambda version: version >= 3)
+    ],
+    "cppISteamNetworkingMessages_SteamNetworkingMessages": [
+        Method("ReceiveMessagesOnChannel"),
+    ],
+    "cppISteamInput_SteamInput": [
+        Method("EnableActionEventCallbacks"),
+        Method("GetGlyphForActionOrigin"),
+        Method("GetGlyphPNGForActionOrigin"),
+        Method("GetGlyphSVGForActionOrigin"),
+        Method("GetGlyphForActionOrigin_Legacy"),
+        Method("GetGlyphForXboxOrigin"),
+    ],
+    "cppISteamController_SteamController": [
+        Method("GetGlyphForActionOrigin"),
+        Method("GetGlyphForXboxOrigin"),
+    ],
+    "cppISteamNetworkingFakeUDPPort_SteamNetworkingFakeUDPPort": [
+        Method("DestroyFakeUDPPort"),
+        Method("ReceiveMessages"),
+    ],
+    "cppISteamUser_SteamUser": [
+        #TODO: Do we need the the value -> pointer conversion for other versions of the interface?
+        Method("InitiateGameConnection", lambda version: version == 8),
+    ],
+    #"cppISteamClient_SteamClient": [
+    #    Method("BShutdownIfAllPipesClosed"),
+    #],
 }
 
 
 
-post_execution_functions = {
-        "ISteamClient_BShutdownIfAllPipesClosed" : "after_shutdown",
-        "ISteamClient_CreateSteamPipe" : "after_steam_pipe_create",
+POST_EXEC_FUNCS = {
+    "ISteamClient_BShutdownIfAllPipesClosed" : "after_shutdown",
+    "ISteamClient_CreateSteamPipe" : "after_steam_pipe_create",
 }
 
 INTERFACE_NAME_VERSION = re.compile(r'^(?P<name>.+?)(?P<version>\d*)$')
+DEFINE_INTERFACE_VERSION = re.compile(r'^#define\s*(?P<name>STEAM(?:\w*)_VERSION(?:\w*))\s*"(?P<version>.*)"')
 
 def method_needs_manual_handling(interface_with_version, method_name):
     match_dict = INTERFACE_NAME_VERSION.match(interface_with_version).groupdict()
     interface = match_dict['name']
     version = int(match_dict['version']) if match_dict['version'] else None
 
-    method_list = manually_handled_methods.get(interface, [])
+    method_list = MANUAL_METHODS.get(interface, [])
     method = next(filter(lambda m: m.name == method_name, method_list), None)
 
     return method and method.version_func(version)
 
 def post_execution_function(classname, method_name):
-    return post_execution_functions.get(classname + "_" + method_name)
+    return POST_EXEC_FUNCS.get(classname + "_" + method_name)
 
 # manual converters for simple types (function pointers)
-manual_type_converters = [
-        "FSteamNetworkingSocketsDebugOutput",
-        "SteamAPIWarningMessageHook_t",
-        "SteamAPI_CheckCallbackRegistered_t"
+MANUAL_TYPES = [
+    "FSteamNetworkingSocketsDebugOutput",
+    "SteamAPIWarningMessageHook_t",
+    "SteamAPI_CheckCallbackRegistered_t"
 ]
 
 # manual converters for specific parameters
-manual_param_converters = [
-        "nNativeKeyCode"
+MANUAL_PARAMS = [
+    "nNativeKeyCode"
 ]
 
 #struct_conversion_cache = {
@@ -282,320 +285,320 @@ struct_conversion_cache = {}
 converted_structs = []
 
 # callback classes for which we have a linux wrapper
-wrapped_classes = [
-        "ISteamMatchmakingServerListResponse",
-        "ISteamMatchmakingPingResponse",
-        "ISteamMatchmakingPlayersResponse",
-        "ISteamMatchmakingRulesResponse",
-        "ISteamNetworkingFakeUDPPort",
+WRAPPED_CLASSES = [
+    "ISteamMatchmakingServerListResponse",
+    "ISteamMatchmakingPingResponse",
+    "ISteamMatchmakingPlayersResponse",
+    "ISteamMatchmakingRulesResponse",
+    "ISteamNetworkingFakeUDPPort",
 ]
 
-print_sizes = []
+all_records = {}
+all_sources = {}
+all_versions = {}
 
-class_versions = {}
-
-path_conversions = [
-        {
-            "parent_name": "GetAppInstallDir",
-            "l2w_names": ["pchDirectory"],
-            "l2w_lens": ["cchNameMax"],
-            "l2w_urls": [False],
-            "w2l_names": [],
-            "w2l_arrays": [],
-            "w2l_urls": [],
-            "return_is_size": True
-        },
-        {
-            "parent_name": "GetAppInstallDir",
-            "l2w_names": ["pchFolder"],
-            "l2w_lens": ["cchFolderBufferSize"],
-            "l2w_urls": [False],
-            "w2l_names": [],
-            "w2l_arrays": [],
-            "w2l_urls": [],
-            "return_is_size": True
-        },
-        {
-            "parent_name": "GetFileDetails",
-            "l2w_names": [],
-            "l2w_lens": [],
-            "l2w_urls": [],
-            "w2l_names": ["pszFileName"],
-            "w2l_arrays": [False],
-            "w2l_urls": [False],
-            "return_is_size": True
-        },
-        ### ISteamGameServer::SetModDir - "Just the folder name, not the whole path. I.e. "Spacewar"."
-        {
-            "parent_name": "LoadURL",
-            "l2w_names": [],
-            "l2w_lens": [],
-            "l2w_urls": [],
-            "w2l_names": ["pchURL"],
-            "w2l_arrays": [False],
-            "w2l_urls": [True],
-            "return_is_size": False
-        },
-        {
-            "parent_name": "FileLoadDialogResponse",
-            "l2w_names": [],
-            "l2w_lens": [],
-            "l2w_urls": [],
-            "w2l_names": ["pchSelectedFiles"],
-            "w2l_arrays": [True],
-            "w2l_urls": [False],
-            "return_is_size": False
-        },
-        {
-            "parent_name": "HTML_StartRequest_t",
-            "l2w_names": ["pchURL"],
-            "l2w_lens": [None],
-            "l2w_urls": [True],
-            "w2l_names": [],
-            "w2l_arrays": [],
-            "w2l_urls": [],
-            "return_is_size": False
-        },
-        {
-            "parent_name": "HTML_URLChanged_t",
-            "l2w_names": ["pchURL"],
-            "l2w_lens": [None],
-            "l2w_urls": [True],
-            "w2l_names": [],
-            "w2l_arrays": [],
-            "w2l_urls": [],
-            "return_is_size": False
-        },
-        {
-            "parent_name": "HTML_FinishedRequest_t",
-            "l2w_names": ["pchURL"],
-            "l2w_lens": [None],
-            "l2w_urls": [True],
-            "w2l_names": [],
-            "w2l_arrays": [],
-            "w2l_urls": [],
-            "return_is_size": False
-        },
-        {
-            "parent_name": "HTML_OpenLinkInNewTab_t",
-            "l2w_names": ["pchURL"],
-            "l2w_lens": [None],
-            "l2w_urls": [True],
-            "w2l_names": [],
-            "w2l_arrays": [],
-            "w2l_urls": [],
-            "return_is_size": False
-        },
-        {
-            "parent_name": "HTML_LinkAtPosition_t",
-            "l2w_names": ["pchURL"],
-            "l2w_lens": [None],
-            "l2w_urls": [True],
-            "w2l_names": [],
-            "w2l_arrays": [],
-            "w2l_urls": [],
-            "return_is_size": False
-        },
-        {
-            "parent_name": "HTML_FileOpenDialog_t",
-            "l2w_names": ["pchInitialFile"],
-            "l2w_lens": [None],
-            "l2w_urls": [True],
-            "w2l_names": [],
-            "w2l_arrays": [],
-            "w2l_urls": [],
-            "return_is_size": False
-        },
-        {
-            "parent_name": "HTML_NewWindow_t",
-            "l2w_names": ["pchURL"],
-            "l2w_lens": [None],
-            "l2w_urls": [True],
-            "w2l_names": [],
-            "w2l_arrays": [],
-            "w2l_urls": [],
-            "return_is_size": False
-        },
-        {
-            "parent_name": "PublishWorkshopFile",
-            "l2w_names": [],
-            "l2w_lens": [],
-            "l2w_urls": [],
-            "w2l_names": ["pchFile", "pchPreviewFile"],
-            "w2l_arrays": [False, False],
-            "w2l_urls": [False, False],
-            "return_is_size": False
-        },
-        {
-            "parent_name": "UpdatePublishedFileFile",
-            "l2w_names": [],
-            "l2w_lens": [],
-            "l2w_urls": [],
-            "w2l_names": ["pchFile"],
-            "w2l_arrays": [False],
-            "w2l_urls": [False],
-            "return_is_size": False
-        },
-        {
-            "parent_name": "UpdatePublishedFilePreviewFile",
-            "l2w_names": [],
-            "l2w_lens": [],
-            "l2w_urls": [],
-            "w2l_names": ["pchPreviewFile"],
-            "w2l_arrays": [False],
-            "w2l_urls": [False],
-            "return_is_size": False
-        },
-        {
-            "parent_name": "PublishVideo",
-            "l2w_names": [],
-            "l2w_lens": [],
-            "l2w_urls": [],
-            "w2l_names": ["pchPreviewFile"],
-            "w2l_arrays": [False],
-            "w2l_urls": [False],
-            "return_is_size": False
-        },
-        {
-            "parent_name": "AddScreenshotToLibrary",
-            "l2w_names": [],
-            "l2w_lens": [],
-            "l2w_urls": [],
-            "w2l_names": ["pchFilename", "pchThumbnailFilename"],
-            "w2l_arrays": [False, False],
-            "w2l_urls": [False, False],
-            "return_is_size": False
-        },
-        {
-            "parent_name": "AddVRScreenshotToLibrary",
-            "l2w_names": [],
-            "l2w_lens": [],
-            "l2w_urls": [],
-            "w2l_names": ["pchFilename", "pchVRFilename"],
-            "w2l_arrays": [False, False],
-            "w2l_urls": [False, False],
-            "return_is_size": False
-        },
-        {
-            "parent_name": "UGCDownloadToLocation",
-            "l2w_names": [],
-            "l2w_lens": [],
-            "l2w_urls": [],
-            "w2l_names": ["pchLocation"],
-            "w2l_arrays": [False],
-            "w2l_urls": [False],
-            "return_is_size": False
-        },
-        {
-            "parent_name": "GetQueryUGCAdditionalPreview",
-            "l2w_names": ["pchURLOrVideoID"],
-            "l2w_lens": ["cchURLSize"],
-            "l2w_urls": [True],
-            "w2l_names": [],
-            "w2l_arrays": [],
-            "w2l_urls": [],
-            "return_is_size": False
-        },
-        {
-            "parent_name": "SetItemContent",
-            "l2w_names": [],
-            "l2w_lens": [],
-            "l2w_urls": [],
-            "w2l_names": ["pszContentFolder"],
-            "w2l_arrays": [False],
-            "w2l_urls": [False],
-            "return_is_size": False
-        },
-        {
-            "parent_name": "SetItemPreview",
-            "l2w_names": [],
-            "l2w_lens": [],
-            "l2w_urls": [],
-            "w2l_names": ["pszPreviewFile"],
-            "w2l_arrays": [False],
-            "w2l_urls": [False],
-            "return_is_size": False
-        },
-        {
-            "parent_name": "AddItemPreviewFile",
-            "l2w_names": [],
-            "l2w_lens": [],
-            "l2w_urls": [],
-            "w2l_names": ["pszPreviewFile"],
-            "w2l_arrays": [False],
-            "w2l_urls": [False],
-            "return_is_size": False
-        },
-        {
-            "parent_name": "UpdateItemPreviewFile",
-            "l2w_names": [],
-            "l2w_lens": [],
-            "l2w_urls": [],
-            "w2l_names": ["pszPreviewFile"],
-            "w2l_arrays": [False],
-            "w2l_urls": [False],
-            "return_is_size": False
-        },
-        {
-            "parent_name": "GetItemInstallInfo",
-            "l2w_names": ["pchFolder"],
-            "l2w_lens": ["cchFolderSize"],
-            "l2w_urls": [False],
-            "w2l_names": [],
-            "w2l_arrays": [],
-            "w2l_urls": [],
-            "return_is_size": False
-        },
-        {
-            "parent_name": "BInitWorkshopForGameServer",
-            "l2w_names": [],
-            "l2w_lens": [],
-            "l2w_urls": [],
-            "w2l_names": ["pszFolder"],
-            "w2l_arrays": [False],
-            "w2l_urls": [False],
-            "return_is_size": False
-        },
-        {
-            "parent_name": "GetUserDataFolder",
-            "l2w_names": ["pchBuffer"],
-            "l2w_lens": ["cubBuffer"],
-            "l2w_urls": [False],
-            "w2l_names": [],
-            "w2l_arrays": [],
-            "w2l_urls": [],
-            "return_is_size": False
-        },
-        {
-            "parent_name": "CheckFileSignature",
-            "l2w_names": [],
-            "l2w_lens": [],
-            "l2w_urls": [],
-            "w2l_names": ["szFileName"],
-            "w2l_arrays": [False],
-            "w2l_urls": [False],
-            "return_is_size": False
-        },
-        {
-            "parent_name": "Init",
-            "l2w_names": [],
-            "l2w_lens": [],
-            "l2w_urls": [],
-            "w2l_names": ["pchAbsolutePathToControllerConfigVDF"],
-            "w2l_arrays": [False],
-            "w2l_urls": [False],
-            "return_is_size": False
-        },
-        {
-            "parent_name": "SetInputActionManifestFilePath",
-            "l2w_names": [],
-            "l2w_lens": [],
-            "l2w_urls": [],
-            "w2l_names": ["pchInputActionManifestAbsolutePath"],
-            "w2l_arrays": [False],
-            "w2l_urls": [False],
-            "return_is_size": False
-        },
+PATH_CONV = [
+    {
+        "parent_name": "GetAppInstallDir",
+        "l2w_names": ["pchDirectory"],
+        "l2w_lens": ["cchNameMax"],
+        "l2w_urls": [False],
+        "w2l_names": [],
+        "w2l_arrays": [],
+        "w2l_urls": [],
+        "return_is_size": True
+    },
+    {
+        "parent_name": "GetAppInstallDir",
+        "l2w_names": ["pchFolder"],
+        "l2w_lens": ["cchFolderBufferSize"],
+        "l2w_urls": [False],
+        "w2l_names": [],
+        "w2l_arrays": [],
+        "w2l_urls": [],
+        "return_is_size": True
+    },
+    {
+        "parent_name": "GetFileDetails",
+        "l2w_names": [],
+        "l2w_lens": [],
+        "l2w_urls": [],
+        "w2l_names": ["pszFileName"],
+        "w2l_arrays": [False],
+        "w2l_urls": [False],
+        "return_is_size": True
+    },
+    ### ISteamGameServer::SetModDir - "Just the folder name, not the whole path. I.e. "Spacewar"."
+    {
+        "parent_name": "LoadURL",
+        "l2w_names": [],
+        "l2w_lens": [],
+        "l2w_urls": [],
+        "w2l_names": ["pchURL"],
+        "w2l_arrays": [False],
+        "w2l_urls": [True],
+        "return_is_size": False
+    },
+    {
+        "parent_name": "FileLoadDialogResponse",
+        "l2w_names": [],
+        "l2w_lens": [],
+        "l2w_urls": [],
+        "w2l_names": ["pchSelectedFiles"],
+        "w2l_arrays": [True],
+        "w2l_urls": [False],
+        "return_is_size": False
+    },
+    {
+        "parent_name": "HTML_StartRequest_t",
+        "l2w_names": ["pchURL"],
+        "l2w_lens": [None],
+        "l2w_urls": [True],
+        "w2l_names": [],
+        "w2l_arrays": [],
+        "w2l_urls": [],
+        "return_is_size": False
+    },
+    {
+        "parent_name": "HTML_URLChanged_t",
+        "l2w_names": ["pchURL"],
+        "l2w_lens": [None],
+        "l2w_urls": [True],
+        "w2l_names": [],
+        "w2l_arrays": [],
+        "w2l_urls": [],
+        "return_is_size": False
+    },
+    {
+        "parent_name": "HTML_FinishedRequest_t",
+        "l2w_names": ["pchURL"],
+        "l2w_lens": [None],
+        "l2w_urls": [True],
+        "w2l_names": [],
+        "w2l_arrays": [],
+        "w2l_urls": [],
+        "return_is_size": False
+    },
+    {
+        "parent_name": "HTML_OpenLinkInNewTab_t",
+        "l2w_names": ["pchURL"],
+        "l2w_lens": [None],
+        "l2w_urls": [True],
+        "w2l_names": [],
+        "w2l_arrays": [],
+        "w2l_urls": [],
+        "return_is_size": False
+    },
+    {
+        "parent_name": "HTML_LinkAtPosition_t",
+        "l2w_names": ["pchURL"],
+        "l2w_lens": [None],
+        "l2w_urls": [True],
+        "w2l_names": [],
+        "w2l_arrays": [],
+        "w2l_urls": [],
+        "return_is_size": False
+    },
+    {
+        "parent_name": "HTML_FileOpenDialog_t",
+        "l2w_names": ["pchInitialFile"],
+        "l2w_lens": [None],
+        "l2w_urls": [True],
+        "w2l_names": [],
+        "w2l_arrays": [],
+        "w2l_urls": [],
+        "return_is_size": False
+    },
+    {
+        "parent_name": "HTML_NewWindow_t",
+        "l2w_names": ["pchURL"],
+        "l2w_lens": [None],
+        "l2w_urls": [True],
+        "w2l_names": [],
+        "w2l_arrays": [],
+        "w2l_urls": [],
+        "return_is_size": False
+    },
+    {
+        "parent_name": "PublishWorkshopFile",
+        "l2w_names": [],
+        "l2w_lens": [],
+        "l2w_urls": [],
+        "w2l_names": ["pchFile", "pchPreviewFile"],
+        "w2l_arrays": [False, False],
+        "w2l_urls": [False, False],
+        "return_is_size": False
+    },
+    {
+        "parent_name": "UpdatePublishedFileFile",
+        "l2w_names": [],
+        "l2w_lens": [],
+        "l2w_urls": [],
+        "w2l_names": ["pchFile"],
+        "w2l_arrays": [False],
+        "w2l_urls": [False],
+        "return_is_size": False
+    },
+    {
+        "parent_name": "UpdatePublishedFilePreviewFile",
+        "l2w_names": [],
+        "l2w_lens": [],
+        "l2w_urls": [],
+        "w2l_names": ["pchPreviewFile"],
+        "w2l_arrays": [False],
+        "w2l_urls": [False],
+        "return_is_size": False
+    },
+    {
+        "parent_name": "PublishVideo",
+        "l2w_names": [],
+        "l2w_lens": [],
+        "l2w_urls": [],
+        "w2l_names": ["pchPreviewFile"],
+        "w2l_arrays": [False],
+        "w2l_urls": [False],
+        "return_is_size": False
+    },
+    {
+        "parent_name": "AddScreenshotToLibrary",
+        "l2w_names": [],
+        "l2w_lens": [],
+        "l2w_urls": [],
+        "w2l_names": ["pchFilename", "pchThumbnailFilename"],
+        "w2l_arrays": [False, False],
+        "w2l_urls": [False, False],
+        "return_is_size": False
+    },
+    {
+        "parent_name": "AddVRScreenshotToLibrary",
+        "l2w_names": [],
+        "l2w_lens": [],
+        "l2w_urls": [],
+        "w2l_names": ["pchFilename", "pchVRFilename"],
+        "w2l_arrays": [False, False],
+        "w2l_urls": [False, False],
+        "return_is_size": False
+    },
+    {
+        "parent_name": "UGCDownloadToLocation",
+        "l2w_names": [],
+        "l2w_lens": [],
+        "l2w_urls": [],
+        "w2l_names": ["pchLocation"],
+        "w2l_arrays": [False],
+        "w2l_urls": [False],
+        "return_is_size": False
+    },
+    {
+        "parent_name": "GetQueryUGCAdditionalPreview",
+        "l2w_names": ["pchURLOrVideoID"],
+        "l2w_lens": ["cchURLSize"],
+        "l2w_urls": [True],
+        "w2l_names": [],
+        "w2l_arrays": [],
+        "w2l_urls": [],
+        "return_is_size": False
+    },
+    {
+        "parent_name": "SetItemContent",
+        "l2w_names": [],
+        "l2w_lens": [],
+        "l2w_urls": [],
+        "w2l_names": ["pszContentFolder"],
+        "w2l_arrays": [False],
+        "w2l_urls": [False],
+        "return_is_size": False
+    },
+    {
+        "parent_name": "SetItemPreview",
+        "l2w_names": [],
+        "l2w_lens": [],
+        "l2w_urls": [],
+        "w2l_names": ["pszPreviewFile"],
+        "w2l_arrays": [False],
+        "w2l_urls": [False],
+        "return_is_size": False
+    },
+    {
+        "parent_name": "AddItemPreviewFile",
+        "l2w_names": [],
+        "l2w_lens": [],
+        "l2w_urls": [],
+        "w2l_names": ["pszPreviewFile"],
+        "w2l_arrays": [False],
+        "w2l_urls": [False],
+        "return_is_size": False
+    },
+    {
+        "parent_name": "UpdateItemPreviewFile",
+        "l2w_names": [],
+        "l2w_lens": [],
+        "l2w_urls": [],
+        "w2l_names": ["pszPreviewFile"],
+        "w2l_arrays": [False],
+        "w2l_urls": [False],
+        "return_is_size": False
+    },
+    {
+        "parent_name": "GetItemInstallInfo",
+        "l2w_names": ["pchFolder"],
+        "l2w_lens": ["cchFolderSize"],
+        "l2w_urls": [False],
+        "w2l_names": [],
+        "w2l_arrays": [],
+        "w2l_urls": [],
+        "return_is_size": False
+    },
+    {
+        "parent_name": "BInitWorkshopForGameServer",
+        "l2w_names": [],
+        "l2w_lens": [],
+        "l2w_urls": [],
+        "w2l_names": ["pszFolder"],
+        "w2l_arrays": [False],
+        "w2l_urls": [False],
+        "return_is_size": False
+    },
+    {
+        "parent_name": "GetUserDataFolder",
+        "l2w_names": ["pchBuffer"],
+        "l2w_lens": ["cubBuffer"],
+        "l2w_urls": [False],
+        "w2l_names": [],
+        "w2l_arrays": [],
+        "w2l_urls": [],
+        "return_is_size": False
+    },
+    {
+        "parent_name": "CheckFileSignature",
+        "l2w_names": [],
+        "l2w_lens": [],
+        "l2w_urls": [],
+        "w2l_names": ["szFileName"],
+        "w2l_arrays": [False],
+        "w2l_urls": [False],
+        "return_is_size": False
+    },
+    {
+        "parent_name": "Init",
+        "l2w_names": [],
+        "l2w_lens": [],
+        "l2w_urls": [],
+        "w2l_names": ["pchAbsolutePathToControllerConfigVDF"],
+        "w2l_arrays": [False],
+        "w2l_urls": [False],
+        "return_is_size": False
+    },
+    {
+        "parent_name": "SetInputActionManifestFilePath",
+        "l2w_names": [],
+        "l2w_lens": [],
+        "l2w_urls": [],
+        "w2l_names": ["pchInputActionManifestAbsolutePath"],
+        "w2l_arrays": [False],
+        "w2l_urls": [False],
+        "return_is_size": False
+    },
 ]
 
 def strip_const(typename):
@@ -614,9 +617,9 @@ def find_linux64_struct(struct):
     return linux_structs64.get(strip_const(struct.spelling), None)
 
 def struct_needs_conversion_nocache(struct):
-    if strip_const(struct.spelling) in exempt_structs:
+    if strip_const(struct.spelling) in EXEMPT_STRUCTS:
         return False
-    if strip_const(struct.spelling) in manually_handled_structs:
+    if strip_const(struct.spelling) in MANUAL_STRUCTS:
         return True
 
     #check 32-bit compat
@@ -662,7 +665,7 @@ def handle_destructor(cfile, classname, winclassname, method):
     return "destructor"
 
 def get_path_converter(parent):
-    for conv in path_conversions:
+    for conv in PATH_CONV:
         if conv["parent_name"] in parent.spelling:
             if None in conv["l2w_names"]:
                 return conv
@@ -748,14 +751,14 @@ def handle_method(cfile, classname, winclassname, cppname, method, cpp, cpp_h, e
                 real_type = real_type.get_pointee()
             win_name = typename
             if real_type.kind == TypeKind.RECORD and \
-                    not real_type.spelling in wrapped_classes and \
+                    not real_type.spelling in WRAPPED_CLASSES and \
                     struct_needs_conversion(real_type):
                 need_convert.append(param)
                 #preserve pointers
                 win_name = typename.replace(real_type.spelling, f"win{real_type.spelling}_{sdkver}")
-            elif real_type.spelling in manual_type_converters:
+            elif real_type.spelling in MANUAL_TYPES:
                 manual_convert.append(param)
-            elif param.spelling in manual_param_converters:
+            elif param.spelling in MANUAL_PARAMS:
                 manual_convert.append(param)
 
             win_name = win_name.replace('&', '*')
@@ -798,7 +801,7 @@ def handle_method(cfile, classname, winclassname, cppname, method, cpp, cpp_h, e
             while real_type.kind == TypeKind.POINTER:
                 real_type = real_type.get_pointee()
             assert(param.type.get_pointee().kind == TypeKind.RECORD or \
-                    strip_const(real_type.spelling) in manually_handled_structs)
+                    strip_const(real_type.spelling) in MANUAL_STRUCTS)
             cpp.write(f"    {strip_const(param.type.get_pointee().spelling)} lin_{param.spelling};\n")
             cpp.write(f"    win_to_lin_struct_{strip_const(real_type.spelling)}_{sdkver}({param.spelling}, &lin_{param.spelling});\n")
         else:
@@ -806,7 +809,7 @@ def handle_method(cfile, classname, winclassname, cppname, method, cpp, cpp_h, e
             cpp.write(f"    {param.type.spelling} lin_{param.spelling};\n")
             cpp.write(f"    win_to_lin_struct_{param.type.spelling}_{sdkver}(&{param.spelling}, &lin_{param.spelling});\n")
     for param in manual_convert:
-        if param.spelling in manual_param_converters:
+        if param.spelling in MANUAL_PARAMS:
             cpp.write(f"    {param.spelling} = manual_convert_{param.spelling}({param.spelling});\n")
         else:
             cpp.write(f"    {param.spelling} = ({param.type.spelling})manual_convert_{param.type.spelling}((void*){param.spelling});\n")
@@ -858,7 +861,7 @@ def handle_method(cfile, classname, winclassname, cppname, method, cpp, cpp_h, e
                 cpp.write(f"({param.type.spelling})_{unnamed}")
                 unnamed = chr(ord(unnamed) + 1)
             elif param.type.kind == TypeKind.POINTER and \
-                    param.type.get_pointee().spelling in wrapped_classes:
+                    param.type.get_pointee().spelling in WRAPPED_CLASSES:
                 cfile.write(f", create_Linux{param.type.get_pointee().spelling}({param.spelling}, \"{winclassname}\")")
                 cpp.write(f"({param.type.spelling}){param.spelling}")
             elif path_conv and param.spelling in path_conv["w2l_names"]:
@@ -911,33 +914,10 @@ def handle_method(cfile, classname, winclassname, cppname, method, cpp, cpp_h, e
         cpp.write("    return retval;\n")
     cpp.write("}\n\n")
 
-def get_iface_version(classname):
-    # ISteamClient -> STEAMCLIENT_INTERFACE_VERSION
-    defname = f"{classname[1:].upper()}_INTERFACE_VERSION"
-    if defname in iface_versions.keys():
-        ver = iface_versions[defname]
-    else:
-        defname = f"{classname[1:].upper()}_VERSION"
-        if defname in iface_versions.keys():
-            ver = iface_versions[defname]
-        else:
-            ver = "UNVERSIONED"
-    if classname in class_versions.keys() and ver in class_versions[classname]:
-        return (ver, True)
-    if not classname in class_versions.keys():
-        class_versions[classname] = []
-    class_versions[classname].append(ver)
-    return (ver, False)
 
-def handle_class(sdkver, classnode, file):
-    children = list(classnode.get_children())
-    if len(children) == 0:
-        return
-    (iface_version, already_generated) = get_iface_version(classnode.spelling)
-    if already_generated:
-        return
-    winname = f"win{classnode.spelling}"
-    cppname = f"cpp{classnode.spelling}_{iface_version}"
+def handle_class(sdkver, klass, version, file):
+    winname = f"win{klass.spelling}"
+    cppname = f"cpp{klass.spelling}_{version}"
 
     file_exists = os.path.isfile(f"{winname}.c")
     cfile = open(f"{winname}.c", "a")
@@ -980,19 +960,19 @@ WINE_DEFAULT_DEBUG_CHANNEL(steamclient);
 
     cpp_h = open(f"{cppname}.h", "w")
 
-    winclassname = f"win{classnode.spelling}_{iface_version}"
+    winclassname = f"win{klass.spelling}_{version}"
     cfile.write(f"#include \"{cppname}.h\"\n\n")
     cfile.write(f"typedef struct __{winclassname} {{\n")
     cfile.write("    vtable_ptr *vtable;\n")
     cfile.write("    void *linux_side;\n")
     cfile.write(f"}} {winclassname};\n\n")
     methods = []
-    for child in children:
+    for child in klass.get_children():
         if child.kind == CursorKind.CXX_METHOD and \
                 child.is_virtual_method():
-            handle_method(cfile, classnode.spelling, winclassname, cppname, child, cpp, cpp_h, methods)
+            handle_method(cfile, klass.spelling, winclassname, cppname, child, cpp, cpp_h, methods)
         elif child.kind == CursorKind.DESTRUCTOR:
-            methods.append(handle_destructor(cfile, classnode.spelling, winclassname, child))
+            methods.append(handle_destructor(cfile, klass.spelling, winclassname, child))
 
     cfile.write(f"extern vtable_ptr {winclassname}_vtable;\n\n")
     cfile.write("#ifndef __GNUC__\n")
@@ -1006,12 +986,12 @@ WINE_DEFAULT_DEBUG_CHANNEL(steamclient);
     cfile.write("}\n")
     cfile.write("#endif\n\n")
     cfile.write(f"{winclassname} *create_{winclassname}(void *linux_side)\n{{\n")
-    if classnode.spelling in wrapped_classes:
+    if klass.spelling in WRAPPED_CLASSES:
         cfile.write(f"    {winclassname} *r = HeapAlloc(GetProcessHeap(), 0, sizeof({winclassname}));\n")
     else:
-        cfile.write(f"    {winclassname} *r = alloc_mem_for_iface(sizeof({winclassname}), \"{iface_version}\");\n")
+        cfile.write(f"    {winclassname} *r = alloc_mem_for_iface(sizeof({winclassname}), \"{version}\");\n")
     cfile.write("    TRACE(\"-> %p\\n\", r);\n")
-    cfile.write(f"    r->vtable = alloc_vtable(&{winclassname}_vtable, {len(methods)}, \"{iface_version}\");\n")
+    cfile.write(f"    r->vtable = alloc_vtable(&{winclassname}_vtable, {len(methods)}, \"{version}\");\n")
     cfile.write("    r->linux_side = linux_side;\n")
     cfile.write("    return r;\n}\n\n")
 
@@ -1021,10 +1001,9 @@ WINE_DEFAULT_DEBUG_CHANNEL(steamclient);
     constructors.write(f"extern void *create_{winclassname}(void *);\n")
 
     constructors = open("win_constructors_table.dat", "a")
-    constructors.write(f"    {{\"{iface_version}\", &create_{winclassname}}},\n")
-    if iface_version in aliases.keys():
-        for alias in aliases[iface_version]:
-            constructors.write(f"    {{\"{alias}\", &create_{winclassname}}}, /* alias */\n")
+    for alias in VERSION_ALIASES.get(version, []):
+        constructors.write(f"    {{\"{alias}\", &create_{winclassname}}}, /* alias */\n")
+    constructors.write(f"    {{\"{version}\", &create_{winclassname}}},\n")
 
 
 generated_cb_handlers = []
@@ -1106,7 +1085,7 @@ def handle_struct(sdkver, struct):
         hfile.write(f"typedef struct win{struct_name} win{struct_name};\n")
         hfile.write(f"struct {struct.displayname};\n")
 
-        if strip_const(struct.spelling) in manually_handled_structs:
+        if strip_const(struct.spelling) in MANUAL_STRUCTS:
             hfile.write("#endif\n\n")
             return
 
@@ -1264,76 +1243,127 @@ def handle_struct(sdkver, struct):
         else:
             cppfile.write("\n")
 
-prog = re.compile("^#define\s*(\w*)\s*\"(.*)\"")
-for sdkver in sdk_versions:
-    print(f"parsing SDK version {sdkver}...")
+
+def parse(sources, abi):
+    args = [f'-m{abi[1:]}', '-I' + CLANG_PATH + '/include/']
+    if abi[0] == 'w':
+        args += ["-D_WIN32", "-U__linux__"]
+        args += ["-fms-extensions", "-mms-bitfields"]
+        args += ["-Wno-ignored-attributes", "-Wno-incompatible-ms-struct"]
+    if abi[0] == 'u':
+        args += ["-DGNUC"]
+
+    index = Index.create()
+    build = index.parse("source.cpp", args=args, unsaved_files=sources.items())
+    diagnostics = list(build.diagnostics)
+    for diag in diagnostics: print(diag)
+    assert len(diagnostics) == 0
+
+    structs = build.cursor.get_children()
+    structs = [(child.spelling, child.type) for child in structs]
+    structs = dict(reversed(structs))
+
+    return build, structs
+
+
+def load(sdkver):
     sdkdir = f"steamworks_sdk_{sdkver}"
 
     sources = {}
-    iface_versions = {}
+    versions = {}
     for file in os.listdir(sdkdir):
         # Some files from Valve have non-UTF-8 stuff in the comments
         # (typically the copyright symbol); therefore we ignore UTF-8
         # encoding errors
         lines = open(f"{sdkdir}/{file}", "r", errors="replace").readlines()
-        if file == "isteammasterserverupdater.h":
-            if """#error "This file isn't used any more"\n""" in lines:
-                sources[f"{sdkdir}/isteammasterserverupdater.h"] = ""
+        if """#error "This file isn't used any more"\n""" in lines:
+            sources[f"{sdkdir}/{file}"] = ""
 
-        for line in lines:
-            if "define STEAM" in line and "_VERSION" in line:
-                result = prog.match(line)
-                if result:
-                    iface, version = result.group(1, 2)
-                    iface_versions[iface] = version
+        results = (DEFINE_INTERFACE_VERSION.match(l) for l in lines)
+        for result in (r.groupdict() for r in results if r):
+            name, version = result['name'], result['version']
+            name = name.replace('_INTERFACE_VERSION', '')
+            name = name.replace('_VERSION', '')
+            versions[name] = version
 
-    source = [f"""#if __has_include("{sdkdir}/{file}")
-                  #include "{sdkdir}/{file}"
-                  #endif""" for file, _ in files]
+    source = [f'#if __has_include("{sdkdir}/{file}")\n'
+              f'#include "{sdkdir}/{file}"\n'
+              f'#endif\n'
+              for file in SDK_SOURCES.keys()]
     sources["source.cpp"] = "\n".join(source)
-    windows_args = ["-D_WIN32", "-fms-extensions", "-Wno-ignored-attributes",
-                    "-mms-bitfields", "-U__linux__", "-Wno-incompatible-ms-struct"]
-    windows_args += ['-I' + CLANG_PATH + '/include/']
-    linux_args = ["-DGNUC"]
-    linux_args += ['-I' + CLANG_PATH + '/include/']
 
-    index = Index.create()
+    return versions, sources
 
-    linux_build32 = index.parse("source.cpp", args=linux_args + ["-m32"], unsaved_files=sources.items())
-    diagnostics = list(linux_build32.diagnostics)
-    for diag in diagnostics: print(diag)
-    assert len(diagnostics) == 0
 
-    linux_build64 = index.parse("source.cpp", args=linux_args + ["-m64"], unsaved_files=sources.items())
-    diagnostics = list(linux_build64.diagnostics)
-    for diag in diagnostics: print(diag)
-    assert len(diagnostics) == 0
+def generate(sdkver, records):
+    global linux_structs32
+    global linux_structs64
+    global windows_structs32
+    global windows_structs64
 
-    windows_build32 = index.parse("source.cpp", args=windows_args + ["-m32"], unsaved_files=sources.items())
-    diagnostics = list(windows_build32.diagnostics)
-    for diag in diagnostics: print(diag)
-    assert len(diagnostics) == 0
+    print(f'generating SDK version {sdkver}...')
+    linux_build32, linux_structs32 = records['u32']
+    linux_build64, linux_structs64 = records['u64']
+    windows_build32, windows_structs32 = records['w32']
+    windows_build64, windows_structs64 = records['w64']
 
-    windows_build64 = index.parse("source.cpp", args=windows_args + ["-m64"], unsaved_files=sources.items())
-    diagnostics = list(windows_build64.diagnostics)
-    for diag in diagnostics: print(diag)
-    assert len(diagnostics) == 0
-
-    linux_structs64 = dict(reversed([(child.spelling, child.type) for child
-                                     in linux_build64.cursor.get_children()]))
-    windows_structs32 = dict(reversed([(child.spelling, child.type) for child
-                                       in windows_build32.cursor.get_children()]))
-    windows_structs64 = dict(reversed([(child.spelling, child.type) for child
-                                       in windows_build64.cursor.get_children()]))
-
-    classes = dict([(klass, file) for file, classes in files for klass in classes])
     for child in linux_build32.cursor.get_children():
-        if child.kind == CursorKind.CLASS_DECL and child.displayname in classes:
-            handle_class(sdkver, child, classes[child.displayname])
         if child.kind in [CursorKind.STRUCT_DECL, CursorKind.CLASS_DECL]:
             handle_struct(sdkver, child)
-        if child.displayname in print_sizes:
-            print("size of %s is %u" % (child.displayname, child.type.get_size()))
+
+
+for i, sdkver in enumerate(SDK_VERSIONS):
+    print(f'loading SDKs... {i * 100 // len(SDK_VERSIONS)}%', end='\r')
+    all_versions[sdkver], all_sources[sdkver] = load(sdkver)
+print('loading SDKs... 100%')
+
+with concurrent.futures.ThreadPoolExecutor() as executor:
+    arg0 = [sdkver for sdkver in SDK_VERSIONS for abi in ABIS]
+    arg1 = [abi for sdkver in SDK_VERSIONS for abi in ABIS]
+    def parse_map(sdkver, abi):
+        return sdkver, abi, parse(all_sources[sdkver], abi)
+
+    results = executor.map(parse_map, arg0, arg1)
+    for i, result in enumerate(results):
+        print(f'parsing SDKs... {i * 100 // len(arg0)}%', end='\r')
+        sdkver, abi, index = result
+        if sdkver not in all_records: all_records[sdkver] = {}
+        all_records[sdkver][abi] = index
+print('parsing SDKs... 100%')
+
+
+all_classes = {}
+
+for i, sdkver in enumerate(reversed(SDK_VERSIONS)):
+    print(f'enumerating classes... {i * 100 // len(SDK_VERSIONS)}%', end='\r')
+    index, _ = all_records[sdkver]['u32']
+    versions = all_versions[sdkver]
+
+    classes = index.cursor.get_children()
+    classes = filter(lambda c: c.is_definition(), classes)
+    classes = filter(lambda c: c.kind == CursorKind.CLASS_DECL, classes)
+    classes = filter(lambda c: c.spelling in SDK_CLASSES, classes)
+    classes = filter(lambda c: c.spelling[1:].upper() in versions, classes)
+    classes = {versions[c.spelling[1:].upper()]: (sdkver, c) for c in classes}
+
+    all_classes.update(classes)
+print('enumerating classes... 100%')
+
+
+for version, tuple in sorted(all_classes.items()):
+    sdkver, klass = tuple
+
+    linux_build32, linux_structs32 = all_records[sdkver]['u32']
+    linux_build64, linux_structs64 = all_records[sdkver]['u64']
+    windows_build32, windows_structs32 = all_records[sdkver]['w32']
+    windows_build64, windows_structs64 = all_records[sdkver]['w64']
+
+    handle_class(sdkver, klass, version, SDK_CLASSES[klass.displayname])
+
+
+for sdkver in SDK_VERSIONS:
+    generate(sdkver, all_records[sdkver])
+
 
 for f in cpp_files_need_close_brace:
     m = open(f, "a")
