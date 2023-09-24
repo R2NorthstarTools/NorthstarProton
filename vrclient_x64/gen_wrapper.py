@@ -3,17 +3,15 @@
 #NOTE: If you make modifications here, consider whether they should
 #be duplicated in ../lsteamclient/gen_wrapper.py
 
-from __future__ import print_function
-
 CLANG_PATH='/usr/lib/clang/15'
 
 from clang.cindex import CursorKind, Index, Type, TypeKind
-import pprint
-import sys
+import concurrent.futures
 import os
 import re
 
-sdk_versions = [
+SDK_VERSIONS = [
+    "v1.26.7",
     "v1.23.7",
     "v1.16.8",
     "v1.14.15",
@@ -72,62 +70,69 @@ sdk_versions = [
     "0.9.0",
 ]
 
-files = [
-    ("ivrclientcore.h",
+ABIS = ['u32', 'u64', 'w32', 'w64']
+
+SDK_SOURCES = {
+    "ivrclientcore.h": [
         [ #classes
-        "IVRApplications",
-        "IVRChaperone",
-        "IVRChaperoneSetup",
-        "IVRCompositor",
-        "IVRControlPanel",
-        "IVRDriverManager",
-        "IVRExtendedDisplay",
-        "IVRNotifications",
-        "IVRInput",
-        "IVRIOBuffer",
-        "IVRMailbox",
-        "IVROverlay",
-        "IVRRenderModels",
-        "IVRResources",
-        "IVRScreenshots",
-        "IVRSettings",
-        "IVRSystem",
-        "IVRTrackedCamera",
-        "IVRHeadsetView",
-        "IVROverlayView",
-        "IVRClientCore",
+            "IVRApplications",
+            "IVRChaperone",
+            "IVRChaperoneSetup",
+            "IVRCompositor",
+            "IVRControlPanel",
+            "IVRDriverManager",
+            "IVRExtendedDisplay",
+            "IVRNotifications",
+            "IVRInput",
+            "IVRIOBuffer",
+            "IVRMailbox",
+            "IVROverlay",
+            "IVRRenderModels",
+            "IVRResources",
+            "IVRScreenshots",
+            "IVRSettings",
+            "IVRSystem",
+            "IVRTrackedCamera",
+            "IVRHeadsetView",
+            "IVROverlayView",
+            "IVRClientCore",
         ], [ #vrclient-allocated structs
-        "RenderModel_t",
-        "RenderModel_TextureMap_t",
-        ]
-    ),
-]
-
-next_is_size_structs = [
-        "VREvent_t",
-        "VRControllerState001_t",
-        "InputAnalogActionData_t",
-        "InputDigitalActionData_t",
-        "InputPoseActionData_t",
-        "InputSkeletalActionData_t",
-        "CameraVideoStreamFrameHeader_t",
-        "Compositor_CumulativeStats",
-        "VRActiveActionSet_t",
-        "InputOriginInfo_t",
-        "InputBindingInfo_t",
-]
-
-unhandled_next_is_size_structs = [
-        "VROverlayIntersectionMaskPrimitive_t" # not next, but next-next uint32 is the size
-]
-
-struct_size_fields = {
-        "Compositor_OverlaySettings": ["size"],
-        "Compositor_FrameTiming": ["size", "m_nSize"],
-        "DriverDirectMode_FrameTiming": ["m_nSize"],
+            "RenderModel_t",
+            "RenderModel_TextureMap_t",
+        ],
+    ],
 }
 
-path_conversions = [
+SDK_CLASSES = {klass: source for source, value in SDK_SOURCES.items()
+               for klass in value[0]}
+SDK_STRUCTS = {klass: source for source, value in SDK_SOURCES.items()
+               for klass in value[1]}
+
+STRUCTS_NEXT_IS_SIZE = [
+    "VREvent_t",
+    "VRControllerState001_t",
+    "InputAnalogActionData_t",
+    "InputDigitalActionData_t",
+    "InputPoseActionData_t",
+    "InputSkeletalActionData_t",
+    "CameraVideoStreamFrameHeader_t",
+    "Compositor_CumulativeStats",
+    "VRActiveActionSet_t",
+    "InputOriginInfo_t",
+    "InputBindingInfo_t",
+]
+
+STRUCTS_NEXT_IS_SIZE_UNHANDLED = [
+    "VROverlayIntersectionMaskPrimitive_t" # not next, but next-next uint32 is the size
+]
+
+STRUCTS_SIZE_FIELD = {
+    "Compositor_OverlaySettings": ["size"],
+    "Compositor_FrameTiming": ["size", "m_nSize"],
+    "DriverDirectMode_FrameTiming": ["m_nSize"],
+}
+
+PATH_CONV = [
     {
         "parent_name": "SetActionManifestPath",
         "l2w_names":[],
@@ -239,48 +244,13 @@ path_conversions = [
     #TODO: LaunchInternalProcess, need steam cooperation
 ]
 
-aliases = {
-    #Some interface versions are not present in the public SDK
-    #headers, but are actually requested by games. It would be nice
-    #to verify that these interface versions are actually binary
-    #compatible. Lacking that, we hope the next highest version
-    #is compatible.
-#    "SteamClient012":["SteamClient013"],
-#    "SteamUtils004":["SteamUtils003"], # TimeShift uses SteamUtils003
-
-
-    #leaving these commented-out. let's see if they turn up in practice,
-    #and handle them correctly if so.
-
-#    "SteamFriends011":["SteamFriends010"],
-#    "SteamFriends013":["SteamFriends012"],
-#    "SteamGameServer008":["SteamGameServer007", "SteamGameServer006"],
-#    "SteamMatchMaking004":["SteamMatchMaking003"],
-#    "SteamMatchMaking006":["SteamMatchMaking005"],
-#    "STEAMREMOTESTORAGE_INTERFACE_VERSION004":["STEAMREMOTESTORAGE_INTERFACE_VERSION003"],
-#    "STEAMREMOTESTORAGE_INTERFACE_VERSION008":["STEAMREMOTESTORAGE_INTERFACE_VERSION007"],
-#    "STEAMREMOTESTORAGE_INTERFACE_VERSION010":["STEAMREMOTESTORAGE_INTERFACE_VERSION009"],
-#    "STEAMUGC_INTERFACE_VERSION005":["STEAMUGC_INTERFACE_VERSION004"],
-#    "STEAMUGC_INTERFACE_VERSION007":["STEAMUGC_INTERFACE_VERSION006"],
-#    "SteamUser016":["SteamUser015"],
-#    "STEAMUSERSTATS_INTERFACE_VERSION009":["STEAMUSERSTATS_INTERFACE_VERSION008"],
-}
-
-# TODO: we could do this automatically by creating temp files and
-# having clang parse those and detect when the MS-style padding results
-# in identical struct widths. But there's only a couple, so let's cheat...
-skip_structs = [
-#        "RemoteStorageGetPublishedFileDetailsResult_t_9740",
-#        "SteamUGCQueryCompleted_t_20",
-#        "SteamUGCRequestUGCDetailsResult_t_9764"
-]
-
 struct_conversion_cache = {}
 struct_needs_size_adjustment_cache = {}
 
-print_sizes = []
+all_records = {}
+all_sources = {}
+all_versions = {}
 
-class_versions = {}
 
 def get_params(f):
     return [p for p in f.get_children() if p.kind == CursorKind.PARM_DECL]
@@ -379,7 +349,8 @@ def ivroverlay_set_overlay_texture(cppname, method):
             "022" in cppname or \
             "024" in cppname or \
             "025" in cppname or \
-            "026" in cppname
+            "026" in cppname or \
+            "027" in cppname
     return "ivroverlay_set_overlay_texture"
 
 def ivrinput_get_digital_action_data(cppname, method):
@@ -420,7 +391,7 @@ def strip_ns(name):
     return name.replace("vr::","")
 
 def get_path_converter(parent):
-    for conv in path_conversions:
+    for conv in PATH_CONV:
         if conv["parent_name"] in parent.spelling:
             if None in conv["l2w_names"]:
                 return conv
@@ -477,7 +448,6 @@ def handle_method(cfile, classname, winclassname, cppname, method, cpp, cpp_h, e
     do_size_fixup = None
     do_wrap = None
     do_unwrap = None
-    need_convert = []
     for param in get_params(method):
         if param.type.kind == TypeKind.POINTER and \
                 param.type.get_pointee().kind == TypeKind.UNEXPOSED:
@@ -489,11 +459,11 @@ def handle_method(cfile, classname, winclassname, cppname, method, cpp, cpp_h, e
             while real_type.kind == TypeKind.POINTER:
                 real_type = real_type.get_pointee()
             if param.type.kind == TypeKind.POINTER:
-                if strip_ns(param.type.get_pointee().get_canonical().spelling) in system_structs:
+                if strip_ns(param.type.get_pointee().get_canonical().spelling) in SDK_STRUCTS:
                     do_unwrap = (strip_ns(param.type.get_pointee().get_canonical().spelling), param.spelling)
                     typename = "win" + do_unwrap[0] + "_" + display_sdkver(sdkver) + " *"
                 elif param.type.get_pointee().get_canonical().kind == TypeKind.POINTER and \
-                        strip_ns(param.type.get_pointee().get_pointee().get_canonical().spelling) in system_structs:
+                        strip_ns(param.type.get_pointee().get_pointee().get_canonical().spelling) in SDK_STRUCTS:
                     do_wrap = (strip_ns(param.type.get_pointee().get_pointee().get_canonical().spelling), param.spelling)
                     typename = "win" + do_wrap[0] + "_" + display_sdkver(sdkver) + " **"
                 elif real_type.get_canonical().kind == TypeKind.RECORD and \
@@ -504,7 +474,7 @@ def handle_method(cfile, classname, winclassname, cppname, method, cpp, cpp_h, e
                     #preserve pointers
                     typename = typename.replace(strip_ns(real_type.spelling), "win%s_%s" % (strip_ns(real_type.get_canonical().spelling), display_sdkver(sdkver)))
                 elif real_type.get_canonical().kind == TypeKind.RECORD and \
-                        strip_ns(real_type.spelling) in next_is_size_structs and \
+                        strip_ns(real_type.spelling) in STRUCTS_NEXT_IS_SIZE and \
                         struct_needs_size_adjustment(real_type.get_canonical()):
                     do_size_fixup = (strip_const(strip_ns(real_type.get_canonical().spelling)), param.spelling)
 
@@ -615,8 +585,8 @@ def handle_method(cfile, classname, winclassname, cppname, method, cpp, cpp_h, e
                 cfile.write(", %s" % param.spelling)
                 cpp.write("%s ? &lin : nullptr" % param.spelling)
                 if do_win_to_lin:
-                    assert(not do_win_to_lin[0] in unhandled_next_is_size_structs)
-                    if do_win_to_lin[0] in next_is_size_structs:
+                    assert(not do_win_to_lin[0] in STRUCTS_NEXT_IS_SIZE_UNHANDLED)
+                    if do_win_to_lin[0] in STRUCTS_NEXT_IS_SIZE:
                         next_is_size = True
             elif do_unwrap and do_unwrap[1] == param.spelling:
                 cfile.write(", %s" % param.spelling)
@@ -687,17 +657,6 @@ def handle_method(cfile, classname, winclassname, cppname, method, cpp, cpp_h, e
     cfile.write("}\n\n")
     cpp.write("}\n\n")
 
-def get_iface_version(classname):
-    if classname in iface_versions.keys():
-        ver = iface_versions[classname]
-    else:
-        ver = "UNVERSIONED"
-    if classname in class_versions.keys() and ver in class_versions[classname]:
-        return (ver, True)
-    if not classname in class_versions.keys():
-        class_versions[classname] = []
-    class_versions[classname].append(ver)
-    return (ver, False)
 
 max_c_api_param_count = 0
 
@@ -713,16 +672,10 @@ def get_capi_thunk_params(method):
     is_4th_float = param_count >= 4 and param_types[3].spelling == "float"
     return "%s, %s, %s" % (param_count, toBOOL(has_float_params), toBOOL(is_4th_float))
 
-def handle_class(sdkver, classnode):
-    print("handle_class: " + classnode.displayname)
-    children = list(classnode.get_children())
-    if len(children) == 0:
-        return
-    (iface_version, already_generated) = get_iface_version(classnode.spelling)
-    if already_generated:
-        return
-    winname = "win%s" % classnode.spelling
-    cppname = "cpp%s_%s" % (classnode.spelling, iface_version)
+def handle_class(sdkver, klass, version):
+    print("handle_class: " + klass.displayname)
+    winname = "win%s" % klass.spelling
+    cppname = "cpp%s_%s" % (klass.spelling, version)
 
     file_exists = os.path.isfile("vrclient_x64/%s.c" % winname)
     cfile = open("vrclient_x64/%s.c" % winname, "a")
@@ -766,21 +719,21 @@ WINE_DEFAULT_DEBUG_CHANNEL(vrclient);
     cpp_h = open("vrclient_x64/%s.h" % cppname, "w")
     cpp_h.write("#ifdef __cplusplus\nextern \"C\" {\n#endif\n")
 
-    winclassname = "win%s_%s" % (classnode.spelling, iface_version)
+    winclassname = "win%s_%s" % (klass.spelling, version)
     cfile.write("#include \"%s.h\"\n\n" % cppname)
     cfile.write("typedef struct __%s {\n" % winclassname)
     cfile.write("    vtable_ptr *vtable;\n") # make sure to keep this first (flat API depends on it)
     cfile.write("    void *linux_side;\n")
     for classname_pattern, user_data_type, _ in method_overrides_data:
-        if classname_pattern in classnode.spelling:
+        if classname_pattern in klass.spelling:
             cfile.write("    %s user_data;\n" % user_data_type)
             break
     cfile.write("} %s;\n\n" % winclassname)
     methods = []
     method_names = []
-    for child in children:
+    for child in klass.get_children():
         if child.kind == CursorKind.CXX_METHOD:
-            handle_method(cfile, classnode.spelling, winclassname, cppname, child, cpp, cpp_h, method_names, iface_version)
+            handle_method(cfile, klass.spelling, winclassname, cppname, child, cpp, cpp_h, method_names, version)
             methods.append(child)
 
     cfile.write("extern vtable_ptr %s_vtable;\n\n" % winclassname)
@@ -803,7 +756,7 @@ WINE_DEFAULT_DEBUG_CHANNEL(vrclient);
     cfile.write("void destroy_%s(void *object)\n{\n" % winclassname)
     cfile.write("    TRACE(\"%p\\n\", object);\n")
     for classname_pattern, user_data_type, user_data_destructor in method_overrides_data:
-        if user_data_destructor and classname_pattern in classnode.spelling:
+        if user_data_destructor and classname_pattern in klass.spelling:
             cfile.write("    struct __%s *win_object = object;\n" % winclassname)
             cfile.write("    %s(&win_object->user_data);\n" % user_data_destructor)
             break
@@ -830,7 +783,7 @@ WINE_DEFAULT_DEBUG_CHANNEL(vrclient);
     cfile.write("    %s *win_object = object;\n" % winclassname)
     cfile.write("    TRACE(\"%p\\n\", win_object);\n")
     for classname_pattern, user_data_type, user_data_destructor in method_overrides_data:
-        if user_data_destructor and classname_pattern in classnode.spelling:
+        if user_data_destructor and classname_pattern in klass.spelling:
             cfile.write("    %s(&win_object->user_data);\n" % user_data_destructor)
             break
     cfile.write("    VirtualFree(win_object->vtable[0], 0, MEM_RELEASE);\n")
@@ -849,12 +802,8 @@ WINE_DEFAULT_DEBUG_CHANNEL(vrclient);
     destructors.write("extern void destroy_%s_FnTable(void *);\n" % winclassname)
 
     constructors = open("vrclient_x64/win_constructors_table.dat", "a")
-    constructors.write("    {\"%s\", &create_%s, &destroy_%s},\n" % (iface_version, winclassname, winclassname))
-    constructors.write("    {\"FnTable:%s\", &create_%s_FnTable, &destroy_%s_FnTable},\n" % (iface_version, winclassname, winclassname))
-    if iface_version in aliases.keys():
-        for alias in aliases[iface_version]:
-            constructors.write("    {\"%s\", &create_%s, &destroy_%s}, /* alias */\n" % (alias, winclassname, winclassname))
-            constructors.write("    {\"FnTable:%s\", &create_%s_FnTable, &destroy_%s_FnTable},\n" % (alias, winclassname, winclassname))
+    constructors.write("    {\"%s\", &create_%s, &destroy_%s},\n" % (version, winclassname, winclassname))
+    constructors.write("    {\"FnTable:%s\", &create_%s_FnTable, &destroy_%s_FnTable},\n" % (version, winclassname, winclassname))
 
     generate_c_api_thunk_tests(winclassname, methods, method_names)
 
@@ -959,7 +908,7 @@ def handle_struct(sdkver, struct):
         which.add(LIN_TO_WIN)
         which.add(WIN_TO_LIN)
 
-    if strip_ns(struct.displayname) in system_structs:
+    if strip_ns(struct.displayname) in SDK_STRUCTS:
         which.add(WRAPPERS)
 
     if len(which) == 0:
@@ -1016,8 +965,8 @@ def handle_struct(sdkver, struct):
                         struct_needs_conversion(m.type.get_canonical()):
                     cppfile.write("    struct_" + strip_ns(m.type.spelling) + "_" + display_sdkver(sdkver) + "_" + src + "_to_" + dst + \
                             "(&" + src + "->" + m.displayname + ", &" + dst + "->" + m.displayname + ");\n")
-                elif struct.displayname in struct_size_fields and \
-                    m.displayname in struct_size_fields[struct.displayname]:
+                elif struct.displayname in STRUCTS_SIZE_FIELD and \
+                    m.displayname in STRUCTS_SIZE_FIELD[struct.displayname]:
                         cppfile.write("    " + dst + "->" + m.displayname + " = sizeof(*" + dst + ");\n")
                 elif size and strip_ns(m.type.get_canonical().spelling) == "VREvent_Data_t":
                     #truncate variable-length data struct at the end of the parent struct
@@ -1026,7 +975,7 @@ def handle_struct(sdkver, struct):
                 else:
                     cppfile.write("    " + dst + "->" + m.displayname + " = " + src + "->" + m.displayname + ";\n")
 
-    if strip_ns(struct.displayname) in next_is_size_structs:
+    if strip_ns(struct.displayname) in STRUCTS_NEXT_IS_SIZE:
         size_arg = "sz"
         size_arg_type = ", uint32_t sz"
     else:
@@ -1371,13 +1320,43 @@ int main(void)
         f.write("    test_capi_thunks_%s();\n" % class_name)
 
 
-prog = re.compile("^.*const\s*char.* \*?(\w*)_Version.*\"(.*)\"")
-for sdkver in sdk_versions:
-    print(f'parsing SDK version {sdkver}...')
+def enumerate_structs(cursor, vr_only=False):
+    for child in cursor.get_children():
+        if child.kind == CursorKind.NAMESPACE \
+           and child.displayname == "vr":
+            yield from child.get_children()
+        elif not vr_only:
+            yield child
+
+
+def parse(sources, abi):
+    args = [f'-m{abi[1:]}', '-I' + CLANG_PATH + '/include/']
+    if abi[0] == 'w':
+        args += ["-D_WIN32", "-U__linux__"]
+        args += ["-fms-extensions", "-mms-bitfields"]
+        args += ["-Wno-ignored-attributes", "-Wno-incompatible-ms-struct"]
+    if abi[0] == 'u':
+        args += ["-DGNUC"]
+
+    index = Index.create()
+    build = index.parse("source.cpp", args=args, unsaved_files=sources.items())
+    diagnostics = list(build.diagnostics)
+    for diag in diagnostics: print(diag)
+    assert len(diagnostics) == 0
+
+    structs = enumerate_structs(build.cursor)
+    structs = [(child.type.spelling, child.type) for child in structs]
+    structs = dict(reversed(structs))
+
+    return build, structs
+
+
+def load(sdkver):
+    prog = re.compile("^.*const\s*char.* \*?(\w*)_Version.*\"(.*)\"")
     sdkdir = f'openvr_{sdkver}'
 
     sources = {}
-    iface_versions = {}
+    versions = {}
     has_vrclientcore = False
     for file in os.listdir(sdkdir):
         x = open(f"{sdkdir}/{file}", "r")
@@ -1389,66 +1368,87 @@ for sdkver in sdk_versions:
                 result = prog.match(l)
                 if result:
                     iface, version = result.group(1, 2)
-                    iface_versions[iface] = version
+                    versions[iface] = version
 
     if not has_vrclientcore:
         source = [f'#include "{sdkdir}/openvr.h"']
     else:
-        source = [f'#include "{sdkdir}/{file}"' for file, _, _ in files]
-
+        source = [f'#include "{sdkdir}/{file}"'
+                  for file in SDK_SOURCES.keys()]
     sources["source.cpp"] = "\n".join(source)
-    windows_args = ["-D_WIN32", "-fms-extensions", "-Wno-ignored-attributes",
-                    "-mms-bitfields", "-U__linux__", "-Wno-incompatible-ms-struct"]
-    windows_args += ['-I' + CLANG_PATH + '/include/']
-    linux_args = ["-DGNUC"]
-    linux_args += ['-I' + CLANG_PATH + '/include/']
 
-    index = Index.create()
+    return versions, sources
 
-    linux_build32 = index.parse("source.cpp", args=linux_args + ["-m32"], unsaved_files=sources.items())
-    diagnostics = list(linux_build32.diagnostics)
-    for diag in diagnostics: print(diag)
-    assert len(diagnostics) == 0
 
-    linux_build64 = index.parse("source.cpp", args=linux_args + ["-m64"], unsaved_files=sources.items())
-    diagnostics = list(linux_build64.diagnostics)
-    for diag in diagnostics: print(diag)
-    assert len(diagnostics) == 0
+def generate(sdkver, records):
+    global linux_structs32
+    global linux_structs64
+    global windows_structs32
+    global windows_structs64
 
-    windows_build32 = index.parse("source.cpp", args=windows_args + ["-m32"], unsaved_files=sources.items())
-    diagnostics = list(windows_build32.diagnostics)
-    for diag in diagnostics: print(diag)
-    assert len(diagnostics) == 0
-
-    windows_build64 = index.parse("source.cpp", args=windows_args + ["-m64"], unsaved_files=sources.items())
-    diagnostics = list(windows_build64.diagnostics)
-    for diag in diagnostics: print(diag)
-    assert len(diagnostics) == 0
-
-    classes = sum([e for _, e, _ in files], [])
-    system_structs = sum([e for _, _, e in files], [])
-
-    def enumerate_structs(cursor, vr_only=False):
-        for child in cursor.get_children():
-            if child.kind == CursorKind.NAMESPACE and child.displayname == "vr":
-                yield from child.get_children()
-            elif not vr_only:
-                yield child
-
-    windows_structs32 = dict(reversed([(child.type.spelling, child.type) for child
-                                       in enumerate_structs(windows_build32.cursor)]))
-    windows_structs64 = dict(reversed([(child.type.spelling, child.type) for child
-                                       in enumerate_structs(windows_build64.cursor)]))
-    linux_structs64 = dict(reversed([(child.type.spelling, child.type) for child
-                                     in enumerate_structs(linux_build64.cursor)]))
+    print(f'generating SDK version {sdkver}...')
+    linux_build32, linux_structs32 = records['u32']
+    linux_build64, linux_structs64 = records['u64']
+    windows_build32, windows_structs32 = records['w32']
+    windows_build64, windows_structs64 = records['w64']
 
     for child in enumerate_structs(linux_build32.cursor, vr_only=True):
-        if child.kind == CursorKind.CLASS_DECL and child.displayname in classes:
-            handle_class(sdkver, child)
         if child.kind in [CursorKind.STRUCT_DECL, CursorKind.CLASS_DECL]:
             handle_struct(sdkver, child)
-        if child.displayname in print_sizes:
-            sys.stdout.write("size of %s is %u\n" % (child.displayname, child.type.get_size()))
+
+
+for i, sdkver in enumerate(SDK_VERSIONS):
+    print(f'loading SDKs... {i * 100 // len(SDK_VERSIONS)}%', end='\r')
+    all_versions[sdkver], all_sources[sdkver] = load(sdkver)
+print(u'loading SDKs... 100%')
+
+with concurrent.futures.ThreadPoolExecutor() as executor:
+    arg0 = [sdkver for sdkver in SDK_VERSIONS for abi in ABIS]
+    arg1 = [abi for sdkver in SDK_VERSIONS for abi in ABIS]
+    def parse_map(sdkver, abi):
+        return sdkver, abi, parse(all_sources[sdkver], abi)
+
+    results = executor.map(parse_map, arg0, arg1)
+    for i, result in enumerate(results):
+        print(f'parsing SDKs... {i * 100 // len(arg0)}%', end='\r')
+        sdkver, abi, index = result
+        if sdkver not in all_records: all_records[sdkver] = {}
+        all_records[sdkver][abi] = index
+print('parsing SDKs... 100%')
+
+
+all_classes = {}
+
+for i, sdkver in enumerate(reversed(SDK_VERSIONS)):
+    print(f'enumerating classes... {i * 100 // len(SDK_VERSIONS)}%', end='\r')
+    index, _ = all_records[sdkver]['u32']
+    versions = all_versions[sdkver]
+
+    classes = enumerate_structs(index.cursor, vr_only=True)
+    classes = filter(lambda c: c.is_definition(), classes)
+    classes = filter(lambda c: c.kind == CursorKind.CLASS_DECL, classes)
+    classes = filter(lambda c: c.spelling in SDK_CLASSES, classes)
+    classes = filter(lambda c: c.spelling in versions, classes)
+    classes = {versions[c.spelling]: (sdkver, c) for c in classes}
+
+    all_classes.update(classes)
+print('enumerating classes... 100%')
+
+
+for version, tuple in sorted(all_classes.items()):
+    sdkver, klass = tuple
+
+    linux_build32, linux_structs32 = all_records[sdkver]['u32']
+    linux_build64, linux_structs64 = all_records[sdkver]['u64']
+    windows_build32, windows_structs32 = all_records[sdkver]['w32']
+    windows_build64, windows_structs64 = all_records[sdkver]['w64']
+
+    handle_class(sdkver, klass, version)
+
+
+for sdkver in SDK_VERSIONS:
+    generate(sdkver, all_records[sdkver])
+
 
 for f in cpp_files_need_close_brace:
     m = open(f, "a")
