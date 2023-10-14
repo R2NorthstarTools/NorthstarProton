@@ -112,7 +112,8 @@
     -W winex11.drv-Query_server_position \
     -W user32-Mouse_Message_Hwnd \
     -W wined3d-SWVP-shaders \
-    -W wined3d-Indexed_Vertex_Blending
+    -W wined3d-Indexed_Vertex_Blending \
+    -W shell32-registry-lookup-app
 
     # NOTE: Some patches are applied manually because they -do- apply, just not cleanly, ie with patch fuzz.
     # A detailed list of why the above patches are disabled is listed below:
@@ -188,6 +189,7 @@
     # winspool.drv-ClosePrinter - not required, only adds trace lines, for printers.
     # winmm-mciSendCommandA - not needed, only applies to win 9x mode
     # ** winex11-XEMBED - applied manually
+    # ** shell32-registry-lookup-app - applied manually
     #
     # Paul Gofman — Yesterday at 3:49 PM
     # that’s only for desktop integration, spamming native menu’s with wine apps which won’t probably start from there anyway
@@ -291,8 +293,11 @@
     patch -Np1 < ../patches/wine-hotfixes/staging/user32-FlashWindowEx/0001-user32-Improve-FlashWindowEx-message-and-return-valu.patch
     
     # kernel32-Debugger
-   patch -Np1 < ../wine-staging/patches/kernel32-Debugger/0001-kernel32-Always-start-debugger-on-WinSta0.patch
-    
+    patch -Np1 < ../wine-staging/patches/kernel32-Debugger/0001-kernel32-Always-start-debugger-on-WinSta0.patch
+
+    # shell32-registry-lookup-app
+    patch -Np1 < ../patches/wine-hotfixes/staging/shell32-registry-lookup-app/0001-shell32-Append-.exe-when-registry-lookup-fails-first.patch
+
 ### END WINE STAGING APPLY SECTION ###
 
 ### (2-3) GAME PATCH SECTION ###
@@ -320,6 +325,10 @@
 ### END GAME PATCH SECTION ###
 
 ### (2-4) WINE HOTFIX/BACKPORT SECTION ###
+
+    # https://gitlab.winehq.org/wine/wine/-/merge_requests/3777
+    echo "WINE: -BACKPORT- R6 Siege backport"
+    patch -Np1 < ../patches/wine-hotfixes/upstream/3777.patch
 
 ### END WINE HOTFIX/BACKPORT SECTION ###
 
