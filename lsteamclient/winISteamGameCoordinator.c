@@ -5,8 +5,6 @@
 #include "winbase.h"
 #include "wine/debug.h"
 
-#include "cxx.h"
-
 #include "steam_defs.h"
 
 #include "steamclient_private.h"
@@ -17,30 +15,49 @@ WINE_DEFAULT_DEBUG_CHANNEL(steamclient);
 
 #include "cppISteamGameCoordinator_SteamGameCoordinator001.h"
 
-typedef struct __winISteamGameCoordinator_SteamGameCoordinator001 {
-    vtable_ptr *vtable;
-    void *linux_side;
-} winISteamGameCoordinator_SteamGameCoordinator001;
-
 DEFINE_THISCALL_WRAPPER(winISteamGameCoordinator_SteamGameCoordinator001_SendMessage, 16)
-EGCResults __thiscall winISteamGameCoordinator_SteamGameCoordinator001_SendMessage(winISteamGameCoordinator_SteamGameCoordinator001 *_this, uint32 unMsgType, const void * pubData, uint32 cubData)
-{
-    TRACE("%p\n", _this);
-    return cppISteamGameCoordinator_SteamGameCoordinator001_SendMessage(_this->linux_side, unMsgType, pubData, cubData);
-}
-
 DEFINE_THISCALL_WRAPPER(winISteamGameCoordinator_SteamGameCoordinator001_IsMessageAvailable, 8)
-bool __thiscall winISteamGameCoordinator_SteamGameCoordinator001_IsMessageAvailable(winISteamGameCoordinator_SteamGameCoordinator001 *_this, uint32 * pcubMsgSize)
+DEFINE_THISCALL_WRAPPER(winISteamGameCoordinator_SteamGameCoordinator001_RetrieveMessage, 20)
+
+EGCResults __thiscall winISteamGameCoordinator_SteamGameCoordinator001_SendMessage(struct w_steam_iface *_this, uint32 unMsgType, const void *pubData, uint32 cubData)
 {
+    struct cppISteamGameCoordinator_SteamGameCoordinator001_SendMessage_params params =
+    {
+        .linux_side = _this->u_iface,
+        .unMsgType = unMsgType,
+        .pubData = pubData,
+        .cubData = cubData,
+    };
     TRACE("%p\n", _this);
-    return cppISteamGameCoordinator_SteamGameCoordinator001_IsMessageAvailable(_this->linux_side, pcubMsgSize);
+    cppISteamGameCoordinator_SteamGameCoordinator001_SendMessage( &params );
+    return params._ret;
 }
 
-DEFINE_THISCALL_WRAPPER(winISteamGameCoordinator_SteamGameCoordinator001_RetrieveMessage, 20)
-EGCResults __thiscall winISteamGameCoordinator_SteamGameCoordinator001_RetrieveMessage(winISteamGameCoordinator_SteamGameCoordinator001 *_this, uint32 * punMsgType, void * pubDest, uint32 cubDest, uint32 * pcubMsgSize)
+bool __thiscall winISteamGameCoordinator_SteamGameCoordinator001_IsMessageAvailable(struct w_steam_iface *_this, uint32 *pcubMsgSize)
 {
+    struct cppISteamGameCoordinator_SteamGameCoordinator001_IsMessageAvailable_params params =
+    {
+        .linux_side = _this->u_iface,
+        .pcubMsgSize = pcubMsgSize,
+    };
     TRACE("%p\n", _this);
-    return cppISteamGameCoordinator_SteamGameCoordinator001_RetrieveMessage(_this->linux_side, punMsgType, pubDest, cubDest, pcubMsgSize);
+    cppISteamGameCoordinator_SteamGameCoordinator001_IsMessageAvailable( &params );
+    return params._ret;
+}
+
+EGCResults __thiscall winISteamGameCoordinator_SteamGameCoordinator001_RetrieveMessage(struct w_steam_iface *_this, uint32 *punMsgType, void *pubDest, uint32 cubDest, uint32 *pcubMsgSize)
+{
+    struct cppISteamGameCoordinator_SteamGameCoordinator001_RetrieveMessage_params params =
+    {
+        .linux_side = _this->u_iface,
+        .punMsgType = punMsgType,
+        .pubDest = pubDest,
+        .cubDest = cubDest,
+        .pcubMsgSize = pcubMsgSize,
+    };
+    TRACE("%p\n", _this);
+    cppISteamGameCoordinator_SteamGameCoordinator001_RetrieveMessage( &params );
+    return params._ret;
 }
 
 extern vtable_ptr winISteamGameCoordinator_SteamGameCoordinator001_vtable;
@@ -57,12 +74,12 @@ void __asm_dummy_vtables(void) {
 }
 #endif
 
-winISteamGameCoordinator_SteamGameCoordinator001 *create_winISteamGameCoordinator_SteamGameCoordinator001(void *linux_side)
+struct w_steam_iface *create_winISteamGameCoordinator_SteamGameCoordinator001(void *u_iface)
 {
-    winISteamGameCoordinator_SteamGameCoordinator001 *r = alloc_mem_for_iface(sizeof(winISteamGameCoordinator_SteamGameCoordinator001), "SteamGameCoordinator001");
+    struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "SteamGameCoordinator001");
     TRACE("-> %p\n", r);
     r->vtable = alloc_vtable(&winISteamGameCoordinator_SteamGameCoordinator001_vtable, 3, "SteamGameCoordinator001");
-    r->linux_side = linux_side;
+    r->u_iface = u_iface;
     return r;
 }
 

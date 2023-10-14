@@ -38,7 +38,6 @@ static HANDLE callback_thread_handle;
 struct callback_data *callback_queue[MAX_CALLBACK_QUEUE_SIZE];
 static unsigned int callback_queue_size;
 static BOOL callback_queue_done;
-static UINT64 callback_queue_current_seq_number;
 static pthread_mutex_t callback_queue_mutex;
 static pthread_cond_t callback_queue_callback_event;
 static pthread_cond_t callback_queue_ready_event;
@@ -48,12 +47,13 @@ static void * (WINAPI *p_NtCurrentTeb)(void);
 
 static void init_ntdll_so_funcs(void)
 {
+    static const WCHAR ntdllW[] = {'n','t','d','l','l','.','d','l','l',0};
     Dl_info info;
     UINT64 unix_funcs;
     unsigned int status;
     void *ntdll;
 
-    status = NtQueryVirtualMemory(GetCurrentProcess(), GetModuleHandleW(L"ntdll.dll"), (MEMORY_INFORMATION_CLASS)1000 /*MemoryWineUnixFuncs*/,
+    status = NtQueryVirtualMemory(GetCurrentProcess(), GetModuleHandleW(ntdllW), (MEMORY_INFORMATION_CLASS)1000 /*MemoryWineUnixFuncs*/,
             &unix_funcs, sizeof(unix_funcs), NULL);
     if (status)
     {
@@ -216,20 +216,21 @@ unsigned int steamclient_unix_path_to_dos_path(bool api_result, const char *src,
 
 #define IS_ABSOLUTE(x) (*x == '/' || *x == '\\' || (*x && *(x + 1) == ':'))
 
-/* returns non-zero on success, zero on failure */
-bool steamclient_dos_path_to_unix_path(const char *src, char *dst, int is_url)
+const char *steamclient_dos_to_unix_path( const char *src, int is_url )
 {
     static const char file_prot[] = "file://";
+    char buffer[4096], *dst = buffer;
+    uint32_t len;
+
+    if (!src) return NULL;
 
     *dst = 0;
-
-    if(!src || !*src)
-        return 0;
+    if (!*src) goto done;
 
     if(is_url){
         if(strncmp(src, file_prot, 7) != 0){
             strcpy(dst, src);
-            return 1;
+            goto done;
         }
 
         src += 7;
@@ -245,15 +246,15 @@ bool steamclient_dos_path_to_unix_path(const char *src, char *dst, int is_url)
 
         r = MultiByteToWideChar(CP_UNIXCP, 0, src, -1, srcW, PATH_MAX);
         if(r == 0)
-            return 0;
+            return NULL;
 
         unix_path = wine_get_unix_file_name(srcW);
         if(!unix_path){
             WARN("Unable to convert DOS filename to unix: %s\n", src);
-            return 0;
+            return NULL;
         }
 
-        strncpy(dst, unix_path, PATH_MAX);
+        lstrcpynA(dst, unix_path, PATH_MAX);
 
         HeapFree(GetProcessHeap(), 0, unix_path);
     }else{
@@ -271,10 +272,19 @@ bool steamclient_dos_path_to_unix_path(const char *src, char *dst, int is_url)
         *d = 0;
     }
 
-    return 1;
+done:
+    len = strlen( buffer );
+    if (!(dst = HeapAlloc( GetProcessHeap(), 0, len + 1 ))) return NULL;
+    memcpy( dst, buffer, len );
+    return dst;
 }
 
-const char **steamclient_dos_to_unix_stringlist(const char **src)
+void steamclient_free_path( const char *path )
+{
+    HeapFree( GetProcessHeap(), 0, (char *)path );
+}
+
+const char **steamclient_dos_to_unix_path_array( const char **src )
 {
     size_t len;
     const char **s;
@@ -313,14 +323,12 @@ const char **steamclient_dos_to_unix_stringlist(const char **src)
     return (const char **)out;
 }
 
-void steamclient_free_stringlist(const char **out)
+void steamclient_free_path_array( const char **path_array )
 {
-    if(out){
-        const char **o;
-        for(o = out; *o; o++)
-            HeapFree(GetProcessHeap(), 0, (char *)*o);
-        HeapFree(GetProcessHeap(), 0, out);
-    }
+    const char **path;
+    if (!path_array) return;
+    for (path = path_array; *path; path++) HeapFree( GetProcessHeap(), 0, *(char **)path );
+    HeapFree( GetProcessHeap(), 0, path_array );
 }
 
 static BYTE *alloc_start, *alloc_end;
@@ -380,11 +388,12 @@ static void *get_mem_from_steamclient_dll(size_t size, unsigned int version, voi
 
     if (!alloc_base)
     {
+        static const WCHAR steamclientW[] = {'s','t','e','a','m','c','l','i','e','n','t','.','d','l','l',0};
         const IMAGE_SECTION_HEADER *sec;
         const IMAGE_NT_HEADERS *nt;
         HMODULE mod;
 
-        if (!(mod = GetModuleHandleW(L"steamclient.dll")))
+        if (!(mod = GetModuleHandleW(steamclientW)))
         {
             /* That is steamclient64.dll for x64 but no known use cases on x64.*/
             WARN("Module not found, err %u.\n", GetLastError());
@@ -637,7 +646,7 @@ uint32 manual_convert_nNativeKeyCode(uint32 win_vk)
 
 static const struct {
     const char *iface_version;
-    void *(*ctor)(void *);
+    struct w_steam_iface *(*ctor)(void *);
 } constructors[] = {
 #include "win_constructors_table.dat"
 };
@@ -646,30 +655,30 @@ struct steamclient_interface
 {
     struct list entry;
     const char *name;
-    void *linux_side;
-    void *interface;
+    void *u_iface;
+    struct w_steam_iface *w_iface;
 };
 
 static struct list steamclient_interfaces = LIST_INIT(steamclient_interfaces);
 
-void *create_win_interface(const char *name, void *linux_side)
+struct w_steam_iface *create_win_interface(const char *name, void *u_iface)
 {
     struct steamclient_interface *e;
-    void *ret = NULL;
+    struct w_steam_iface *ret = NULL;
     int i;
 
     TRACE("trying to create %s\n", name);
 
-    if (!linux_side)
+    if (!u_iface)
         return NULL;
 
     EnterCriticalSection(&steamclient_cs);
 
     LIST_FOR_EACH_ENTRY(e, &steamclient_interfaces, struct steamclient_interface, entry)
     {
-        if (e->linux_side == linux_side && !strcmp(e->name, name))
+        if (e->u_iface == u_iface && !strcmp(e->name, name))
         {
-            ret = e->interface;
+            ret = e->w_iface;
             TRACE("-> %p\n", ret);
             goto done;
         }
@@ -679,9 +688,8 @@ void *create_win_interface(const char *name, void *linux_side)
     {
         if (!strcmp(name, constructors[i].iface_version))
         {
-            ret = constructors[i].ctor(linux_side);
-            if (allocated_from_steamclient_dll(ret)
-                    || allocated_from_steamclient_dll(*(void **)ret) /* vtable */)
+            ret = constructors[i].ctor(u_iface);
+            if (allocated_from_steamclient_dll(ret) || allocated_from_steamclient_dll(ret->vtable))
             {
                 /* Don't cache interfaces allocated from steamclient.dll space.
                  * steamclient may get reloaded by the app, miss the previous
@@ -691,8 +699,8 @@ void *create_win_interface(const char *name, void *linux_side)
 
             e = HeapAlloc(GetProcessHeap(), 0, sizeof(*e));
             e->name = constructors[i].iface_version;
-            e->linux_side = linux_side;
-            e->interface = ret;
+            e->u_iface = u_iface;
+            e->w_iface = ret;
             list_add_tail(&steamclient_interfaces, &e->entry);
 
             break;
@@ -845,7 +853,7 @@ static int load_steamclient(void)
     snprintf(path, PATH_MAX, "%s/.steam/sdk32/steamclient.so", getenv("HOME"));
 #endif
     if (realpath(path, resolved_path)){
-        strncpy(path, resolved_path, PATH_MAX);
+        lstrcpynA(path, resolved_path, PATH_MAX);
         path[PATH_MAX - 1] = 0;
     }
 #endif
@@ -985,51 +993,45 @@ static int get_callback_len(int cb)
     return 0;
 }
 
-bool do_cb_wrap(HSteamPipe pipe, void *linux_side,
-        bool (*cpp_func)(void *, SteamAPICall_t, void *, int, int, bool *),
-        SteamAPICall_t call, void *callback, int callback_len, int cb_expected, bool *failed)
+void *alloc_callback_wtou( int id, void *callback, int *callback_len )
 {
-    void *lin_callback = NULL;
-    int lin_callback_len;
-    bool ret;
+    int len;
 
-    lin_callback_len = get_callback_len(cb_expected);
-    if(!lin_callback_len){
-        /* structs are compatible, pass on through */
-        if(!cpp_func){
-            if(!load_steamclient())
-                return 0;
-            return steamclient_GetAPICallResult(pipe, call, callback, callback_len, cb_expected, failed);
-        }
-        return cpp_func(linux_side, call, callback, callback_len, cb_expected, failed);
-    }
+    if (!(len = get_callback_len( id ))) return callback;
+    callback = HeapAlloc( GetProcessHeap(), 0, len );
+    *callback_len = len;
 
-    /* structs require conversion */
-    lin_callback = HeapAlloc(GetProcessHeap(), 0, lin_callback_len);
-
-    if(!cpp_func){
-        if(!load_steamclient())
-            return 0;
-        ret = steamclient_GetAPICallResult(pipe, call, lin_callback, lin_callback_len, cb_expected, failed);
-    }else
-        ret = cpp_func(linux_side, call, lin_callback, lin_callback_len, cb_expected, failed);
-
-    if(ret){
-        switch(cb_expected){
-#include "cb_getapi_table.dat"
-        }
-    }
-
-    HeapFree(GetProcessHeap(), 0, lin_callback);
-
-    return ret;
+    return callback;
 }
 
-bool CDECL Steam_GetAPICallResult(HSteamPipe pipe, SteamAPICall_t call,
-        void *callback, int callback_len, int cb_expected, bool *failed)
+void convert_callback_utow( int id, void *lin_callback, int lin_callback_len, void *callback, int callback_len )
 {
-    TRACE("%u, x, %p, %u, %u, %p\n", pipe, callback, callback_len, cb_expected, failed);
-    return do_cb_wrap(pipe, NULL, NULL, call, callback, callback_len, cb_expected, failed);
+    switch (id)
+    {
+#include "cb_getapi_table.dat"
+    }
+}
+
+bool CDECL Steam_GetAPICallResult( HSteamPipe pipe, SteamAPICall_t call, void *w_callback,
+                                   int w_callback_len, int id, bool *failed )
+{
+    int u_callback_len = w_callback_len;
+    void *u_callback;
+    bool ret;
+
+    TRACE( "%u, x, %p, %u, %u, %p\n", pipe, w_callback, w_callback_len, id, failed );
+
+    if (!load_steamclient()) return FALSE;
+
+    if (!(u_callback = alloc_callback_wtou( id, w_callback, &u_callback_len ))) return FALSE;
+    ret = steamclient_GetAPICallResult( pipe, call, u_callback, u_callback_len, id, failed );
+
+    if (ret && u_callback != w_callback)
+    {
+        convert_callback_utow( id, u_callback, u_callback_len, w_callback, w_callback_len );
+        HeapFree( GetProcessHeap(), 0, u_callback );
+    }
+    return ret;
 }
 
 bool CDECL Steam_FreeLastCallback(HSteamPipe pipe)

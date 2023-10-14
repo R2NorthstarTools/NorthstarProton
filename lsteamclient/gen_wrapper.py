@@ -5,12 +5,11 @@
 
 CLANG_PATH='/usr/lib/clang/15'
 
-from clang.cindex import CursorKind, Index, Type, TypeKind
+from clang.cindex import Cursor, CursorKind, Index, TypeKind
 from collections import namedtuple
 import concurrent.futures
 import os
 import re
-import math
 
 SDK_VERSIONS = [
     "158",
@@ -260,7 +259,7 @@ def method_needs_manual_handling(interface_with_version, method_name):
     return method and method.version_func(version)
 
 def post_execution_function(classname, method_name):
-    return POST_EXEC_FUNCS.get(classname + "_" + method_name)
+    return POST_EXEC_FUNCS.get(classname + "_" + method_name, None)
 
 # manual converters for simple types (function pointers)
 MANUAL_TYPES = [
@@ -293,717 +292,591 @@ WRAPPED_CLASSES = [
     "ISteamNetworkingFakeUDPPort",
 ]
 
+all_classes = {}
 all_records = {}
 all_sources = {}
 all_versions = {}
 
-PATH_CONV = [
-    {
-        "parent_name": "GetAppInstallDir",
-        "l2w_names": ["pchDirectory"],
-        "l2w_lens": ["cchNameMax"],
-        "l2w_urls": [False],
-        "w2l_names": [],
-        "w2l_arrays": [],
-        "w2l_urls": [],
-        "return_is_size": True
+PATH_CONV_METHODS_UTOW = {
+    "ISteamAppList_GetAppInstallDir": {
+        "pchDirectory": {"len": "cchNameMax", "url": False},
+        "ret_size": True,
     },
-    {
-        "parent_name": "GetAppInstallDir",
-        "l2w_names": ["pchFolder"],
-        "l2w_lens": ["cchFolderBufferSize"],
-        "l2w_urls": [False],
-        "w2l_names": [],
-        "w2l_arrays": [],
-        "w2l_urls": [],
-        "return_is_size": True
+    "ISteamApps_GetAppInstallDir": {
+        "pchFolder": {"len": "cchFolderBufferSize", "url": False},
+        "ret_size": True,
     },
-    {
-        "parent_name": "GetFileDetails",
-        "l2w_names": [],
-        "l2w_lens": [],
-        "l2w_urls": [],
-        "w2l_names": ["pszFileName"],
-        "w2l_arrays": [False],
-        "w2l_urls": [False],
-        "return_is_size": True
+    "ISteamUGC_GetQueryUGCAdditionalPreview": {
+        "pchURLOrVideoID": {"len": "cchURLSize", "url": True},
+    },
+    "ISteamUGC_GetItemInstallInfo": {
+        "pchFolder": {"len": "cchFolderSize", "url": False},
+    },
+    "ISteamUser_GetUserDataFolder": {
+        "pchBuffer": {"len": "cubBuffer", "url": False},
+    },
+}
+
+PATH_CONV_METHODS_WTOU = {
+    "ISteamApps_GetFileDetails": {
+        "pszFileName": {"array": False, "url": False},
     },
     ### ISteamGameServer::SetModDir - "Just the folder name, not the whole path. I.e. "Spacewar"."
-    {
-        "parent_name": "LoadURL",
-        "l2w_names": [],
-        "l2w_lens": [],
-        "l2w_urls": [],
-        "w2l_names": ["pchURL"],
-        "w2l_arrays": [False],
-        "w2l_urls": [True],
-        "return_is_size": False
+    "ISteamHTMLSurface_LoadURL": {
+        "pchURL": {"array": False, "url": True},
     },
-    {
-        "parent_name": "FileLoadDialogResponse",
-        "l2w_names": [],
-        "l2w_lens": [],
-        "l2w_urls": [],
-        "w2l_names": ["pchSelectedFiles"],
-        "w2l_arrays": [True],
-        "w2l_urls": [False],
-        "return_is_size": False
+    "ISteamHTMLSurface_FileLoadDialogResponse": {
+        "pchSelectedFiles": {"array": True, "url": False},
     },
-    {
-        "parent_name": "HTML_StartRequest_t",
-        "l2w_names": ["pchURL"],
-        "l2w_lens": [None],
-        "l2w_urls": [True],
-        "w2l_names": [],
-        "w2l_arrays": [],
-        "w2l_urls": [],
-        "return_is_size": False
+    "ISteamRemoteStorage_PublishWorkshopFile": {
+        "pchFile": {"array": False, "url": False},
+        "pchPreviewFile": {"array": False, "url": False},
     },
-    {
-        "parent_name": "HTML_URLChanged_t",
-        "l2w_names": ["pchURL"],
-        "l2w_lens": [None],
-        "l2w_urls": [True],
-        "w2l_names": [],
-        "w2l_arrays": [],
-        "w2l_urls": [],
-        "return_is_size": False
+    "ISteamRemoteStorage_UpdatePublishedFileFile": {
+        "pchFile": {"array": False, "url": False},
     },
-    {
-        "parent_name": "HTML_FinishedRequest_t",
-        "l2w_names": ["pchURL"],
-        "l2w_lens": [None],
-        "l2w_urls": [True],
-        "w2l_names": [],
-        "w2l_arrays": [],
-        "w2l_urls": [],
-        "return_is_size": False
+    "ISteamRemoteStorage_UpdatePublishedFilePreviewFile": {
+        "pchPreviewFile": {"array": False, "url": False},
     },
-    {
-        "parent_name": "HTML_OpenLinkInNewTab_t",
-        "l2w_names": ["pchURL"],
-        "l2w_lens": [None],
-        "l2w_urls": [True],
-        "w2l_names": [],
-        "w2l_arrays": [],
-        "w2l_urls": [],
-        "return_is_size": False
+    "ISteamRemoteStorage_PublishVideo": {
+        "pchPreviewFile": {"array": False, "url": False},
     },
-    {
-        "parent_name": "HTML_LinkAtPosition_t",
-        "l2w_names": ["pchURL"],
-        "l2w_lens": [None],
-        "l2w_urls": [True],
-        "w2l_names": [],
-        "w2l_arrays": [],
-        "w2l_urls": [],
-        "return_is_size": False
+    "ISteamScreenshots_AddScreenshotToLibrary": {
+        "pchFilename": {"array": False, "url": False},
+        "pchThumbnailFilename": {"array": False, "url": False},
     },
-    {
-        "parent_name": "HTML_FileOpenDialog_t",
-        "l2w_names": ["pchInitialFile"],
-        "l2w_lens": [None],
-        "l2w_urls": [True],
-        "w2l_names": [],
-        "w2l_arrays": [],
-        "w2l_urls": [],
-        "return_is_size": False
+    "ISteamScreenshots_AddVRScreenshotToLibrary": {
+        "pchFilename": {"array": False, "url": False},
+        "pchVRFilename": {"array": False, "url": False},
     },
-    {
-        "parent_name": "HTML_NewWindow_t",
-        "l2w_names": ["pchURL"],
-        "l2w_lens": [None],
-        "l2w_urls": [True],
-        "w2l_names": [],
-        "w2l_arrays": [],
-        "w2l_urls": [],
-        "return_is_size": False
+    "ISteamRemoteStorage_UGCDownloadToLocation": {
+        "pchLocation": {"array": False, "url": False},
     },
-    {
-        "parent_name": "PublishWorkshopFile",
-        "l2w_names": [],
-        "l2w_lens": [],
-        "l2w_urls": [],
-        "w2l_names": ["pchFile", "pchPreviewFile"],
-        "w2l_arrays": [False, False],
-        "w2l_urls": [False, False],
-        "return_is_size": False
+    "ISteamUGC_SetItemContent": {
+        "pszContentFolder": {"array": False, "url": False},
     },
-    {
-        "parent_name": "UpdatePublishedFileFile",
-        "l2w_names": [],
-        "l2w_lens": [],
-        "l2w_urls": [],
-        "w2l_names": ["pchFile"],
-        "w2l_arrays": [False],
-        "w2l_urls": [False],
-        "return_is_size": False
+    "ISteamUGC_SetItemPreview": {
+        "pszPreviewFile": {"array": False, "url": False},
     },
-    {
-        "parent_name": "UpdatePublishedFilePreviewFile",
-        "l2w_names": [],
-        "l2w_lens": [],
-        "l2w_urls": [],
-        "w2l_names": ["pchPreviewFile"],
-        "w2l_arrays": [False],
-        "w2l_urls": [False],
-        "return_is_size": False
+    "ISteamUGC_AddItemPreviewFile": {
+        "pszPreviewFile": {"array": False, "url": False},
     },
-    {
-        "parent_name": "PublishVideo",
-        "l2w_names": [],
-        "l2w_lens": [],
-        "l2w_urls": [],
-        "w2l_names": ["pchPreviewFile"],
-        "w2l_arrays": [False],
-        "w2l_urls": [False],
-        "return_is_size": False
+    "ISteamUGC_UpdateItemPreviewFile": {
+        "pszPreviewFile": {"array": False, "url": False},
     },
-    {
-        "parent_name": "AddScreenshotToLibrary",
-        "l2w_names": [],
-        "l2w_lens": [],
-        "l2w_urls": [],
-        "w2l_names": ["pchFilename", "pchThumbnailFilename"],
-        "w2l_arrays": [False, False],
-        "w2l_urls": [False, False],
-        "return_is_size": False
+    "ISteamUGC_BInitWorkshopForGameServer": {
+        "pszFolder": {"array": False, "url": False},
     },
-    {
-        "parent_name": "AddVRScreenshotToLibrary",
-        "l2w_names": [],
-        "l2w_lens": [],
-        "l2w_urls": [],
-        "w2l_names": ["pchFilename", "pchVRFilename"],
-        "w2l_arrays": [False, False],
-        "w2l_urls": [False, False],
-        "return_is_size": False
+    "ISteamUtils_CheckFileSignature": {
+        "szFileName": {"array": False, "url": False},
     },
-    {
-        "parent_name": "UGCDownloadToLocation",
-        "l2w_names": [],
-        "l2w_lens": [],
-        "l2w_urls": [],
-        "w2l_names": ["pchLocation"],
-        "w2l_arrays": [False],
-        "w2l_urls": [False],
-        "return_is_size": False
+    "ISteamController_Init": {
+        "pchAbsolutePathToControllerConfigVDF": {"array": False, "url": False},
     },
-    {
-        "parent_name": "GetQueryUGCAdditionalPreview",
-        "l2w_names": ["pchURLOrVideoID"],
-        "l2w_lens": ["cchURLSize"],
-        "l2w_urls": [True],
-        "w2l_names": [],
-        "w2l_arrays": [],
-        "w2l_urls": [],
-        "return_is_size": False
+    "ISteamInput_SetInputActionManifestFilePath": {
+        "pchInputActionManifestAbsolutePath": {"array": False, "url": False},
     },
-    {
-        "parent_name": "SetItemContent",
-        "l2w_names": [],
-        "l2w_lens": [],
-        "l2w_urls": [],
-        "w2l_names": ["pszContentFolder"],
-        "w2l_arrays": [False],
-        "w2l_urls": [False],
-        "return_is_size": False
-    },
-    {
-        "parent_name": "SetItemPreview",
-        "l2w_names": [],
-        "l2w_lens": [],
-        "l2w_urls": [],
-        "w2l_names": ["pszPreviewFile"],
-        "w2l_arrays": [False],
-        "w2l_urls": [False],
-        "return_is_size": False
-    },
-    {
-        "parent_name": "AddItemPreviewFile",
-        "l2w_names": [],
-        "l2w_lens": [],
-        "l2w_urls": [],
-        "w2l_names": ["pszPreviewFile"],
-        "w2l_arrays": [False],
-        "w2l_urls": [False],
-        "return_is_size": False
-    },
-    {
-        "parent_name": "UpdateItemPreviewFile",
-        "l2w_names": [],
-        "l2w_lens": [],
-        "l2w_urls": [],
-        "w2l_names": ["pszPreviewFile"],
-        "w2l_arrays": [False],
-        "w2l_urls": [False],
-        "return_is_size": False
-    },
-    {
-        "parent_name": "GetItemInstallInfo",
-        "l2w_names": ["pchFolder"],
-        "l2w_lens": ["cchFolderSize"],
-        "l2w_urls": [False],
-        "w2l_names": [],
-        "w2l_arrays": [],
-        "w2l_urls": [],
-        "return_is_size": False
-    },
-    {
-        "parent_name": "BInitWorkshopForGameServer",
-        "l2w_names": [],
-        "l2w_lens": [],
-        "l2w_urls": [],
-        "w2l_names": ["pszFolder"],
-        "w2l_arrays": [False],
-        "w2l_urls": [False],
-        "return_is_size": False
-    },
-    {
-        "parent_name": "GetUserDataFolder",
-        "l2w_names": ["pchBuffer"],
-        "l2w_lens": ["cubBuffer"],
-        "l2w_urls": [False],
-        "w2l_names": [],
-        "w2l_arrays": [],
-        "w2l_urls": [],
-        "return_is_size": False
-    },
-    {
-        "parent_name": "CheckFileSignature",
-        "l2w_names": [],
-        "l2w_lens": [],
-        "l2w_urls": [],
-        "w2l_names": ["szFileName"],
-        "w2l_arrays": [False],
-        "w2l_urls": [False],
-        "return_is_size": False
-    },
-    {
-        "parent_name": "Init",
-        "l2w_names": [],
-        "l2w_lens": [],
-        "l2w_urls": [],
-        "w2l_names": ["pchAbsolutePathToControllerConfigVDF"],
-        "w2l_arrays": [False],
-        "w2l_urls": [False],
-        "return_is_size": False
-    },
-    {
-        "parent_name": "SetInputActionManifestFilePath",
-        "l2w_names": [],
-        "l2w_lens": [],
-        "l2w_urls": [],
-        "w2l_names": ["pchInputActionManifestAbsolutePath"],
-        "w2l_arrays": [False],
-        "w2l_urls": [False],
-        "return_is_size": False
-    },
-]
+}
 
-def strip_const(typename):
-    return typename.replace("const ", "", 1)
+PATH_CONV_STRUCTS = {
+    "HTML_StartRequest_t": {
+        "pchURL": True,
+    },
+    "HTML_URLChanged_t": {
+        "pchURL": True,
+    },
+    "HTML_FinishedRequest_t": {
+        "pchURL": True,
+    },
+    "HTML_OpenLinkInNewTab_t": {
+        "pchURL": True,
+    },
+    "HTML_LinkAtPosition_t": {
+        "pchURL": True,
+    },
+    "HTML_FileOpenDialog_t": {
+        "pchInitialFile": True,
+    },
+    "HTML_NewWindow_t": {
+        "pchURL": True,
+    },
+}
 
-windows_structs32 = {}
-def find_windows_struct(struct):
-    return windows_structs32.get(strip_const(struct.spelling), None)
 
-windows_structs64 = {}
-def find_windows64_struct(struct):
-    return windows_structs64.get(strip_const(struct.spelling), None)
+class Method:
+    def __init__(self, sdkver, abi, cursor, index, override):
+        self._sdkver = sdkver
+        self._abi = abi
 
-linux_structs64 = {}
-def find_linux64_struct(struct):
-    return linux_structs64.get(strip_const(struct.spelling), None)
+        self._cursor = cursor
+        self._index = index
+        self._override = override
+
+        self.result_type = cursor.result_type
+        self.spelling = cursor.spelling
+
+    @property
+    def name(self):
+        if self._override > 1: return f'{self.spelling}_{self._override}'
+        return self.spelling
+
+    def get_arguments(self):
+        return self._cursor.get_arguments()
+
+    def get_children(self):
+        return self._cursor.get_children()
+
+
+class Destructor(Method):
+    def __init__(self, sdkver, abi, cursor, index, override):
+        super().__init__(sdkver, abi, cursor, index, override)
+
+    @property
+    def name(self):
+        if self._override > 1: return f'destructor_{self._override}'
+        return 'destructor'
+
+
+class Class:
+    def __init__(self, sdkver, abi, cursor):
+        self._sdkver = sdkver
+        self._abi = abi
+
+        self._cursor = cursor
+
+        self.spelling = cursor.spelling
+        self.filename = SDK_CLASSES[self.spelling]
+        self.version = self.spelling[1:].upper()
+        self.version = all_versions[sdkver][self.version]
+
+        self._methods = None
+
+    @property
+    def methods(self):
+        if self._methods:
+            return self._methods
+
+        overrides = {}
+        is_method = lambda c: c.kind == CursorKind.CXX_METHOD and c.is_virtual_method()
+        in_vtable = lambda c: is_method(c) or c.kind == CursorKind.DESTRUCTOR
+
+        self._methods = []
+        for i, method in enumerate(filter(in_vtable, self._cursor.get_children())):
+            index, override = overrides.get(method.spelling, (i, 1))
+            overrides[method.spelling] = (index, override + 1)
+            if method.kind == CursorKind.DESTRUCTOR:
+                self._methods.append(Destructor(self._sdkver, self._abi, method, index, override))
+            else:
+                self._methods.append(Method(self._sdkver, self._abi, method, index, override))
+
+        return self._methods
+
+    def get_children(self):
+        return self._cursor.get_children()
+
+
+def canonical_typename(cursor):
+    if type(cursor) is Cursor:
+        return canonical_typename(cursor.type)
+
+    name = cursor.get_canonical().spelling
+    return name.removeprefix("const ")
+
+
+def underlying_typename(decl):
+    return canonical_typename(underlying_type(decl))
+
+
+def find_struct_abis(name):
+    records = all_records[sdkver]
+    missing = [name not in records[abi] for abi in ABIS]
+    assert all(missing) or not any(missing)
+    if any(missing): return None
+    return {abi: records[abi][name].type for abi in ABIS}
+
 
 def struct_needs_conversion_nocache(struct):
-    if strip_const(struct.spelling) in EXEMPT_STRUCTS:
+    name = canonical_typename(struct)
+    if name in EXEMPT_STRUCTS:
         return False
-    if strip_const(struct.spelling) in MANUAL_STRUCTS:
+    if name in MANUAL_STRUCTS:
         return True
 
-    #check 32-bit compat
-    windows_struct = find_windows_struct(struct)
-    if windows_struct is None:
-        print("Couldn't find windows struct for " + struct.spelling)
-    assert(not windows_struct is None) #must find windows_struct
-    for field in struct.get_fields():
-        if struct.get_offset(field.spelling) != windows_struct.get_offset(field.spelling):
-            return True
-        if field.type.kind == TypeKind.RECORD and \
-                struct_needs_conversion(field.type):
-            return True
+    abis = find_struct_abis(name)
+    if abis is None:
+        return False
 
-    #check 64-bit compat
-    windows_struct = find_windows64_struct(struct)
-    assert(not windows_struct is None) #must find windows_struct
-    lin64_struct = find_linux64_struct(struct)
-    assert(not lin64_struct is None) #must find lin64_struct
-    for field in lin64_struct.get_fields():
-        if lin64_struct.get_offset(field.spelling) != windows_struct.get_offset(field.spelling):
-            return True
-        if field.type.kind == TypeKind.RECORD and \
-                struct_needs_conversion(field.type):
-            return True
+    names = {a: [f.spelling for f in abis[a].get_fields()]
+             for a in ABIS}
+    assert names['u32'] == names['u64']
+    assert names['u32'] == names['w32']
+    assert names['u32'] == names['w64']
 
-    #check if any members need path conversion
-    path_conv = get_path_converter(struct)
-    if path_conv:
+    offsets = {a: {f: abis[a].get_offset(f) for f in names[a]}
+               for a in ABIS}
+    if offsets['u32'] != offsets['w32']:
+        return True
+    if offsets['u64'] != offsets['w64']:
+        return True
+
+    types = {a: [f.type.get_canonical() for f in abis[a].get_fields()]
+             for a in ABIS}
+    if any(t.kind == TypeKind.RECORD and struct_needs_conversion(t)
+           for t in types['u32']):
+        return True
+    if any(t.kind == TypeKind.RECORD and struct_needs_conversion(t)
+           for t in types['u64']):
+        return True
+
+    if struct.spelling in PATH_CONV_STRUCTS:
         return True
     return False
 
+
 def struct_needs_conversion(struct):
+    name = canonical_typename(struct)
     if not sdkver in struct_conversion_cache:
         struct_conversion_cache[sdkver] = {}
-    if not strip_const(struct.spelling) in struct_conversion_cache[sdkver]:
-        struct_conversion_cache[sdkver][strip_const(struct.spelling)] = struct_needs_conversion_nocache(struct)
-    return struct_conversion_cache[sdkver][strip_const(struct.spelling)]
+    if not name in struct_conversion_cache[sdkver]:
+        struct_conversion_cache[sdkver][name] = struct_needs_conversion_nocache(struct)
+    return struct_conversion_cache[sdkver][name]
 
-def handle_destructor(cfile, classname, winclassname, method):
-    cfile.write(f"DEFINE_THISCALL_WRAPPER({winclassname}_destructor, 4)\n")
-    cfile.write(f"void __thiscall {winclassname}_destructor({winclassname} *_this)\n{{/* never called */}}\n\n")
-    return "destructor"
 
-def get_path_converter(parent):
-    for conv in PATH_CONV:
-        if conv["parent_name"] in parent.spelling:
-            if None in conv["l2w_names"]:
-                return conv
-            if type(parent) == Type:
-                children = list(parent.get_fields())
-            else:
-                children = list(parent.get_children())
-            for child in children:
-                if child.spelling in conv["w2l_names"] or \
-                        child.spelling in conv["l2w_names"]:
-                    return conv
-    return None
+def underlying_type(decl):
+    if type(decl) is Cursor:
+        decl = decl.type
+    if decl.kind == TypeKind.LVALUEREFERENCE: return underlying_type(decl.get_pointee())
+    if decl.kind == TypeKind.CONSTANTARRAY: return underlying_type(decl.element_type)
+    if decl.kind == TypeKind.POINTER: return underlying_type(decl.get_pointee())
+    return decl
 
-class DummyWriter(object):
-    def write(self, s):
-        #noop
-        pass
 
-def to_c_bool(b):
-    if b:
-        return "1"
-    return "0"
+def param_needs_conversion(decl):
+    decl = underlying_type(decl)
+    return decl.spelling not in WRAPPED_CLASSES and \
+           decl.kind == TypeKind.RECORD and \
+           struct_needs_conversion(decl)
 
-dummy_writer = DummyWriter()
 
-def handle_method(cfile, classname, winclassname, cppname, method, cpp, cpp_h, existing_methods):
-    used_name = method.spelling
-    if used_name in existing_methods:
-        number = '2'
-        while used_name in existing_methods:
-            idx = existing_methods.index(used_name)
-            used_name = f"{method.spelling}_{number}"
-            number = chr(ord(number) + 1)
-        existing_methods.insert(idx, used_name)
+def declspec(decl, name):
+    if type(decl) is Cursor:
+        decl = decl.type
+
+    const = 'const ' if decl.is_const_qualified() else ''
+    if decl.kind in (TypeKind.POINTER, TypeKind.LVALUEREFERENCE):
+        decl = decl.get_pointee()
+        return declspec(decl, f"*{const}{name}")
+    if decl.kind == TypeKind.CONSTANTARRAY:
+        decl, count = decl.element_type, decl.element_count
+        return declspec(decl, f"({const}{name})[{count}]")
+
+    if len(name):
+        name = f' {name}'
+
+    if decl.kind in (TypeKind.UNEXPOSED, TypeKind.FUNCTIONPROTO):
+        return f'void{name}'
+    if decl.kind == TypeKind.ENUM:
+        return f'{decl.spelling.split("::")[-1]}{name}'
+
+    if param_needs_conversion(decl):
+        return f"win{decl.spelling}_{sdkver}{name}"
+
+    if decl.spelling.startswith('const '):
+        const, type_name = 'const ', decl.spelling[6:]
     else:
-        existing_methods.append(used_name)
+        const, type_name = '', decl.spelling
+
+    if type_name.startswith('ISteam'):
+        return f'{const}void /*{type_name}*/{name}'
+
+    return f'{decl.spelling}{name}'
+
+
+def handle_method_hpp(method, cppname, out):
     returns_record = method.result_type.get_canonical().kind == TypeKind.RECORD
-    if returns_record:
-        parambytes = 8 #_this + return pointer
-    else:
-        parambytes = 4 #_this
-    for param in list(method.get_children()):
-        if param.kind == CursorKind.PARM_DECL:
-            if param.type.kind == TypeKind.LVALUEREFERENCE:
-                parambytes += 4
-            else:
-                parambytes += int(math.ceil(param.type.get_size()/4.0) * 4)
-    if method_needs_manual_handling(cppname, used_name):
-        cpp = dummy_writer #just don't write the cpp function
-    cfile.write(f"DEFINE_THISCALL_WRAPPER({winclassname}_{used_name}, {parambytes})\n")
-    cpp_h.write("extern ")
-    if method.result_type.spelling.startswith("ISteam"):
-        cfile.write(f"win{method.result_type.spelling} ")
-        cpp.write("void *")
-        cpp_h.write("void *")
-    elif returns_record:
-        cfile.write(f"{method.result_type.spelling} *")
-        cpp.write(f"{method.result_type.spelling} ")
-        cpp_h.write(f"{method.result_type.spelling} ")
-    else:
-        cfile.write(f"{method.result_type.spelling} ")
-        cpp.write(f"{method.result_type.spelling} ")
-        cpp_h.write(f"{method.result_type.spelling} ")
-    cfile.write(f'__thiscall {winclassname}_{used_name}({winclassname} *_this')
-    cpp.write(f"{cppname}_{used_name}(void *linux_side")
-    cpp_h.write(f"{cppname}_{used_name}(void *")
-    if returns_record:
-        cfile.write(f", {method.result_type.spelling} *_r")
-    unnamed = 'a'
-    need_convert = []
-    manual_convert = []
-    for param in list(method.get_children()):
-        if param.kind == CursorKind.PARM_DECL:
-            if param.type.kind == TypeKind.POINTER and \
-                (param.type.get_pointee().kind == TypeKind.UNEXPOSED or param.type.get_pointee().kind == TypeKind.FUNCTIONPROTO):
-                #unspecified function pointer
-                typename = "void *"
-            else:
-                typename = param.type.spelling.split("::")[-1]
 
-            real_type = param.type
-            while real_type.kind == TypeKind.POINTER:
-                real_type = real_type.get_pointee()
-            win_name = typename
-            if real_type.kind == TypeKind.RECORD and \
-                    not real_type.spelling in WRAPPED_CLASSES and \
-                    struct_needs_conversion(real_type):
-                need_convert.append(param)
-                #preserve pointers
-                win_name = typename.replace(real_type.spelling, f"win{real_type.spelling}_{sdkver}")
-            elif real_type.spelling in MANUAL_TYPES:
-                manual_convert.append(param)
-            elif param.spelling in MANUAL_PARAMS:
-                manual_convert.append(param)
+    ret = "*_ret" if returns_record else "_ret"
+    ret = f'{declspec(method.result_type, ret)}'
 
-            win_name = win_name.replace('&', '*')
+    names = [p.spelling if p.spelling != "" else f'_{chr(0x61 + i)}'
+             for i, p in enumerate(method.get_arguments())]
+    params = [declspec(p, names[i]) for i, p in enumerate(method.get_arguments())]
 
-            if param.spelling == "":
-                cfile.write(f", {win_name} _{unnamed}")
-                cpp.write(f", {win_name} _{unnamed}")
-                cpp_h.write(f", {win_name}")
-                unnamed = chr(ord(unnamed) + 1)
-            else:
-                cfile.write(f", {win_name} {param.spelling}")
-                cpp.write(f", {win_name} {param.spelling}")
-                cpp_h.write(f", {win_name}")
-    cfile.write(")\n{\n")
-    cpp.write(")\n{\n")
-    cpp_h.write(");\n")
+    if method.result_type.kind != TypeKind.VOID:
+        params = [ret] + params
+    params = ['void *linux_side'] + params
 
-    path_conv = get_path_converter(method)
+    out(f'struct {cppname}_{method.name}_params\n')
+    out(u'{\n')
+    for param in params:
+        out(f'    {param};\n')
+    out(u'};\n')
+    out(f'extern void {cppname}_{method.name}( struct {cppname}_{method.name}_params *params );\n\n')
 
-    if path_conv:
-        for i in range(len(path_conv["w2l_names"])):
-            if path_conv["w2l_arrays"][i]:
-                cfile.write(f"    const char **lin_{path_conv['w2l_names'][i]} = steamclient_dos_to_unix_stringlist({path_conv['w2l_names'][i]});\n")
-                # TODO
-                pass
-            else:
-                cfile.write(f"    char lin_{path_conv['w2l_names'][i]}[PATH_MAX];\n")
-                cfile.write(f"    steamclient_dos_path_to_unix_path({path_conv['w2l_names'][i]}, lin_{path_conv['w2l_names'][i]}, {to_c_bool(path_conv['w2l_urls'][i])});\n")
-        if None in path_conv["l2w_names"]:
-            cfile.write("    const char *path_result;\n")
-        elif path_conv["return_is_size"]:
-            cfile.write("    uint32 path_result;\n")
-        elif len(path_conv["l2w_names"]) > 0:
-            cfile.write(f"    {method.result_type.spelling} path_result;\n")
 
-    for param in need_convert:
-        if param.type.kind == TypeKind.POINTER:
-            #handle single pointers, but not double pointers
-            real_type = param.type
-            while real_type.kind == TypeKind.POINTER:
-                real_type = real_type.get_pointee()
-            assert(param.type.get_pointee().kind == TypeKind.RECORD or \
-                    strip_const(real_type.spelling) in MANUAL_STRUCTS)
-            cpp.write(f"    {strip_const(param.type.get_pointee().spelling)} lin_{param.spelling};\n")
-            cpp.write(f"    win_to_lin_struct_{strip_const(real_type.spelling)}_{sdkver}({param.spelling}, &lin_{param.spelling});\n")
+def handle_method_cpp(method, classname, cppname, out):
+    returns_void = method.result_type.kind == TypeKind.VOID
+    returns_record = method.result_type.get_canonical().kind == TypeKind.RECORD
+
+    names = [p.spelling if p.spelling != "" else f'_{chr(0x61 + i)}'
+             for i, p in enumerate(method.get_arguments())]
+
+    need_convert = {n: p for n, p in zip(names, method.get_arguments())
+                    if param_needs_conversion(p)}
+    manual_convert = {n: p for n, p in zip(names, method.get_arguments())
+                      if underlying_type(p).spelling in MANUAL_TYPES
+                      or p.spelling in MANUAL_PARAMS}
+
+    names = ['linux_side'] + names
+
+    out(f'void {cppname}_{method.name}( struct {cppname}_{method.name}_params *params )\n')
+    out(u'{\n')
+
+    need_output = {}
+
+    for name, param in sorted(need_convert.items()):
+        type_name = underlying_typename(param)
+
+        if param.type.kind != TypeKind.POINTER:
+            out(f'    {type_name} lin_{name};\n')
+            out(f'    win_to_lin_struct_{type_name}_{sdkver}( &params->{name}, &lin_{name} );\n')
+            continue
+
+        pointee = param.type.get_pointee()
+        if pointee.kind == TypeKind.POINTER:
+            need_output[name] = param
+            out(f'    {type_name} *lin_{name};\n')
+            continue
+
+        if not pointee.is_const_qualified():
+            need_output[name] = param
+
+        out(f'    {type_name} lin_{name};\n')
+        out(f'    win_to_lin_struct_{type_name}_{sdkver}( params->{name}, &lin_{name} );\n')
+
+    for name, param in sorted(manual_convert.items()):
+        if name in MANUAL_PARAMS:
+            out(f'    params->{name} = manual_convert_{name}( params->{name} );\n')
         else:
-            #raw structs
-            cpp.write(f"    {param.type.spelling} lin_{param.spelling};\n")
-            cpp.write(f"    win_to_lin_struct_{param.type.spelling}_{sdkver}(&{param.spelling}, &lin_{param.spelling});\n")
-    for param in manual_convert:
-        if param.spelling in MANUAL_PARAMS:
-            cpp.write(f"    {param.spelling} = manual_convert_{param.spelling}({param.spelling});\n")
-        else:
-            cpp.write(f"    {param.spelling} = ({param.type.spelling})manual_convert_{param.type.spelling}((void*){param.spelling});\n")
+            out(f'    params->{name} = ({param.type.spelling})manual_convert_{param.type.spelling}( (void *)params->{name} );\n')
 
-    cfile.write("    TRACE(\"%p\\n\", _this);\n")
-
-    if method.result_type.kind == TypeKind.VOID:
-        cfile.write("    ")
-    elif path_conv and (len(path_conv["l2w_names"]) > 0 or path_conv["return_is_size"]):
-        cfile.write("    path_result = ")
+    if returns_void:
+        out(u'    ')
     elif returns_record:
-        cfile.write("    *_r = ")
+        out(u'    *params->_ret = ')
     else:
-        cfile.write("    return ")
+        out(u'    params->_ret = ')
 
-    if method.result_type.kind == TypeKind.VOID:
-        cpp.write("    ")
-    elif len(need_convert) > 0:
-        cpp.write(f"    {method.result_type.spelling} retval = ")
-    else:
-        cpp.write("    return ")
+    def param_call(name, param):
+        pfx = '&' if param.type.kind == TypeKind.POINTER else ''
+        if name in need_convert: return f"{pfx}lin_{name}"
+        if param.type.kind == TypeKind.LVALUEREFERENCE: return f'*params->{name}'
+        return f"({param.type.spelling})params->{name}"
 
-    post_exec = post_execution_function(classname, method.spelling)
-    if post_exec != None:
-        cpp.write(post_exec + '(');
+    params = [param_call(n, p) for n, p in zip(names[1:], method.get_arguments())]
+    out(f'(({classname}*)params->linux_side)->{method.spelling}( {", ".join(params)} );\n')
 
-    should_do_cb_wrap = "GetAPICallResult" in used_name
-    should_gen_wrapper = cpp != dummy_writer and \
+    for name, param in sorted(need_output.items()):
+        type_name = underlying_typename(param)
+        out(f'    lin_to_win_struct_{type_name}_{sdkver}( &lin_{name}, params->{name} );\n')
+
+    if method.result_type.kind != TypeKind.VOID:
+        post_exec = post_execution_function(classname, method.spelling)
+        if post_exec: out(f'    params->_ret = {post_exec}( params->_ret );\n')
+    out(u'}\n\n')
+
+
+def handle_thiscall_wrapper(klass, method, out):
+    returns_record = method.result_type.get_canonical().kind == TypeKind.RECORD
+
+    def param_stack_size(param):
+        if param.type.kind == TypeKind.LVALUEREFERENCE: return 4
+        return ((param.type.get_size() + 3) // 4) * 4
+
+    size = 4 + sum(param_stack_size(p) for p in method.get_arguments())
+    if returns_record: size += 4
+
+    name = f'win{klass.spelling}_{klass.version}_{method.name}'
+    out(f'DEFINE_THISCALL_WRAPPER({name}, {size})\n')
+
+
+def handle_method_c(method, winclassname, cppname, out):
+    returns_void = method.result_type.kind == TypeKind.VOID
+    returns_record = method.result_type.get_canonical().kind == TypeKind.RECORD
+
+    ret = "*" if returns_record else ""
+    ret = f'{declspec(method.result_type, ret)} '
+
+    types = [p.type for p in method.get_arguments()]
+    names = [p.spelling if p.spelling != "" else f'_{chr(0x61 + i)}'
+             for i, p in enumerate(method.get_arguments())]
+    params = [declspec(p, names[i]) for i, p in enumerate(method.get_arguments())]
+
+    if returns_record:
+        params = [f'{declspec(method.result_type, "*_ret")}'] + params
+        types = [method.result_type] + types
+        names = ['_ret'] + names
+
+    params = ['struct w_steam_iface *_this'] + params
+    types = [None] + types
+    names = ['_this'] + names
+
+    out(f'{ret}__thiscall {winclassname}_{method.name}({", ".join(params)})\n')
+    out(u'{\n')
+
+    out(f'    struct {cppname}_{method.name}_params params =\n')
+    out(u'    {\n')
+    out(u'        .linux_side = _this->u_iface,\n')
+    for type, name in zip(types[1:], names[1:]):
+        iface = type.get_pointee().spelling if type.kind == TypeKind.POINTER else None
+        out(f'        .{name} = ')
+        if iface not in WRAPPED_CLASSES: out(f'{name},\n')
+        else: out(f'create_Linux{iface}({name}, "{winclassname}"),\n')
+    out(u'    };\n')
+
+    should_gen_callback = "GetAPICallResult" in method.name
+    if should_gen_callback:
+        out(u'    int w_callback_len = cubCallback;\n')
+        out(u'    void *w_callback = pCallback;\n')
+
+    path_conv_utow = PATH_CONV_METHODS_UTOW.get(f'{klass.spelling}_{method.spelling}', {})
+    path_conv_wtou = PATH_CONV_METHODS_WTOU.get(f'{klass.spelling}_{method.spelling}', {})
+
+    for name, conv in filter(lambda x: x[0] in names, path_conv_wtou.items()):
+        if conv['array']:
+            out(f'    params.{name} = steamclient_dos_to_unix_path_array( {name} );\n')
+        else:
+            out(f'    params.{name} = steamclient_dos_to_unix_path( {name}, {int(conv["url"])} );\n')
+
+    out(u'    TRACE("%p\\n", _this);\n')
+
+    if should_gen_callback:
+        out(u'    if (!(params.pCallback = alloc_callback_wtou(iCallbackExpected, w_callback, &params.cubCallback))) return FALSE;\n')
+
+    out(f'    {cppname}_{method.name}( &params );\n')
+
+    should_gen_wrapper = not method_needs_manual_handling(cppname, method.name) and \
             (method.result_type.spelling.startswith("ISteam") or \
-             used_name.startswith("GetISteamGenericInterface"))
-
-    if should_do_cb_wrap:
-        cfile.write(f"do_cb_wrap(0, _this->linux_side, &{cppname}_{used_name}")
-    else:
-        if should_gen_wrapper:
-            cfile.write("create_win_interface(pchVersion,\n        ")
-        cfile.write(f"{cppname}_{used_name}(_this->linux_side")
-    cpp.write(f"(({classname}*)linux_side)->{method.spelling}(")
-    unnamed = 'a'
-    first = True
-    for param in list(method.get_children()):
-        if param.kind == CursorKind.PARM_DECL:
-            if not first:
-                cpp.write(", ")
-            else:
-                first = False
-            if param.spelling == "":
-                cfile.write(f", _{unnamed}")
-                cpp.write(f"({param.type.spelling})_{unnamed}")
-                unnamed = chr(ord(unnamed) + 1)
-            elif param.type.kind == TypeKind.POINTER and \
-                    param.type.get_pointee().spelling in WRAPPED_CLASSES:
-                cfile.write(f", create_Linux{param.type.get_pointee().spelling}({param.spelling}, \"{winclassname}\")")
-                cpp.write(f"({param.type.spelling}){param.spelling}")
-            elif path_conv and param.spelling in path_conv["w2l_names"]:
-                cfile.write(f", {param.spelling} ? lin_{param.spelling} : NULL")
-                cpp.write(f"({param.type.spelling}){param.spelling}")
-            elif param in need_convert:
-                cfile.write(f", {param.spelling}")
-                if param.type.kind != TypeKind.POINTER:
-                    cpp.write(f"lin_{param.spelling}")
-                else:
-                    cpp.write(f"&lin_{param.spelling}")
-            elif param.type.kind == TypeKind.LVALUEREFERENCE:
-                cfile.write(f", {param.spelling}")
-                cpp.write(f"*{param.spelling}")
-            else:
-                cfile.write(f", {param.spelling}")
-                cpp.write(f"({param.type.spelling}){param.spelling}")
+             method.name.startswith("GetISteamGenericInterface"))
     if should_gen_wrapper:
-        cfile.write(")")
+        out(u'    params._ret = create_win_interface( pchVersion, params._ret );\n')
 
-    cfile.write(");\n")
-    if post_exec != None:
-        cpp.write(")")
-    cpp.write(");\n")
-    if returns_record:
-        cfile.write("    return _r;\n")
-    if path_conv and len(path_conv["l2w_names"]) > 0:
-        for i in range(len(path_conv["l2w_names"])):
-            cfile.write("    ")
-            if path_conv["return_is_size"]:
-                cfile.write("path_result = ")
-            cfile.write(f"steamclient_unix_path_to_dos_path(path_result, {path_conv['l2w_names'][i]}, {path_conv['l2w_names'][i]}, {path_conv['l2w_lens'][i]}, {to_c_bool(path_conv['l2w_urls'][i])});\n")
-        cfile.write("    return path_result;\n")
-    if path_conv:
-        for i in range(len(path_conv["w2l_names"])):
-            if path_conv["w2l_arrays"][i]:
-                cfile.write(f"    steamclient_free_stringlist(lin_{path_conv['w2l_names'][i]});\n")
-    cfile.write("}\n\n")
-    for param in need_convert:
-        if param.type.kind == TypeKind.POINTER:
-            if not "const " in param.type.spelling: #don't modify const arguments
-                real_type = param.type
-                while real_type.kind == TypeKind.POINTER:
-                    real_type = real_type.get_pointee()
-                cpp.write(f"    lin_to_win_struct_{real_type.spelling}_{sdkver}(&lin_{param.spelling}, {param.spelling});\n")
+    if should_gen_callback:
+        out(u'    if (params._ret && params.pCallback != w_callback)\n')
+        out(u'    {\n')
+        out(u'        convert_callback_utow(iCallbackExpected, params.pCallback, params.cubCallback, w_callback, w_callback_len);\n')
+        out(u'        HeapFree(GetProcessHeap(), 0, params.pCallback);\n')
+        out(u'    }\n\n')
+
+    for name, conv in filter(lambda x: x[0] in names, path_conv_utow.items()):
+        out(u'    ')
+        if "ret_size" in path_conv_utow:
+            out(u'params._ret = ')
+        out(f'steamclient_unix_path_to_dos_path( params._ret, {name}, {name}, {conv["len"]}, {int(conv["url"])} );\n')
+
+    for name, conv in filter(lambda x: x[0] in names, path_conv_wtou.items()):
+        if conv["array"]:
+            out(f'    steamclient_free_path_array( params.{name} );\n')
         else:
-            cpp.write(f"    lin_to_win_struct_{param.type.spelling}_{sdkver}(&lin_{param.spelling}, &{param.spelling});\n")
-    if method.result_type.kind != TypeKind.VOID and \
-            len(need_convert) > 0:
-        cpp.write("    return retval;\n")
-    cpp.write("}\n\n")
+            out(f'    steamclient_free_path( params.{name} );\n')
+
+    if not returns_void:
+        out(u'    return params._ret;\n')
+    out(u'}\n\n')
 
 
-def handle_class(sdkver, klass, version, file):
-    winname = f"win{klass.spelling}"
-    cppname = f"cpp{klass.spelling}_{version}"
+def handle_class(klass):
+    cppname = f"cpp{klass.spelling}_{klass.version}"
 
-    file_exists = os.path.isfile(f"{winname}.c")
-    cfile = open(f"{winname}.c", "a")
-    if not file_exists:
-        cfile.write("""/* This file is auto-generated, do not edit. */
-#include <stdarg.h>
+    with open(f"{cppname}.h", "w") as file:
+        out = file.write
 
-#include "windef.h"
-#include "winbase.h"
-#include "wine/debug.h"
+        for method in klass.methods:
+            if type(method) is Destructor:
+                continue
+            handle_method_hpp(method, cppname, out)
 
-#include "cxx.h"
+    with open(f"{cppname}.cpp", "w") as file:
+        out = file.write
 
-#include "steam_defs.h"
+        out(u'#include "steam_defs.h"\n')
+        out(u'#pragma push_macro("__cdecl")\n')
+        out(u'#undef __cdecl\n')
+        out(u'#define __cdecl\n')
+        out(f'#include "steamworks_sdk_{klass._sdkver}/steam_api.h"\n')
+        if os.path.isfile(f"steamworks_sdk_{klass._sdkver}/steamnetworkingtypes.h"):
+            out(f'#include "steamworks_sdk_{klass._sdkver}/steamnetworkingtypes.h"\n')
+        if klass.filename != "steam_api.h":
+            out(f'#include "steamworks_sdk_{klass._sdkver}/{klass.filename}"\n')
+        out(u'#pragma pop_macro("__cdecl")\n')
+        out(u'#include "steamclient_private.h"\n')
+        out(u'#ifdef __cplusplus\n')
+        out(u'extern "C" {\n')
+        out(u'#endif\n')
+        out(f'#define SDKVER_{klass._sdkver}\n')
+        out(u'#include "struct_converters.h"\n')
+        out(f'#include "{cppname}.h"\n')
 
-#include "steamclient_private.h"
+        for method in klass.methods:
+            if type(method) is Destructor:
+                continue
+            if method_needs_manual_handling(cppname, method.spelling):
+                continue
+            handle_method_cpp(method, klass.spelling, cppname, out)
 
-#include "struct_converters.h"
+        out(u'#ifdef __cplusplus\n')
+        out(u'}\n')
+        out(u'#endif\n')
 
-WINE_DEFAULT_DEBUG_CHANNEL(steamclient);
+    winclassname = f"win{klass.spelling}_{klass.version}"
+    with open(f"win{klass.spelling}.c", "a") as file:
+        out = file.write
 
-""")
+        out(f'#include "{cppname}.h"\n')
+        out(u'\n')
 
-    cpp = open(f"{cppname}.cpp", "w")
-    cpp.write("#include \"steam_defs.h\"\n")
-    cpp.write("#pragma push_macro(\"__cdecl\")\n")
-    cpp.write("#undef __cdecl\n")
-    cpp.write("#define __cdecl\n")
-    cpp.write(f"#include \"steamworks_sdk_{sdkver}/steam_api.h\"\n")
-    if os.path.isfile(f"steamworks_sdk_{sdkver}/steamnetworkingtypes.h"):
-        cpp.write(f"#include \"steamworks_sdk_{sdkver}/steamnetworkingtypes.h\"\n")
-    if not file == "steam_api.h":
-        cpp.write(f"#include \"steamworks_sdk_{sdkver}/{file}\"\n")
-    cpp.write("#pragma pop_macro(\"__cdecl\")\n")
-    cpp.write("#include \"steamclient_private.h\"\n")
-    cpp.write("#ifdef __cplusplus\nextern \"C\" {\n#endif\n")
-    cpp.write(f"#define SDKVER_{sdkver}\n")
-    cpp.write("#include \"struct_converters.h\"\n")
-    cpp.write(f"#include \"{cppname}.h\"\n")
+        for method in klass.methods:
+            handle_thiscall_wrapper(klass, method, out)
+        out('\n')
 
-    cpp_h = open(f"{cppname}.h", "w")
+        for method in klass.methods:
+            if type(method) is Destructor:
+                out(f'void __thiscall {winclassname}_{method.name}(struct w_steam_iface *_this)\n{{/* never called */}}\n\n')
+            else:
+                handle_method_c(method, winclassname, cppname, out)
 
-    winclassname = f"win{klass.spelling}_{version}"
-    cfile.write(f"#include \"{cppname}.h\"\n\n")
-    cfile.write(f"typedef struct __{winclassname} {{\n")
-    cfile.write("    vtable_ptr *vtable;\n")
-    cfile.write("    void *linux_side;\n")
-    cfile.write(f"}} {winclassname};\n\n")
-    methods = []
-    for child in klass.get_children():
-        if child.kind == CursorKind.CXX_METHOD and \
-                child.is_virtual_method():
-            handle_method(cfile, klass.spelling, winclassname, cppname, child, cpp, cpp_h, methods)
-        elif child.kind == CursorKind.DESTRUCTOR:
-            methods.append(handle_destructor(cfile, klass.spelling, winclassname, child))
-
-    cfile.write(f"extern vtable_ptr {winclassname}_vtable;\n\n")
-    cfile.write("#ifndef __GNUC__\n")
-    cfile.write("void __asm_dummy_vtables(void) {\n")
-    cfile.write("#endif\n")
-    cfile.write(f"    __ASM_VTABLE({winclassname},\n")
-    for method in methods:
-        cfile.write(f"        VTABLE_ADD_FUNC({winclassname}_{method})\n")
-    cfile.write("    );\n")
-    cfile.write("#ifndef __GNUC__\n")
-    cfile.write("}\n")
-    cfile.write("#endif\n\n")
-    cfile.write(f"{winclassname} *create_{winclassname}(void *linux_side)\n{{\n")
-    if klass.spelling in WRAPPED_CLASSES:
-        cfile.write(f"    {winclassname} *r = HeapAlloc(GetProcessHeap(), 0, sizeof({winclassname}));\n")
-    else:
-        cfile.write(f"    {winclassname} *r = alloc_mem_for_iface(sizeof({winclassname}), \"{version}\");\n")
-    cfile.write("    TRACE(\"-> %p\\n\", r);\n")
-    cfile.write(f"    r->vtable = alloc_vtable(&{winclassname}_vtable, {len(methods)}, \"{version}\");\n")
-    cfile.write("    r->linux_side = linux_side;\n")
-    cfile.write("    return r;\n}\n\n")
-
-    cpp.write("#ifdef __cplusplus\n}\n#endif\n")
+        out(f'extern vtable_ptr {winclassname}_vtable;\n')
+        out(u'\n')
+        out(u'#ifndef __GNUC__\n')
+        out(u'void __asm_dummy_vtables(void) {\n')
+        out(u'#endif\n')
+        out(f'    __ASM_VTABLE({winclassname},\n')
+        for method in sorted(klass.methods, key=lambda x: (x._index, -x._override)):
+            out(f'        VTABLE_ADD_FUNC({winclassname}_{method.name})\n')
+        out(u'    );\n')
+        out(u'#ifndef __GNUC__\n')
+        out(u'}\n')
+        out(u'#endif\n')
+        out(u'\n')
+        out(f'struct w_steam_iface *create_{winclassname}(void *u_iface)\n')
+        out(u'{\n')
+        if klass.spelling in WRAPPED_CLASSES:
+            out(u'    struct w_steam_iface *r = HeapAlloc(GetProcessHeap(), 0, sizeof(struct w_steam_iface));\n')
+        else:
+            out(f'    struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "{klass.version}");\n')
+        out(u'    TRACE("-> %p\\n", r);\n')
+        out(f'    r->vtable = alloc_vtable(&{winclassname}_vtable, {len(klass.methods)}, "{klass.version}");\n')
+        out(u'    r->u_iface = u_iface;\n')
+        out(u'    return r;\n')
+        out(u'}\n\n')
 
     constructors = open("win_constructors.h", "a")
-    constructors.write(f"extern void *create_{winclassname}(void *);\n")
+    constructors.write(f"extern struct w_steam_iface *create_{winclassname}(void *);\n")
 
     constructors = open("win_constructors_table.dat", "a")
-    for alias in VERSION_ALIASES.get(version, []):
+    for alias in VERSION_ALIASES.get(klass.version, []):
         constructors.write(f"    {{\"{alias}\", &create_{winclassname}}}, /* alias */\n")
-    constructors.write(f"    {{\"{version}\", &create_{winclassname}}},\n")
+    constructors.write(f"    {{\"{klass.version}\", &create_{winclassname}}},\n")
 
 
 generated_cb_handlers = []
@@ -1013,14 +886,9 @@ cb_table = {}
 cb_table64 = {}
 
 def get_field_attribute_str(field):
-    if field.type.kind != TypeKind.RECORD:
-        return ""
-    win_struct = find_windows_struct(field.type)
-    if win_struct is None:
-        align = field.type.get_align()
-    else:
-        align = win_struct.get_align()
-    return " __attribute__((aligned(" + str(align) + ")))"
+    if field.type.kind != TypeKind.RECORD: return ""
+    name = canonical_typename(field)
+    return f" __attribute__((aligned({find_struct_abis(name)['w32'].get_align()})))"
 
 #because of struct packing differences between win32 and linux, we
 #need to convert these structs from their linux layout to the win32
@@ -1085,7 +953,7 @@ def handle_struct(sdkver, struct):
         hfile.write(f"typedef struct win{struct_name} win{struct_name};\n")
         hfile.write(f"struct {struct.displayname};\n")
 
-        if strip_const(struct.spelling) in MANUAL_STRUCTS:
+        if canonical_typename(struct) in MANUAL_STRUCTS:
             hfile.write("#endif\n\n")
             return
 
@@ -1094,13 +962,14 @@ def handle_struct(sdkver, struct):
         hfile.write("#endif\n\n")
     else:
         #for callbacks, we use the windows struct size in the cb dispatch switch
-        windows_struct = find_windows_struct(struct.type)
-        windows_struct64 = find_windows64_struct(struct.type)
-        struct64 = find_linux64_struct(struct.type)
-        struct_name = f"{struct.displayname}_{windows_struct.get_size()}"
+        name = canonical_typename(struct)
+        abis = find_struct_abis(name)
+        size = {a: abis[a].get_size() for a in abis.keys()}
+
+        struct_name = f"{struct.displayname}_{size['w32']}"
         l2w_handler_name = f"cb_{struct_name}"
-        if windows_struct64.get_size() != windows_struct.get_size():
-            struct_name64 = f"{struct.displayname}_{windows_struct64.get_size()}"
+        if size['w64'] != size['w32']:
+            struct_name64 = f"{struct.displayname}_{size['w64']}"
             l2w_handler_name64 = f"cb_{struct_name64}"
         else:
             l2w_handler_name64 = None
@@ -1110,8 +979,8 @@ def handle_struct(sdkver, struct):
         if not struct_needs_conversion(struct.type):
             return
 
-        cb_id = cb_num | (struct.type.get_size() << 16)
-        cb_id64 = cb_num | (struct64.get_size() << 16)
+        cb_id = cb_num | (size['u32'] << 16)
+        cb_id64 = cb_num | (size['u64'] << 16)
         if cb_id in generated_cb_ids:
             # either this cb changed name, or steam used the same ID for different structs
             return
@@ -1121,29 +990,29 @@ def handle_struct(sdkver, struct):
         datfile = open("cb_converters.dat", "a")
         if l2w_handler_name64:
             datfile.write("#ifdef __i386__\n")
-            datfile.write(f"case 0x{cb_id:08x}: win_msg->m_cubParam = {windows_struct.get_size()}; win_msg->m_pubParam = HeapAlloc(GetProcessHeap(), 0, win_msg->m_cubParam); {l2w_handler_name}((void*)lin_msg.m_pubParam, (void*)win_msg->m_pubParam); break;\n")
+            datfile.write(f"case 0x{cb_id:08x}: win_msg->m_cubParam = {size['w32']}; win_msg->m_pubParam = HeapAlloc(GetProcessHeap(), 0, win_msg->m_cubParam); {l2w_handler_name}((void*)lin_msg.m_pubParam, (void*)win_msg->m_pubParam); break;\n")
             datfile.write("#endif\n")
 
             datfile.write("#ifdef __x86_64__\n")
-            datfile.write(f"case 0x{cb_id64:08x}: win_msg->m_cubParam = {windows_struct64.get_size()}; win_msg->m_pubParam = HeapAlloc(GetProcessHeap(), 0, win_msg->m_cubParam); {l2w_handler_name64}((void*)lin_msg.m_pubParam, (void*)win_msg->m_pubParam); break;\n")
+            datfile.write(f"case 0x{cb_id64:08x}: win_msg->m_cubParam = {size['w64']}; win_msg->m_pubParam = HeapAlloc(GetProcessHeap(), 0, win_msg->m_cubParam); {l2w_handler_name64}((void*)lin_msg.m_pubParam, (void*)win_msg->m_pubParam); break;\n")
             datfile.write("#endif\n")
         else:
-            datfile.write(f"case 0x{cb_id:08x}: win_msg->m_cubParam = {windows_struct.get_size()}; win_msg->m_pubParam = HeapAlloc(GetProcessHeap(), 0, win_msg->m_cubParam); {l2w_handler_name}((void*)lin_msg.m_pubParam, (void*)win_msg->m_pubParam); break;\n")
+            datfile.write(f"case 0x{cb_id:08x}: win_msg->m_cubParam = {size['w32']}; win_msg->m_pubParam = HeapAlloc(GetProcessHeap(), 0, win_msg->m_cubParam); {l2w_handler_name}((void*)lin_msg.m_pubParam, (void*)win_msg->m_pubParam); break;\n")
 
         generated_cb_handlers.append(l2w_handler_name)
 
         if not cb_num in cb_table.keys():
             # latest SDK linux size, list of windows struct sizes and names
-            cb_table[cb_num] = (struct.type.get_size(), [])
+            cb_table[cb_num] = (size['u32'], [])
             if l2w_handler_name64:
-                cb_table64[cb_num] = (struct64.get_size(), [])
+                cb_table64[cb_num] = (size['u64'], [])
             else:
-                cb_table64[cb_num] = (struct.type.get_size(), [])
-        cb_table[cb_num][1].append((windows_struct.get_size(), struct_name))
+                cb_table64[cb_num] = (size['u32'], [])
+        cb_table[cb_num][1].append((size['w32'], struct_name))
         if l2w_handler_name64:
-            cb_table64[cb_num][1].append((windows_struct64.get_size(), struct_name64))
+            cb_table64[cb_num][1].append((size['w64'], struct_name64))
         else:
-            cb_table64[cb_num][1].append((windows_struct.get_size(), struct_name))
+            cb_table64[cb_num][1].append((size['w32'], struct_name))
 
         hfile = open("cb_converters.h", "a")
         hfile.write(f"struct {struct.displayname};\n")
@@ -1185,7 +1054,7 @@ def handle_struct(sdkver, struct):
         cppfile.write("#include \"struct_converters.h\"\n")
         cpp_files_need_close_brace.append(cppname)
 
-    path_conv = get_path_converter(struct.type)
+    path_conv_fields = PATH_CONV_STRUCTS.get(struct.type.spelling, {})
 
     def handle_field(m, src, dst):
         if m.kind == CursorKind.FIELD_DECL:
@@ -1196,12 +1065,8 @@ def handle_struct(sdkver, struct):
             elif m.type.kind == TypeKind.RECORD and \
                     struct_needs_conversion(m.type):
                 cppfile.write(f"    {src}_to_{dst}_struct_{m.type.spelling}_{sdkver}(&{src}->{m.displayname}, &{dst}->{m.displayname});\n")
-            elif path_conv and m.displayname in path_conv["l2w_names"]:
-                for i in range(len(path_conv["l2w_names"])):
-                    if path_conv["l2w_names"][i] == m.displayname:
-                        url = path_conv["l2w_urls"][i]
-                        break
-                cppfile.write(f"    steamclient_unix_path_to_dos_path(1, {src}->{m.displayname}, g_tmppath, sizeof(g_tmppath), {to_c_bool(url)});\n")
+            elif m.displayname in path_conv_fields:
+                cppfile.write(f"    steamclient_unix_path_to_dos_path(1, {src}->{m.displayname}, g_tmppath, sizeof(g_tmppath), 1);\n")
                 cppfile.write(f"    {dst}->{m.displayname} = g_tmppath;\n")
             else:
                 cppfile.write(f"    {dst}->{m.displayname} = {src}->{m.displayname};\n")
@@ -1244,7 +1109,7 @@ def handle_struct(sdkver, struct):
             cppfile.write("\n")
 
 
-def parse(sources, abi):
+def parse(sources, sdkver, abi):
     args = [f'-m{abi[1:]}', '-I' + CLANG_PATH + '/include/']
     if abi[0] == 'w':
         args += ["-D_WIN32", "-U__linux__"]
@@ -1259,11 +1124,7 @@ def parse(sources, abi):
     for diag in diagnostics: print(diag)
     assert len(diagnostics) == 0
 
-    structs = build.cursor.get_children()
-    structs = [(child.spelling, child.type) for child in structs]
-    structs = dict(reversed(structs))
-
-    return build, structs
+    return sdkver, abi, build
 
 
 def load(sdkver):
@@ -1296,20 +1157,9 @@ def load(sdkver):
 
 
 def generate(sdkver, records):
-    global linux_structs32
-    global linux_structs64
-    global windows_structs32
-    global windows_structs64
-
     print(f'generating SDK version {sdkver}...')
-    linux_build32, linux_structs32 = records['u32']
-    linux_build64, linux_structs64 = records['u64']
-    windows_build32, windows_structs32 = records['w32']
-    windows_build64, windows_structs64 = records['w64']
-
-    for child in linux_build32.cursor.get_children():
-        if child.kind in [CursorKind.STRUCT_DECL, CursorKind.CLASS_DECL]:
-            handle_struct(sdkver, child)
+    for child in records['u32'].values():
+        handle_struct(sdkver, child)
 
 
 for i, sdkver in enumerate(SDK_VERSIONS):
@@ -1317,48 +1167,70 @@ for i, sdkver in enumerate(SDK_VERSIONS):
     all_versions[sdkver], all_sources[sdkver] = load(sdkver)
 print('loading SDKs... 100%')
 
+
+tmp_classes = {}
+
 with concurrent.futures.ThreadPoolExecutor() as executor:
     arg0 = [sdkver for sdkver in SDK_VERSIONS for abi in ABIS]
     arg1 = [abi for sdkver in SDK_VERSIONS for abi in ABIS]
     def parse_map(sdkver, abi):
-        return sdkver, abi, parse(all_sources[sdkver], abi)
+        return parse(all_sources[sdkver], sdkver, abi)
 
     results = executor.map(parse_map, arg0, arg1)
     for i, result in enumerate(results):
         print(f'parsing SDKs... {i * 100 // len(arg0)}%', end='\r')
-        sdkver, abi, index = result
+        sdkver, abi, build = result
         if sdkver not in all_records: all_records[sdkver] = {}
-        all_records[sdkver][abi] = index
+        if sdkver not in tmp_classes: tmp_classes[sdkver] = {}
+
+        versions = all_versions[sdkver]
+
+        records = build.cursor.get_children()
+        record_kinds = (CursorKind.STRUCT_DECL, CursorKind.CLASS_DECL)
+        records = filter(lambda c: c.kind in record_kinds, records)
+        records = {canonical_typename(c): c for c in records}
+
+        classes = build.cursor.get_children()
+        classes = filter(lambda c: c.is_definition(), classes)
+        classes = filter(lambda c: c.kind == CursorKind.CLASS_DECL, classes)
+        classes = filter(lambda c: c.spelling in SDK_CLASSES, classes)
+        classes = filter(lambda c: c.spelling[1:].upper() in versions, classes)
+        classes = [Class(sdkver, abi, c) for c in classes]
+        classes = {c.version: c for c in classes}
+
+        all_records[sdkver][abi] = records
+        tmp_classes[sdkver][abi] = classes
+
+for i, sdkver in enumerate(reversed(SDK_VERSIONS)):
+    all_classes.update(tmp_classes[sdkver]['u32'])
+
 print('parsing SDKs... 100%')
 
 
-all_classes = {}
+for klass in all_classes.values():
+    with open(f"win{klass.spelling}.c", "w") as file:
+        out = file.write
 
-for i, sdkver in enumerate(reversed(SDK_VERSIONS)):
-    print(f'enumerating classes... {i * 100 // len(SDK_VERSIONS)}%', end='\r')
-    index, _ = all_records[sdkver]['u32']
-    versions = all_versions[sdkver]
+        out(u'/* This file is auto-generated, do not edit. */\n')
+        out(u'#include <stdarg.h>\n')
+        out(u'\n')
+        out(u'#include "windef.h"\n')
+        out(u'#include "winbase.h"\n')
+        out(u'#include "wine/debug.h"\n')
+        out(u'\n')
+        out(u'#include "steam_defs.h"\n')
+        out(u'\n')
+        out(u'#include "steamclient_private.h"\n')
+        out(u'\n')
+        out(u'#include "struct_converters.h"\n')
+        out(u'\n')
+        out(u'WINE_DEFAULT_DEBUG_CHANNEL(steamclient);\n')
+        out(u'\n')
 
-    classes = index.cursor.get_children()
-    classes = filter(lambda c: c.is_definition(), classes)
-    classes = filter(lambda c: c.kind == CursorKind.CLASS_DECL, classes)
-    classes = filter(lambda c: c.spelling in SDK_CLASSES, classes)
-    classes = filter(lambda c: c.spelling[1:].upper() in versions, classes)
-    classes = {versions[c.spelling[1:].upper()]: (sdkver, c) for c in classes}
 
-    all_classes.update(classes)
-print('enumerating classes... 100%')
-
-
-for version, tuple in sorted(all_classes.items()):
-    sdkver, klass = tuple
-
-    linux_build32, linux_structs32 = all_records[sdkver]['u32']
-    linux_build64, linux_structs64 = all_records[sdkver]['u64']
-    windows_build32, windows_structs32 = all_records[sdkver]['w32']
-    windows_build64, windows_structs64 = all_records[sdkver]['w64']
-
-    handle_class(sdkver, klass, version, SDK_CLASSES[klass.displayname])
+for _, klass in sorted(all_classes.items()):
+    sdkver = klass._sdkver
+    handle_class(klass)
 
 
 for sdkver in SDK_VERSIONS:

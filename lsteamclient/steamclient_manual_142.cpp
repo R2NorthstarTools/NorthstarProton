@@ -11,20 +11,23 @@ WINE_DEFAULT_DEBUG_CHANNEL(steamclient);
 #include "steam_defs.h"
 #pragma push_macro("__cdecl")
 #undef __cdecl
+#pragma push_macro("strncpy")
+#undef strncpy
 #include "steamworks_sdk_142/steam_api.h"
 #pragma pop_macro("__cdecl")
+#pragma pop_macro("strncpy")
 #include "steamclient_private.h"
 
 #define SDK_VERSION 1420
 #include "steamclient_manual_common.h"
 
 extern "C" {
-
-const char * cppISteamController_SteamController006_GetGlyphForActionOrigin(void *linux_side, EControllerActionOrigin eOrigin)
-{
-    const char *path_result;
-    path_result = ((ISteamController*)linux_side)->GetGlyphForActionOrigin((EControllerActionOrigin)eOrigin);
-    return steamclient_isteamcontroller_getglyph(eOrigin, path_result);
+#include "cppISteamController_SteamController006.h"
 }
 
+void cppISteamController_SteamController006_GetGlyphForActionOrigin( struct cppISteamController_SteamController006_GetGlyphForActionOrigin_params *params )
+{
+    ISteamController *iface = (ISteamController *)params->linux_side;
+    params->_ret = iface->GetGlyphForActionOrigin( (EControllerActionOrigin)params->eOrigin );
+    params->_ret = steamclient_isteamcontroller_getglyph( params->eOrigin, params->_ret );
 }
