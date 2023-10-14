@@ -184,4 +184,3 @@ $(OBJ)/.%-post-build64:
 	touch $@
 
 rules-common = $(call create-rules-common,$(1),$(call toupper,$(1)),$(2),$(3))
-
