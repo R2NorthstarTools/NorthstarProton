@@ -6,8 +6,6 @@
 #include "winbase.h"
 #include "wine/debug.h"
 
-#include "cxx.h"
-
 #include "vrclient_defs.h"
 
 #include "vrclient_private.h"
@@ -20,37 +18,58 @@ WINE_DEFAULT_DEBUG_CHANNEL(vrclient);
 
 #include "cppIVRDriverManager_IVRDriverManager_001.h"
 
-typedef struct __winIVRDriverManager_IVRDriverManager_001 {
-    vtable_ptr *vtable;
-    void *linux_side;
-} winIVRDriverManager_IVRDriverManager_001;
-
 DEFINE_THISCALL_WRAPPER(winIVRDriverManager_IVRDriverManager_001_GetDriverCount, 4)
-uint32_t __thiscall winIVRDriverManager_IVRDriverManager_001_GetDriverCount(winIVRDriverManager_IVRDriverManager_001 *_this)
-{
-    TRACE("%p\n", _this);
-    return cppIVRDriverManager_IVRDriverManager_001_GetDriverCount(_this->linux_side);
-}
-
 DEFINE_THISCALL_WRAPPER(winIVRDriverManager_IVRDriverManager_001_GetDriverName, 16)
-uint32_t __thiscall winIVRDriverManager_IVRDriverManager_001_GetDriverName(winIVRDriverManager_IVRDriverManager_001 *_this, DriverId_t nDriver, char * pchValue, uint32_t unBufferSize)
-{
-    TRACE("%p\n", _this);
-    return cppIVRDriverManager_IVRDriverManager_001_GetDriverName(_this->linux_side, nDriver, pchValue, unBufferSize);
-}
-
 DEFINE_THISCALL_WRAPPER(winIVRDriverManager_IVRDriverManager_001_GetDriverHandle, 8)
-DriverHandle_t __thiscall winIVRDriverManager_IVRDriverManager_001_GetDriverHandle(winIVRDriverManager_IVRDriverManager_001 *_this, const char * pchDriverName)
+DEFINE_THISCALL_WRAPPER(winIVRDriverManager_IVRDriverManager_001_IsEnabled, 8)
+
+uint32_t __thiscall winIVRDriverManager_IVRDriverManager_001_GetDriverCount(struct w_steam_iface *_this)
 {
+    struct cppIVRDriverManager_IVRDriverManager_001_GetDriverCount_params params =
+    {
+        .linux_side = _this->u_iface,
+    };
     TRACE("%p\n", _this);
-    return cppIVRDriverManager_IVRDriverManager_001_GetDriverHandle(_this->linux_side, pchDriverName);
+    cppIVRDriverManager_IVRDriverManager_001_GetDriverCount( &params );
+    return params._ret;
 }
 
-DEFINE_THISCALL_WRAPPER(winIVRDriverManager_IVRDriverManager_001_IsEnabled, 8)
-bool __thiscall winIVRDriverManager_IVRDriverManager_001_IsEnabled(winIVRDriverManager_IVRDriverManager_001 *_this, DriverId_t nDriver)
+uint32_t __thiscall winIVRDriverManager_IVRDriverManager_001_GetDriverName(struct w_steam_iface *_this, DriverId_t nDriver, char *pchValue, uint32_t unBufferSize)
 {
+    struct cppIVRDriverManager_IVRDriverManager_001_GetDriverName_params params =
+    {
+        .linux_side = _this->u_iface,
+        .nDriver = nDriver,
+        .pchValue = pchValue,
+        .unBufferSize = unBufferSize,
+    };
     TRACE("%p\n", _this);
-    return cppIVRDriverManager_IVRDriverManager_001_IsEnabled(_this->linux_side, nDriver);
+    cppIVRDriverManager_IVRDriverManager_001_GetDriverName( &params );
+    return params._ret;
+}
+
+DriverHandle_t __thiscall winIVRDriverManager_IVRDriverManager_001_GetDriverHandle(struct w_steam_iface *_this, const char *pchDriverName)
+{
+    struct cppIVRDriverManager_IVRDriverManager_001_GetDriverHandle_params params =
+    {
+        .linux_side = _this->u_iface,
+        .pchDriverName = pchDriverName,
+    };
+    TRACE("%p\n", _this);
+    cppIVRDriverManager_IVRDriverManager_001_GetDriverHandle( &params );
+    return params._ret;
+}
+
+bool __thiscall winIVRDriverManager_IVRDriverManager_001_IsEnabled(struct w_steam_iface *_this, DriverId_t nDriver)
+{
+    struct cppIVRDriverManager_IVRDriverManager_001_IsEnabled_params params =
+    {
+        .linux_side = _this->u_iface,
+        .nDriver = nDriver,
+    };
+    TRACE("%p\n", _this);
+    cppIVRDriverManager_IVRDriverManager_001_IsEnabled( &params );
+    return params._ret;
 }
 
 extern vtable_ptr winIVRDriverManager_IVRDriverManager_001_vtable;
@@ -68,24 +87,24 @@ void __asm_dummy_vtables(void) {
 }
 #endif
 
-winIVRDriverManager_IVRDriverManager_001 *create_winIVRDriverManager_IVRDriverManager_001(void *linux_side)
+struct w_steam_iface *create_winIVRDriverManager_IVRDriverManager_001(void *u_iface)
 {
-    winIVRDriverManager_IVRDriverManager_001 *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(winIVRDriverManager_IVRDriverManager_001));
+    struct w_steam_iface *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(*r));
     TRACE("-> %p\n", r);
     r->vtable = &winIVRDriverManager_IVRDriverManager_001_vtable;
-    r->linux_side = linux_side;
+    r->u_iface = u_iface;
     return r;
 }
 
-void destroy_winIVRDriverManager_IVRDriverManager_001(void *object)
+void destroy_winIVRDriverManager_IVRDriverManager_001(struct w_steam_iface *object)
 {
     TRACE("%p\n", object);
     HeapFree(GetProcessHeap(), 0, object);
 }
 
-winIVRDriverManager_IVRDriverManager_001 *create_winIVRDriverManager_IVRDriverManager_001_FnTable(void *linux_side)
+struct w_steam_iface *create_winIVRDriverManager_IVRDriverManager_001_FnTable(void *u_iface)
 {
-    winIVRDriverManager_IVRDriverManager_001 *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(winIVRDriverManager_IVRDriverManager_001));
+    struct w_steam_iface *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(*r));
     struct thunk *thunks = alloc_thunks(4);
     struct thunk **vtable = HeapAlloc(GetProcessHeap(), 0, 4 * sizeof(*vtable));
     int i;
@@ -97,17 +116,16 @@ winIVRDriverManager_IVRDriverManager_001 *create_winIVRDriverManager_IVRDriverMa
     init_thunk(&thunks[3], r, winIVRDriverManager_IVRDriverManager_001_IsEnabled, 1, FALSE, FALSE);
     for (i = 0; i < 4; i++)
         vtable[i] = &thunks[i];
-    r->linux_side = linux_side;
+    r->u_iface = u_iface;
     r->vtable = (void *)vtable;
     return r;
 }
 
-void destroy_winIVRDriverManager_IVRDriverManager_001_FnTable(void *object)
+void destroy_winIVRDriverManager_IVRDriverManager_001_FnTable(struct w_steam_iface *object)
 {
-    winIVRDriverManager_IVRDriverManager_001 *win_object = object;
-    TRACE("%p\n", win_object);
-    VirtualFree(win_object->vtable[0], 0, MEM_RELEASE);
-    HeapFree(GetProcessHeap(), 0, win_object->vtable);
-    HeapFree(GetProcessHeap(), 0, win_object);
+    TRACE("%p\n", object);
+    VirtualFree(object->vtable[0], 0, MEM_RELEASE);
+    HeapFree(GetProcessHeap(), 0, object->vtable);
+    HeapFree(GetProcessHeap(), 0, object);
 }
 

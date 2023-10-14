@@ -6,8 +6,6 @@
 #include "winbase.h"
 #include "wine/debug.h"
 
-#include "cxx.h"
-
 #include "vrclient_defs.h"
 
 #include "vrclient_private.h"
@@ -20,44 +18,79 @@ WINE_DEFAULT_DEBUG_CHANNEL(vrclient);
 
 #include "cppIVRIOBuffer_IVRIOBuffer_001.h"
 
-typedef struct __winIVRIOBuffer_IVRIOBuffer_001 {
-    vtable_ptr *vtable;
-    void *linux_side;
-} winIVRIOBuffer_IVRIOBuffer_001;
-
 DEFINE_THISCALL_WRAPPER(winIVRIOBuffer_IVRIOBuffer_001_Open, 24)
-EIOBufferError __thiscall winIVRIOBuffer_IVRIOBuffer_001_Open(winIVRIOBuffer_IVRIOBuffer_001 *_this, const char * pchPath, EIOBufferMode mode, uint32_t unElementSize, uint32_t unElements, IOBufferHandle_t * pulBuffer)
-{
-    TRACE("%p\n", _this);
-    return cppIVRIOBuffer_IVRIOBuffer_001_Open(_this->linux_side, pchPath, mode, unElementSize, unElements, pulBuffer);
-}
-
 DEFINE_THISCALL_WRAPPER(winIVRIOBuffer_IVRIOBuffer_001_Close, 12)
-EIOBufferError __thiscall winIVRIOBuffer_IVRIOBuffer_001_Close(winIVRIOBuffer_IVRIOBuffer_001 *_this, IOBufferHandle_t ulBuffer)
-{
-    TRACE("%p\n", _this);
-    return cppIVRIOBuffer_IVRIOBuffer_001_Close(_this->linux_side, ulBuffer);
-}
-
 DEFINE_THISCALL_WRAPPER(winIVRIOBuffer_IVRIOBuffer_001_Read, 24)
-EIOBufferError __thiscall winIVRIOBuffer_IVRIOBuffer_001_Read(winIVRIOBuffer_IVRIOBuffer_001 *_this, IOBufferHandle_t ulBuffer, void * pDst, uint32_t unBytes, uint32_t * punRead)
-{
-    TRACE("%p\n", _this);
-    return cppIVRIOBuffer_IVRIOBuffer_001_Read(_this->linux_side, ulBuffer, pDst, unBytes, punRead);
-}
-
 DEFINE_THISCALL_WRAPPER(winIVRIOBuffer_IVRIOBuffer_001_Write, 20)
-EIOBufferError __thiscall winIVRIOBuffer_IVRIOBuffer_001_Write(winIVRIOBuffer_IVRIOBuffer_001 *_this, IOBufferHandle_t ulBuffer, void * pSrc, uint32_t unBytes)
+DEFINE_THISCALL_WRAPPER(winIVRIOBuffer_IVRIOBuffer_001_PropertyContainer, 12)
+
+EIOBufferError __thiscall winIVRIOBuffer_IVRIOBuffer_001_Open(struct w_steam_iface *_this, const char *pchPath, EIOBufferMode mode, uint32_t unElementSize, uint32_t unElements, IOBufferHandle_t *pulBuffer)
 {
+    struct cppIVRIOBuffer_IVRIOBuffer_001_Open_params params =
+    {
+        .linux_side = _this->u_iface,
+        .pchPath = pchPath,
+        .mode = mode,
+        .unElementSize = unElementSize,
+        .unElements = unElements,
+        .pulBuffer = pulBuffer,
+    };
     TRACE("%p\n", _this);
-    return cppIVRIOBuffer_IVRIOBuffer_001_Write(_this->linux_side, ulBuffer, pSrc, unBytes);
+    cppIVRIOBuffer_IVRIOBuffer_001_Open( &params );
+    return params._ret;
 }
 
-DEFINE_THISCALL_WRAPPER(winIVRIOBuffer_IVRIOBuffer_001_PropertyContainer, 12)
-PropertyContainerHandle_t __thiscall winIVRIOBuffer_IVRIOBuffer_001_PropertyContainer(winIVRIOBuffer_IVRIOBuffer_001 *_this, IOBufferHandle_t ulBuffer)
+EIOBufferError __thiscall winIVRIOBuffer_IVRIOBuffer_001_Close(struct w_steam_iface *_this, IOBufferHandle_t ulBuffer)
 {
+    struct cppIVRIOBuffer_IVRIOBuffer_001_Close_params params =
+    {
+        .linux_side = _this->u_iface,
+        .ulBuffer = ulBuffer,
+    };
     TRACE("%p\n", _this);
-    return cppIVRIOBuffer_IVRIOBuffer_001_PropertyContainer(_this->linux_side, ulBuffer);
+    cppIVRIOBuffer_IVRIOBuffer_001_Close( &params );
+    return params._ret;
+}
+
+EIOBufferError __thiscall winIVRIOBuffer_IVRIOBuffer_001_Read(struct w_steam_iface *_this, IOBufferHandle_t ulBuffer, void *pDst, uint32_t unBytes, uint32_t *punRead)
+{
+    struct cppIVRIOBuffer_IVRIOBuffer_001_Read_params params =
+    {
+        .linux_side = _this->u_iface,
+        .ulBuffer = ulBuffer,
+        .pDst = pDst,
+        .unBytes = unBytes,
+        .punRead = punRead,
+    };
+    TRACE("%p\n", _this);
+    cppIVRIOBuffer_IVRIOBuffer_001_Read( &params );
+    return params._ret;
+}
+
+EIOBufferError __thiscall winIVRIOBuffer_IVRIOBuffer_001_Write(struct w_steam_iface *_this, IOBufferHandle_t ulBuffer, void *pSrc, uint32_t unBytes)
+{
+    struct cppIVRIOBuffer_IVRIOBuffer_001_Write_params params =
+    {
+        .linux_side = _this->u_iface,
+        .ulBuffer = ulBuffer,
+        .pSrc = pSrc,
+        .unBytes = unBytes,
+    };
+    TRACE("%p\n", _this);
+    cppIVRIOBuffer_IVRIOBuffer_001_Write( &params );
+    return params._ret;
+}
+
+PropertyContainerHandle_t __thiscall winIVRIOBuffer_IVRIOBuffer_001_PropertyContainer(struct w_steam_iface *_this, IOBufferHandle_t ulBuffer)
+{
+    struct cppIVRIOBuffer_IVRIOBuffer_001_PropertyContainer_params params =
+    {
+        .linux_side = _this->u_iface,
+        .ulBuffer = ulBuffer,
+    };
+    TRACE("%p\n", _this);
+    cppIVRIOBuffer_IVRIOBuffer_001_PropertyContainer( &params );
+    return params._ret;
 }
 
 extern vtable_ptr winIVRIOBuffer_IVRIOBuffer_001_vtable;
@@ -76,24 +109,24 @@ void __asm_dummy_vtables(void) {
 }
 #endif
 
-winIVRIOBuffer_IVRIOBuffer_001 *create_winIVRIOBuffer_IVRIOBuffer_001(void *linux_side)
+struct w_steam_iface *create_winIVRIOBuffer_IVRIOBuffer_001(void *u_iface)
 {
-    winIVRIOBuffer_IVRIOBuffer_001 *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(winIVRIOBuffer_IVRIOBuffer_001));
+    struct w_steam_iface *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(*r));
     TRACE("-> %p\n", r);
     r->vtable = &winIVRIOBuffer_IVRIOBuffer_001_vtable;
-    r->linux_side = linux_side;
+    r->u_iface = u_iface;
     return r;
 }
 
-void destroy_winIVRIOBuffer_IVRIOBuffer_001(void *object)
+void destroy_winIVRIOBuffer_IVRIOBuffer_001(struct w_steam_iface *object)
 {
     TRACE("%p\n", object);
     HeapFree(GetProcessHeap(), 0, object);
 }
 
-winIVRIOBuffer_IVRIOBuffer_001 *create_winIVRIOBuffer_IVRIOBuffer_001_FnTable(void *linux_side)
+struct w_steam_iface *create_winIVRIOBuffer_IVRIOBuffer_001_FnTable(void *u_iface)
 {
-    winIVRIOBuffer_IVRIOBuffer_001 *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(winIVRIOBuffer_IVRIOBuffer_001));
+    struct w_steam_iface *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(*r));
     struct thunk *thunks = alloc_thunks(5);
     struct thunk **vtable = HeapAlloc(GetProcessHeap(), 0, 5 * sizeof(*vtable));
     int i;
@@ -106,67 +139,107 @@ winIVRIOBuffer_IVRIOBuffer_001 *create_winIVRIOBuffer_IVRIOBuffer_001_FnTable(vo
     init_thunk(&thunks[4], r, winIVRIOBuffer_IVRIOBuffer_001_PropertyContainer, 1, FALSE, FALSE);
     for (i = 0; i < 5; i++)
         vtable[i] = &thunks[i];
-    r->linux_side = linux_side;
+    r->u_iface = u_iface;
     r->vtable = (void *)vtable;
     return r;
 }
 
-void destroy_winIVRIOBuffer_IVRIOBuffer_001_FnTable(void *object)
+void destroy_winIVRIOBuffer_IVRIOBuffer_001_FnTable(struct w_steam_iface *object)
 {
-    winIVRIOBuffer_IVRIOBuffer_001 *win_object = object;
-    TRACE("%p\n", win_object);
-    VirtualFree(win_object->vtable[0], 0, MEM_RELEASE);
-    HeapFree(GetProcessHeap(), 0, win_object->vtable);
-    HeapFree(GetProcessHeap(), 0, win_object);
+    TRACE("%p\n", object);
+    VirtualFree(object->vtable[0], 0, MEM_RELEASE);
+    HeapFree(GetProcessHeap(), 0, object->vtable);
+    HeapFree(GetProcessHeap(), 0, object);
 }
 
 #include "cppIVRIOBuffer_IVRIOBuffer_002.h"
 
-typedef struct __winIVRIOBuffer_IVRIOBuffer_002 {
-    vtable_ptr *vtable;
-    void *linux_side;
-} winIVRIOBuffer_IVRIOBuffer_002;
-
 DEFINE_THISCALL_WRAPPER(winIVRIOBuffer_IVRIOBuffer_002_Open, 24)
-EIOBufferError __thiscall winIVRIOBuffer_IVRIOBuffer_002_Open(winIVRIOBuffer_IVRIOBuffer_002 *_this, const char * pchPath, EIOBufferMode mode, uint32_t unElementSize, uint32_t unElements, IOBufferHandle_t * pulBuffer)
-{
-    TRACE("%p\n", _this);
-    return cppIVRIOBuffer_IVRIOBuffer_002_Open(_this->linux_side, pchPath, mode, unElementSize, unElements, pulBuffer);
-}
-
 DEFINE_THISCALL_WRAPPER(winIVRIOBuffer_IVRIOBuffer_002_Close, 12)
-EIOBufferError __thiscall winIVRIOBuffer_IVRIOBuffer_002_Close(winIVRIOBuffer_IVRIOBuffer_002 *_this, IOBufferHandle_t ulBuffer)
-{
-    TRACE("%p\n", _this);
-    return cppIVRIOBuffer_IVRIOBuffer_002_Close(_this->linux_side, ulBuffer);
-}
-
 DEFINE_THISCALL_WRAPPER(winIVRIOBuffer_IVRIOBuffer_002_Read, 24)
-EIOBufferError __thiscall winIVRIOBuffer_IVRIOBuffer_002_Read(winIVRIOBuffer_IVRIOBuffer_002 *_this, IOBufferHandle_t ulBuffer, void * pDst, uint32_t unBytes, uint32_t * punRead)
-{
-    TRACE("%p\n", _this);
-    return cppIVRIOBuffer_IVRIOBuffer_002_Read(_this->linux_side, ulBuffer, pDst, unBytes, punRead);
-}
-
 DEFINE_THISCALL_WRAPPER(winIVRIOBuffer_IVRIOBuffer_002_Write, 20)
-EIOBufferError __thiscall winIVRIOBuffer_IVRIOBuffer_002_Write(winIVRIOBuffer_IVRIOBuffer_002 *_this, IOBufferHandle_t ulBuffer, void * pSrc, uint32_t unBytes)
-{
-    TRACE("%p\n", _this);
-    return cppIVRIOBuffer_IVRIOBuffer_002_Write(_this->linux_side, ulBuffer, pSrc, unBytes);
-}
-
 DEFINE_THISCALL_WRAPPER(winIVRIOBuffer_IVRIOBuffer_002_PropertyContainer, 12)
-PropertyContainerHandle_t __thiscall winIVRIOBuffer_IVRIOBuffer_002_PropertyContainer(winIVRIOBuffer_IVRIOBuffer_002 *_this, IOBufferHandle_t ulBuffer)
+DEFINE_THISCALL_WRAPPER(winIVRIOBuffer_IVRIOBuffer_002_HasReaders, 12)
+
+EIOBufferError __thiscall winIVRIOBuffer_IVRIOBuffer_002_Open(struct w_steam_iface *_this, const char *pchPath, EIOBufferMode mode, uint32_t unElementSize, uint32_t unElements, IOBufferHandle_t *pulBuffer)
 {
+    struct cppIVRIOBuffer_IVRIOBuffer_002_Open_params params =
+    {
+        .linux_side = _this->u_iface,
+        .pchPath = pchPath,
+        .mode = mode,
+        .unElementSize = unElementSize,
+        .unElements = unElements,
+        .pulBuffer = pulBuffer,
+    };
     TRACE("%p\n", _this);
-    return cppIVRIOBuffer_IVRIOBuffer_002_PropertyContainer(_this->linux_side, ulBuffer);
+    cppIVRIOBuffer_IVRIOBuffer_002_Open( &params );
+    return params._ret;
 }
 
-DEFINE_THISCALL_WRAPPER(winIVRIOBuffer_IVRIOBuffer_002_HasReaders, 12)
-bool __thiscall winIVRIOBuffer_IVRIOBuffer_002_HasReaders(winIVRIOBuffer_IVRIOBuffer_002 *_this, IOBufferHandle_t ulBuffer)
+EIOBufferError __thiscall winIVRIOBuffer_IVRIOBuffer_002_Close(struct w_steam_iface *_this, IOBufferHandle_t ulBuffer)
 {
+    struct cppIVRIOBuffer_IVRIOBuffer_002_Close_params params =
+    {
+        .linux_side = _this->u_iface,
+        .ulBuffer = ulBuffer,
+    };
     TRACE("%p\n", _this);
-    return cppIVRIOBuffer_IVRIOBuffer_002_HasReaders(_this->linux_side, ulBuffer);
+    cppIVRIOBuffer_IVRIOBuffer_002_Close( &params );
+    return params._ret;
+}
+
+EIOBufferError __thiscall winIVRIOBuffer_IVRIOBuffer_002_Read(struct w_steam_iface *_this, IOBufferHandle_t ulBuffer, void *pDst, uint32_t unBytes, uint32_t *punRead)
+{
+    struct cppIVRIOBuffer_IVRIOBuffer_002_Read_params params =
+    {
+        .linux_side = _this->u_iface,
+        .ulBuffer = ulBuffer,
+        .pDst = pDst,
+        .unBytes = unBytes,
+        .punRead = punRead,
+    };
+    TRACE("%p\n", _this);
+    cppIVRIOBuffer_IVRIOBuffer_002_Read( &params );
+    return params._ret;
+}
+
+EIOBufferError __thiscall winIVRIOBuffer_IVRIOBuffer_002_Write(struct w_steam_iface *_this, IOBufferHandle_t ulBuffer, void *pSrc, uint32_t unBytes)
+{
+    struct cppIVRIOBuffer_IVRIOBuffer_002_Write_params params =
+    {
+        .linux_side = _this->u_iface,
+        .ulBuffer = ulBuffer,
+        .pSrc = pSrc,
+        .unBytes = unBytes,
+    };
+    TRACE("%p\n", _this);
+    cppIVRIOBuffer_IVRIOBuffer_002_Write( &params );
+    return params._ret;
+}
+
+PropertyContainerHandle_t __thiscall winIVRIOBuffer_IVRIOBuffer_002_PropertyContainer(struct w_steam_iface *_this, IOBufferHandle_t ulBuffer)
+{
+    struct cppIVRIOBuffer_IVRIOBuffer_002_PropertyContainer_params params =
+    {
+        .linux_side = _this->u_iface,
+        .ulBuffer = ulBuffer,
+    };
+    TRACE("%p\n", _this);
+    cppIVRIOBuffer_IVRIOBuffer_002_PropertyContainer( &params );
+    return params._ret;
+}
+
+bool __thiscall winIVRIOBuffer_IVRIOBuffer_002_HasReaders(struct w_steam_iface *_this, IOBufferHandle_t ulBuffer)
+{
+    struct cppIVRIOBuffer_IVRIOBuffer_002_HasReaders_params params =
+    {
+        .linux_side = _this->u_iface,
+        .ulBuffer = ulBuffer,
+    };
+    TRACE("%p\n", _this);
+    cppIVRIOBuffer_IVRIOBuffer_002_HasReaders( &params );
+    return params._ret;
 }
 
 extern vtable_ptr winIVRIOBuffer_IVRIOBuffer_002_vtable;
@@ -186,24 +259,24 @@ void __asm_dummy_vtables(void) {
 }
 #endif
 
-winIVRIOBuffer_IVRIOBuffer_002 *create_winIVRIOBuffer_IVRIOBuffer_002(void *linux_side)
+struct w_steam_iface *create_winIVRIOBuffer_IVRIOBuffer_002(void *u_iface)
 {
-    winIVRIOBuffer_IVRIOBuffer_002 *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(winIVRIOBuffer_IVRIOBuffer_002));
+    struct w_steam_iface *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(*r));
     TRACE("-> %p\n", r);
     r->vtable = &winIVRIOBuffer_IVRIOBuffer_002_vtable;
-    r->linux_side = linux_side;
+    r->u_iface = u_iface;
     return r;
 }
 
-void destroy_winIVRIOBuffer_IVRIOBuffer_002(void *object)
+void destroy_winIVRIOBuffer_IVRIOBuffer_002(struct w_steam_iface *object)
 {
     TRACE("%p\n", object);
     HeapFree(GetProcessHeap(), 0, object);
 }
 
-winIVRIOBuffer_IVRIOBuffer_002 *create_winIVRIOBuffer_IVRIOBuffer_002_FnTable(void *linux_side)
+struct w_steam_iface *create_winIVRIOBuffer_IVRIOBuffer_002_FnTable(void *u_iface)
 {
-    winIVRIOBuffer_IVRIOBuffer_002 *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(winIVRIOBuffer_IVRIOBuffer_002));
+    struct w_steam_iface *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(*r));
     struct thunk *thunks = alloc_thunks(6);
     struct thunk **vtable = HeapAlloc(GetProcessHeap(), 0, 6 * sizeof(*vtable));
     int i;
@@ -217,17 +290,16 @@ winIVRIOBuffer_IVRIOBuffer_002 *create_winIVRIOBuffer_IVRIOBuffer_002_FnTable(vo
     init_thunk(&thunks[5], r, winIVRIOBuffer_IVRIOBuffer_002_HasReaders, 1, FALSE, FALSE);
     for (i = 0; i < 6; i++)
         vtable[i] = &thunks[i];
-    r->linux_side = linux_side;
+    r->u_iface = u_iface;
     r->vtable = (void *)vtable;
     return r;
 }
 
-void destroy_winIVRIOBuffer_IVRIOBuffer_002_FnTable(void *object)
+void destroy_winIVRIOBuffer_IVRIOBuffer_002_FnTable(struct w_steam_iface *object)
 {
-    winIVRIOBuffer_IVRIOBuffer_002 *win_object = object;
-    TRACE("%p\n", win_object);
-    VirtualFree(win_object->vtable[0], 0, MEM_RELEASE);
-    HeapFree(GetProcessHeap(), 0, win_object->vtable);
-    HeapFree(GetProcessHeap(), 0, win_object);
+    TRACE("%p\n", object);
+    VirtualFree(object->vtable[0], 0, MEM_RELEASE);
+    HeapFree(GetProcessHeap(), 0, object->vtable);
+    HeapFree(GetProcessHeap(), 0, object);
 }
 
