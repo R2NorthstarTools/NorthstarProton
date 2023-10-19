@@ -53,4 +53,3 @@ rules-source = $(call create-rules-source,$(1),$(call toupper,$(1)),$(2))
 
 $(OBJ)/.%-post-source:
 	touch $@
-

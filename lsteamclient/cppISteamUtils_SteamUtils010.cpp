@@ -12,195 +12,195 @@ extern "C" {
 #define SDKVER_158
 #include "struct_converters.h"
 #include "cppISteamUtils_SteamUtils010.h"
-uint32 cppISteamUtils_SteamUtils010_GetSecondsSinceAppActive(void *linux_side)
+void cppISteamUtils_SteamUtils010_GetSecondsSinceAppActive( struct cppISteamUtils_SteamUtils010_GetSecondsSinceAppActive_params *params )
 {
-    return ((ISteamUtils*)linux_side)->GetSecondsSinceAppActive();
+    params->_ret = ((ISteamUtils*)params->linux_side)->GetSecondsSinceAppActive(  );
 }
 
-uint32 cppISteamUtils_SteamUtils010_GetSecondsSinceComputerActive(void *linux_side)
+void cppISteamUtils_SteamUtils010_GetSecondsSinceComputerActive( struct cppISteamUtils_SteamUtils010_GetSecondsSinceComputerActive_params *params )
 {
-    return ((ISteamUtils*)linux_side)->GetSecondsSinceComputerActive();
+    params->_ret = ((ISteamUtils*)params->linux_side)->GetSecondsSinceComputerActive(  );
 }
 
-EUniverse cppISteamUtils_SteamUtils010_GetConnectedUniverse(void *linux_side)
+void cppISteamUtils_SteamUtils010_GetConnectedUniverse( struct cppISteamUtils_SteamUtils010_GetConnectedUniverse_params *params )
 {
-    return ((ISteamUtils*)linux_side)->GetConnectedUniverse();
+    params->_ret = ((ISteamUtils*)params->linux_side)->GetConnectedUniverse(  );
 }
 
-uint32 cppISteamUtils_SteamUtils010_GetServerRealTime(void *linux_side)
+void cppISteamUtils_SteamUtils010_GetServerRealTime( struct cppISteamUtils_SteamUtils010_GetServerRealTime_params *params )
 {
-    return ((ISteamUtils*)linux_side)->GetServerRealTime();
+    params->_ret = ((ISteamUtils*)params->linux_side)->GetServerRealTime(  );
 }
 
-const char * cppISteamUtils_SteamUtils010_GetIPCountry(void *linux_side)
+void cppISteamUtils_SteamUtils010_GetIPCountry( struct cppISteamUtils_SteamUtils010_GetIPCountry_params *params )
 {
-    return ((ISteamUtils*)linux_side)->GetIPCountry();
+    params->_ret = ((ISteamUtils*)params->linux_side)->GetIPCountry(  );
 }
 
-bool cppISteamUtils_SteamUtils010_GetImageSize(void *linux_side, int iImage, uint32 * pnWidth, uint32 * pnHeight)
+void cppISteamUtils_SteamUtils010_GetImageSize( struct cppISteamUtils_SteamUtils010_GetImageSize_params *params )
 {
-    return ((ISteamUtils*)linux_side)->GetImageSize((int)iImage, (uint32 *)pnWidth, (uint32 *)pnHeight);
+    params->_ret = ((ISteamUtils*)params->linux_side)->GetImageSize( (int)params->iImage, (uint32 *)params->pnWidth, (uint32 *)params->pnHeight );
 }
 
-bool cppISteamUtils_SteamUtils010_GetImageRGBA(void *linux_side, int iImage, uint8 * pubDest, int nDestBufferSize)
+void cppISteamUtils_SteamUtils010_GetImageRGBA( struct cppISteamUtils_SteamUtils010_GetImageRGBA_params *params )
 {
-    return ((ISteamUtils*)linux_side)->GetImageRGBA((int)iImage, (uint8 *)pubDest, (int)nDestBufferSize);
+    params->_ret = ((ISteamUtils*)params->linux_side)->GetImageRGBA( (int)params->iImage, (uint8 *)params->pubDest, (int)params->nDestBufferSize );
 }
 
-bool cppISteamUtils_SteamUtils010_GetCSERIPPort(void *linux_side, uint32 * unIP, uint16 * usPort)
+void cppISteamUtils_SteamUtils010_GetCSERIPPort( struct cppISteamUtils_SteamUtils010_GetCSERIPPort_params *params )
 {
-    return ((ISteamUtils*)linux_side)->GetCSERIPPort((uint32 *)unIP, (uint16 *)usPort);
+    params->_ret = ((ISteamUtils*)params->linux_side)->GetCSERIPPort( (uint32 *)params->unIP, (uint16 *)params->usPort );
 }
 
-uint8 cppISteamUtils_SteamUtils010_GetCurrentBatteryPower(void *linux_side)
+void cppISteamUtils_SteamUtils010_GetCurrentBatteryPower( struct cppISteamUtils_SteamUtils010_GetCurrentBatteryPower_params *params )
 {
-    return ((ISteamUtils*)linux_side)->GetCurrentBatteryPower();
+    params->_ret = ((ISteamUtils*)params->linux_side)->GetCurrentBatteryPower(  );
 }
 
-uint32 cppISteamUtils_SteamUtils010_GetAppID(void *linux_side)
+void cppISteamUtils_SteamUtils010_GetAppID( struct cppISteamUtils_SteamUtils010_GetAppID_params *params )
 {
-    return ((ISteamUtils*)linux_side)->GetAppID();
+    params->_ret = ((ISteamUtils*)params->linux_side)->GetAppID(  );
 }
 
-void cppISteamUtils_SteamUtils010_SetOverlayNotificationPosition(void *linux_side, ENotificationPosition eNotificationPosition)
+void cppISteamUtils_SteamUtils010_SetOverlayNotificationPosition( struct cppISteamUtils_SteamUtils010_SetOverlayNotificationPosition_params *params )
 {
-    ((ISteamUtils*)linux_side)->SetOverlayNotificationPosition((ENotificationPosition)eNotificationPosition);
+    ((ISteamUtils*)params->linux_side)->SetOverlayNotificationPosition( (ENotificationPosition)params->eNotificationPosition );
 }
 
-bool cppISteamUtils_SteamUtils010_IsAPICallCompleted(void *linux_side, SteamAPICall_t hSteamAPICall, bool * pbFailed)
+void cppISteamUtils_SteamUtils010_IsAPICallCompleted( struct cppISteamUtils_SteamUtils010_IsAPICallCompleted_params *params )
 {
-    return ((ISteamUtils*)linux_side)->IsAPICallCompleted((SteamAPICall_t)hSteamAPICall, (bool *)pbFailed);
+    params->_ret = ((ISteamUtils*)params->linux_side)->IsAPICallCompleted( (SteamAPICall_t)params->hSteamAPICall, (bool *)params->pbFailed );
 }
 
-ESteamAPICallFailure cppISteamUtils_SteamUtils010_GetAPICallFailureReason(void *linux_side, SteamAPICall_t hSteamAPICall)
+void cppISteamUtils_SteamUtils010_GetAPICallFailureReason( struct cppISteamUtils_SteamUtils010_GetAPICallFailureReason_params *params )
 {
-    return ((ISteamUtils*)linux_side)->GetAPICallFailureReason((SteamAPICall_t)hSteamAPICall);
+    params->_ret = ((ISteamUtils*)params->linux_side)->GetAPICallFailureReason( (SteamAPICall_t)params->hSteamAPICall );
 }
 
-bool cppISteamUtils_SteamUtils010_GetAPICallResult(void *linux_side, SteamAPICall_t hSteamAPICall, void * pCallback, int cubCallback, int iCallbackExpected, bool * pbFailed)
+void cppISteamUtils_SteamUtils010_GetAPICallResult( struct cppISteamUtils_SteamUtils010_GetAPICallResult_params *params )
 {
-    return ((ISteamUtils*)linux_side)->GetAPICallResult((SteamAPICall_t)hSteamAPICall, (void *)pCallback, (int)cubCallback, (int)iCallbackExpected, (bool *)pbFailed);
+    params->_ret = ((ISteamUtils*)params->linux_side)->GetAPICallResult( (SteamAPICall_t)params->hSteamAPICall, (void *)params->pCallback, (int)params->cubCallback, (int)params->iCallbackExpected, (bool *)params->pbFailed );
 }
 
-void cppISteamUtils_SteamUtils010_RunFrame(void *linux_side)
+void cppISteamUtils_SteamUtils010_RunFrame( struct cppISteamUtils_SteamUtils010_RunFrame_params *params )
 {
-    ((ISteamUtils*)linux_side)->RunFrame();
+    ((ISteamUtils*)params->linux_side)->RunFrame(  );
 }
 
-uint32 cppISteamUtils_SteamUtils010_GetIPCCallCount(void *linux_side)
+void cppISteamUtils_SteamUtils010_GetIPCCallCount( struct cppISteamUtils_SteamUtils010_GetIPCCallCount_params *params )
 {
-    return ((ISteamUtils*)linux_side)->GetIPCCallCount();
+    params->_ret = ((ISteamUtils*)params->linux_side)->GetIPCCallCount(  );
 }
 
-void cppISteamUtils_SteamUtils010_SetWarningMessageHook(void *linux_side, SteamAPIWarningMessageHook_t pFunction)
+void cppISteamUtils_SteamUtils010_SetWarningMessageHook( struct cppISteamUtils_SteamUtils010_SetWarningMessageHook_params *params )
 {
-    pFunction = (SteamAPIWarningMessageHook_t)manual_convert_SteamAPIWarningMessageHook_t((void*)pFunction);
-    ((ISteamUtils*)linux_side)->SetWarningMessageHook((SteamAPIWarningMessageHook_t)pFunction);
+    params->pFunction = (SteamAPIWarningMessageHook_t)manual_convert_SteamAPIWarningMessageHook_t( (void *)params->pFunction );
+    ((ISteamUtils*)params->linux_side)->SetWarningMessageHook( (SteamAPIWarningMessageHook_t)params->pFunction );
 }
 
-bool cppISteamUtils_SteamUtils010_IsOverlayEnabled(void *linux_side)
+void cppISteamUtils_SteamUtils010_IsOverlayEnabled( struct cppISteamUtils_SteamUtils010_IsOverlayEnabled_params *params )
 {
-    return ((ISteamUtils*)linux_side)->IsOverlayEnabled();
+    params->_ret = ((ISteamUtils*)params->linux_side)->IsOverlayEnabled(  );
 }
 
-bool cppISteamUtils_SteamUtils010_BOverlayNeedsPresent(void *linux_side)
+void cppISteamUtils_SteamUtils010_BOverlayNeedsPresent( struct cppISteamUtils_SteamUtils010_BOverlayNeedsPresent_params *params )
 {
-    return ((ISteamUtils*)linux_side)->BOverlayNeedsPresent();
+    params->_ret = ((ISteamUtils*)params->linux_side)->BOverlayNeedsPresent(  );
 }
 
-SteamAPICall_t cppISteamUtils_SteamUtils010_CheckFileSignature(void *linux_side, const char * szFileName)
+void cppISteamUtils_SteamUtils010_CheckFileSignature( struct cppISteamUtils_SteamUtils010_CheckFileSignature_params *params )
 {
-    return ((ISteamUtils*)linux_side)->CheckFileSignature((const char *)szFileName);
+    params->_ret = ((ISteamUtils*)params->linux_side)->CheckFileSignature( (const char *)params->szFileName );
 }
 
-bool cppISteamUtils_SteamUtils010_ShowGamepadTextInput(void *linux_side, EGamepadTextInputMode eInputMode, EGamepadTextInputLineMode eLineInputMode, const char * pchDescription, uint32 unCharMax, const char * pchExistingText)
+void cppISteamUtils_SteamUtils010_ShowGamepadTextInput( struct cppISteamUtils_SteamUtils010_ShowGamepadTextInput_params *params )
 {
-    return ((ISteamUtils*)linux_side)->ShowGamepadTextInput((EGamepadTextInputMode)eInputMode, (EGamepadTextInputLineMode)eLineInputMode, (const char *)pchDescription, (uint32)unCharMax, (const char *)pchExistingText);
+    params->_ret = ((ISteamUtils*)params->linux_side)->ShowGamepadTextInput( (EGamepadTextInputMode)params->eInputMode, (EGamepadTextInputLineMode)params->eLineInputMode, (const char *)params->pchDescription, (uint32)params->unCharMax, (const char *)params->pchExistingText );
 }
 
-uint32 cppISteamUtils_SteamUtils010_GetEnteredGamepadTextLength(void *linux_side)
+void cppISteamUtils_SteamUtils010_GetEnteredGamepadTextLength( struct cppISteamUtils_SteamUtils010_GetEnteredGamepadTextLength_params *params )
 {
-    return ((ISteamUtils*)linux_side)->GetEnteredGamepadTextLength();
+    params->_ret = ((ISteamUtils*)params->linux_side)->GetEnteredGamepadTextLength(  );
 }
 
-bool cppISteamUtils_SteamUtils010_GetEnteredGamepadTextInput(void *linux_side, char * pchText, uint32 cchText)
+void cppISteamUtils_SteamUtils010_GetEnteredGamepadTextInput( struct cppISteamUtils_SteamUtils010_GetEnteredGamepadTextInput_params *params )
 {
-    return ((ISteamUtils*)linux_side)->GetEnteredGamepadTextInput((char *)pchText, (uint32)cchText);
+    params->_ret = ((ISteamUtils*)params->linux_side)->GetEnteredGamepadTextInput( (char *)params->pchText, (uint32)params->cchText );
 }
 
-const char * cppISteamUtils_SteamUtils010_GetSteamUILanguage(void *linux_side)
+void cppISteamUtils_SteamUtils010_GetSteamUILanguage( struct cppISteamUtils_SteamUtils010_GetSteamUILanguage_params *params )
 {
-    return ((ISteamUtils*)linux_side)->GetSteamUILanguage();
+    params->_ret = ((ISteamUtils*)params->linux_side)->GetSteamUILanguage(  );
 }
 
-bool cppISteamUtils_SteamUtils010_IsSteamRunningInVR(void *linux_side)
+void cppISteamUtils_SteamUtils010_IsSteamRunningInVR( struct cppISteamUtils_SteamUtils010_IsSteamRunningInVR_params *params )
 {
-    return ((ISteamUtils*)linux_side)->IsSteamRunningInVR();
+    params->_ret = ((ISteamUtils*)params->linux_side)->IsSteamRunningInVR(  );
 }
 
-void cppISteamUtils_SteamUtils010_SetOverlayNotificationInset(void *linux_side, int nHorizontalInset, int nVerticalInset)
+void cppISteamUtils_SteamUtils010_SetOverlayNotificationInset( struct cppISteamUtils_SteamUtils010_SetOverlayNotificationInset_params *params )
 {
-    ((ISteamUtils*)linux_side)->SetOverlayNotificationInset((int)nHorizontalInset, (int)nVerticalInset);
+    ((ISteamUtils*)params->linux_side)->SetOverlayNotificationInset( (int)params->nHorizontalInset, (int)params->nVerticalInset );
 }
 
-bool cppISteamUtils_SteamUtils010_IsSteamInBigPictureMode(void *linux_side)
+void cppISteamUtils_SteamUtils010_IsSteamInBigPictureMode( struct cppISteamUtils_SteamUtils010_IsSteamInBigPictureMode_params *params )
 {
-    return ((ISteamUtils*)linux_side)->IsSteamInBigPictureMode();
+    params->_ret = ((ISteamUtils*)params->linux_side)->IsSteamInBigPictureMode(  );
 }
 
-void cppISteamUtils_SteamUtils010_StartVRDashboard(void *linux_side)
+void cppISteamUtils_SteamUtils010_StartVRDashboard( struct cppISteamUtils_SteamUtils010_StartVRDashboard_params *params )
 {
-    ((ISteamUtils*)linux_side)->StartVRDashboard();
+    ((ISteamUtils*)params->linux_side)->StartVRDashboard(  );
 }
 
-bool cppISteamUtils_SteamUtils010_IsVRHeadsetStreamingEnabled(void *linux_side)
+void cppISteamUtils_SteamUtils010_IsVRHeadsetStreamingEnabled( struct cppISteamUtils_SteamUtils010_IsVRHeadsetStreamingEnabled_params *params )
 {
-    return ((ISteamUtils*)linux_side)->IsVRHeadsetStreamingEnabled();
+    params->_ret = ((ISteamUtils*)params->linux_side)->IsVRHeadsetStreamingEnabled(  );
 }
 
-void cppISteamUtils_SteamUtils010_SetVRHeadsetStreamingEnabled(void *linux_side, bool bEnabled)
+void cppISteamUtils_SteamUtils010_SetVRHeadsetStreamingEnabled( struct cppISteamUtils_SteamUtils010_SetVRHeadsetStreamingEnabled_params *params )
 {
-    ((ISteamUtils*)linux_side)->SetVRHeadsetStreamingEnabled((bool)bEnabled);
+    ((ISteamUtils*)params->linux_side)->SetVRHeadsetStreamingEnabled( (bool)params->bEnabled );
 }
 
-bool cppISteamUtils_SteamUtils010_IsSteamChinaLauncher(void *linux_side)
+void cppISteamUtils_SteamUtils010_IsSteamChinaLauncher( struct cppISteamUtils_SteamUtils010_IsSteamChinaLauncher_params *params )
 {
-    return ((ISteamUtils*)linux_side)->IsSteamChinaLauncher();
+    params->_ret = ((ISteamUtils*)params->linux_side)->IsSteamChinaLauncher(  );
 }
 
-bool cppISteamUtils_SteamUtils010_InitFilterText(void *linux_side, uint32 unFilterOptions)
+void cppISteamUtils_SteamUtils010_InitFilterText( struct cppISteamUtils_SteamUtils010_InitFilterText_params *params )
 {
-    return ((ISteamUtils*)linux_side)->InitFilterText((uint32)unFilterOptions);
+    params->_ret = ((ISteamUtils*)params->linux_side)->InitFilterText( (uint32)params->unFilterOptions );
 }
 
-int cppISteamUtils_SteamUtils010_FilterText(void *linux_side, ETextFilteringContext eContext, CSteamID sourceSteamID, const char * pchInputMessage, char * pchOutFilteredText, uint32 nByteSizeOutFilteredText)
+void cppISteamUtils_SteamUtils010_FilterText( struct cppISteamUtils_SteamUtils010_FilterText_params *params )
 {
-    return ((ISteamUtils*)linux_side)->FilterText((ETextFilteringContext)eContext, (CSteamID)sourceSteamID, (const char *)pchInputMessage, (char *)pchOutFilteredText, (uint32)nByteSizeOutFilteredText);
+    params->_ret = ((ISteamUtils*)params->linux_side)->FilterText( (ETextFilteringContext)params->eContext, (CSteamID)params->sourceSteamID, (const char *)params->pchInputMessage, (char *)params->pchOutFilteredText, (uint32)params->nByteSizeOutFilteredText );
 }
 
-ESteamIPv6ConnectivityState cppISteamUtils_SteamUtils010_GetIPv6ConnectivityState(void *linux_side, ESteamIPv6ConnectivityProtocol eProtocol)
+void cppISteamUtils_SteamUtils010_GetIPv6ConnectivityState( struct cppISteamUtils_SteamUtils010_GetIPv6ConnectivityState_params *params )
 {
-    return ((ISteamUtils*)linux_side)->GetIPv6ConnectivityState((ESteamIPv6ConnectivityProtocol)eProtocol);
+    params->_ret = ((ISteamUtils*)params->linux_side)->GetIPv6ConnectivityState( (ESteamIPv6ConnectivityProtocol)params->eProtocol );
 }
 
-bool cppISteamUtils_SteamUtils010_IsSteamRunningOnSteamDeck(void *linux_side)
+void cppISteamUtils_SteamUtils010_IsSteamRunningOnSteamDeck( struct cppISteamUtils_SteamUtils010_IsSteamRunningOnSteamDeck_params *params )
 {
-    return ((ISteamUtils*)linux_side)->IsSteamRunningOnSteamDeck();
+    params->_ret = ((ISteamUtils*)params->linux_side)->IsSteamRunningOnSteamDeck(  );
 }
 
-bool cppISteamUtils_SteamUtils010_ShowFloatingGamepadTextInput(void *linux_side, EFloatingGamepadTextInputMode eKeyboardMode, int nTextFieldXPosition, int nTextFieldYPosition, int nTextFieldWidth, int nTextFieldHeight)
+void cppISteamUtils_SteamUtils010_ShowFloatingGamepadTextInput( struct cppISteamUtils_SteamUtils010_ShowFloatingGamepadTextInput_params *params )
 {
-    return ((ISteamUtils*)linux_side)->ShowFloatingGamepadTextInput((EFloatingGamepadTextInputMode)eKeyboardMode, (int)nTextFieldXPosition, (int)nTextFieldYPosition, (int)nTextFieldWidth, (int)nTextFieldHeight);
+    params->_ret = ((ISteamUtils*)params->linux_side)->ShowFloatingGamepadTextInput( (EFloatingGamepadTextInputMode)params->eKeyboardMode, (int)params->nTextFieldXPosition, (int)params->nTextFieldYPosition, (int)params->nTextFieldWidth, (int)params->nTextFieldHeight );
 }
 
-void cppISteamUtils_SteamUtils010_SetGameLauncherMode(void *linux_side, bool bLauncherMode)
+void cppISteamUtils_SteamUtils010_SetGameLauncherMode( struct cppISteamUtils_SteamUtils010_SetGameLauncherMode_params *params )
 {
-    ((ISteamUtils*)linux_side)->SetGameLauncherMode((bool)bLauncherMode);
+    ((ISteamUtils*)params->linux_side)->SetGameLauncherMode( (bool)params->bLauncherMode );
 }
 
-bool cppISteamUtils_SteamUtils010_DismissFloatingGamepadTextInput(void *linux_side)
+void cppISteamUtils_SteamUtils010_DismissFloatingGamepadTextInput( struct cppISteamUtils_SteamUtils010_DismissFloatingGamepadTextInput_params *params )
 {
-    return ((ISteamUtils*)linux_side)->DismissFloatingGamepadTextInput();
+    params->_ret = ((ISteamUtils*)params->linux_side)->DismissFloatingGamepadTextInput(  );
 }
 
 #ifdef __cplusplus

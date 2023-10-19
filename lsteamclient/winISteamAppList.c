@@ -5,8 +5,6 @@
 #include "winbase.h"
 #include "wine/debug.h"
 
-#include "cxx.h"
-
 #include "steam_defs.h"
 
 #include "steamclient_private.h"
@@ -17,47 +15,75 @@ WINE_DEFAULT_DEBUG_CHANNEL(steamclient);
 
 #include "cppISteamAppList_STEAMAPPLIST_INTERFACE_VERSION001.h"
 
-typedef struct __winISteamAppList_STEAMAPPLIST_INTERFACE_VERSION001 {
-    vtable_ptr *vtable;
-    void *linux_side;
-} winISteamAppList_STEAMAPPLIST_INTERFACE_VERSION001;
-
 DEFINE_THISCALL_WRAPPER(winISteamAppList_STEAMAPPLIST_INTERFACE_VERSION001_GetNumInstalledApps, 4)
-uint32 __thiscall winISteamAppList_STEAMAPPLIST_INTERFACE_VERSION001_GetNumInstalledApps(winISteamAppList_STEAMAPPLIST_INTERFACE_VERSION001 *_this)
-{
-    TRACE("%p\n", _this);
-    return cppISteamAppList_STEAMAPPLIST_INTERFACE_VERSION001_GetNumInstalledApps(_this->linux_side);
-}
-
 DEFINE_THISCALL_WRAPPER(winISteamAppList_STEAMAPPLIST_INTERFACE_VERSION001_GetInstalledApps, 12)
-uint32 __thiscall winISteamAppList_STEAMAPPLIST_INTERFACE_VERSION001_GetInstalledApps(winISteamAppList_STEAMAPPLIST_INTERFACE_VERSION001 *_this, AppId_t * pvecAppID, uint32 unMaxAppIDs)
-{
-    TRACE("%p\n", _this);
-    return cppISteamAppList_STEAMAPPLIST_INTERFACE_VERSION001_GetInstalledApps(_this->linux_side, pvecAppID, unMaxAppIDs);
-}
-
 DEFINE_THISCALL_WRAPPER(winISteamAppList_STEAMAPPLIST_INTERFACE_VERSION001_GetAppName, 16)
-int __thiscall winISteamAppList_STEAMAPPLIST_INTERFACE_VERSION001_GetAppName(winISteamAppList_STEAMAPPLIST_INTERFACE_VERSION001 *_this, AppId_t nAppID, char * pchName, int cchNameMax)
-{
-    TRACE("%p\n", _this);
-    return cppISteamAppList_STEAMAPPLIST_INTERFACE_VERSION001_GetAppName(_this->linux_side, nAppID, pchName, cchNameMax);
-}
-
 DEFINE_THISCALL_WRAPPER(winISteamAppList_STEAMAPPLIST_INTERFACE_VERSION001_GetAppInstallDir, 16)
-int __thiscall winISteamAppList_STEAMAPPLIST_INTERFACE_VERSION001_GetAppInstallDir(winISteamAppList_STEAMAPPLIST_INTERFACE_VERSION001 *_this, AppId_t nAppID, char * pchDirectory, int cchNameMax)
+DEFINE_THISCALL_WRAPPER(winISteamAppList_STEAMAPPLIST_INTERFACE_VERSION001_GetAppBuildId, 8)
+
+uint32 __thiscall winISteamAppList_STEAMAPPLIST_INTERFACE_VERSION001_GetNumInstalledApps(struct w_steam_iface *_this)
 {
-    uint32 path_result;
+    struct cppISteamAppList_STEAMAPPLIST_INTERFACE_VERSION001_GetNumInstalledApps_params params =
+    {
+        .linux_side = _this->u_iface,
+    };
     TRACE("%p\n", _this);
-    path_result = cppISteamAppList_STEAMAPPLIST_INTERFACE_VERSION001_GetAppInstallDir(_this->linux_side, nAppID, pchDirectory, cchNameMax);
-    path_result = steamclient_unix_path_to_dos_path(path_result, pchDirectory, pchDirectory, cchNameMax, 0);
-    return path_result;
+    cppISteamAppList_STEAMAPPLIST_INTERFACE_VERSION001_GetNumInstalledApps( &params );
+    return params._ret;
 }
 
-DEFINE_THISCALL_WRAPPER(winISteamAppList_STEAMAPPLIST_INTERFACE_VERSION001_GetAppBuildId, 8)
-int __thiscall winISteamAppList_STEAMAPPLIST_INTERFACE_VERSION001_GetAppBuildId(winISteamAppList_STEAMAPPLIST_INTERFACE_VERSION001 *_this, AppId_t nAppID)
+uint32 __thiscall winISteamAppList_STEAMAPPLIST_INTERFACE_VERSION001_GetInstalledApps(struct w_steam_iface *_this, AppId_t *pvecAppID, uint32 unMaxAppIDs)
 {
+    struct cppISteamAppList_STEAMAPPLIST_INTERFACE_VERSION001_GetInstalledApps_params params =
+    {
+        .linux_side = _this->u_iface,
+        .pvecAppID = pvecAppID,
+        .unMaxAppIDs = unMaxAppIDs,
+    };
     TRACE("%p\n", _this);
-    return cppISteamAppList_STEAMAPPLIST_INTERFACE_VERSION001_GetAppBuildId(_this->linux_side, nAppID);
+    cppISteamAppList_STEAMAPPLIST_INTERFACE_VERSION001_GetInstalledApps( &params );
+    return params._ret;
+}
+
+int __thiscall winISteamAppList_STEAMAPPLIST_INTERFACE_VERSION001_GetAppName(struct w_steam_iface *_this, AppId_t nAppID, char *pchName, int cchNameMax)
+{
+    struct cppISteamAppList_STEAMAPPLIST_INTERFACE_VERSION001_GetAppName_params params =
+    {
+        .linux_side = _this->u_iface,
+        .nAppID = nAppID,
+        .pchName = pchName,
+        .cchNameMax = cchNameMax,
+    };
+    TRACE("%p\n", _this);
+    cppISteamAppList_STEAMAPPLIST_INTERFACE_VERSION001_GetAppName( &params );
+    return params._ret;
+}
+
+int __thiscall winISteamAppList_STEAMAPPLIST_INTERFACE_VERSION001_GetAppInstallDir(struct w_steam_iface *_this, AppId_t nAppID, char *pchDirectory, int cchNameMax)
+{
+    struct cppISteamAppList_STEAMAPPLIST_INTERFACE_VERSION001_GetAppInstallDir_params params =
+    {
+        .linux_side = _this->u_iface,
+        .nAppID = nAppID,
+        .pchDirectory = pchDirectory,
+        .cchNameMax = cchNameMax,
+    };
+    TRACE("%p\n", _this);
+    cppISteamAppList_STEAMAPPLIST_INTERFACE_VERSION001_GetAppInstallDir( &params );
+    params._ret = steamclient_unix_path_to_dos_path( params._ret, pchDirectory, pchDirectory, cchNameMax, 0 );
+    return params._ret;
+}
+
+int __thiscall winISteamAppList_STEAMAPPLIST_INTERFACE_VERSION001_GetAppBuildId(struct w_steam_iface *_this, AppId_t nAppID)
+{
+    struct cppISteamAppList_STEAMAPPLIST_INTERFACE_VERSION001_GetAppBuildId_params params =
+    {
+        .linux_side = _this->u_iface,
+        .nAppID = nAppID,
+    };
+    TRACE("%p\n", _this);
+    cppISteamAppList_STEAMAPPLIST_INTERFACE_VERSION001_GetAppBuildId( &params );
+    return params._ret;
 }
 
 extern vtable_ptr winISteamAppList_STEAMAPPLIST_INTERFACE_VERSION001_vtable;
@@ -76,12 +102,12 @@ void __asm_dummy_vtables(void) {
 }
 #endif
 
-winISteamAppList_STEAMAPPLIST_INTERFACE_VERSION001 *create_winISteamAppList_STEAMAPPLIST_INTERFACE_VERSION001(void *linux_side)
+struct w_steam_iface *create_winISteamAppList_STEAMAPPLIST_INTERFACE_VERSION001(void *u_iface)
 {
-    winISteamAppList_STEAMAPPLIST_INTERFACE_VERSION001 *r = alloc_mem_for_iface(sizeof(winISteamAppList_STEAMAPPLIST_INTERFACE_VERSION001), "STEAMAPPLIST_INTERFACE_VERSION001");
+    struct w_steam_iface *r = alloc_mem_for_iface(sizeof(struct w_steam_iface), "STEAMAPPLIST_INTERFACE_VERSION001");
     TRACE("-> %p\n", r);
     r->vtable = alloc_vtable(&winISteamAppList_STEAMAPPLIST_INTERFACE_VERSION001_vtable, 5, "STEAMAPPLIST_INTERFACE_VERSION001");
-    r->linux_side = linux_side;
+    r->u_iface = u_iface;
     return r;
 }
 

@@ -112,7 +112,9 @@
     -W winex11.drv-Query_server_position \
     -W user32-Mouse_Message_Hwnd \
     -W wined3d-SWVP-shaders \
-    -W wined3d-Indexed_Vertex_Blending
+    -W wined3d-Indexed_Vertex_Blending \
+    -W shell32-registry-lookup-app \
+    -W winepulse-PulseAudio_Support
 
     # NOTE: Some patches are applied manually because they -do- apply, just not cleanly, ie with patch fuzz.
     # A detailed list of why the above patches are disabled is listed below:
@@ -188,6 +190,8 @@
     # winspool.drv-ClosePrinter - not required, only adds trace lines, for printers.
     # winmm-mciSendCommandA - not needed, only applies to win 9x mode
     # ** winex11-XEMBED - applied manually
+    # ** shell32-registry-lookup-app - applied manually
+    # ** winepulse-PulseAudio_Support - applied manually
     #
     # Paul Gofman — Yesterday at 3:49 PM
     # that’s only for desktop integration, spamming native menu’s with wine apps which won’t probably start from there anyway
@@ -291,8 +295,14 @@
     patch -Np1 < ../patches/wine-hotfixes/staging/user32-FlashWindowEx/0001-user32-Improve-FlashWindowEx-message-and-return-valu.patch
     
     # kernel32-Debugger
-   patch -Np1 < ../wine-staging/patches/kernel32-Debugger/0001-kernel32-Always-start-debugger-on-WinSta0.patch
-    
+    patch -Np1 < ../wine-staging/patches/kernel32-Debugger/0001-kernel32-Always-start-debugger-on-WinSta0.patch
+
+    # shell32-registry-lookup-app
+    patch -Np1 < ../patches/wine-hotfixes/staging/shell32-registry-lookup-app/0001-shell32-Append-.exe-when-registry-lookup-fails-first.patch
+
+    # winepulse-PulseAudio_Support
+    patch -Np1 < ../patches/wine-hotfixes/staging/winepulse-PulseAudio_Support/0001-winepulse.drv-Use-a-separate-mainloop-and-ctx-for-pu.patch
+
 ### END WINE STAGING APPLY SECTION ###
 
 ### (2-3) GAME PATCH SECTION ###
@@ -317,9 +327,17 @@
     echo "WINE: -GAME FIXES- Fix Farlight 84 dxva crash"
     patch -Np1 < ../patches/game-patches/farlight84.patch
 
+    # https://github.com/ValveSoftware/Proton/issues/333#issuecomment-1763560466
+    echo "WINE: -GAME FIXES- Fix World of Warships login hang"
+    patch -Np1 < ../patches/game-patches/world-of-warships-login-hang-fix.patch
+
 ### END GAME PATCH SECTION ###
 
 ### (2-4) WINE HOTFIX/BACKPORT SECTION ###
+
+    # https://gitlab.winehq.org/wine/wine/-/merge_requests/3777
+    echo "WINE: -BACKPORT- R6 Siege backport"
+    patch -Np1 < ../patches/wine-hotfixes/upstream/3777.patch
 
 ### END WINE HOTFIX/BACKPORT SECTION ###
 
@@ -332,9 +350,6 @@
     # https://bugs.winehq.org/show_bug.cgi?id=51683
     echo "WINE: -PENDING- Guild Wars 2 patch"
     patch -Np1 < ../patches/wine-hotfixes/pending/hotfix-guild_wars_2.patch
-    
-    echo "WINE: -PENDING- Genshin Impact long URL patch"
-    patch -Np1 < ../patches/wine-hotfixes/pending/genshin-impact-long-url-hotfix.patch
 
 ### END WINE PENDING UPSTREAM SECTION ###
 
@@ -343,6 +358,9 @@
 
     echo "WINE: -FSR- fullscreen hack fsr patch"
     patch -Np1 < ../patches/proton/48-proton-fshack_amd_fsr.patch
+    
+    echo "WINE: -FSR- fullscreen hack resolution calculation fixup"
+    patch -Np1 < ../patches/proton/49-fsr-width-using-height-and-aspect-ratio.patch
     
     #echo "WINE: -FSR- enable FSR flag by default (fixes broken fs hack scaling in some games like Apex and FFXIV)"
     #patch -Np1 < ../patches/proton/71-invert-fsr-logic.patch

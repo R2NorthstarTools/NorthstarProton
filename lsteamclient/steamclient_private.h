@@ -1,5 +1,11 @@
 /* TODO these should be generated */
 
+#ifndef __cplusplus
+#include "cxx.h"
+#else
+typedef void (*vtable_ptr)(void);
+#endif
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -40,15 +46,24 @@ typedef struct __winISteamRemotePlay winISteamRemotePlay;
 typedef struct __winISteamNetworkingFakeUDPPort winISteamNetworkingFakeUDPPort;
 typedef struct __winX winX;
 
+struct w_steam_iface
+{
+    vtable_ptr *vtable;
+    void *u_iface;
+};
+
 struct SteamInputActionEvent_t;
 typedef void (*CDECL win_SteamInputActionEventCallbackPointer)(SteamInputActionEvent_t *);
 void lin_SteamInputActionEventCallbackPointer(SteamInputActionEvent_t *dat);
 
-void *create_win_interface(const char *name, void *linux_side);
+struct w_steam_iface *create_win_interface(const char *name, void *linux_side);
 unsigned int steamclient_unix_path_to_dos_path(bool api_result, const char *src, char *dst, uint32 dst_bytes, int is_url);
-bool steamclient_dos_path_to_unix_path(const char *src, char *dst, int is_url);
-const char **steamclient_dos_to_unix_stringlist(const char **src);
-void steamclient_free_stringlist(const char **out);
+
+extern const char *steamclient_dos_to_unix_path( const char *src, int is_url );
+extern void steamclient_free_path( const char *path_array );
+extern const char **steamclient_dos_to_unix_path_array( const char **src_array );
+extern void steamclient_free_path_array( const char **path_array );
+
 const char *steamclient_isteamcontroller_getglyph(int origin, const char *lin_path);
 const char *steamclient_isteaminput_getglyph(int origin, const char *lin_path);
 const char *steamclient_isteaminput_getglyph_xbox(int origin, const char *lin_path);
@@ -66,7 +81,8 @@ void *manual_convert_SteamAPI_CheckCallbackRegistered_t(void *win_func);
 extern char g_tmppath[PATH_MAX];
 
 typedef uint64 SteamAPICall_t; //for ancient SDKs
-bool do_cb_wrap(HSteamPipe pipe, void *linux_side, bool (*cpp_func)(void *, SteamAPICall_t, void *, int, int, bool *), SteamAPICall_t call, void *callback, int callback_len, int cb_expected, bool *failed);
+void *alloc_callback_wtou( int id, void *callback, int *callback_len );
+void convert_callback_utow( int id, void *lin_callback, int lin_callback_len, void *callback, int callback_len );
 
 void *alloc_mem_for_iface(size_t size, const char *iface_version);
 void *alloc_vtable(void *vtable, unsigned int method_count, const char *iface_version);
@@ -113,8 +129,3 @@ HSteamPipe after_steam_pipe_create(HSteamPipe pipe);
 #ifdef __cplusplus
 }
 #endif
-
-#define TRACE WINE_TRACE
-#define ERR WINE_ERR
-#define WARN WINE_WARN
-#define FIXME WINE_FIXME

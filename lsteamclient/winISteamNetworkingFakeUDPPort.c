@@ -5,8 +5,6 @@
 #include "winbase.h"
 #include "wine/debug.h"
 
-#include "cxx.h"
-
 #include "steam_defs.h"
 
 #include "steamclient_private.h"
@@ -17,37 +15,58 @@ WINE_DEFAULT_DEBUG_CHANNEL(steamclient);
 
 #include "cppISteamNetworkingFakeUDPPort_SteamNetworkingFakeUDPPort001.h"
 
-typedef struct __winISteamNetworkingFakeUDPPort_SteamNetworkingFakeUDPPort001 {
-    vtable_ptr *vtable;
-    void *linux_side;
-} winISteamNetworkingFakeUDPPort_SteamNetworkingFakeUDPPort001;
-
 DEFINE_THISCALL_WRAPPER(winISteamNetworkingFakeUDPPort_SteamNetworkingFakeUDPPort001_DestroyFakeUDPPort, 4)
-void __thiscall winISteamNetworkingFakeUDPPort_SteamNetworkingFakeUDPPort001_DestroyFakeUDPPort(winISteamNetworkingFakeUDPPort_SteamNetworkingFakeUDPPort001 *_this)
-{
-    TRACE("%p\n", _this);
-    cppISteamNetworkingFakeUDPPort_SteamNetworkingFakeUDPPort001_DestroyFakeUDPPort(_this->linux_side);
-}
-
 DEFINE_THISCALL_WRAPPER(winISteamNetworkingFakeUDPPort_SteamNetworkingFakeUDPPort001_SendMessageToFakeIP, 20)
-EResult __thiscall winISteamNetworkingFakeUDPPort_SteamNetworkingFakeUDPPort001_SendMessageToFakeIP(winISteamNetworkingFakeUDPPort_SteamNetworkingFakeUDPPort001 *_this, const SteamNetworkingIPAddr * remoteAddress, const void * pData, uint32 cbData, int nSendFlags)
-{
-    TRACE("%p\n", _this);
-    return cppISteamNetworkingFakeUDPPort_SteamNetworkingFakeUDPPort001_SendMessageToFakeIP(_this->linux_side, remoteAddress, pData, cbData, nSendFlags);
-}
-
 DEFINE_THISCALL_WRAPPER(winISteamNetworkingFakeUDPPort_SteamNetworkingFakeUDPPort001_ReceiveMessages, 12)
-int __thiscall winISteamNetworkingFakeUDPPort_SteamNetworkingFakeUDPPort001_ReceiveMessages(winISteamNetworkingFakeUDPPort_SteamNetworkingFakeUDPPort001 *_this, winSteamNetworkingMessage_t_158 ** ppOutMessages, int nMaxMessages)
+DEFINE_THISCALL_WRAPPER(winISteamNetworkingFakeUDPPort_SteamNetworkingFakeUDPPort001_ScheduleCleanup, 8)
+
+void __thiscall winISteamNetworkingFakeUDPPort_SteamNetworkingFakeUDPPort001_DestroyFakeUDPPort(struct w_steam_iface *_this)
 {
+    struct cppISteamNetworkingFakeUDPPort_SteamNetworkingFakeUDPPort001_DestroyFakeUDPPort_params params =
+    {
+        .linux_side = _this->u_iface,
+    };
     TRACE("%p\n", _this);
-    return cppISteamNetworkingFakeUDPPort_SteamNetworkingFakeUDPPort001_ReceiveMessages(_this->linux_side, ppOutMessages, nMaxMessages);
+    cppISteamNetworkingFakeUDPPort_SteamNetworkingFakeUDPPort001_DestroyFakeUDPPort( &params );
 }
 
-DEFINE_THISCALL_WRAPPER(winISteamNetworkingFakeUDPPort_SteamNetworkingFakeUDPPort001_ScheduleCleanup, 8)
-void __thiscall winISteamNetworkingFakeUDPPort_SteamNetworkingFakeUDPPort001_ScheduleCleanup(winISteamNetworkingFakeUDPPort_SteamNetworkingFakeUDPPort001 *_this, const SteamNetworkingIPAddr * remoteAddress)
+EResult __thiscall winISteamNetworkingFakeUDPPort_SteamNetworkingFakeUDPPort001_SendMessageToFakeIP(struct w_steam_iface *_this, const SteamNetworkingIPAddr *remoteAddress, const void *pData, uint32 cbData, int nSendFlags)
 {
+    struct cppISteamNetworkingFakeUDPPort_SteamNetworkingFakeUDPPort001_SendMessageToFakeIP_params params =
+    {
+        .linux_side = _this->u_iface,
+        .remoteAddress = remoteAddress,
+        .pData = pData,
+        .cbData = cbData,
+        .nSendFlags = nSendFlags,
+    };
     TRACE("%p\n", _this);
-    cppISteamNetworkingFakeUDPPort_SteamNetworkingFakeUDPPort001_ScheduleCleanup(_this->linux_side, remoteAddress);
+    cppISteamNetworkingFakeUDPPort_SteamNetworkingFakeUDPPort001_SendMessageToFakeIP( &params );
+    return params._ret;
+}
+
+int __thiscall winISteamNetworkingFakeUDPPort_SteamNetworkingFakeUDPPort001_ReceiveMessages(struct w_steam_iface *_this, winSteamNetworkingMessage_t_158 **ppOutMessages, int nMaxMessages)
+{
+    struct cppISteamNetworkingFakeUDPPort_SteamNetworkingFakeUDPPort001_ReceiveMessages_params params =
+    {
+        .linux_side = _this->u_iface,
+        .ppOutMessages = ppOutMessages,
+        .nMaxMessages = nMaxMessages,
+    };
+    TRACE("%p\n", _this);
+    cppISteamNetworkingFakeUDPPort_SteamNetworkingFakeUDPPort001_ReceiveMessages( &params );
+    return params._ret;
+}
+
+void __thiscall winISteamNetworkingFakeUDPPort_SteamNetworkingFakeUDPPort001_ScheduleCleanup(struct w_steam_iface *_this, const SteamNetworkingIPAddr *remoteAddress)
+{
+    struct cppISteamNetworkingFakeUDPPort_SteamNetworkingFakeUDPPort001_ScheduleCleanup_params params =
+    {
+        .linux_side = _this->u_iface,
+        .remoteAddress = remoteAddress,
+    };
+    TRACE("%p\n", _this);
+    cppISteamNetworkingFakeUDPPort_SteamNetworkingFakeUDPPort001_ScheduleCleanup( &params );
 }
 
 extern vtable_ptr winISteamNetworkingFakeUDPPort_SteamNetworkingFakeUDPPort001_vtable;
@@ -65,12 +84,12 @@ void __asm_dummy_vtables(void) {
 }
 #endif
 
-winISteamNetworkingFakeUDPPort_SteamNetworkingFakeUDPPort001 *create_winISteamNetworkingFakeUDPPort_SteamNetworkingFakeUDPPort001(void *linux_side)
+struct w_steam_iface *create_winISteamNetworkingFakeUDPPort_SteamNetworkingFakeUDPPort001(void *u_iface)
 {
-    winISteamNetworkingFakeUDPPort_SteamNetworkingFakeUDPPort001 *r = HeapAlloc(GetProcessHeap(), 0, sizeof(winISteamNetworkingFakeUDPPort_SteamNetworkingFakeUDPPort001));
+    struct w_steam_iface *r = HeapAlloc(GetProcessHeap(), 0, sizeof(struct w_steam_iface));
     TRACE("-> %p\n", r);
     r->vtable = alloc_vtable(&winISteamNetworkingFakeUDPPort_SteamNetworkingFakeUDPPort001_vtable, 4, "SteamNetworkingFakeUDPPort001");
-    r->linux_side = linux_side;
+    r->u_iface = u_iface;
     return r;
 }
 

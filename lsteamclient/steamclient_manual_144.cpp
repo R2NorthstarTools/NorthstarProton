@@ -11,10 +11,13 @@ WINE_DEFAULT_DEBUG_CHANNEL(steamclient);
 #include "steam_defs.h"
 #pragma push_macro("__cdecl")
 #undef __cdecl
+#pragma push_macro("strncpy")
+#undef strncpy
 #include "steamworks_sdk_144/steam_api.h"
 #include "steamworks_sdk_144/isteamnetworkingsockets.h"
 #include "steamworks_sdk_144/steamnetworkingtypes.h"
 #pragma pop_macro("__cdecl")
+#pragma pop_macro("strncpy")
 #include "steamclient_private.h"
 
 extern "C" {
@@ -24,24 +27,23 @@ extern "C" {
 #define SDK_VERSION 1440
 #include "steamclient_manual_common.h"
 
-int cppISteamNetworkingSockets_SteamNetworkingSockets002_ReceiveMessagesOnConnection(
-        void *linux_side, HSteamNetConnection hConn,
-        winSteamNetworkingMessage_t_144 **ppOutMessages, int nMaxMessages)
-{
-    SteamNetworkingMessage_t *lin_ppOutMessages[nMaxMessages];
-    int retval = ((ISteamNetworkingSockets*)linux_side)->ReceiveMessagesOnConnection(hConn, lin_ppOutMessages, nMaxMessages);
-    lin_to_win_struct_SteamNetworkingMessage_t(retval, lin_ppOutMessages, ppOutMessages, nMaxMessages);
-    return retval;
+#include "cppISteamNetworkingSockets_SteamNetworkingSockets002.h"
 }
 
-int cppISteamNetworkingSockets_SteamNetworkingSockets002_ReceiveMessagesOnListenSocket(
-        void *linux_side, HSteamListenSocket hSocket,
-        winSteamNetworkingMessage_t_144 **ppOutMessages, int nMaxMessages)
+void cppISteamNetworkingSockets_SteamNetworkingSockets002_ReceiveMessagesOnConnection( struct cppISteamNetworkingSockets_SteamNetworkingSockets002_ReceiveMessagesOnConnection_params *params )
 {
-    SteamNetworkingMessage_t *lin_ppOutMessages[nMaxMessages];
-    int retval = ((ISteamNetworkingSockets*)linux_side)->ReceiveMessagesOnListenSocket(hSocket, lin_ppOutMessages, nMaxMessages);
-    lin_to_win_struct_SteamNetworkingMessage_t(retval, lin_ppOutMessages, ppOutMessages, nMaxMessages);
-    return retval;
+    ISteamNetworkingSockets *iface = (ISteamNetworkingSockets *)params->linux_side;
+    SteamNetworkingMessage_t *lin_ppOutMessages[params->nMaxMessages];
+    params->_ret = iface->ReceiveMessagesOnConnection( params->hConn, lin_ppOutMessages, params->nMaxMessages );
+    lin_to_win_struct_SteamNetworkingMessage_t( params->_ret, lin_ppOutMessages,
+                                                params->ppOutMessages, params->nMaxMessages );
 }
 
+void cppISteamNetworkingSockets_SteamNetworkingSockets002_ReceiveMessagesOnListenSocket( struct cppISteamNetworkingSockets_SteamNetworkingSockets002_ReceiveMessagesOnListenSocket_params *params )
+{
+    ISteamNetworkingSockets *iface = (ISteamNetworkingSockets *)params->linux_side;
+    SteamNetworkingMessage_t *lin_ppOutMessages[params->nMaxMessages];
+    params->_ret = iface->ReceiveMessagesOnListenSocket( params->hSocket, lin_ppOutMessages, params->nMaxMessages );
+    lin_to_win_struct_SteamNetworkingMessage_t( params->_ret, lin_ppOutMessages,
+                                                params->ppOutMessages, params->nMaxMessages );
 }
