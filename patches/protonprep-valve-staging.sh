@@ -357,11 +357,16 @@
 ### (2-6) PROTON-GE ADDITIONAL CUSTOM PATCHES ###
 
     echo "WINE: -FSR- fullscreen hack fsr patch"
-    patch -Np1 < ../patches/proton/48-proton-fshack_amd_fsr.patch
-    
-    echo "WINE: -FSR- fullscreen hack resolution calculation fixup"
-    patch -Np1 < ../patches/proton/49-fsr-width-using-height-and-aspect-ratio.patch
-    
+    patch -Np1 < ../patches/proton/47-proton-fshack-AMD-FSR-complete.patch
+
+    #echo "WINE: -FSR- fullscreen hack fsr patch"
+    #patch -Np1 < ../patches/proton/48-proton-fshack_amd_fsr.patch
+
+    #echo "WINE: -FSR- fullscreen hack resolution calculation fixup"
+    #patch -Np1 < ../patches/proton/49-fsr-width-using-height-and-aspect-ratio.patch
+    #echo "WINE: -FSR- fullscreen hack fix washed colors when FSR disabled"
+    #patch -Np1 < ../patches/proton/50-fsr-fix-washed-colors-when-disabled.patch
+
     #echo "WINE: -FSR- enable FSR flag by default (fixes broken fs hack scaling in some games like Apex and FFXIV)"
     #patch -Np1 < ../patches/proton/71-invert-fsr-logic.patch
 
