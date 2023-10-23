@@ -1,0 +1,13 @@
+diff --git a/Makefile.in b/Makefile.in
+index 256acc2b..ece080f0 100644
+--- a/Makefile.in
++++ b/Makefile.in
+@@ -53,7 +53,7 @@ CROSSLDFLAGS   += -Wl,--file-alignment,4096
+ OPTIMIZE_FLAGS := -O2 -march=nocona -mtune=core-avx2 -mfpmath=sse
+ SANITY_FLAGS   := -fwrapv -fno-strict-aliasing
+ DEBUG_FLAGS    := -ggdb -ffunction-sections -fdata-sections -fno-omit-frame-pointer
+-COMMON_FLAGS    = $(DEBUG_FLAGS) $(OPTIMIZE_FLAGS) $(SANITY_FLAGS) -ffile-prefix-map=$(CCACHE_BASEDIR)=.
++COMMON_FLAGS    = -s $(OPTIMIZE_FLAGS) $(SANITY_FLAGS) -ffile-prefix-map=$(CCACHE_BASEDIR)=.
+ COMMON_FLAGS32 := -mstackrealign
+ COMMON_FLAGS64 := -mcmodel=small
+ CARGO_BUILD_ARGS += --release
