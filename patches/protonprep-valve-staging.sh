@@ -334,6 +334,10 @@
     # https://gitlab.winehq.org/wine/wine/-/merge_requests/3777
     echo "WINE: -BACKPORT- R6 Siege backport"
     patch -Np1 < ../patches/wine-hotfixes/upstream/3777.patch
+    
+    # https://gitlab.winehq.org/wine/wine/-/merge_requests/2403
+    echo "WINE: -BACKPORT- LibreVR Revive backport"
+    patch -Np1 < ../patches/wine-hotfixes/upstream/2403.patch
 
 ### END WINE HOTFIX/BACKPORT SECTION ###
 
