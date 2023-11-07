@@ -40,7 +40,7 @@ from random import randrange
 #To enable debug logging, copy "user_settings.sample.py" to "user_settings.py"
 #and edit it if needed.
 
-CURRENT_PREFIX_VERSION="GE-Proton8-22"
+CURRENT_PREFIX_VERSION="GE-Proton8-23"
 
 PFX="Proton: "
 ld_path_var = "LD_LIBRARY_PATH"
@@ -1225,7 +1225,10 @@ def default_compat_config():
                 ]:
             ret.add("noopwr")
 
-        if appid == "1621680":
+        if appid in [
+                "1621680",
+                "359870",
+                ]:
             ret.add("noforcelgadd")
 
         if appid in [
@@ -1604,6 +1607,9 @@ class Session:
 
         if "forcelgadd" in self.compat_config:
             self.env["WINE_LARGE_ADDRESS_AWARE"] = "1"
+        else:
+            if "noforcelgadd" in self.compat_config:
+                self.env["WINE_LARGE_ADDRESS_AWARE"] = "0"
 
         if "heapdelayfree" in self.compat_config:
             self.env["WINE_HEAP_DELAY_FREE"] = "1"
