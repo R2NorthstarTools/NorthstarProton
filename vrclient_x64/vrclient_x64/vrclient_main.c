@@ -12,20 +12,36 @@
 #include "winternl.h"
 #include "wine/debug.h"
 
-#include "initguid.h"
-#define COBJMACROS
-#include "d3d11_4.h"
-#include "dxvk-interop.h"
-
 #include "vrclient_defs.h"
 #include "vrclient_private.h"
 
+#include "initguid.h"
+
+#define COBJMACROS
+#include "d3d11_4.h"
+
+#include "dxvk-interop.h"
+
 #include "flatapi.h"
 
-#include "struct_converters.h"
-#include "cppIVRClientCore_IVRClientCore_002.h"
 #include "cppIVRClientCore_IVRClientCore_003.h"
-#include "cppIVRMailbox_IVRMailbox_001.h"
+#include "cppIVRCompositor_IVRCompositor_021.h"
+#include "cppIVRCompositor_IVRCompositor_022.h"
+
+/* 0918 is binary compatible with 1015 */
+typedef struct winRenderModel_t_0918 winRenderModel_t_0918;
+typedef struct winRenderModel_TextureMap_t_0918 winRenderModel_TextureMap_t_0918;
+#include "cppIVRRenderModels_IVRRenderModels_004.h"
+
+typedef struct winRenderModel_t_1015 winRenderModel_t_1015;
+typedef struct winRenderModel_TextureMap_t_1015 winRenderModel_TextureMap_t_1015;
+#include "cppIVRRenderModels_IVRRenderModels_005.h"
+
+/* this is converted to 1267 during load_linux_texture_map, so ensure new
+ * structure is compatible before updating this number */
+typedef struct winRenderModel_t_1267 winRenderModel_t_1267;
+typedef struct winRenderModel_TextureMap_t_1267 winRenderModel_TextureMap_t_1267;
+#include "cppIVRRenderModels_IVRRenderModels_006.h"
 
 #include "wine/unixlib.h"
 
@@ -34,7 +50,28 @@
 WINE_DEFAULT_DEBUG_CHANNEL(vrclient);
 
 static void *vrclient_lib;
-struct compositor_data compositor_data;
+static struct
+{
+    ID3D11Device *d3d11_device;
+    IDXGIVkInteropDevice *dxvk_device;
+    BOOL d3d11_explicit_handoff, handoff_called;
+    void *client_core_linux_side;
+
+#ifndef __x86_64__
+/* Digital action state change fixup hack. */
+    struct
+    {
+        VRActionHandle_t action;
+        VRInputValueHandle_t origin;
+        LARGE_INTEGER update_qpf_time;
+        BOOL previous_state;
+    }
+    digital_actions_state[128];
+    unsigned int digital_action_count;
+    LARGE_INTEGER qpf_freq;
+#endif
+}
+compositor_data;
 
 BOOL WINAPI DllMain(HINSTANCE instance, DWORD reason, void *reserved)
 {
@@ -95,15 +132,13 @@ unsigned int vrclient_unix_path_to_dos_path(bool api_result, const char *src, ch
 
 #define IS_ABSOLUTE(x) (*x == '/' || *x == '\\' || (*x && *(x + 1) == ':'))
 
-char *vrclient_dos_to_unix_path( const char *src )
+/* returns non-zero on success, zero on failure */
+bool vrclient_dos_path_to_unix_path(const char *src, char *dst)
 {
-    char buffer[4096], *dst = buffer;
-    uint32_t len;
-
-    if (!src) return NULL;
-
     *dst = 0;
-    if (!*src) goto done;
+
+    if(!src || !*src)
+        return 0;
 
     if(IS_ABSOLUTE(src)){
         /* absolute path, use wine conversion */
@@ -113,12 +148,12 @@ char *vrclient_dos_to_unix_path( const char *src )
 
         r = MultiByteToWideChar(CP_UNIXCP, 0, src, -1, srcW, PATH_MAX);
         if(r == 0)
-            return NULL;
+            return 0;
 
         unix_path = wine_get_unix_file_name(srcW);
         if(!unix_path){
             WARN("Unable to convert DOS filename to unix: %s\n", src);
-            return NULL;
+            return 0;
         }
 
         if (!realpath(unix_path, dst))
@@ -143,16 +178,7 @@ char *vrclient_dos_to_unix_path( const char *src )
         *d = 0;
     }
 
-done:
-    len = strlen( buffer );
-    if (!(dst = HeapAlloc( GetProcessHeap(), 0, len + 1 ))) return NULL;
-    memcpy( dst, buffer, len + 1 );
-    return dst;
-}
-
-void vrclient_free_path( const char *path )
-{
-    HeapFree( GetProcessHeap(), 0, (char *)path );
+    return 1;
 }
 
 static BOOL array_reserve(void **elements, SIZE_T *capacity, SIZE_T count, SIZE_T size)
@@ -188,17 +214,17 @@ static BOOL array_reserve(void **elements, SIZE_T *capacity, SIZE_T count, SIZE_
 #include "win_constructors.h"
 #include "win_destructors.h"
 
-typedef void (*pfn_dtor)(struct w_steam_iface *);
+typedef void (*pfn_dtor)(void *);
 
 static const struct {
     const char *iface_version;
-    struct w_steam_iface *(*ctor)(void *);
-    void (*dtor)(struct w_steam_iface *);
+    void *(*ctor)(void *);
+    void (*dtor)(void *);
 } constructors[] = {
 #include "win_constructors_table.dat"
 };
 
-struct w_steam_iface *create_win_interface(const char *name, void *linux_side)
+void *create_win_interface(const char *name, void *linux_side)
 {
     unsigned int i;
 
@@ -343,11 +369,11 @@ void *CDECL VRClientCoreFactory(const char *name, int *return_code)
     return create_win_interface(name, vrclient_VRClientCoreFactory(name, return_code));
 }
 
-static VkDevice_T *(WINAPI *p_get_native_VkDevice)( VkDevice_T * );
-static VkInstance_T *(WINAPI *p_get_native_VkInstance)( VkInstance_T * );
-static VkPhysicalDevice_T *(WINAPI *p_get_native_VkPhysicalDevice)( VkPhysicalDevice_T * );
-static VkPhysicalDevice_T *(WINAPI *p_get_wrapped_VkPhysicalDevice)( VkInstance_T *, VkPhysicalDevice_T * );
-static VkQueue_T *(WINAPI *p_get_native_VkQueue)( VkQueue_T * );
+static VkDevice_T *(WINAPI *get_native_VkDevice)(VkDevice_T *);
+static VkInstance_T *(WINAPI *get_native_VkInstance)(VkInstance_T *);
+static VkPhysicalDevice_T *(WINAPI *get_native_VkPhysicalDevice)(VkPhysicalDevice_T *);
+static VkPhysicalDevice_T *(WINAPI *get_wrapped_VkPhysicalDevice)(VkInstance_T *, VkPhysicalDevice_T *);
+static VkQueue_T *(WINAPI *get_native_VkQueue)(VkQueue_T *);
 
 static void *get_winevulkan_unix_lib_handle(HMODULE hvulkan)
 {
@@ -392,12 +418,12 @@ static void load_vk_unwrappers(void)
         return;
     }
 
-#define L( name )                                                                                  \
-    if (!(p_##name = dlsym( unix_handle, "__wine_" #name )))                                       \
-    {                                                                                              \
-        ERR( "%s not found.\n", #name );                                                           \
-        dlclose( unix_handle );                                                                    \
-        return;                                                                                    \
+#define L(name) \
+    if (!(name = dlsym(unix_handle, "__wine_"#name))) \
+    {\
+        ERR("%s not found.\n", #name);\
+        dlclose(unix_handle);\
+        return;\
     }
 
     L(get_native_VkDevice);
@@ -408,36 +434,6 @@ static void load_vk_unwrappers(void)
 #undef L
 
     dlclose(unix_handle);
-}
-
-VkDevice_T *get_native_VkDevice( VkDevice_T *device )
-{
-    load_vk_unwrappers();
-    return p_get_native_VkDevice( device );
-}
-
-VkInstance_T *get_native_VkInstance( VkInstance_T *instance )
-{
-    load_vk_unwrappers();
-    return p_get_native_VkInstance( instance );
-}
-
-VkPhysicalDevice_T *get_native_VkPhysicalDevice( VkPhysicalDevice_T *device )
-{
-    load_vk_unwrappers();
-    return p_get_native_VkPhysicalDevice( device );
-}
-
-VkPhysicalDevice_T *get_wrapped_VkPhysicalDevice( VkInstance_T *instance, VkPhysicalDevice_T *device )
-{
-    load_vk_unwrappers();
-    return p_get_wrapped_VkPhysicalDevice( instance, device );
-}
-
-VkQueue_T *get_native_VkQueue( VkQueue_T *queue )
-{
-    load_vk_unwrappers();
-    return p_get_native_VkQueue( queue );
 }
 
 static bool is_hmd_present_reg(void)
@@ -513,13 +509,83 @@ done:
     return is_hmd_present;
 }
 
-static void *ivrclientcore_get_generic_interface( void *object, const char *name_and_version, struct client_core_data *user_data )
+bool ivrclientcore_is_hmd_present(bool (*cpp_func)(void *), void *linux_side, unsigned int version,
+        struct client_core_data *user_data)
 {
-    struct w_steam_iface *win_object;
+    TRACE("linux_side %p, compositor_data.client_core_linux_side %p.\n",
+            linux_side, compositor_data.client_core_linux_side);
+
+    /* BIsHmdPresent() currently always returns FALSE on Linux if called before Init().
+     * Return true if the value stored by steam.exe helper in registry says the HMD is presnt. */
+    if (compositor_data.client_core_linux_side || !is_hmd_present_reg())
+        return cpp_func(linux_side);
+
+    return TRUE;
+}
+
+EVRInitError ivrclientcore_002_init(EVRInitError (*cpp_func)(void *, EVRApplicationType),
+        void *linux_side, EVRApplicationType application_type,
+        unsigned int version, struct client_core_data *user_data)
+{
+    EVRInitError error;
+
+    TRACE("%p, %#x\n", linux_side, application_type);
+
+    InitializeCriticalSection(&user_data->critical_section);
+
+    error = cpp_func(linux_side, application_type);
+    if (error)
+        WARN("error %#x\n", error);
+    return error;
+}
+
+EVRInitError ivrclientcore_init(EVRInitError (*cpp_func)(void *, EVRApplicationType, const char *),
+        void *linux_side, EVRApplicationType application_type, const char *startup_info,
+        unsigned int version, struct client_core_data *user_data)
+{
+    char *startup_info_converted;
+    EVRInitError error;
+
+    TRACE("%p, %#x, %p\n", linux_side, application_type, startup_info);
+
+    startup_info_converted = json_convert_startup_info(startup_info);
+    InitializeCriticalSection(&user_data->critical_section);
+
+    error = cpp_func(linux_side, application_type, startup_info_converted
+            ? startup_info_converted : startup_info);
+
+    free(startup_info_converted);
+
+    if (error)
+        WARN("error %#x\n", error);
+    else
+        compositor_data.client_core_linux_side = linux_side;
+
+    return error;
+}
+
+void *ivrclientcore_get_generic_interface(void *(*cpp_func)(void *, const char *, EVRInitError *),
+        void *linux_side, const char *name_and_version, EVRInitError *error,
+        unsigned int version, struct client_core_data *user_data)
+{
+    const char *cpp_name_and_version = name_and_version;
     struct generic_interface *iface;
     pfn_dtor destructor;
+    void *win_object;
+    void *object;
 
-    TRACE( "%p %p\n", object, name_and_version );
+    TRACE("%p, %p, %p\n", linux_side, name_and_version, error);
+
+    /* In theory we could pass this along, but we'd have to generate a separate
+     * set of thunks for it. Hopefully this will work as it is. */
+    if (name_and_version && !strncmp(name_and_version, "FnTable:", 8))
+        cpp_name_and_version += 8;
+
+    if (!(object = cpp_func(linux_side, cpp_name_and_version, error)))
+    {
+        WARN("Failed to create %s.\n", name_and_version);
+        return NULL;
+    }
 
     if (!(win_object = create_win_interface(name_and_version, object)))
     {
@@ -556,10 +622,13 @@ static void destroy_compositor_data(void)
     memset(&compositor_data, 0, sizeof(compositor_data));
 }
 
-static void ivrclientcore_cleanup( struct client_core_data *user_data )
+void ivrclientcore_cleanup(void (*cpp_func)(void *), void *linux_side,
+        unsigned int version, struct client_core_data *user_data)
 {
     struct generic_interface *iface;
     SIZE_T i;
+
+    TRACE("%p\n", linux_side);
 
     EnterCriticalSection(&user_data->critical_section);
     for (i = 0; i < user_data->created_interface_count; ++i)
@@ -575,11 +644,127 @@ static void ivrclientcore_cleanup( struct client_core_data *user_data )
     LeaveCriticalSection(&user_data->critical_section);
 
     DeleteCriticalSection(&user_data->critical_section);
+    cpp_func(linux_side);
+
+    destroy_compositor_data();
 }
 
-Texture_t vrclient_translate_texture_dxvk( const Texture_t *texture, struct VRVulkanTextureData_t *vkdata,
-                                           IDXGIVkInteropSurface *dxvk_surface, IDXGIVkInteropDevice **p_dxvk_device,
-                                           VkImageLayout *image_layout, VkImageCreateInfo *image_info )
+void get_dxgi_output_info(void *cpp_func, void *linux_side,
+        int32_t *adapter_idx, unsigned int version)
+{
+    TRACE("%p\n", adapter_idx);
+    *adapter_idx = 0;
+}
+
+void get_dxgi_output_info2(void *cpp_func, void *linux_side,
+        int32_t *adapter_idx, int32_t *output_idx, unsigned int version)
+{
+    TRACE("%p, %p\n", adapter_idx, output_idx);
+    *adapter_idx = 0;
+    *output_idx = 0;
+}
+
+void ivrsystem_016_get_output_device(
+        void (*cpp_func)(void *, uint64_t *, ETextureType),
+        void *linux_side, uint64_t *out_device, ETextureType type,
+        unsigned int version)
+{
+    cpp_func(linux_side, out_device, type);
+}
+
+void ivrsystem_get_output_device(
+        void (*cpp_func)(void *, uint64_t *, ETextureType, VkInstance_T *),
+        void *linux_side, uint64_t *out_device, ETextureType type,
+        VkInstance_T *wrapped_instance, unsigned int version)
+{
+    switch(type){
+        case TextureType_Vulkan:
+        {
+            VkInstance_T *native_instance;
+
+            load_vk_unwrappers();
+
+            native_instance = get_native_VkInstance(wrapped_instance);
+
+            cpp_func(linux_side, out_device, type, native_instance);
+
+            *out_device = (uint64_t)(intptr_t)get_wrapped_VkPhysicalDevice(wrapped_instance,
+                    (VkPhysicalDevice_T *)(intptr_t)*out_device);
+
+            return;
+        }
+        default:
+            cpp_func(linux_side, out_device, type, wrapped_instance);
+            return;
+    }
+}
+
+struct submit_data
+{
+    void *linux_side;
+
+    EVRCompositorError (*submit)(void *, EVREye, Texture_t *, VRTextureBounds_t *, EVRSubmitFlags);
+
+    EVREye eye;
+    Texture_t texture;
+    VRTextureWithPose_t texture_pose;
+    VRTextureWithDepth_t texture_depth;
+    VRTextureWithPoseAndDepth_t texture_both;
+    VRTextureBounds_t bounds;
+    EVRSubmitFlags flags;
+};
+
+void ivrcompositor_005_submit(
+        void (*cpp_func)(void *, Hmd_Eye, void *, Compositor_TextureBounds *),
+        void *linux_side, Hmd_Eye eye, void *texture, Compositor_TextureBounds *bounds,
+        unsigned int version)
+{
+    TRACE("%p, %#x, %p, %p\n", linux_side, eye, texture, bounds);
+
+    return cpp_func(linux_side, eye, texture, bounds);
+}
+
+VRCompositorError ivrcompositor_006_submit(
+        VRCompositorError (*cpp_func)(void *, Hmd_Eye, void *, VRTextureBounds_t *),
+        void *linux_side, Hmd_Eye eye, void *texture, VRTextureBounds_t *bounds,
+        unsigned int version)
+{
+    TRACE("%p, %#x, %p, %p\n", linux_side, eye, texture, bounds);
+
+    return cpp_func(linux_side, eye, texture, bounds);
+}
+
+VRCompositorError ivrcompositor_007_submit(
+        VRCompositorError (*cpp_func)(void *, Hmd_Eye, GraphicsAPIConvention, void *, VRTextureBounds_t *),
+        void *linux_side, Hmd_Eye eye, GraphicsAPIConvention api, void *texture, VRTextureBounds_t *bounds,
+        unsigned int version)
+{
+    TRACE("%p, %#x, %#x, %p, %p\n", linux_side, eye, api, texture, bounds);
+
+    if (api == API_DirectX)
+        FIXME("Not implemented Direct3D API!\n");
+
+    return cpp_func(linux_side, eye, api, texture, bounds);
+}
+
+VRCompositorError ivrcompositor_008_submit(
+        VRCompositorError (*cpp_func)(void *, Hmd_Eye, GraphicsAPIConvention, void *,
+        VRTextureBounds_t *, VRSubmitFlags_t),
+        void *linux_side, Hmd_Eye eye, GraphicsAPIConvention api, void *texture,
+        VRTextureBounds_t *bounds, VRSubmitFlags_t flags,
+        unsigned int version)
+{
+    TRACE("%p, %#x, %#x, %p, %p, %#x\n", linux_side, eye, api, texture, bounds, flags);
+
+    if (api == API_DirectX)
+        FIXME("Not implemented Direct3D API!\n");
+
+    return cpp_func(linux_side, eye, api, texture, bounds, flags);
+}
+
+static Texture_t vrclient_translate_texture_dxvk(Texture_t *texture, struct VRVulkanTextureData_t *vkdata,
+        IDXGIVkInteropSurface *dxvk_surface, IDXGIVkInteropDevice **p_dxvk_device, VkImageLayout *image_layout,
+        VkImageCreateInfo *image_info)
 {
     struct Texture_t vktexture;
     VkImage image_handle;
@@ -595,6 +780,8 @@ Texture_t vrclient_translate_texture_dxvk( const Texture_t *texture, struct VRVu
     image_info->pNext = NULL;
 
     dxvk_surface->lpVtbl->GetVulkanImageInfo(dxvk_surface, &image_handle, image_layout, image_info);
+
+    load_vk_unwrappers();
 
     vkdata->m_nImage = (uint64_t)image_handle;
     vkdata->m_pDevice = get_native_VkDevice(vkdata->m_pDevice);
@@ -613,181 +800,823 @@ Texture_t vrclient_translate_texture_dxvk( const Texture_t *texture, struct VRVu
     return vktexture;
 }
 
-EVRInitError __thiscall winIVRClientCore_IVRClientCore_002_Init( struct w_steam_iface *_this, EVRApplicationType eApplicationType )
+static EVROverlayError ivroverlay_set_overlay_texture_dxvk(
+                EVROverlayError (*cpp_func)(void *, VROverlayHandle_t, Texture_t *),
+                void *linux_side, VROverlayHandle_t overlayHandle, Texture_t *texture,
+                unsigned int version, IDXGIVkInteropSurface *dxvk_surface)
 {
-    struct cppIVRClientCore_IVRClientCore_002_Init_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eApplicationType = eApplicationType,
-    };
+    struct VRVulkanTextureData_t vkdata;
+    IDXGIVkInteropDevice *dxvk_device;
+    struct Texture_t vktexture;
 
-    TRACE( "%p\n", _this );
+    VkImageLayout image_layout;
+    VkImageCreateInfo image_info;
+    VkImageSubresourceRange subresources;
 
-    InitializeCriticalSection( &_this->user_data.critical_section );
+    EVRCompositorError err;
 
-    cppIVRClientCore_IVRClientCore_002_Init( &params );
-    if (params._ret) WARN( "error %#x\n", params._ret );
-    return params._ret;
+    vktexture = vrclient_translate_texture_dxvk(texture, &vkdata, dxvk_surface, &dxvk_device, &image_layout, &image_info);
+
+    subresources.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+    subresources.baseMipLevel = 0;
+    subresources.levelCount = image_info.mipLevels;
+    subresources.baseArrayLayer = 0;
+    subresources.layerCount = image_info.arrayLayers;
+
+    dxvk_device->lpVtbl->TransitionSurfaceLayout(dxvk_device, dxvk_surface, &subresources,
+            image_layout, VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL);
+    dxvk_device->lpVtbl->FlushRenderingCommands(dxvk_device);
+    dxvk_device->lpVtbl->LockSubmissionQueue(dxvk_device);
+
+    err = cpp_func(linux_side, overlayHandle, &vktexture);
+
+    dxvk_device->lpVtbl->ReleaseSubmissionQueue(dxvk_device);
+    dxvk_device->lpVtbl->TransitionSurfaceLayout(dxvk_device, dxvk_surface, &subresources,
+            VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL, image_layout);
+
+    dxvk_device->lpVtbl->Release(dxvk_device);
+    dxvk_surface->lpVtbl->Release(dxvk_surface);
+    return err;
 }
 
-void __thiscall winIVRClientCore_IVRClientCore_002_Cleanup( struct w_steam_iface *_this )
+static EVRCompositorError ivrcompositor_submit_dxvk(
+        EVRCompositorError (*cpp_func)(void *, EVREye, Texture_t *, VRTextureBounds_t *, EVRSubmitFlags),
+        void *linux_side, EVREye eye, Texture_t *texture, VRTextureBounds_t *bounds, EVRSubmitFlags flags,
+        unsigned int version, IDXGIVkInteropSurface *dxvk_surface)
 {
-    struct cppIVRClientCore_IVRClientCore_002_Cleanup_params params =
+    static const EVRSubmitFlags supported_flags = Submit_LensDistortionAlreadyApplied | Submit_FrameDiscontinuty;
+    struct VRVulkanTextureArrayData_t vkdata;
+    IDXGIVkInteropDevice *dxvk_device;
+    struct Texture_t vktexture;
+
+    VkImageLayout image_layout;
+    VkImageCreateInfo image_info;
+    VkImageSubresourceRange subresources;
+
+    EVRCompositorError err;
+
+    vktexture = vrclient_translate_texture_dxvk(texture, &vkdata.t, dxvk_surface, &dxvk_device, &image_layout, &image_info);
+
+    compositor_data.dxvk_device = dxvk_device;
+
+    if (flags & ~supported_flags)
+        FIXME("Unhandled flags %#x.\n", flags);
+
+    if (image_info.arrayLayers > 1)
     {
-        .linux_side = _this->u_iface,
-    };
-    TRACE( "%p\n", _this );
-    ivrclientcore_cleanup( &_this->user_data );
-    cppIVRClientCore_IVRClientCore_002_Cleanup( &params );
-    destroy_compositor_data();
-}
-
-void *__thiscall winIVRClientCore_IVRClientCore_002_GetGenericInterface( struct w_steam_iface *_this,
-                                                                         const char *pchNameAndVersion, EVRInitError *peError )
-{
-    struct cppIVRClientCore_IVRClientCore_002_GetGenericInterface_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pchNameAndVersion = pchNameAndVersion,
-        .peError = peError,
-    };
-
-    TRACE( "%p\n", _this );
-
-    /* In theory we could pass this along, but we'd have to generate a separate
-     * set of thunks for it. Hopefully this will work as it is. */
-    if (pchNameAndVersion && !strncmp( pchNameAndVersion, "FnTable:", 8 )) params.pchNameAndVersion += 8;
-
-    cppIVRClientCore_IVRClientCore_002_GetGenericInterface( &params );
-
-    if (!params._ret)
-    {
-        WARN( "Failed to create %s.\n", pchNameAndVersion );
-        return NULL;
+        vkdata.m_unArrayIndex = eye;
+        vkdata.m_unArraySize = image_info.arrayLayers;
+        flags |= Submit_VulkanTextureWithArrayData;
     }
 
-    params._ret = ivrclientcore_get_generic_interface( params._ret, pchNameAndVersion, &_this->user_data );
-    return params._ret;
+    subresources.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+    subresources.baseMipLevel = 0;
+    subresources.levelCount = image_info.mipLevels;
+    subresources.baseArrayLayer = 0;
+    subresources.layerCount = image_info.arrayLayers;
+
+    dxvk_device->lpVtbl->TransitionSurfaceLayout(dxvk_device, dxvk_surface, &subresources,
+            image_layout, VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL);
+    dxvk_device->lpVtbl->FlushRenderingCommands(dxvk_device);
+    dxvk_device->lpVtbl->LockSubmissionQueue(dxvk_device);
+
+    err = cpp_func(linux_side, eye, &vktexture, bounds, flags);
+
+    dxvk_device->lpVtbl->ReleaseSubmissionQueue(dxvk_device);
+    dxvk_device->lpVtbl->TransitionSurfaceLayout(dxvk_device, dxvk_surface, &subresources,
+            VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL, image_layout);
+
+    dxvk_device->lpVtbl->Release(dxvk_device);
+    dxvk_surface->lpVtbl->Release(dxvk_surface);
+    return err;
 }
 
-bool __thiscall winIVRClientCore_IVRClientCore_002_BIsHmdPresent( struct w_steam_iface *_this )
+static EVROverlayError ivroverlay_set_overlay_texture_vulkan(
+                EVROverlayError (*cpp_func)(void *, VROverlayHandle_t, Texture_t *),
+                void *linux_side, VROverlayHandle_t overlay_handle, Texture_t *texture,
+                unsigned int version)
 {
-    struct cppIVRClientCore_IVRClientCore_002_BIsHmdPresent_params params = {.linux_side = _this->u_iface};
+    struct VRVulkanTextureData_t our_vkdata, *their_vkdata;
+    Texture_t our_texture;
 
-    TRACE( "linux_side %p, compositor_data.client_core_linux_side %p.\n", _this->u_iface,
-           compositor_data.client_core_linux_side );
+    load_vk_unwrappers();
 
-    /* BIsHmdPresent() currently always returns FALSE on Linux if called before Init().
-     * Return true if the value stored by steam.exe helper in registry says the HMD is presnt. */
-    if (compositor_data.client_core_linux_side || !is_hmd_present_reg())
+    their_vkdata = texture->handle;
+
+    our_vkdata = *their_vkdata;
+    our_vkdata.m_pDevice = get_native_VkDevice(our_vkdata.m_pDevice);
+    our_vkdata.m_pPhysicalDevice = get_native_VkPhysicalDevice(our_vkdata.m_pPhysicalDevice);
+    our_vkdata.m_pInstance = get_native_VkInstance(our_vkdata.m_pInstance);
+    our_vkdata.m_pQueue = get_native_VkQueue(our_vkdata.m_pQueue);
+
+    our_texture = *texture;
+    our_texture.handle = &our_vkdata;
+
+    return cpp_func(linux_side, overlay_handle, &our_texture);
+}
+
+static EVRCompositorError ivrcompositor_submit_vulkan(
+        EVRCompositorError (*cpp_func)(void *, EVREye, Texture_t *, VRTextureBounds_t *, EVRSubmitFlags),
+        void *linux_side, EVREye eye, Texture_t *texture, VRTextureBounds_t *bounds, EVRSubmitFlags flags,
+        unsigned int version)
+{
+    struct VRVulkanTextureData_t our_depth_vkdata, *their_vkdata;
+    struct VRVulkanTextureArrayData_t our_vkdata;
+    VRTextureWithPoseAndDepth_t our_both;
+    VRTextureWithDepth_t our_depth;
+    VRTextureWithPose_t our_pose;
+    Texture_t our_texture;
+    void *tex = texture;
+
+    load_vk_unwrappers();
+
+    their_vkdata = texture->handle;
+
+    memcpy(&our_vkdata, their_vkdata, flags & Submit_VulkanTextureWithArrayData
+            ? sizeof(struct VRVulkanTextureArrayData_t) : sizeof(struct VRVulkanTextureData_t));
+
+    our_vkdata.t.m_pDevice = get_native_VkDevice(our_vkdata.t.m_pDevice);
+    our_vkdata.t.m_pPhysicalDevice = get_native_VkPhysicalDevice(our_vkdata.t.m_pPhysicalDevice);
+    our_vkdata.t.m_pInstance = get_native_VkInstance(our_vkdata.t.m_pInstance);
+    our_vkdata.t.m_pQueue = get_native_VkQueue(our_vkdata.t.m_pQueue);
+
+    switch (flags & (Submit_TextureWithPose | Submit_TextureWithDepth))
     {
-        cppIVRClientCore_IVRClientCore_002_BIsHmdPresent( &params );
-        return params._ret;
+        case 0:
+            our_texture = *texture;
+            our_texture.handle = &our_vkdata;
+            tex = &our_texture;
+            break;
+
+        case Submit_TextureWithPose:
+            our_pose = *(VRTextureWithPose_t *)texture;
+            our_pose.texture.handle = &our_vkdata;
+            tex = &our_pose;
+            break;
+
+        case Submit_TextureWithDepth:
+            our_depth = *(VRTextureWithDepth_t *)texture;
+
+            our_depth.texture.handle = &our_vkdata;
+
+            tex = &our_depth;
+            break;
+
+        case Submit_TextureWithPose | Submit_TextureWithDepth:
+            our_both = *(VRTextureWithPoseAndDepth_t *)texture;
+
+            our_both.texture.handle = &our_vkdata;
+
+            their_vkdata = our_both.depth.handle;
+            our_depth_vkdata = *their_vkdata;
+            our_depth_vkdata.m_pDevice = get_native_VkDevice(our_depth_vkdata.m_pDevice);
+            our_depth_vkdata.m_pPhysicalDevice = get_native_VkPhysicalDevice(our_depth_vkdata.m_pPhysicalDevice);
+            our_depth_vkdata.m_pInstance = get_native_VkInstance(our_depth_vkdata.m_pInstance);
+            our_depth_vkdata.m_pQueue = get_native_VkQueue(our_depth_vkdata.m_pQueue);
+
+            our_both.depth.handle = &our_depth_vkdata;
+
+            tex = &our_both;
+            break;
     }
 
-    return TRUE;
+    return cpp_func(linux_side, eye, tex, bounds, flags);
 }
 
-EVRInitError __thiscall winIVRClientCore_IVRClientCore_003_Init( struct w_steam_iface *_this, EVRApplicationType eApplicationType,
-                                                                 const char *pStartupInfo )
+EVROverlayError ivroverlay_set_overlay_texture(
+                EVROverlayError (*cpp_func)(void *, VROverlayHandle_t, Texture_t *),
+                void *linux_side, VROverlayHandle_t overlayHandle, Texture_t *texture,
+                unsigned int version)
 {
-    struct cppIVRClientCore_IVRClientCore_003_Init_params params =
+    IUnknown *texture_iface;
+    HRESULT hr;
+
+    TRACE("%p, overlayHandle = %s, texture = %p\n", linux_side, wine_dbgstr_longlong(overlayHandle), texture);
+
+    switch (texture->eType)
     {
-        .linux_side = _this->u_iface,
-        .eApplicationType = eApplicationType,
-        .pStartupInfo = pStartupInfo,
-    };
-    char *startup_info_converted;
+        case TextureType_DirectX:
+        {
+            IDXGIVkInteropSurface *dxvk_surface;
 
-    TRACE( "%p\n", _this );
+            TRACE("D3D11\n");
 
-    startup_info_converted = json_convert_startup_info( pStartupInfo );
-    if (startup_info_converted) params.pStartupInfo = startup_info_converted;
-    InitializeCriticalSection( &_this->user_data.critical_section );
+            if (!texture->handle) {
+                WARN("No D3D11 texture %p.\n", texture);
+                return cpp_func(linux_side, overlayHandle, texture);
+            }
 
-    cppIVRClientCore_IVRClientCore_003_Init( &params );
+            texture_iface = texture->handle;
 
-    free( startup_info_converted );
+            if (SUCCEEDED(hr = texture_iface->lpVtbl->QueryInterface(texture_iface, &IID_IDXGIVkInteropSurface, (void **)&dxvk_surface))) {
+                return ivroverlay_set_overlay_texture_dxvk(cpp_func, linux_side, overlayHandle, texture, version, dxvk_surface);
+            }
 
-    if (params._ret) WARN( "error %#x\n", params._ret );
-    else compositor_data.client_core_linux_side = params.linux_side;
+            WARN("Invalid D3D11 texture %p.\n", texture);
+            return cpp_func(linux_side, overlayHandle, texture);
+        }
 
-    return params._ret;
+        case TextureType_Vulkan:
+            TRACE("Vulkan\n");
+            return ivroverlay_set_overlay_texture_vulkan(cpp_func, linux_side, overlayHandle, texture, version);
+        default:
+            return cpp_func(linux_side, overlayHandle, texture);
+    }
 }
 
-void __thiscall winIVRClientCore_IVRClientCore_003_Cleanup( struct w_steam_iface *_this )
+EVROverlayError ivroverlay_005_set_overlay_texture(
+                EVROverlayError (*cpp_func)(void *, VROverlayHandle_t, GraphicsAPIConvention, void *),
+                void *linux_side, VROverlayHandle_t overlayHandle, GraphicsAPIConvention api, void *texture,
+                unsigned int version)
 {
-    struct cppIVRClientCore_IVRClientCore_003_Cleanup_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
-    TRACE( "%p\n", _this );
-    ivrclientcore_cleanup( &_this->user_data );
-    cppIVRClientCore_IVRClientCore_003_Cleanup( &params );
-    destroy_compositor_data();
+    /* hopefully no one actually uses this old interface... Vulkan support
+     * wasn't added until later; how can we pass in a DirectX texture? */
+    FIXME("unimplemented!\n");
+    return VROverlayError_InvalidHandle;
 }
 
-void *__thiscall winIVRClientCore_IVRClientCore_003_GetGenericInterface( struct w_steam_iface *_this,
-                                                                         const char *pchNameAndVersion, EVRInitError *peError )
+EVROverlayError ivroverlay_001_set_overlay_texture(
+                EVROverlayError (*cpp_func)(void *, VROverlayHandle_t, void *),
+                void *linux_side, VROverlayHandle_t overlayHandle, void *texture,
+                unsigned int version)
 {
-    struct cppIVRClientCore_IVRClientCore_003_GetGenericInterface_params params =
+    /* probably no one actually uses this old interface... */
+    FIXME("unimplemented!\n");
+    return VROverlayError_InvalidHandle;
+}
+
+EVRCompositorError ivrcompositor_submit(
+        EVRCompositorError (*cpp_func)(void *, EVREye, Texture_t *, VRTextureBounds_t *, EVRSubmitFlags),
+        void *linux_side, EVREye eye, Texture_t *texture, VRTextureBounds_t *bounds, EVRSubmitFlags flags,
+        unsigned int version)
+{
+    IDXGIVkInteropSurface *dxvk_surface;
+    IUnknown *texture_iface;
+    HRESULT hr;
+
+    TRACE("%p, %#x, %p, %p, %#x\n", linux_side, eye, texture, bounds, flags);
+
+    compositor_data.handoff_called = FALSE;
+
+    switch (texture->eType)
     {
-        .linux_side = _this->u_iface,
-        .pchNameAndVersion = pchNameAndVersion,
-        .peError = peError,
-    };
+        case TextureType_DirectX:
+        {
+            TRACE("D3D11\n");
 
-    TRACE( "%p\n", _this );
+            if (!texture->handle) {
+                WARN("No D3D11 texture %p.\n", texture);
+                return cpp_func(linux_side, eye, texture, bounds, flags);
+            }
 
-    /* In theory we could pass this along, but we'd have to generate a separate
-     * set of thunks for it. Hopefully this will work as it is. */
-    if (pchNameAndVersion && !strncmp( pchNameAndVersion, "FnTable:", 8 )) params.pchNameAndVersion += 8;
+            texture_iface = texture->handle;
 
-    cppIVRClientCore_IVRClientCore_003_GetGenericInterface( &params );
+            if (SUCCEEDED(hr = texture_iface->lpVtbl->QueryInterface(texture_iface,
+                    &IID_IDXGIVkInteropSurface, (void **)&dxvk_surface)))
+            {
+                return ivrcompositor_submit_dxvk(cpp_func, linux_side,
+                        eye, texture, bounds, flags, version, dxvk_surface);
+            }
 
-    if (!params._ret)
+            WARN("Invalid D3D11 texture %p.\n", texture);
+            return cpp_func(linux_side, eye, texture, bounds, flags);
+        }
+
+        case TextureType_Vulkan:
+            return ivrcompositor_submit_vulkan(cpp_func, linux_side,
+                    eye, texture, bounds, flags, version);
+
+        default:
+            return cpp_func(linux_side, eye, texture, bounds, flags);
+    }
+}
+
+void ivrcompositor_008_set_skybox_override(
+        void (*cpp_func)(void *, GraphicsAPIConvention, void *, void *, void *, void *, void *, void *),
+        void *linux_side, GraphicsAPIConvention api, void *front, void *back, void *left, void *right, void *top, void *bottom,
+        unsigned int version)
+{
+    TRACE("%p, %#x, %p, %p, %p, %p, %p, %p.\n", linux_side, api, front, back, left, right, top, bottom);
+
+    if (api == API_DirectX)
+        FIXME("Not implemented Direct3D API.\n");
+
+    cpp_func(linux_side, api, front, back, left, right, top, bottom);
+}
+
+static EVRCompositorError ivrcompositor_set_skybox_override_d3d11(
+        EVRCompositorError (*cpp_func)(void *, Texture_t *textures, uint32_t count),
+        void *linux_side, Texture_t *textures, uint32_t count)
+{
+    struct VRVulkanTextureData_t vkdata[6];
+    IDXGIVkInteropSurface *dxvk_surface;
+    struct Texture_t vktexture[6];
+    EVRCompositorError result;
+    unsigned int i;
+
+    for (i = 0; i < count; ++i)
     {
-        WARN( "Failed to create %s.\n", pchNameAndVersion );
-        return NULL;
+        Texture_t *texture = &textures[i];
+        IUnknown *texture_iface;
+
+        if (!texture->handle)
+        {
+            ERR("No D3D11 texture %p.\n", texture);
+            return cpp_func(linux_side, textures, count);
+        }
+        if (textures[i].eType != TextureType_DirectX)
+        {
+            FIXME("Mixing texture types is not supported.\n");
+            return 0;
+        }
+
+        texture_iface = texture->handle;
+
+        if (SUCCEEDED(texture_iface->lpVtbl->QueryInterface(texture_iface,
+                &IID_IDXGIVkInteropSurface, (void **)&dxvk_surface)))
+        {
+            VkImageSubresourceRange subresources;
+            IDXGIVkInteropDevice *dxvk_device;
+            VkImageCreateInfo image_info;
+            VkImageLayout image_layout;
+
+            vktexture[i] = vrclient_translate_texture_dxvk(texture, &vkdata[i], dxvk_surface, &dxvk_device, &image_layout, &image_info);
+
+            if (compositor_data.dxvk_device && dxvk_device != compositor_data.dxvk_device)
+            {
+                ERR("Invalid dxvk_device %p, previous %p.\n", dxvk_device, compositor_data.dxvk_device);
+                dxvk_surface->lpVtbl->Release(dxvk_surface);
+                dxvk_device->lpVtbl->Release(dxvk_device);
+                return 0;
+            }
+
+            compositor_data.dxvk_device = dxvk_device;
+
+            subresources.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+            subresources.baseMipLevel = 0;
+            subresources.levelCount = image_info.mipLevels;
+            subresources.baseArrayLayer = 0;
+            subresources.layerCount = image_info.arrayLayers;
+
+            dxvk_device->lpVtbl->TransitionSurfaceLayout(dxvk_device, dxvk_surface, &subresources,
+                    image_layout, VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL);
+
+            dxvk_surface->lpVtbl->Release(dxvk_surface);
+            dxvk_device->lpVtbl->Release(dxvk_device);
+
+            continue;
+        }
+        FIXME("Unsupported d3d11 texture %p, i %u.\n", texture, i);
+        return 0;
+    }
+    compositor_data.dxvk_device->lpVtbl->FlushRenderingCommands(compositor_data.dxvk_device);
+    compositor_data.dxvk_device->lpVtbl->LockSubmissionQueue(compositor_data.dxvk_device);
+
+    result = cpp_func(linux_side, vktexture, count);
+
+    compositor_data.dxvk_device->lpVtbl->ReleaseSubmissionQueue(compositor_data.dxvk_device);
+
+    TRACE("result %u.\n", result);
+    return result;
+}
+
+EVRCompositorError ivrcompositor_set_skybox_override(
+        EVRCompositorError (*cpp_func)(void *, Texture_t *textures, uint32_t count),
+        void *linux_side, Texture_t *textures, uint32_t count,
+        unsigned int version)
+{
+    TRACE("cpp_func %p, linux_side %p, textures %p, count %u, version %u.\n",
+            cpp_func, linux_side, textures, count, version);
+
+    if (!count || count > 6)
+    {
+        WARN("Invalid texture count %u.\n", count);
+        return cpp_func(linux_side, textures, count);
     }
 
-    params._ret = ivrclientcore_get_generic_interface( params._ret, pchNameAndVersion, &_this->user_data );
-    return params._ret;
+    if (textures[0].eType == TextureType_DirectX)
+        return ivrcompositor_set_skybox_override_d3d11(cpp_func, linux_side, textures, count);
+
+    FIXME("Conversion for type %u is not supported.\n", textures[0].eType);
+    return 0;
 }
 
-bool __thiscall winIVRClientCore_IVRClientCore_003_BIsHmdPresent( struct w_steam_iface *_this )
+struct post_present_handoff_data
 {
-    struct cppIVRClientCore_IVRClientCore_003_BIsHmdPresent_params params = {.linux_side = _this->u_iface};
+    void *linux_side;
+    void (*post_present_handoff)(void *linux_side);
+};
 
-    TRACE( "linux_side %p, compositor_data.client_core_linux_side %p.\n", _this->u_iface,
-           compositor_data.client_core_linux_side );
+void ivrcompositor_post_present_handoff(void (*cpp_func)(void *),
+        void *linux_side, unsigned int version)
+{
+    TRACE("%p\n", linux_side);
 
-    /* BIsHmdPresent() currently always returns FALSE on Linux if called before Init().
-     * Return true if the value stored by steam.exe helper in registry says the HMD is presnt. */
-    if (compositor_data.client_core_linux_side || !is_hmd_present_reg())
+    if (compositor_data.dxvk_device)
     {
-        cppIVRClientCore_IVRClientCore_003_BIsHmdPresent( &params );
-        return params._ret;
+        compositor_data.dxvk_device->lpVtbl->LockSubmissionQueue(compositor_data.dxvk_device);
+
+        if (!compositor_data.d3d11_explicit_handoff && version >= 21)
+        {
+            /* PostPresentHandoff can be used with d3d11 without SetExplicitTimingMode
+             * (which is Vulkan / d3d12 only), but doing the same with Vulkan results
+             * in lockups and crashes. */
+            cppIVRCompositor_IVRCompositor_021_SetExplicitTimingMode(linux_side,
+                    VRCompositorTimingMode_Explicit_ApplicationPerformsPostPresentHandoff);
+            compositor_data.d3d11_explicit_handoff = TRUE;
+        }
     }
 
-    return TRUE;
+    cpp_func(linux_side);
+
+    compositor_data.handoff_called = TRUE;
+    if (compositor_data.dxvk_device)
+        compositor_data.dxvk_device->lpVtbl->ReleaseSubmissionQueue(compositor_data.dxvk_device);
 }
 
-vrmb_typeb __thiscall winIVRMailbox_IVRMailbox_001_undoc3( struct w_steam_iface *_this, vrmb_typea a,
-                                                           const char *b, const char *c )
+struct explicit_timing_data
 {
-    struct cppIVRMailbox_IVRMailbox_001_undoc3_params params =
+    void *linux_side;
+    unsigned int version;
+};
+
+EVRCompositorError ivrcompositor_wait_get_poses(
+        EVRCompositorError (cpp_func)(void *, TrackedDevicePose_t *, uint32_t, TrackedDevicePose_t *, uint32_t),
+        void *linux_side, TrackedDevicePose_t *render_poses, uint32_t render_pose_count,
+        TrackedDevicePose_t *game_poses, uint32_t game_pose_count,
+        unsigned int version)
+{
+    EVRCompositorError r;
+
+    TRACE("%p, %p, %u, %p, %u\n", linux_side, render_poses, render_pose_count, game_poses, game_pose_count);
+
+    if (compositor_data.dxvk_device)
     {
-        .linux_side = _this->u_iface,
-        .a = a,
-        .b = b,
-        .c = json_convert_paths(c),
-    };
+        compositor_data.dxvk_device->lpVtbl->LockSubmissionQueue(compositor_data.dxvk_device);
+        if (compositor_data.d3d11_explicit_handoff && !compositor_data.handoff_called)
+        {
+            /* Calling handoff after submit is optional for d3d11 but mandatory for Vulkan
+             * if explicit timing mode is set. */
+            cppIVRCompositor_IVRCompositor_022_PostPresentHandoff(linux_side);
+        }
+    }
 
-    TRACE( "%p\n", _this );
+    r = cpp_func(linux_side, render_poses, render_pose_count, game_poses, game_pose_count);
 
-    cppIVRMailbox_IVRMailbox_001_undoc3( &params );
-    free( (char *)params.c );
+    if (compositor_data.dxvk_device)
+    {
+        if (compositor_data.d3d11_explicit_handoff)
+            cppIVRCompositor_IVRCompositor_022_SubmitExplicitTimingData(linux_side);
 
-    return params._ret;
+        compositor_data.dxvk_device->lpVtbl->ReleaseSubmissionQueue(compositor_data.dxvk_device);
+    }
+
+    return r;
+}
+
+uint32_t ivrcompositor_get_vulkan_device_extensions_required(
+        uint32_t (*cpp_func)(void *, VkPhysicalDevice_T *, char *, uint32_t),
+        void *linux_side, VkPhysicalDevice_T *phys_dev, char *value, uint32_t bufsize,
+        unsigned int version)
+{
+    uint32_t ret;
+
+    load_vk_unwrappers();
+
+    phys_dev = get_native_VkPhysicalDevice(phys_dev);
+
+    ret = cpp_func(linux_side, phys_dev, value, bufsize);
+    TRACE("ret %u, value %s.\n", ret, value);
+    return ret;
+}
+
+#pragma pack( push, 8 )
+struct winRenderModel_TextureMap_t_0918 {
+    uint16_t unWidth;
+    uint16_t unHeight;
+    const uint8_t * rubTextureMapData;
+}   __attribute__ ((ms_struct));;
+
+struct winRenderModel_TextureMap_t_1015 {
+    uint16_t unWidth;
+    uint16_t unHeight;
+    const uint8_t * rubTextureMapData;
+}  __attribute__ ((ms_struct));
+
+struct winRenderModel_TextureMap_t_1237 {
+    uint16_t unWidth;
+    uint16_t unHeight;
+    const uint8_t *rubTextureMapData;
+    EVRRenderModelTextureFormat format;
+    uint16_t unMipLevels;
+}  __attribute__ ((ms_struct));
+#pragma pack( pop )
+
+static EVRRenderModelError load_into_texture_d3d11(ID3D11Texture2D *texture,
+        const struct winRenderModel_TextureMap_t_1237 *data)
+{
+    D3D11_TEXTURE2D_DESC texture_desc;
+    ID3D11DeviceContext *context;
+    ID3D11Device *device;
+
+    texture->lpVtbl->GetDesc(texture, &texture_desc);
+
+    TRACE("Format %#x, width %u, height %u.\n",
+            texture_desc.Format, texture_desc.Width, texture_desc.Height);
+    TRACE("Array size %u, miplevels %u.\n",
+            texture_desc.ArraySize, texture_desc.MipLevels);
+
+    if (texture_desc.Format != DXGI_FORMAT_R8G8B8A8_UNORM_SRGB)
+    {
+        FIXME("Unexpected format %#x.\n", texture_desc.Format);
+        return VRRenderModelError_NotSupported;
+    }
+    if (texture_desc.Width != data->unWidth)
+    {
+        FIXME("Unexpected width %u.\n", texture_desc.Width);
+        return VRRenderModelError_NotSupported;
+    }
+    if (texture_desc.Height != data->unHeight)
+    {
+        FIXME("Unexpected height %u.\n", texture_desc.Height);
+        return VRRenderModelError_NotSupported;
+    }
+    if (data->format)
+        FIXME("Unsupported texture map format %d.\n", data->format);
+    if (data->unMipLevels)
+        FIXME("Unsupported unMipLevels %u.\n", data->unMipLevels);
+
+    texture->lpVtbl->GetDevice(texture, &device);
+    device->lpVtbl->GetImmediateContext(device, &context);
+    device->lpVtbl->Release(device);
+
+    context->lpVtbl->UpdateSubresource(context, (ID3D11Resource *)texture,
+            0, NULL, data->rubTextureMapData, data->unWidth * 4 * sizeof(uint8_t), 0);
+
+    context->lpVtbl->Release(context);
+    return VRRenderModelError_None;
+}
+
+static EVRRenderModelError load_linux_texture_map(void *linux_side, TextureID_t texture_id,
+        struct winRenderModel_TextureMap_t_1237 **texture_map, unsigned int version)
+{
+    EVRRenderModelError ret;
+
+    switch(version){
+    case 4:
+    {
+        struct winRenderModel_TextureMap_t_0918 *orig_map;
+        if ((ret = cppIVRRenderModels_IVRRenderModels_004_LoadTexture_Async(linux_side, texture_id, &orig_map)))
+            return ret;
+        *texture_map = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(**texture_map));
+        memcpy(*texture_map, orig_map, sizeof(*orig_map));
+        cppIVRRenderModels_IVRRenderModels_004_FreeTexture(linux_side, orig_map);
+        return 0;
+    }
+    case 5:
+    {
+        struct winRenderModel_TextureMap_t_1015 *orig_map;
+        if ((ret = cppIVRRenderModels_IVRRenderModels_005_LoadTexture_Async(linux_side, texture_id, &orig_map)))
+            return ret;
+        *texture_map = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(**texture_map));
+        memcpy(*texture_map, orig_map, sizeof(*orig_map));
+        cppIVRRenderModels_IVRRenderModels_005_FreeTexture(linux_side, orig_map);
+        return 0;
+    }
+    case 6:
+        return cppIVRRenderModels_IVRRenderModels_006_LoadTexture_Async(linux_side, texture_id, (winRenderModel_TextureMap_t_1267 **)texture_map);
+    }
+    FIXME("Unsupported IVRRenderModels version! %u\n", version);
+    return VRRenderModelError_NotSupported;
+}
+
+static void free_linux_texture_map(void *linux_side,
+        struct winRenderModel_TextureMap_t_1237 *texture_map, unsigned int version)
+{
+    switch(version){
+    case 4:
+        HeapFree(GetProcessHeap(), 0, texture_map);
+        break;
+    case 5:
+        HeapFree(GetProcessHeap(), 0, texture_map);
+        break;
+    case 6:
+        cppIVRRenderModels_IVRRenderModels_006_FreeTexture(linux_side, (winRenderModel_TextureMap_t_1267 *)texture_map);
+        break;
+    default:
+        FIXME("Unsupported IVRRenderModels version! %u\n", version);
+        break;
+    }
+}
+
+EVRRenderModelError ivrrendermodels_load_texture_d3d11_async(
+        EVRRenderModelError (*cpp_func)(void *, TextureID_t, void *, void **),
+        void *linux_side, TextureID_t texture_id, void *device,
+        void **dst_texture, unsigned int version)
+{
+    struct winRenderModel_TextureMap_t_1237 *texture_map;
+    EVRRenderModelError error;
+    D3D11_TEXTURE2D_DESC desc;
+    ID3D11Device *d3d11_device = device;
+    ID3D11Texture2D *texture;
+    HRESULT hr;
+
+    error = load_linux_texture_map(linux_side, texture_id, &texture_map, version);
+    if (error == VRRenderModelError_Loading)
+    {
+        TRACE("Loading.\n");
+        return error;
+    }
+    if (error != VRRenderModelError_None)
+    {
+        WARN("Failed to load texture %#x.\n", error);
+        return error;
+    }
+
+    desc.Width = texture_map->unWidth;
+    desc.Height = texture_map->unHeight;
+    desc.MipLevels = 1;
+    desc.ArraySize = 1;
+    desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+    desc.SampleDesc.Count = 1;
+    desc.SampleDesc.Quality = 0;
+    desc.Usage = D3D11_USAGE_DEFAULT;
+    desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+    desc.CPUAccessFlags = 0;
+    desc.MiscFlags = 0;
+
+    hr = d3d11_device->lpVtbl->CreateTexture2D(d3d11_device, &desc, NULL, &texture);
+    if (FAILED(hr))
+    {
+        WARN("Failed to create D3D11 texture %#x\n", hr);
+        free_linux_texture_map(linux_side, texture_map, version);
+        return VRRenderModelError_InvalidTexture;
+    }
+
+    error = load_into_texture_d3d11(texture, texture_map);
+    if (error == VRRenderModelError_None)
+    {
+        *dst_texture = texture;
+    }
+    else
+    {
+        texture->lpVtbl->Release(texture);
+        *dst_texture = NULL;
+    }
+
+    free_linux_texture_map(linux_side, texture_map, version);
+
+    return error;
+}
+
+void ivrrendermodels_free_texture_d3d11(
+        void (*cpp_func)(void *, void *),
+        void *linux_side, void *dst_texture, unsigned int version)
+{
+    ID3D11Texture2D *d3d11_texture = dst_texture;
+    d3d11_texture->lpVtbl->Release(d3d11_texture);
+}
+
+EVRRenderModelError ivrrendermodels_load_into_texture_d3d11_async(
+        EVRRenderModelError (*cpp_func)(void *, TextureID_t, void *),
+        void *linux_side, TextureID_t texture_id, void *dst_texture, unsigned int version)
+{
+    struct winRenderModel_TextureMap_t_1237 *texture_map;
+    IUnknown *unk = dst_texture;
+    EVRRenderModelError error;
+    ID3D11Texture2D *texture;
+
+    if (!dst_texture)
+        return VRRenderModelError_InvalidArg;
+
+    error = load_linux_texture_map(linux_side, texture_id, &texture_map, version);
+    if (error == VRRenderModelError_Loading)
+    {
+        TRACE("Loading.\n");
+        return error;
+    }
+    if (error != VRRenderModelError_None)
+    {
+        WARN("Failed to load texture %#x.\n", error);
+        return error;
+    }
+
+    if (SUCCEEDED(unk->lpVtbl->QueryInterface(unk, &IID_ID3D11Texture2D, (void **)&texture)))
+    {
+        error = load_into_texture_d3d11(texture, texture_map);
+        texture->lpVtbl->Release(texture);
+    }
+    else
+    {
+        FIXME("Expected 2D texture.\n");
+        error = VRRenderModelError_NotSupported;
+    }
+
+    free_linux_texture_map(linux_side, texture_map, version);
+
+    return error;
+}
+
+vrmb_typeb ivrmailbox_undoc3(
+        vrmb_typeb (*cpp_func)(void *, vrmb_typea, const char *, const char *),
+        void *linux_side, vrmb_typea a, const char *b, const char *c, unsigned int version)
+{
+    vrmb_typeb r;
+    char *converted = json_convert_paths(c);
+
+    r = cpp_func(linux_side, a, b, converted ? converted : c);
+
+    free(converted);
+
+    return r;
+}
+
+#pragma pack(push, 8)
+struct winInputDigitalActionData_t {
+    bool bActive;
+    VRInputValueHandle_t activeOrigin;
+    bool bState;
+    bool bChanged;
+    float fUpdateTime;
+}  __attribute__ ((ms_struct));
+#pragma pack(pop)
+
+EVRInputError ivrinput_get_digital_action_data(
+        void *func,
+        void *linux_side, VRActionHandle_t action_handle, void *action_data, uint32_t action_data_size,
+        VRInputValueHandle_t restrict_to_device, unsigned int version)
+{
+    EVRInputError (*cpp_func)(void *, VRActionHandle_t, struct winInputDigitalActionData_t *, uint32_t, VRInputValueHandle_t) = func;
+
+#ifdef __x86_64__
+    return cpp_func(linux_side, action_handle, action_data, action_data_size, restrict_to_device);
+#else
+    /* Digital action state change fixup hack. */
+    struct winInputDigitalActionData_t *data = action_data;
+    LARGE_INTEGER qpf;
+    EVRInputError ret;
+    unsigned int i;
+
+    ret = cpp_func(linux_side, action_handle, action_data, action_data_size, restrict_to_device);
+
+    TRACE("handle %s, data %p, data_size %u, restrict %s, origin %s, state %#x, changed %#x, ret %u, active %#x.\n",
+            wine_dbgstr_longlong(action_handle), action_data, action_data_size,
+            wine_dbgstr_longlong(restrict_to_device), wine_dbgstr_longlong(data->activeOrigin),
+            data->bState, data->bChanged, ret, data->bActive);
+
+    if (ret)
+        return ret;
+
+    if (action_data_size != sizeof(*data))
+    {
+        WARN("Unexpected action_data_size %u.\n", action_data_size);
+        return 0;
+    }
+
+    if (!data->bActive)
+        return 0;
+
+    if (!compositor_data.qpf_freq.QuadPart)
+        QueryPerformanceFrequency(&compositor_data.qpf_freq);
+    QueryPerformanceCounter(&qpf);
+
+    for (i = 0; i < compositor_data.digital_action_count; ++i)
+    {
+        if (compositor_data.digital_actions_state[i].action == action_handle
+                && compositor_data.digital_actions_state[i].origin == data->activeOrigin)
+        {
+            if ((data->bChanged = (!compositor_data.digital_actions_state[i].previous_state != !data->bState)))
+            {
+                TRACE("action %s (%s) changed to %#x, data->fUpdateTime %f.\n", wine_dbgstr_longlong(action_handle),
+                        wine_dbgstr_longlong(restrict_to_device), data->bState, data->fUpdateTime);
+
+                compositor_data.digital_actions_state[i].update_qpf_time = qpf;
+                compositor_data.digital_actions_state[i].previous_state = data->bState;
+            }
+            if (compositor_data.digital_actions_state[i].update_qpf_time.QuadPart)
+                data->fUpdateTime = -(float)(qpf.QuadPart
+                        - compositor_data.digital_actions_state[i].update_qpf_time.QuadPart)
+                        / compositor_data.qpf_freq.QuadPart;
+
+            return 0;
+        }
+    }
+
+    if (i == ARRAY_SIZE(compositor_data.digital_actions_state))
+    {
+        static unsigned int once;
+        if (!once++)
+            WARN("Too many actions.\n");
+
+        return 0;
+    }
+
+    compositor_data.digital_actions_state[i].action = action_handle;
+    compositor_data.digital_actions_state[i].origin = data->activeOrigin;
+    compositor_data.digital_actions_state[i].previous_state = data->bState;
+    compositor_data.digital_actions_state[i].update_qpf_time = qpf;
+    ++compositor_data.digital_action_count;
+
+    return 0;
+#endif
 }

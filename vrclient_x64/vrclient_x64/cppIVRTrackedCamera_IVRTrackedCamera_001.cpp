@@ -9,97 +9,99 @@ extern "C" {
 #ifdef __cplusplus
 extern "C" {
 #endif
-void cppIVRTrackedCamera_IVRTrackedCamera_001_HasCamera( struct cppIVRTrackedCamera_IVRTrackedCamera_001_HasCamera_params *params )
+bool cppIVRTrackedCamera_IVRTrackedCamera_001_HasCamera(void *linux_side, TrackedDeviceIndex_t nDeviceIndex)
 {
-    params->_ret = ((IVRTrackedCamera*)params->linux_side)->HasCamera((vr::TrackedDeviceIndex_t)params->nDeviceIndex);
+    return ((IVRTrackedCamera*)linux_side)->HasCamera((vr::TrackedDeviceIndex_t)nDeviceIndex);
 }
 
-void cppIVRTrackedCamera_IVRTrackedCamera_001_GetCameraFirmwareDescription( struct cppIVRTrackedCamera_IVRTrackedCamera_001_GetCameraFirmwareDescription_params *params )
+bool cppIVRTrackedCamera_IVRTrackedCamera_001_GetCameraFirmwareDescription(void *linux_side, TrackedDeviceIndex_t nDeviceIndex, char *pBuffer, uint32_t nBufferLen)
 {
-    params->_ret = ((IVRTrackedCamera*)params->linux_side)->GetCameraFirmwareDescription((vr::TrackedDeviceIndex_t)params->nDeviceIndex, (char *)params->pBuffer, (uint32_t)params->nBufferLen);
+    return ((IVRTrackedCamera*)linux_side)->GetCameraFirmwareDescription((vr::TrackedDeviceIndex_t)nDeviceIndex, (char *)pBuffer, (uint32_t)nBufferLen);
 }
 
-void cppIVRTrackedCamera_IVRTrackedCamera_001_GetCameraFrameDimensions( struct cppIVRTrackedCamera_IVRTrackedCamera_001_GetCameraFrameDimensions_params *params )
+bool cppIVRTrackedCamera_IVRTrackedCamera_001_GetCameraFrameDimensions(void *linux_side, TrackedDeviceIndex_t nDeviceIndex, ECameraVideoStreamFormat nVideoStreamFormat, uint32_t *pWidth, uint32_t *pHeight)
 {
-    params->_ret = ((IVRTrackedCamera*)params->linux_side)->GetCameraFrameDimensions((vr::TrackedDeviceIndex_t)params->nDeviceIndex, (vr::ECameraVideoStreamFormat)params->nVideoStreamFormat, (uint32_t *)params->pWidth, (uint32_t *)params->pHeight);
+    return ((IVRTrackedCamera*)linux_side)->GetCameraFrameDimensions((vr::TrackedDeviceIndex_t)nDeviceIndex, (vr::ECameraVideoStreamFormat)nVideoStreamFormat, (uint32_t *)pWidth, (uint32_t *)pHeight);
 }
 
-void cppIVRTrackedCamera_IVRTrackedCamera_001_SetCameraVideoStreamFormat( struct cppIVRTrackedCamera_IVRTrackedCamera_001_SetCameraVideoStreamFormat_params *params )
+bool cppIVRTrackedCamera_IVRTrackedCamera_001_SetCameraVideoStreamFormat(void *linux_side, TrackedDeviceIndex_t nDeviceIndex, ECameraVideoStreamFormat nVideoStreamFormat)
 {
-    params->_ret = ((IVRTrackedCamera*)params->linux_side)->SetCameraVideoStreamFormat((vr::TrackedDeviceIndex_t)params->nDeviceIndex, (vr::ECameraVideoStreamFormat)params->nVideoStreamFormat);
+    return ((IVRTrackedCamera*)linux_side)->SetCameraVideoStreamFormat((vr::TrackedDeviceIndex_t)nDeviceIndex, (vr::ECameraVideoStreamFormat)nVideoStreamFormat);
 }
 
-void cppIVRTrackedCamera_IVRTrackedCamera_001_GetCameraVideoStreamFormat( struct cppIVRTrackedCamera_IVRTrackedCamera_001_GetCameraVideoStreamFormat_params *params )
+vr::ECameraVideoStreamFormat cppIVRTrackedCamera_IVRTrackedCamera_001_GetCameraVideoStreamFormat(void *linux_side, TrackedDeviceIndex_t nDeviceIndex)
 {
-    params->_ret = ((IVRTrackedCamera*)params->linux_side)->GetCameraVideoStreamFormat((vr::TrackedDeviceIndex_t)params->nDeviceIndex);
+    return ((IVRTrackedCamera*)linux_side)->GetCameraVideoStreamFormat((vr::TrackedDeviceIndex_t)nDeviceIndex);
 }
 
-void cppIVRTrackedCamera_IVRTrackedCamera_001_EnableCameraForStreaming( struct cppIVRTrackedCamera_IVRTrackedCamera_001_EnableCameraForStreaming_params *params )
+bool cppIVRTrackedCamera_IVRTrackedCamera_001_EnableCameraForStreaming(void *linux_side, TrackedDeviceIndex_t nDeviceIndex, bool bEnable)
 {
-    params->_ret = ((IVRTrackedCamera*)params->linux_side)->EnableCameraForStreaming((vr::TrackedDeviceIndex_t)params->nDeviceIndex, (bool)params->bEnable);
+    return ((IVRTrackedCamera*)linux_side)->EnableCameraForStreaming((vr::TrackedDeviceIndex_t)nDeviceIndex, (bool)bEnable);
 }
 
-void cppIVRTrackedCamera_IVRTrackedCamera_001_StartVideoStream( struct cppIVRTrackedCamera_IVRTrackedCamera_001_StartVideoStream_params *params )
+bool cppIVRTrackedCamera_IVRTrackedCamera_001_StartVideoStream(void *linux_side, TrackedDeviceIndex_t nDeviceIndex)
 {
-    params->_ret = ((IVRTrackedCamera*)params->linux_side)->StartVideoStream((vr::TrackedDeviceIndex_t)params->nDeviceIndex);
+    return ((IVRTrackedCamera*)linux_side)->StartVideoStream((vr::TrackedDeviceIndex_t)nDeviceIndex);
 }
 
-void cppIVRTrackedCamera_IVRTrackedCamera_001_StopVideoStream( struct cppIVRTrackedCamera_IVRTrackedCamera_001_StopVideoStream_params *params )
+bool cppIVRTrackedCamera_IVRTrackedCamera_001_StopVideoStream(void *linux_side, TrackedDeviceIndex_t nDeviceIndex)
 {
-    params->_ret = ((IVRTrackedCamera*)params->linux_side)->StopVideoStream((vr::TrackedDeviceIndex_t)params->nDeviceIndex);
+    return ((IVRTrackedCamera*)linux_side)->StopVideoStream((vr::TrackedDeviceIndex_t)nDeviceIndex);
 }
 
-void cppIVRTrackedCamera_IVRTrackedCamera_001_IsVideoStreamActive( struct cppIVRTrackedCamera_IVRTrackedCamera_001_IsVideoStreamActive_params *params )
+bool cppIVRTrackedCamera_IVRTrackedCamera_001_IsVideoStreamActive(void *linux_side, TrackedDeviceIndex_t nDeviceIndex)
 {
-    params->_ret = ((IVRTrackedCamera*)params->linux_side)->IsVideoStreamActive((vr::TrackedDeviceIndex_t)params->nDeviceIndex);
+    return ((IVRTrackedCamera*)linux_side)->IsVideoStreamActive((vr::TrackedDeviceIndex_t)nDeviceIndex);
 }
 
-void cppIVRTrackedCamera_IVRTrackedCamera_001_GetVideoStreamElapsedTime( struct cppIVRTrackedCamera_IVRTrackedCamera_001_GetVideoStreamElapsedTime_params *params )
+float cppIVRTrackedCamera_IVRTrackedCamera_001_GetVideoStreamElapsedTime(void *linux_side, TrackedDeviceIndex_t nDeviceIndex)
 {
-    params->_ret = ((IVRTrackedCamera*)params->linux_side)->GetVideoStreamElapsedTime((vr::TrackedDeviceIndex_t)params->nDeviceIndex);
+    return ((IVRTrackedCamera*)linux_side)->GetVideoStreamElapsedTime((vr::TrackedDeviceIndex_t)nDeviceIndex);
 }
 
-void cppIVRTrackedCamera_IVRTrackedCamera_001_GetVideoStreamFrame( struct cppIVRTrackedCamera_IVRTrackedCamera_001_GetVideoStreamFrame_params *params )
+const vr::CameraVideoStreamFrame_t * cppIVRTrackedCamera_IVRTrackedCamera_001_GetVideoStreamFrame(void *linux_side, TrackedDeviceIndex_t nDeviceIndex)
 {
-    params->_ret = ((IVRTrackedCamera*)params->linux_side)->GetVideoStreamFrame((vr::TrackedDeviceIndex_t)params->nDeviceIndex);
+    return ((IVRTrackedCamera*)linux_side)->GetVideoStreamFrame((vr::TrackedDeviceIndex_t)nDeviceIndex);
 }
 
-void cppIVRTrackedCamera_IVRTrackedCamera_001_ReleaseVideoStreamFrame( struct cppIVRTrackedCamera_IVRTrackedCamera_001_ReleaseVideoStreamFrame_params *params )
+bool cppIVRTrackedCamera_IVRTrackedCamera_001_ReleaseVideoStreamFrame(void *linux_side, TrackedDeviceIndex_t nDeviceIndex, CameraVideoStreamFrame_t *pFrameImage)
 {
-    CameraVideoStreamFrame_t lin_pFrameImage;
-    if (params->pFrameImage)
-        struct_CameraVideoStreamFrame_t_0914_win_to_lin( params->pFrameImage, &lin_pFrameImage );
-    params->_ret = ((IVRTrackedCamera*)params->linux_side)->ReleaseVideoStreamFrame((vr::TrackedDeviceIndex_t)params->nDeviceIndex, params->pFrameImage ? &lin_pFrameImage : nullptr);
+    CameraVideoStreamFrame_t lin;
+    bool _ret;
+    if(pFrameImage)
+        struct_CameraVideoStreamFrame_t_0914_win_to_lin(pFrameImage, &lin);
+    _ret = ((IVRTrackedCamera*)linux_side)->ReleaseVideoStreamFrame((vr::TrackedDeviceIndex_t)nDeviceIndex, pFrameImage ? &lin : nullptr);
+    return _ret;
 }
 
-void cppIVRTrackedCamera_IVRTrackedCamera_001_SetAutoExposure( struct cppIVRTrackedCamera_IVRTrackedCamera_001_SetAutoExposure_params *params )
+bool cppIVRTrackedCamera_IVRTrackedCamera_001_SetAutoExposure(void *linux_side, TrackedDeviceIndex_t nDeviceIndex, bool bEnable)
 {
-    params->_ret = ((IVRTrackedCamera*)params->linux_side)->SetAutoExposure((vr::TrackedDeviceIndex_t)params->nDeviceIndex, (bool)params->bEnable);
+    return ((IVRTrackedCamera*)linux_side)->SetAutoExposure((vr::TrackedDeviceIndex_t)nDeviceIndex, (bool)bEnable);
 }
 
-void cppIVRTrackedCamera_IVRTrackedCamera_001_PauseVideoStream( struct cppIVRTrackedCamera_IVRTrackedCamera_001_PauseVideoStream_params *params )
+bool cppIVRTrackedCamera_IVRTrackedCamera_001_PauseVideoStream(void *linux_side, TrackedDeviceIndex_t nDeviceIndex)
 {
-    params->_ret = ((IVRTrackedCamera*)params->linux_side)->PauseVideoStream((vr::TrackedDeviceIndex_t)params->nDeviceIndex);
+    return ((IVRTrackedCamera*)linux_side)->PauseVideoStream((vr::TrackedDeviceIndex_t)nDeviceIndex);
 }
 
-void cppIVRTrackedCamera_IVRTrackedCamera_001_ResumeVideoStream( struct cppIVRTrackedCamera_IVRTrackedCamera_001_ResumeVideoStream_params *params )
+bool cppIVRTrackedCamera_IVRTrackedCamera_001_ResumeVideoStream(void *linux_side, TrackedDeviceIndex_t nDeviceIndex)
 {
-    params->_ret = ((IVRTrackedCamera*)params->linux_side)->ResumeVideoStream((vr::TrackedDeviceIndex_t)params->nDeviceIndex);
+    return ((IVRTrackedCamera*)linux_side)->ResumeVideoStream((vr::TrackedDeviceIndex_t)nDeviceIndex);
 }
 
-void cppIVRTrackedCamera_IVRTrackedCamera_001_IsVideoStreamPaused( struct cppIVRTrackedCamera_IVRTrackedCamera_001_IsVideoStreamPaused_params *params )
+bool cppIVRTrackedCamera_IVRTrackedCamera_001_IsVideoStreamPaused(void *linux_side, TrackedDeviceIndex_t nDeviceIndex)
 {
-    params->_ret = ((IVRTrackedCamera*)params->linux_side)->IsVideoStreamPaused((vr::TrackedDeviceIndex_t)params->nDeviceIndex);
+    return ((IVRTrackedCamera*)linux_side)->IsVideoStreamPaused((vr::TrackedDeviceIndex_t)nDeviceIndex);
 }
 
-void cppIVRTrackedCamera_IVRTrackedCamera_001_GetCameraDistortion( struct cppIVRTrackedCamera_IVRTrackedCamera_001_GetCameraDistortion_params *params )
+bool cppIVRTrackedCamera_IVRTrackedCamera_001_GetCameraDistortion(void *linux_side, TrackedDeviceIndex_t nDeviceIndex, float flInputU, float flInputV, float *pflOutputU, float *pflOutputV)
 {
-    params->_ret = ((IVRTrackedCamera*)params->linux_side)->GetCameraDistortion((vr::TrackedDeviceIndex_t)params->nDeviceIndex, (float)params->flInputU, (float)params->flInputV, (float *)params->pflOutputU, (float *)params->pflOutputV);
+    return ((IVRTrackedCamera*)linux_side)->GetCameraDistortion((vr::TrackedDeviceIndex_t)nDeviceIndex, (float)flInputU, (float)flInputV, (float *)pflOutputU, (float *)pflOutputV);
 }
 
-void cppIVRTrackedCamera_IVRTrackedCamera_001_GetCameraProjection( struct cppIVRTrackedCamera_IVRTrackedCamera_001_GetCameraProjection_params *params )
+bool cppIVRTrackedCamera_IVRTrackedCamera_001_GetCameraProjection(void *linux_side, TrackedDeviceIndex_t nDeviceIndex, float flWidthPixels, float flHeightPixels, float flZNear, float flZFar, HmdMatrix44_t *pProjection)
 {
-    params->_ret = ((IVRTrackedCamera*)params->linux_side)->GetCameraProjection((vr::TrackedDeviceIndex_t)params->nDeviceIndex, (float)params->flWidthPixels, (float)params->flHeightPixels, (float)params->flZNear, (float)params->flZFar, (vr::HmdMatrix44_t *)params->pProjection);
+    return ((IVRTrackedCamera*)linux_side)->GetCameraProjection((vr::TrackedDeviceIndex_t)nDeviceIndex, (float)flWidthPixels, (float)flHeightPixels, (float)flZNear, (float)flZFar, (vr::HmdMatrix44_t *)pProjection);
 }
 
 #ifdef __cplusplus

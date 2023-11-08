@@ -6,6 +6,8 @@
 #include "winbase.h"
 #include "wine/debug.h"
 
+#include "cxx.h"
+
 #include "vrclient_defs.h"
 
 #include "vrclient_private.h"
@@ -17,6 +19,11 @@
 WINE_DEFAULT_DEBUG_CHANNEL(vrclient);
 
 #include "cppIVRSystem_IVRSystem_003.h"
+
+typedef struct __winIVRSystem_IVRSystem_003 {
+    vtable_ptr *vtable;
+    void *linux_side;
+} winIVRSystem_IVRSystem_003;
 
 DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_003_GetWindowBounds, 20)
 DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_003_GetRecommendedRenderTargetSize, 12)
@@ -57,489 +64,238 @@ DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_003_CaptureInputFocus, 4)
 DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_003_ReleaseInputFocus, 4)
 DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_003_IsInputFocusCapturedByAnotherProcess, 4)
 
-void __thiscall winIVRSystem_IVRSystem_003_GetWindowBounds(struct w_steam_iface *_this, int32_t *pnX, int32_t *pnY, uint32_t *pnWidth, uint32_t *pnHeight)
+void __thiscall winIVRSystem_IVRSystem_003_GetWindowBounds(winIVRSystem_IVRSystem_003 *_this, int32_t *pnX, int32_t *pnY, uint32_t *pnWidth, uint32_t *pnHeight)
 {
-    struct cppIVRSystem_IVRSystem_003_GetWindowBounds_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pnX = pnX,
-        .pnY = pnY,
-        .pnWidth = pnWidth,
-        .pnHeight = pnHeight,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_003_GetWindowBounds( &params );
+    cppIVRSystem_IVRSystem_003_GetWindowBounds(_this->linux_side, pnX, pnY, pnWidth, pnHeight);
 }
 
-void __thiscall winIVRSystem_IVRSystem_003_GetRecommendedRenderTargetSize(struct w_steam_iface *_this, uint32_t *pnWidth, uint32_t *pnHeight)
+void __thiscall winIVRSystem_IVRSystem_003_GetRecommendedRenderTargetSize(winIVRSystem_IVRSystem_003 *_this, uint32_t *pnWidth, uint32_t *pnHeight)
 {
-    struct cppIVRSystem_IVRSystem_003_GetRecommendedRenderTargetSize_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pnWidth = pnWidth,
-        .pnHeight = pnHeight,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_003_GetRecommendedRenderTargetSize( &params );
+    cppIVRSystem_IVRSystem_003_GetRecommendedRenderTargetSize(_this->linux_side, pnWidth, pnHeight);
 }
 
-void __thiscall winIVRSystem_IVRSystem_003_GetEyeOutputViewport(struct w_steam_iface *_this, Hmd_Eye eEye, uint32_t *pnX, uint32_t *pnY, uint32_t *pnWidth, uint32_t *pnHeight)
+void __thiscall winIVRSystem_IVRSystem_003_GetEyeOutputViewport(winIVRSystem_IVRSystem_003 *_this, Hmd_Eye eEye, uint32_t *pnX, uint32_t *pnY, uint32_t *pnWidth, uint32_t *pnHeight)
 {
-    struct cppIVRSystem_IVRSystem_003_GetEyeOutputViewport_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eEye = eEye,
-        .pnX = pnX,
-        .pnY = pnY,
-        .pnWidth = pnWidth,
-        .pnHeight = pnHeight,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_003_GetEyeOutputViewport( &params );
+    cppIVRSystem_IVRSystem_003_GetEyeOutputViewport(_this->linux_side, eEye, pnX, pnY, pnWidth, pnHeight);
 }
 
-HmdMatrix44_t * __thiscall winIVRSystem_IVRSystem_003_GetProjectionMatrix(struct w_steam_iface *_this, HmdMatrix44_t *_ret, Hmd_Eye eEye, float fNearZ, float fFarZ, GraphicsAPIConvention eProjType)
+HmdMatrix44_t *__thiscall winIVRSystem_IVRSystem_003_GetProjectionMatrix(winIVRSystem_IVRSystem_003 *_this, HmdMatrix44_t *_r, Hmd_Eye eEye, float fNearZ, float fFarZ, GraphicsAPIConvention eProjType)
 {
-    struct cppIVRSystem_IVRSystem_003_GetProjectionMatrix_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .eEye = eEye,
-        .fNearZ = fNearZ,
-        .fFarZ = fFarZ,
-        .eProjType = eProjType,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_003_GetProjectionMatrix( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_003_GetProjectionMatrix(_this->linux_side, eEye, fNearZ, fFarZ, eProjType);
+    return _r;
 }
 
-void __thiscall winIVRSystem_IVRSystem_003_GetProjectionRaw(struct w_steam_iface *_this, Hmd_Eye eEye, float *pfLeft, float *pfRight, float *pfTop, float *pfBottom)
+void __thiscall winIVRSystem_IVRSystem_003_GetProjectionRaw(winIVRSystem_IVRSystem_003 *_this, Hmd_Eye eEye, float *pfLeft, float *pfRight, float *pfTop, float *pfBottom)
 {
-    struct cppIVRSystem_IVRSystem_003_GetProjectionRaw_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eEye = eEye,
-        .pfLeft = pfLeft,
-        .pfRight = pfRight,
-        .pfTop = pfTop,
-        .pfBottom = pfBottom,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_003_GetProjectionRaw( &params );
+    cppIVRSystem_IVRSystem_003_GetProjectionRaw(_this->linux_side, eEye, pfLeft, pfRight, pfTop, pfBottom);
 }
 
-DistortionCoordinates_t * __thiscall winIVRSystem_IVRSystem_003_ComputeDistortion(struct w_steam_iface *_this, DistortionCoordinates_t *_ret, Hmd_Eye eEye, float fU, float fV)
+DistortionCoordinates_t *__thiscall winIVRSystem_IVRSystem_003_ComputeDistortion(winIVRSystem_IVRSystem_003 *_this, DistortionCoordinates_t *_r, Hmd_Eye eEye, float fU, float fV)
 {
-    struct cppIVRSystem_IVRSystem_003_ComputeDistortion_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .eEye = eEye,
-        .fU = fU,
-        .fV = fV,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_003_ComputeDistortion( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_003_ComputeDistortion(_this->linux_side, eEye, fU, fV);
+    return _r;
 }
 
-HmdMatrix34_t * __thiscall winIVRSystem_IVRSystem_003_GetEyeToHeadTransform(struct w_steam_iface *_this, HmdMatrix34_t *_ret, Hmd_Eye eEye)
+HmdMatrix34_t *__thiscall winIVRSystem_IVRSystem_003_GetEyeToHeadTransform(winIVRSystem_IVRSystem_003 *_this, HmdMatrix34_t *_r, Hmd_Eye eEye)
 {
-    struct cppIVRSystem_IVRSystem_003_GetEyeToHeadTransform_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .eEye = eEye,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_003_GetEyeToHeadTransform( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_003_GetEyeToHeadTransform(_this->linux_side, eEye);
+    return _r;
 }
 
-bool __thiscall winIVRSystem_IVRSystem_003_GetTimeSinceLastVsync(struct w_steam_iface *_this, float *pfSecondsSinceLastVsync, uint64_t *pulFrameCounter)
+bool __thiscall winIVRSystem_IVRSystem_003_GetTimeSinceLastVsync(winIVRSystem_IVRSystem_003 *_this, float *pfSecondsSinceLastVsync, uint64_t *pulFrameCounter)
 {
-    struct cppIVRSystem_IVRSystem_003_GetTimeSinceLastVsync_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pfSecondsSinceLastVsync = pfSecondsSinceLastVsync,
-        .pulFrameCounter = pulFrameCounter,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_003_GetTimeSinceLastVsync( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_003_GetTimeSinceLastVsync(_this->linux_side, pfSecondsSinceLastVsync, pulFrameCounter);
 }
 
-int32_t __thiscall winIVRSystem_IVRSystem_003_GetD3D9AdapterIndex(struct w_steam_iface *_this)
+int32_t __thiscall winIVRSystem_IVRSystem_003_GetD3D9AdapterIndex(winIVRSystem_IVRSystem_003 *_this)
 {
-    struct cppIVRSystem_IVRSystem_003_GetD3D9AdapterIndex_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_003_GetD3D9AdapterIndex( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_003_GetD3D9AdapterIndex(_this->linux_side);
 }
 
-extern void __thiscall winIVRSystem_IVRSystem_003_GetDXGIOutputInfo(struct w_steam_iface *_this, int32_t *pnAdapterIndex, int32_t *pnAdapterOutputIndex);
-
-bool __thiscall winIVRSystem_IVRSystem_003_AttachToWindow(struct w_steam_iface *_this, void *hWnd)
+void __thiscall winIVRSystem_IVRSystem_003_GetDXGIOutputInfo(winIVRSystem_IVRSystem_003 *_this, int32_t *pnAdapterIndex, int32_t *pnAdapterOutputIndex)
 {
-    struct cppIVRSystem_IVRSystem_003_AttachToWindow_params params =
-    {
-        .linux_side = _this->u_iface,
-        .hWnd = hWnd,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_003_AttachToWindow( &params );
-    return params._ret;
+    get_dxgi_output_info2(cppIVRSystem_IVRSystem_003_GetDXGIOutputInfo, _this->linux_side, pnAdapterIndex, pnAdapterOutputIndex, 3);
 }
 
-void __thiscall winIVRSystem_IVRSystem_003_GetDeviceToAbsoluteTrackingPose(struct w_steam_iface *_this, TrackingUniverseOrigin eOrigin, float fPredictedSecondsToPhotonsFromNow, TrackedDevicePose_t *pTrackedDevicePoseArray, uint32_t unTrackedDevicePoseArrayCount)
+bool __thiscall winIVRSystem_IVRSystem_003_AttachToWindow(winIVRSystem_IVRSystem_003 *_this, void *hWnd)
 {
-    struct cppIVRSystem_IVRSystem_003_GetDeviceToAbsoluteTrackingPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eOrigin = eOrigin,
-        .fPredictedSecondsToPhotonsFromNow = fPredictedSecondsToPhotonsFromNow,
-        .pTrackedDevicePoseArray = pTrackedDevicePoseArray,
-        .unTrackedDevicePoseArrayCount = unTrackedDevicePoseArrayCount,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_003_GetDeviceToAbsoluteTrackingPose( &params );
+    return cppIVRSystem_IVRSystem_003_AttachToWindow(_this->linux_side, hWnd);
 }
 
-void __thiscall winIVRSystem_IVRSystem_003_ResetSeatedZeroPose(struct w_steam_iface *_this)
+void __thiscall winIVRSystem_IVRSystem_003_GetDeviceToAbsoluteTrackingPose(winIVRSystem_IVRSystem_003 *_this, TrackingUniverseOrigin eOrigin, float fPredictedSecondsToPhotonsFromNow, TrackedDevicePose_t *pTrackedDevicePoseArray, uint32_t unTrackedDevicePoseArrayCount)
 {
-    struct cppIVRSystem_IVRSystem_003_ResetSeatedZeroPose_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_003_ResetSeatedZeroPose( &params );
+    cppIVRSystem_IVRSystem_003_GetDeviceToAbsoluteTrackingPose(_this->linux_side, eOrigin, fPredictedSecondsToPhotonsFromNow, pTrackedDevicePoseArray, unTrackedDevicePoseArrayCount);
 }
 
-HmdMatrix34_t * __thiscall winIVRSystem_IVRSystem_003_GetSeatedZeroPoseToStandingAbsoluteTrackingPose(struct w_steam_iface *_this, HmdMatrix34_t *_ret)
+void __thiscall winIVRSystem_IVRSystem_003_ResetSeatedZeroPose(winIVRSystem_IVRSystem_003 *_this)
 {
-    struct cppIVRSystem_IVRSystem_003_GetSeatedZeroPoseToStandingAbsoluteTrackingPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_003_GetSeatedZeroPoseToStandingAbsoluteTrackingPose( &params );
-    return params._ret;
+    cppIVRSystem_IVRSystem_003_ResetSeatedZeroPose(_this->linux_side);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_003_LoadRenderModel(struct w_steam_iface *_this, const char *pchRenderModelName, winRenderModel_t_091 *pRenderModel)
+HmdMatrix34_t *__thiscall winIVRSystem_IVRSystem_003_GetSeatedZeroPoseToStandingAbsoluteTrackingPose(winIVRSystem_IVRSystem_003 *_this, HmdMatrix34_t *_r)
 {
-    struct cppIVRSystem_IVRSystem_003_LoadRenderModel_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pchRenderModelName = pchRenderModelName,
-        .pRenderModel = pRenderModel,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_003_LoadRenderModel( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_003_GetSeatedZeroPoseToStandingAbsoluteTrackingPose(_this->linux_side);
+    return _r;
 }
 
-void __thiscall winIVRSystem_IVRSystem_003_FreeRenderModel(struct w_steam_iface *_this, winRenderModel_t_091 *pRenderModel)
+bool __thiscall winIVRSystem_IVRSystem_003_LoadRenderModel(winIVRSystem_IVRSystem_003 *_this, const char *pchRenderModelName, winRenderModel_t_091 *pRenderModel)
 {
-    struct cppIVRSystem_IVRSystem_003_FreeRenderModel_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pRenderModel = pRenderModel,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_003_FreeRenderModel( &params );
+    return cppIVRSystem_IVRSystem_003_LoadRenderModel(_this->linux_side, pchRenderModelName, pRenderModel);
 }
 
-TrackedDeviceClass __thiscall winIVRSystem_IVRSystem_003_GetTrackedDeviceClass(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex)
+void __thiscall winIVRSystem_IVRSystem_003_FreeRenderModel(winIVRSystem_IVRSystem_003 *_this, winRenderModel_t_091 *pRenderModel)
 {
-    struct cppIVRSystem_IVRSystem_003_GetTrackedDeviceClass_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_003_GetTrackedDeviceClass( &params );
-    return params._ret;
+    cppIVRSystem_IVRSystem_003_FreeRenderModel(_this->linux_side, pRenderModel);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_003_IsTrackedDeviceConnected(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex)
+TrackedDeviceClass __thiscall winIVRSystem_IVRSystem_003_GetTrackedDeviceClass(winIVRSystem_IVRSystem_003 *_this, TrackedDeviceIndex_t unDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_003_IsTrackedDeviceConnected_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_003_IsTrackedDeviceConnected( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_003_GetTrackedDeviceClass(_this->linux_side, unDeviceIndex);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_003_GetBoolTrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, TrackedDeviceProperty prop, TrackedPropertyError *pError)
+bool __thiscall winIVRSystem_IVRSystem_003_IsTrackedDeviceConnected(winIVRSystem_IVRSystem_003 *_this, TrackedDeviceIndex_t unDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_003_GetBoolTrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_003_GetBoolTrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_003_IsTrackedDeviceConnected(_this->linux_side, unDeviceIndex);
 }
 
-float __thiscall winIVRSystem_IVRSystem_003_GetFloatTrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, TrackedDeviceProperty prop, TrackedPropertyError *pError)
+bool __thiscall winIVRSystem_IVRSystem_003_GetBoolTrackedDeviceProperty(winIVRSystem_IVRSystem_003 *_this, TrackedDeviceIndex_t unDeviceIndex, TrackedDeviceProperty prop, TrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_003_GetFloatTrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_003_GetFloatTrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_003_GetBoolTrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
 }
 
-int32_t __thiscall winIVRSystem_IVRSystem_003_GetInt32TrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, TrackedDeviceProperty prop, TrackedPropertyError *pError)
+float __thiscall winIVRSystem_IVRSystem_003_GetFloatTrackedDeviceProperty(winIVRSystem_IVRSystem_003 *_this, TrackedDeviceIndex_t unDeviceIndex, TrackedDeviceProperty prop, TrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_003_GetInt32TrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_003_GetInt32TrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_003_GetFloatTrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
 }
 
-uint64_t __thiscall winIVRSystem_IVRSystem_003_GetUint64TrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, TrackedDeviceProperty prop, TrackedPropertyError *pError)
+int32_t __thiscall winIVRSystem_IVRSystem_003_GetInt32TrackedDeviceProperty(winIVRSystem_IVRSystem_003 *_this, TrackedDeviceIndex_t unDeviceIndex, TrackedDeviceProperty prop, TrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_003_GetUint64TrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_003_GetUint64TrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_003_GetInt32TrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
 }
 
-HmdMatrix34_t * __thiscall winIVRSystem_IVRSystem_003_GetMatrix34TrackedDeviceProperty(struct w_steam_iface *_this, HmdMatrix34_t *_ret, TrackedDeviceIndex_t unDeviceIndex, TrackedDeviceProperty prop, TrackedPropertyError *pError)
+uint64_t __thiscall winIVRSystem_IVRSystem_003_GetUint64TrackedDeviceProperty(winIVRSystem_IVRSystem_003 *_this, TrackedDeviceIndex_t unDeviceIndex, TrackedDeviceProperty prop, TrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_003_GetMatrix34TrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_003_GetMatrix34TrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_003_GetUint64TrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
 }
 
-uint32_t __thiscall winIVRSystem_IVRSystem_003_GetStringTrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, TrackedDeviceProperty prop, char *pchValue, uint32_t unBufferSize, TrackedPropertyError *pError)
+HmdMatrix34_t *__thiscall winIVRSystem_IVRSystem_003_GetMatrix34TrackedDeviceProperty(winIVRSystem_IVRSystem_003 *_this, HmdMatrix34_t *_r, TrackedDeviceIndex_t unDeviceIndex, TrackedDeviceProperty prop, TrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_003_GetStringTrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pchValue = pchValue,
-        .unBufferSize = unBufferSize,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_003_GetStringTrackedDeviceProperty( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_003_GetMatrix34TrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
+    return _r;
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_003_GetPropErrorNameFromEnum(struct w_steam_iface *_this, TrackedPropertyError error)
+uint32_t __thiscall winIVRSystem_IVRSystem_003_GetStringTrackedDeviceProperty(winIVRSystem_IVRSystem_003 *_this, TrackedDeviceIndex_t unDeviceIndex, TrackedDeviceProperty prop, char *pchValue, uint32_t unBufferSize, TrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_003_GetPropErrorNameFromEnum_params params =
-    {
-        .linux_side = _this->u_iface,
-        .error = error,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_003_GetPropErrorNameFromEnum( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_003_GetStringTrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pchValue, unBufferSize, pError);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_003_PollNextEvent(struct w_steam_iface *_this, VREvent_t *pEvent)
+const char * __thiscall winIVRSystem_IVRSystem_003_GetPropErrorNameFromEnum(winIVRSystem_IVRSystem_003 *_this, TrackedPropertyError error)
 {
-    struct cppIVRSystem_IVRSystem_003_PollNextEvent_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pEvent = pEvent,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_003_PollNextEvent( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_003_GetPropErrorNameFromEnum(_this->linux_side, error);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_003_PollNextEventWithPose(struct w_steam_iface *_this, TrackingUniverseOrigin eOrigin, VREvent_t *pEvent, TrackedDevicePose_t *pTrackedDevicePose)
+bool __thiscall winIVRSystem_IVRSystem_003_PollNextEvent(winIVRSystem_IVRSystem_003 *_this, VREvent_t *pEvent)
 {
-    struct cppIVRSystem_IVRSystem_003_PollNextEventWithPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eOrigin = eOrigin,
-        .pEvent = pEvent,
-        .pTrackedDevicePose = pTrackedDevicePose,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_003_PollNextEventWithPose( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_003_PollNextEvent(_this->linux_side, pEvent);
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_003_GetEventTypeNameFromEnum(struct w_steam_iface *_this, EVREventType eType)
+bool __thiscall winIVRSystem_IVRSystem_003_PollNextEventWithPose(winIVRSystem_IVRSystem_003 *_this, TrackingUniverseOrigin eOrigin, VREvent_t *pEvent, TrackedDevicePose_t *pTrackedDevicePose)
 {
-    struct cppIVRSystem_IVRSystem_003_GetEventTypeNameFromEnum_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eType = eType,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_003_GetEventTypeNameFromEnum( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_003_PollNextEventWithPose(_this->linux_side, eOrigin, pEvent, pTrackedDevicePose);
 }
 
-HiddenAreaMesh_t * __thiscall winIVRSystem_IVRSystem_003_GetHiddenAreaMesh(struct w_steam_iface *_this, HiddenAreaMesh_t *_ret, Hmd_Eye eEye)
+const char * __thiscall winIVRSystem_IVRSystem_003_GetEventTypeNameFromEnum(winIVRSystem_IVRSystem_003 *_this, EVREventType eType)
 {
-    struct cppIVRSystem_IVRSystem_003_GetHiddenAreaMesh_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .eEye = eEye,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_003_GetHiddenAreaMesh( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_003_GetEventTypeNameFromEnum(_this->linux_side, eType);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_003_GetControllerState(struct w_steam_iface *_this, TrackedDeviceIndex_t unControllerDeviceIndex, winVRControllerState001_t_091 *pControllerState)
+HiddenAreaMesh_t *__thiscall winIVRSystem_IVRSystem_003_GetHiddenAreaMesh(winIVRSystem_IVRSystem_003 *_this, HiddenAreaMesh_t *_r, Hmd_Eye eEye)
 {
-    struct cppIVRSystem_IVRSystem_003_GetControllerState_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unControllerDeviceIndex = unControllerDeviceIndex,
-        .pControllerState = pControllerState,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_003_GetControllerState( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_003_GetHiddenAreaMesh(_this->linux_side, eEye);
+    return _r;
 }
 
-bool __thiscall winIVRSystem_IVRSystem_003_GetControllerStateWithPose(struct w_steam_iface *_this, TrackingUniverseOrigin eOrigin, TrackedDeviceIndex_t unControllerDeviceIndex, winVRControllerState001_t_091 *pControllerState, TrackedDevicePose_t *pTrackedDevicePose)
+bool __thiscall winIVRSystem_IVRSystem_003_GetControllerState(winIVRSystem_IVRSystem_003 *_this, TrackedDeviceIndex_t unControllerDeviceIndex, winVRControllerState001_t_091 *pControllerState)
 {
-    struct cppIVRSystem_IVRSystem_003_GetControllerStateWithPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eOrigin = eOrigin,
-        .unControllerDeviceIndex = unControllerDeviceIndex,
-        .pControllerState = pControllerState,
-        .pTrackedDevicePose = pTrackedDevicePose,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_003_GetControllerStateWithPose( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_003_GetControllerState(_this->linux_side, unControllerDeviceIndex, pControllerState);
 }
 
-void __thiscall winIVRSystem_IVRSystem_003_TriggerHapticPulse(struct w_steam_iface *_this, TrackedDeviceIndex_t unControllerDeviceIndex, uint32_t unAxisId, unsigned short usDurationMicroSec)
+bool __thiscall winIVRSystem_IVRSystem_003_GetControllerStateWithPose(winIVRSystem_IVRSystem_003 *_this, TrackingUniverseOrigin eOrigin, TrackedDeviceIndex_t unControllerDeviceIndex, winVRControllerState001_t_091 *pControllerState, TrackedDevicePose_t *pTrackedDevicePose)
 {
-    struct cppIVRSystem_IVRSystem_003_TriggerHapticPulse_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unControllerDeviceIndex = unControllerDeviceIndex,
-        .unAxisId = unAxisId,
-        .usDurationMicroSec = usDurationMicroSec,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_003_TriggerHapticPulse( &params );
+    return cppIVRSystem_IVRSystem_003_GetControllerStateWithPose(_this->linux_side, eOrigin, unControllerDeviceIndex, pControllerState, pTrackedDevicePose);
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_003_GetButtonIdNameFromEnum(struct w_steam_iface *_this, EVRButtonId eButtonId)
+void __thiscall winIVRSystem_IVRSystem_003_TriggerHapticPulse(winIVRSystem_IVRSystem_003 *_this, TrackedDeviceIndex_t unControllerDeviceIndex, uint32_t unAxisId, unsigned short usDurationMicroSec)
 {
-    struct cppIVRSystem_IVRSystem_003_GetButtonIdNameFromEnum_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eButtonId = eButtonId,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_003_GetButtonIdNameFromEnum( &params );
-    return params._ret;
+    cppIVRSystem_IVRSystem_003_TriggerHapticPulse(_this->linux_side, unControllerDeviceIndex, unAxisId, usDurationMicroSec);
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_003_GetControllerAxisTypeNameFromEnum(struct w_steam_iface *_this, EVRControllerAxisType eAxisType)
+const char * __thiscall winIVRSystem_IVRSystem_003_GetButtonIdNameFromEnum(winIVRSystem_IVRSystem_003 *_this, EVRButtonId eButtonId)
 {
-    struct cppIVRSystem_IVRSystem_003_GetControllerAxisTypeNameFromEnum_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eAxisType = eAxisType,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_003_GetControllerAxisTypeNameFromEnum( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_003_GetButtonIdNameFromEnum(_this->linux_side, eButtonId);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_003_HandleControllerOverlayInteractionAsMouse(struct w_steam_iface *_this, const Compositor_OverlaySettings *overlaySettings, HmdVector2_t vecWindowClientPositionOnScreen, HmdVector2_t vecWindowClientSize, TrackedDeviceIndex_t unControllerDeviceIndex, EVRControllerEventOutputType eOutputType)
+const char * __thiscall winIVRSystem_IVRSystem_003_GetControllerAxisTypeNameFromEnum(winIVRSystem_IVRSystem_003 *_this, EVRControllerAxisType eAxisType)
 {
-    struct cppIVRSystem_IVRSystem_003_HandleControllerOverlayInteractionAsMouse_params params =
-    {
-        .linux_side = _this->u_iface,
-        .overlaySettings = overlaySettings,
-        .vecWindowClientPositionOnScreen = vecWindowClientPositionOnScreen,
-        .vecWindowClientSize = vecWindowClientSize,
-        .unControllerDeviceIndex = unControllerDeviceIndex,
-        .eOutputType = eOutputType,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_003_HandleControllerOverlayInteractionAsMouse( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_003_GetControllerAxisTypeNameFromEnum(_this->linux_side, eAxisType);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_003_CaptureInputFocus(struct w_steam_iface *_this)
+bool __thiscall winIVRSystem_IVRSystem_003_HandleControllerOverlayInteractionAsMouse(winIVRSystem_IVRSystem_003 *_this, Compositor_OverlaySettings *overlaySettings, HmdVector2_t vecWindowClientPositionOnScreen, HmdVector2_t vecWindowClientSize, TrackedDeviceIndex_t unControllerDeviceIndex, EVRControllerEventOutputType eOutputType)
 {
-    struct cppIVRSystem_IVRSystem_003_CaptureInputFocus_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_003_CaptureInputFocus( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_003_HandleControllerOverlayInteractionAsMouse(_this->linux_side, overlaySettings, vecWindowClientPositionOnScreen, vecWindowClientSize, unControllerDeviceIndex, eOutputType);
 }
 
-void __thiscall winIVRSystem_IVRSystem_003_ReleaseInputFocus(struct w_steam_iface *_this)
+bool __thiscall winIVRSystem_IVRSystem_003_CaptureInputFocus(winIVRSystem_IVRSystem_003 *_this)
 {
-    struct cppIVRSystem_IVRSystem_003_ReleaseInputFocus_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_003_ReleaseInputFocus( &params );
+    return cppIVRSystem_IVRSystem_003_CaptureInputFocus(_this->linux_side);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_003_IsInputFocusCapturedByAnotherProcess(struct w_steam_iface *_this)
+void __thiscall winIVRSystem_IVRSystem_003_ReleaseInputFocus(winIVRSystem_IVRSystem_003 *_this)
 {
-    struct cppIVRSystem_IVRSystem_003_IsInputFocusCapturedByAnotherProcess_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_003_IsInputFocusCapturedByAnotherProcess( &params );
-    return params._ret;
+    cppIVRSystem_IVRSystem_003_ReleaseInputFocus(_this->linux_side);
+}
+
+bool __thiscall winIVRSystem_IVRSystem_003_IsInputFocusCapturedByAnotherProcess(winIVRSystem_IVRSystem_003 *_this)
+{
+    TRACE("%p\n", _this);
+    return cppIVRSystem_IVRSystem_003_IsInputFocusCapturedByAnotherProcess(_this->linux_side);
 }
 
 extern vtable_ptr winIVRSystem_IVRSystem_003_vtable;
@@ -591,24 +347,24 @@ void __asm_dummy_vtables(void) {
 }
 #endif
 
-struct w_steam_iface *create_winIVRSystem_IVRSystem_003(void *u_iface)
+winIVRSystem_IVRSystem_003 *create_winIVRSystem_IVRSystem_003(void *linux_side)
 {
-    struct w_steam_iface *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(*r));
+    winIVRSystem_IVRSystem_003 *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(winIVRSystem_IVRSystem_003));
     TRACE("-> %p\n", r);
     r->vtable = &winIVRSystem_IVRSystem_003_vtable;
-    r->u_iface = u_iface;
+    r->linux_side = linux_side;
     return r;
 }
 
-void destroy_winIVRSystem_IVRSystem_003(struct w_steam_iface *object)
+void destroy_winIVRSystem_IVRSystem_003(void *object)
 {
     TRACE("%p\n", object);
     HeapFree(GetProcessHeap(), 0, object);
 }
 
-struct w_steam_iface *create_winIVRSystem_IVRSystem_003_FnTable(void *u_iface)
+winIVRSystem_IVRSystem_003 *create_winIVRSystem_IVRSystem_003_FnTable(void *linux_side)
 {
-    struct w_steam_iface *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(*r));
+    winIVRSystem_IVRSystem_003 *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(winIVRSystem_IVRSystem_003));
     struct thunk *thunks = alloc_thunks(38);
     struct thunk **vtable = HeapAlloc(GetProcessHeap(), 0, 38 * sizeof(*vtable));
     int i;
@@ -654,20 +410,26 @@ struct w_steam_iface *create_winIVRSystem_IVRSystem_003_FnTable(void *u_iface)
     init_thunk(&thunks[37], r, winIVRSystem_IVRSystem_003_IsInputFocusCapturedByAnotherProcess, 0, FALSE, FALSE);
     for (i = 0; i < 38; i++)
         vtable[i] = &thunks[i];
-    r->u_iface = u_iface;
+    r->linux_side = linux_side;
     r->vtable = (void *)vtable;
     return r;
 }
 
-void destroy_winIVRSystem_IVRSystem_003_FnTable(struct w_steam_iface *object)
+void destroy_winIVRSystem_IVRSystem_003_FnTable(void *object)
 {
-    TRACE("%p\n", object);
-    VirtualFree(object->vtable[0], 0, MEM_RELEASE);
-    HeapFree(GetProcessHeap(), 0, object->vtable);
-    HeapFree(GetProcessHeap(), 0, object);
+    winIVRSystem_IVRSystem_003 *win_object = object;
+    TRACE("%p\n", win_object);
+    VirtualFree(win_object->vtable[0], 0, MEM_RELEASE);
+    HeapFree(GetProcessHeap(), 0, win_object->vtable);
+    HeapFree(GetProcessHeap(), 0, win_object);
 }
 
 #include "cppIVRSystem_IVRSystem_004.h"
+
+typedef struct __winIVRSystem_IVRSystem_004 {
+    vtable_ptr *vtable;
+    void *linux_side;
+} winIVRSystem_IVRSystem_004;
 
 DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_004_GetWindowBounds, 20)
 DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_004_GetRecommendedRenderTargetSize, 12)
@@ -706,464 +468,226 @@ DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_004_ReleaseInputFocus, 4)
 DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_004_IsInputFocusCapturedByAnotherProcess, 4)
 DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_004_DriverDebugRequest, 20)
 
-void __thiscall winIVRSystem_IVRSystem_004_GetWindowBounds(struct w_steam_iface *_this, int32_t *pnX, int32_t *pnY, uint32_t *pnWidth, uint32_t *pnHeight)
+void __thiscall winIVRSystem_IVRSystem_004_GetWindowBounds(winIVRSystem_IVRSystem_004 *_this, int32_t *pnX, int32_t *pnY, uint32_t *pnWidth, uint32_t *pnHeight)
 {
-    struct cppIVRSystem_IVRSystem_004_GetWindowBounds_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pnX = pnX,
-        .pnY = pnY,
-        .pnWidth = pnWidth,
-        .pnHeight = pnHeight,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_004_GetWindowBounds( &params );
+    cppIVRSystem_IVRSystem_004_GetWindowBounds(_this->linux_side, pnX, pnY, pnWidth, pnHeight);
 }
 
-void __thiscall winIVRSystem_IVRSystem_004_GetRecommendedRenderTargetSize(struct w_steam_iface *_this, uint32_t *pnWidth, uint32_t *pnHeight)
+void __thiscall winIVRSystem_IVRSystem_004_GetRecommendedRenderTargetSize(winIVRSystem_IVRSystem_004 *_this, uint32_t *pnWidth, uint32_t *pnHeight)
 {
-    struct cppIVRSystem_IVRSystem_004_GetRecommendedRenderTargetSize_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pnWidth = pnWidth,
-        .pnHeight = pnHeight,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_004_GetRecommendedRenderTargetSize( &params );
+    cppIVRSystem_IVRSystem_004_GetRecommendedRenderTargetSize(_this->linux_side, pnWidth, pnHeight);
 }
 
-void __thiscall winIVRSystem_IVRSystem_004_GetEyeOutputViewport(struct w_steam_iface *_this, Hmd_Eye eEye, uint32_t *pnX, uint32_t *pnY, uint32_t *pnWidth, uint32_t *pnHeight)
+void __thiscall winIVRSystem_IVRSystem_004_GetEyeOutputViewport(winIVRSystem_IVRSystem_004 *_this, Hmd_Eye eEye, uint32_t *pnX, uint32_t *pnY, uint32_t *pnWidth, uint32_t *pnHeight)
 {
-    struct cppIVRSystem_IVRSystem_004_GetEyeOutputViewport_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eEye = eEye,
-        .pnX = pnX,
-        .pnY = pnY,
-        .pnWidth = pnWidth,
-        .pnHeight = pnHeight,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_004_GetEyeOutputViewport( &params );
+    cppIVRSystem_IVRSystem_004_GetEyeOutputViewport(_this->linux_side, eEye, pnX, pnY, pnWidth, pnHeight);
 }
 
-HmdMatrix44_t * __thiscall winIVRSystem_IVRSystem_004_GetProjectionMatrix(struct w_steam_iface *_this, HmdMatrix44_t *_ret, Hmd_Eye eEye, float fNearZ, float fFarZ, GraphicsAPIConvention eProjType)
+HmdMatrix44_t *__thiscall winIVRSystem_IVRSystem_004_GetProjectionMatrix(winIVRSystem_IVRSystem_004 *_this, HmdMatrix44_t *_r, Hmd_Eye eEye, float fNearZ, float fFarZ, GraphicsAPIConvention eProjType)
 {
-    struct cppIVRSystem_IVRSystem_004_GetProjectionMatrix_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .eEye = eEye,
-        .fNearZ = fNearZ,
-        .fFarZ = fFarZ,
-        .eProjType = eProjType,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_004_GetProjectionMatrix( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_004_GetProjectionMatrix(_this->linux_side, eEye, fNearZ, fFarZ, eProjType);
+    return _r;
 }
 
-void __thiscall winIVRSystem_IVRSystem_004_GetProjectionRaw(struct w_steam_iface *_this, Hmd_Eye eEye, float *pfLeft, float *pfRight, float *pfTop, float *pfBottom)
+void __thiscall winIVRSystem_IVRSystem_004_GetProjectionRaw(winIVRSystem_IVRSystem_004 *_this, Hmd_Eye eEye, float *pfLeft, float *pfRight, float *pfTop, float *pfBottom)
 {
-    struct cppIVRSystem_IVRSystem_004_GetProjectionRaw_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eEye = eEye,
-        .pfLeft = pfLeft,
-        .pfRight = pfRight,
-        .pfTop = pfTop,
-        .pfBottom = pfBottom,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_004_GetProjectionRaw( &params );
+    cppIVRSystem_IVRSystem_004_GetProjectionRaw(_this->linux_side, eEye, pfLeft, pfRight, pfTop, pfBottom);
 }
 
-DistortionCoordinates_t * __thiscall winIVRSystem_IVRSystem_004_ComputeDistortion(struct w_steam_iface *_this, DistortionCoordinates_t *_ret, Hmd_Eye eEye, float fU, float fV)
+DistortionCoordinates_t *__thiscall winIVRSystem_IVRSystem_004_ComputeDistortion(winIVRSystem_IVRSystem_004 *_this, DistortionCoordinates_t *_r, Hmd_Eye eEye, float fU, float fV)
 {
-    struct cppIVRSystem_IVRSystem_004_ComputeDistortion_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .eEye = eEye,
-        .fU = fU,
-        .fV = fV,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_004_ComputeDistortion( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_004_ComputeDistortion(_this->linux_side, eEye, fU, fV);
+    return _r;
 }
 
-HmdMatrix34_t * __thiscall winIVRSystem_IVRSystem_004_GetEyeToHeadTransform(struct w_steam_iface *_this, HmdMatrix34_t *_ret, Hmd_Eye eEye)
+HmdMatrix34_t *__thiscall winIVRSystem_IVRSystem_004_GetEyeToHeadTransform(winIVRSystem_IVRSystem_004 *_this, HmdMatrix34_t *_r, Hmd_Eye eEye)
 {
-    struct cppIVRSystem_IVRSystem_004_GetEyeToHeadTransform_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .eEye = eEye,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_004_GetEyeToHeadTransform( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_004_GetEyeToHeadTransform(_this->linux_side, eEye);
+    return _r;
 }
 
-bool __thiscall winIVRSystem_IVRSystem_004_GetTimeSinceLastVsync(struct w_steam_iface *_this, float *pfSecondsSinceLastVsync, uint64_t *pulFrameCounter)
+bool __thiscall winIVRSystem_IVRSystem_004_GetTimeSinceLastVsync(winIVRSystem_IVRSystem_004 *_this, float *pfSecondsSinceLastVsync, uint64_t *pulFrameCounter)
 {
-    struct cppIVRSystem_IVRSystem_004_GetTimeSinceLastVsync_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pfSecondsSinceLastVsync = pfSecondsSinceLastVsync,
-        .pulFrameCounter = pulFrameCounter,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_004_GetTimeSinceLastVsync( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_004_GetTimeSinceLastVsync(_this->linux_side, pfSecondsSinceLastVsync, pulFrameCounter);
 }
 
-int32_t __thiscall winIVRSystem_IVRSystem_004_GetD3D9AdapterIndex(struct w_steam_iface *_this)
+int32_t __thiscall winIVRSystem_IVRSystem_004_GetD3D9AdapterIndex(winIVRSystem_IVRSystem_004 *_this)
 {
-    struct cppIVRSystem_IVRSystem_004_GetD3D9AdapterIndex_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_004_GetD3D9AdapterIndex( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_004_GetD3D9AdapterIndex(_this->linux_side);
 }
 
-extern void __thiscall winIVRSystem_IVRSystem_004_GetDXGIOutputInfo(struct w_steam_iface *_this, int32_t *pnAdapterIndex, int32_t *pnAdapterOutputIndex);
-
-bool __thiscall winIVRSystem_IVRSystem_004_AttachToWindow(struct w_steam_iface *_this, void *hWnd)
+void __thiscall winIVRSystem_IVRSystem_004_GetDXGIOutputInfo(winIVRSystem_IVRSystem_004 *_this, int32_t *pnAdapterIndex, int32_t *pnAdapterOutputIndex)
 {
-    struct cppIVRSystem_IVRSystem_004_AttachToWindow_params params =
-    {
-        .linux_side = _this->u_iface,
-        .hWnd = hWnd,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_004_AttachToWindow( &params );
-    return params._ret;
+    get_dxgi_output_info2(cppIVRSystem_IVRSystem_004_GetDXGIOutputInfo, _this->linux_side, pnAdapterIndex, pnAdapterOutputIndex, 4);
 }
 
-void __thiscall winIVRSystem_IVRSystem_004_GetDeviceToAbsoluteTrackingPose(struct w_steam_iface *_this, TrackingUniverseOrigin eOrigin, float fPredictedSecondsToPhotonsFromNow, TrackedDevicePose_t *pTrackedDevicePoseArray, uint32_t unTrackedDevicePoseArrayCount)
+bool __thiscall winIVRSystem_IVRSystem_004_AttachToWindow(winIVRSystem_IVRSystem_004 *_this, void *hWnd)
 {
-    struct cppIVRSystem_IVRSystem_004_GetDeviceToAbsoluteTrackingPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eOrigin = eOrigin,
-        .fPredictedSecondsToPhotonsFromNow = fPredictedSecondsToPhotonsFromNow,
-        .pTrackedDevicePoseArray = pTrackedDevicePoseArray,
-        .unTrackedDevicePoseArrayCount = unTrackedDevicePoseArrayCount,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_004_GetDeviceToAbsoluteTrackingPose( &params );
+    return cppIVRSystem_IVRSystem_004_AttachToWindow(_this->linux_side, hWnd);
 }
 
-void __thiscall winIVRSystem_IVRSystem_004_ResetSeatedZeroPose(struct w_steam_iface *_this)
+void __thiscall winIVRSystem_IVRSystem_004_GetDeviceToAbsoluteTrackingPose(winIVRSystem_IVRSystem_004 *_this, TrackingUniverseOrigin eOrigin, float fPredictedSecondsToPhotonsFromNow, TrackedDevicePose_t *pTrackedDevicePoseArray, uint32_t unTrackedDevicePoseArrayCount)
 {
-    struct cppIVRSystem_IVRSystem_004_ResetSeatedZeroPose_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_004_ResetSeatedZeroPose( &params );
+    cppIVRSystem_IVRSystem_004_GetDeviceToAbsoluteTrackingPose(_this->linux_side, eOrigin, fPredictedSecondsToPhotonsFromNow, pTrackedDevicePoseArray, unTrackedDevicePoseArrayCount);
 }
 
-HmdMatrix34_t * __thiscall winIVRSystem_IVRSystem_004_GetSeatedZeroPoseToStandingAbsoluteTrackingPose(struct w_steam_iface *_this, HmdMatrix34_t *_ret)
+void __thiscall winIVRSystem_IVRSystem_004_ResetSeatedZeroPose(winIVRSystem_IVRSystem_004 *_this)
 {
-    struct cppIVRSystem_IVRSystem_004_GetSeatedZeroPoseToStandingAbsoluteTrackingPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_004_GetSeatedZeroPoseToStandingAbsoluteTrackingPose( &params );
-    return params._ret;
+    cppIVRSystem_IVRSystem_004_ResetSeatedZeroPose(_this->linux_side);
 }
 
-TrackedDeviceClass __thiscall winIVRSystem_IVRSystem_004_GetTrackedDeviceClass(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex)
+HmdMatrix34_t *__thiscall winIVRSystem_IVRSystem_004_GetSeatedZeroPoseToStandingAbsoluteTrackingPose(winIVRSystem_IVRSystem_004 *_this, HmdMatrix34_t *_r)
 {
-    struct cppIVRSystem_IVRSystem_004_GetTrackedDeviceClass_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_004_GetTrackedDeviceClass( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_004_GetSeatedZeroPoseToStandingAbsoluteTrackingPose(_this->linux_side);
+    return _r;
 }
 
-bool __thiscall winIVRSystem_IVRSystem_004_IsTrackedDeviceConnected(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex)
+TrackedDeviceClass __thiscall winIVRSystem_IVRSystem_004_GetTrackedDeviceClass(winIVRSystem_IVRSystem_004 *_this, TrackedDeviceIndex_t unDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_004_IsTrackedDeviceConnected_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_004_IsTrackedDeviceConnected( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_004_GetTrackedDeviceClass(_this->linux_side, unDeviceIndex);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_004_GetBoolTrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, TrackedDeviceProperty prop, TrackedPropertyError *pError)
+bool __thiscall winIVRSystem_IVRSystem_004_IsTrackedDeviceConnected(winIVRSystem_IVRSystem_004 *_this, TrackedDeviceIndex_t unDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_004_GetBoolTrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_004_GetBoolTrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_004_IsTrackedDeviceConnected(_this->linux_side, unDeviceIndex);
 }
 
-float __thiscall winIVRSystem_IVRSystem_004_GetFloatTrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, TrackedDeviceProperty prop, TrackedPropertyError *pError)
+bool __thiscall winIVRSystem_IVRSystem_004_GetBoolTrackedDeviceProperty(winIVRSystem_IVRSystem_004 *_this, TrackedDeviceIndex_t unDeviceIndex, TrackedDeviceProperty prop, TrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_004_GetFloatTrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_004_GetFloatTrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_004_GetBoolTrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
 }
 
-int32_t __thiscall winIVRSystem_IVRSystem_004_GetInt32TrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, TrackedDeviceProperty prop, TrackedPropertyError *pError)
+float __thiscall winIVRSystem_IVRSystem_004_GetFloatTrackedDeviceProperty(winIVRSystem_IVRSystem_004 *_this, TrackedDeviceIndex_t unDeviceIndex, TrackedDeviceProperty prop, TrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_004_GetInt32TrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_004_GetInt32TrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_004_GetFloatTrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
 }
 
-uint64_t __thiscall winIVRSystem_IVRSystem_004_GetUint64TrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, TrackedDeviceProperty prop, TrackedPropertyError *pError)
+int32_t __thiscall winIVRSystem_IVRSystem_004_GetInt32TrackedDeviceProperty(winIVRSystem_IVRSystem_004 *_this, TrackedDeviceIndex_t unDeviceIndex, TrackedDeviceProperty prop, TrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_004_GetUint64TrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_004_GetUint64TrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_004_GetInt32TrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
 }
 
-HmdMatrix34_t * __thiscall winIVRSystem_IVRSystem_004_GetMatrix34TrackedDeviceProperty(struct w_steam_iface *_this, HmdMatrix34_t *_ret, TrackedDeviceIndex_t unDeviceIndex, TrackedDeviceProperty prop, TrackedPropertyError *pError)
+uint64_t __thiscall winIVRSystem_IVRSystem_004_GetUint64TrackedDeviceProperty(winIVRSystem_IVRSystem_004 *_this, TrackedDeviceIndex_t unDeviceIndex, TrackedDeviceProperty prop, TrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_004_GetMatrix34TrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_004_GetMatrix34TrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_004_GetUint64TrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
 }
 
-uint32_t __thiscall winIVRSystem_IVRSystem_004_GetStringTrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, TrackedDeviceProperty prop, char *pchValue, uint32_t unBufferSize, TrackedPropertyError *pError)
+HmdMatrix34_t *__thiscall winIVRSystem_IVRSystem_004_GetMatrix34TrackedDeviceProperty(winIVRSystem_IVRSystem_004 *_this, HmdMatrix34_t *_r, TrackedDeviceIndex_t unDeviceIndex, TrackedDeviceProperty prop, TrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_004_GetStringTrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pchValue = pchValue,
-        .unBufferSize = unBufferSize,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_004_GetStringTrackedDeviceProperty( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_004_GetMatrix34TrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
+    return _r;
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_004_GetPropErrorNameFromEnum(struct w_steam_iface *_this, TrackedPropertyError error)
+uint32_t __thiscall winIVRSystem_IVRSystem_004_GetStringTrackedDeviceProperty(winIVRSystem_IVRSystem_004 *_this, TrackedDeviceIndex_t unDeviceIndex, TrackedDeviceProperty prop, char *pchValue, uint32_t unBufferSize, TrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_004_GetPropErrorNameFromEnum_params params =
-    {
-        .linux_side = _this->u_iface,
-        .error = error,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_004_GetPropErrorNameFromEnum( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_004_GetStringTrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pchValue, unBufferSize, pError);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_004_PollNextEvent(struct w_steam_iface *_this, VREvent_t *pEvent)
+const char * __thiscall winIVRSystem_IVRSystem_004_GetPropErrorNameFromEnum(winIVRSystem_IVRSystem_004 *_this, TrackedPropertyError error)
 {
-    struct cppIVRSystem_IVRSystem_004_PollNextEvent_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pEvent = pEvent,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_004_PollNextEvent( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_004_GetPropErrorNameFromEnum(_this->linux_side, error);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_004_PollNextEventWithPose(struct w_steam_iface *_this, TrackingUniverseOrigin eOrigin, VREvent_t *pEvent, TrackedDevicePose_t *pTrackedDevicePose)
+bool __thiscall winIVRSystem_IVRSystem_004_PollNextEvent(winIVRSystem_IVRSystem_004 *_this, VREvent_t *pEvent)
 {
-    struct cppIVRSystem_IVRSystem_004_PollNextEventWithPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eOrigin = eOrigin,
-        .pEvent = pEvent,
-        .pTrackedDevicePose = pTrackedDevicePose,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_004_PollNextEventWithPose( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_004_PollNextEvent(_this->linux_side, pEvent);
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_004_GetEventTypeNameFromEnum(struct w_steam_iface *_this, EVREventType eType)
+bool __thiscall winIVRSystem_IVRSystem_004_PollNextEventWithPose(winIVRSystem_IVRSystem_004 *_this, TrackingUniverseOrigin eOrigin, VREvent_t *pEvent, TrackedDevicePose_t *pTrackedDevicePose)
 {
-    struct cppIVRSystem_IVRSystem_004_GetEventTypeNameFromEnum_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eType = eType,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_004_GetEventTypeNameFromEnum( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_004_PollNextEventWithPose(_this->linux_side, eOrigin, pEvent, pTrackedDevicePose);
 }
 
-HiddenAreaMesh_t * __thiscall winIVRSystem_IVRSystem_004_GetHiddenAreaMesh(struct w_steam_iface *_this, HiddenAreaMesh_t *_ret, Hmd_Eye eEye)
+const char * __thiscall winIVRSystem_IVRSystem_004_GetEventTypeNameFromEnum(winIVRSystem_IVRSystem_004 *_this, EVREventType eType)
 {
-    struct cppIVRSystem_IVRSystem_004_GetHiddenAreaMesh_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .eEye = eEye,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_004_GetHiddenAreaMesh( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_004_GetEventTypeNameFromEnum(_this->linux_side, eType);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_004_GetControllerState(struct w_steam_iface *_this, TrackedDeviceIndex_t unControllerDeviceIndex, winVRControllerState001_t_092 *pControllerState)
+HiddenAreaMesh_t *__thiscall winIVRSystem_IVRSystem_004_GetHiddenAreaMesh(winIVRSystem_IVRSystem_004 *_this, HiddenAreaMesh_t *_r, Hmd_Eye eEye)
 {
-    struct cppIVRSystem_IVRSystem_004_GetControllerState_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unControllerDeviceIndex = unControllerDeviceIndex,
-        .pControllerState = pControllerState,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_004_GetControllerState( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_004_GetHiddenAreaMesh(_this->linux_side, eEye);
+    return _r;
 }
 
-bool __thiscall winIVRSystem_IVRSystem_004_GetControllerStateWithPose(struct w_steam_iface *_this, TrackingUniverseOrigin eOrigin, TrackedDeviceIndex_t unControllerDeviceIndex, winVRControllerState001_t_092 *pControllerState, TrackedDevicePose_t *pTrackedDevicePose)
+bool __thiscall winIVRSystem_IVRSystem_004_GetControllerState(winIVRSystem_IVRSystem_004 *_this, TrackedDeviceIndex_t unControllerDeviceIndex, winVRControllerState001_t_092 *pControllerState)
 {
-    struct cppIVRSystem_IVRSystem_004_GetControllerStateWithPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eOrigin = eOrigin,
-        .unControllerDeviceIndex = unControllerDeviceIndex,
-        .pControllerState = pControllerState,
-        .pTrackedDevicePose = pTrackedDevicePose,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_004_GetControllerStateWithPose( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_004_GetControllerState(_this->linux_side, unControllerDeviceIndex, pControllerState);
 }
 
-void __thiscall winIVRSystem_IVRSystem_004_TriggerHapticPulse(struct w_steam_iface *_this, TrackedDeviceIndex_t unControllerDeviceIndex, uint32_t unAxisId, unsigned short usDurationMicroSec)
+bool __thiscall winIVRSystem_IVRSystem_004_GetControllerStateWithPose(winIVRSystem_IVRSystem_004 *_this, TrackingUniverseOrigin eOrigin, TrackedDeviceIndex_t unControllerDeviceIndex, winVRControllerState001_t_092 *pControllerState, TrackedDevicePose_t *pTrackedDevicePose)
 {
-    struct cppIVRSystem_IVRSystem_004_TriggerHapticPulse_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unControllerDeviceIndex = unControllerDeviceIndex,
-        .unAxisId = unAxisId,
-        .usDurationMicroSec = usDurationMicroSec,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_004_TriggerHapticPulse( &params );
+    return cppIVRSystem_IVRSystem_004_GetControllerStateWithPose(_this->linux_side, eOrigin, unControllerDeviceIndex, pControllerState, pTrackedDevicePose);
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_004_GetButtonIdNameFromEnum(struct w_steam_iface *_this, EVRButtonId eButtonId)
+void __thiscall winIVRSystem_IVRSystem_004_TriggerHapticPulse(winIVRSystem_IVRSystem_004 *_this, TrackedDeviceIndex_t unControllerDeviceIndex, uint32_t unAxisId, unsigned short usDurationMicroSec)
 {
-    struct cppIVRSystem_IVRSystem_004_GetButtonIdNameFromEnum_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eButtonId = eButtonId,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_004_GetButtonIdNameFromEnum( &params );
-    return params._ret;
+    cppIVRSystem_IVRSystem_004_TriggerHapticPulse(_this->linux_side, unControllerDeviceIndex, unAxisId, usDurationMicroSec);
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_004_GetControllerAxisTypeNameFromEnum(struct w_steam_iface *_this, EVRControllerAxisType eAxisType)
+const char * __thiscall winIVRSystem_IVRSystem_004_GetButtonIdNameFromEnum(winIVRSystem_IVRSystem_004 *_this, EVRButtonId eButtonId)
 {
-    struct cppIVRSystem_IVRSystem_004_GetControllerAxisTypeNameFromEnum_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eAxisType = eAxisType,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_004_GetControllerAxisTypeNameFromEnum( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_004_GetButtonIdNameFromEnum(_this->linux_side, eButtonId);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_004_CaptureInputFocus(struct w_steam_iface *_this)
+const char * __thiscall winIVRSystem_IVRSystem_004_GetControllerAxisTypeNameFromEnum(winIVRSystem_IVRSystem_004 *_this, EVRControllerAxisType eAxisType)
 {
-    struct cppIVRSystem_IVRSystem_004_CaptureInputFocus_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_004_CaptureInputFocus( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_004_GetControllerAxisTypeNameFromEnum(_this->linux_side, eAxisType);
 }
 
-void __thiscall winIVRSystem_IVRSystem_004_ReleaseInputFocus(struct w_steam_iface *_this)
+bool __thiscall winIVRSystem_IVRSystem_004_CaptureInputFocus(winIVRSystem_IVRSystem_004 *_this)
 {
-    struct cppIVRSystem_IVRSystem_004_ReleaseInputFocus_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_004_ReleaseInputFocus( &params );
+    return cppIVRSystem_IVRSystem_004_CaptureInputFocus(_this->linux_side);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_004_IsInputFocusCapturedByAnotherProcess(struct w_steam_iface *_this)
+void __thiscall winIVRSystem_IVRSystem_004_ReleaseInputFocus(winIVRSystem_IVRSystem_004 *_this)
 {
-    struct cppIVRSystem_IVRSystem_004_IsInputFocusCapturedByAnotherProcess_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_004_IsInputFocusCapturedByAnotherProcess( &params );
-    return params._ret;
+    cppIVRSystem_IVRSystem_004_ReleaseInputFocus(_this->linux_side);
 }
 
-uint32_t __thiscall winIVRSystem_IVRSystem_004_DriverDebugRequest(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, const char *pchRequest, char *pchResponseBuffer, uint32_t unResponseBufferSize)
+bool __thiscall winIVRSystem_IVRSystem_004_IsInputFocusCapturedByAnotherProcess(winIVRSystem_IVRSystem_004 *_this)
 {
-    struct cppIVRSystem_IVRSystem_004_DriverDebugRequest_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .pchRequest = pchRequest,
-        .pchResponseBuffer = pchResponseBuffer,
-        .unResponseBufferSize = unResponseBufferSize,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_004_DriverDebugRequest( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_004_IsInputFocusCapturedByAnotherProcess(_this->linux_side);
+}
+
+uint32_t __thiscall winIVRSystem_IVRSystem_004_DriverDebugRequest(winIVRSystem_IVRSystem_004 *_this, TrackedDeviceIndex_t unDeviceIndex, const char *pchRequest, char *pchResponseBuffer, uint32_t unResponseBufferSize)
+{
+    TRACE("%p\n", _this);
+    return cppIVRSystem_IVRSystem_004_DriverDebugRequest(_this->linux_side, unDeviceIndex, pchRequest, pchResponseBuffer, unResponseBufferSize);
 }
 
 extern vtable_ptr winIVRSystem_IVRSystem_004_vtable;
@@ -1213,24 +737,24 @@ void __asm_dummy_vtables(void) {
 }
 #endif
 
-struct w_steam_iface *create_winIVRSystem_IVRSystem_004(void *u_iface)
+winIVRSystem_IVRSystem_004 *create_winIVRSystem_IVRSystem_004(void *linux_side)
 {
-    struct w_steam_iface *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(*r));
+    winIVRSystem_IVRSystem_004 *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(winIVRSystem_IVRSystem_004));
     TRACE("-> %p\n", r);
     r->vtable = &winIVRSystem_IVRSystem_004_vtable;
-    r->u_iface = u_iface;
+    r->linux_side = linux_side;
     return r;
 }
 
-void destroy_winIVRSystem_IVRSystem_004(struct w_steam_iface *object)
+void destroy_winIVRSystem_IVRSystem_004(void *object)
 {
     TRACE("%p\n", object);
     HeapFree(GetProcessHeap(), 0, object);
 }
 
-struct w_steam_iface *create_winIVRSystem_IVRSystem_004_FnTable(void *u_iface)
+winIVRSystem_IVRSystem_004 *create_winIVRSystem_IVRSystem_004_FnTable(void *linux_side)
 {
-    struct w_steam_iface *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(*r));
+    winIVRSystem_IVRSystem_004 *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(winIVRSystem_IVRSystem_004));
     struct thunk *thunks = alloc_thunks(36);
     struct thunk **vtable = HeapAlloc(GetProcessHeap(), 0, 36 * sizeof(*vtable));
     int i;
@@ -1274,20 +798,26 @@ struct w_steam_iface *create_winIVRSystem_IVRSystem_004_FnTable(void *u_iface)
     init_thunk(&thunks[35], r, winIVRSystem_IVRSystem_004_DriverDebugRequest, 4, FALSE, FALSE);
     for (i = 0; i < 36; i++)
         vtable[i] = &thunks[i];
-    r->u_iface = u_iface;
+    r->linux_side = linux_side;
     r->vtable = (void *)vtable;
     return r;
 }
 
-void destroy_winIVRSystem_IVRSystem_004_FnTable(struct w_steam_iface *object)
+void destroy_winIVRSystem_IVRSystem_004_FnTable(void *object)
 {
-    TRACE("%p\n", object);
-    VirtualFree(object->vtable[0], 0, MEM_RELEASE);
-    HeapFree(GetProcessHeap(), 0, object->vtable);
-    HeapFree(GetProcessHeap(), 0, object);
+    winIVRSystem_IVRSystem_004 *win_object = object;
+    TRACE("%p\n", win_object);
+    VirtualFree(win_object->vtable[0], 0, MEM_RELEASE);
+    HeapFree(GetProcessHeap(), 0, win_object->vtable);
+    HeapFree(GetProcessHeap(), 0, win_object);
 }
 
 #include "cppIVRSystem_IVRSystem_005.h"
+
+typedef struct __winIVRSystem_IVRSystem_005 {
+    vtable_ptr *vtable;
+    void *linux_side;
+} winIVRSystem_IVRSystem_005;
 
 DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_005_GetWindowBounds, 20)
 DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_005_GetRecommendedRenderTargetSize, 12)
@@ -1327,479 +857,232 @@ DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_005_ReleaseInputFocus, 4)
 DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_005_IsInputFocusCapturedByAnotherProcess, 4)
 DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_005_DriverDebugRequest, 20)
 
-void __thiscall winIVRSystem_IVRSystem_005_GetWindowBounds(struct w_steam_iface *_this, int32_t *pnX, int32_t *pnY, uint32_t *pnWidth, uint32_t *pnHeight)
+void __thiscall winIVRSystem_IVRSystem_005_GetWindowBounds(winIVRSystem_IVRSystem_005 *_this, int32_t *pnX, int32_t *pnY, uint32_t *pnWidth, uint32_t *pnHeight)
 {
-    struct cppIVRSystem_IVRSystem_005_GetWindowBounds_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pnX = pnX,
-        .pnY = pnY,
-        .pnWidth = pnWidth,
-        .pnHeight = pnHeight,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_005_GetWindowBounds( &params );
+    cppIVRSystem_IVRSystem_005_GetWindowBounds(_this->linux_side, pnX, pnY, pnWidth, pnHeight);
 }
 
-void __thiscall winIVRSystem_IVRSystem_005_GetRecommendedRenderTargetSize(struct w_steam_iface *_this, uint32_t *pnWidth, uint32_t *pnHeight)
+void __thiscall winIVRSystem_IVRSystem_005_GetRecommendedRenderTargetSize(winIVRSystem_IVRSystem_005 *_this, uint32_t *pnWidth, uint32_t *pnHeight)
 {
-    struct cppIVRSystem_IVRSystem_005_GetRecommendedRenderTargetSize_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pnWidth = pnWidth,
-        .pnHeight = pnHeight,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_005_GetRecommendedRenderTargetSize( &params );
+    cppIVRSystem_IVRSystem_005_GetRecommendedRenderTargetSize(_this->linux_side, pnWidth, pnHeight);
 }
 
-void __thiscall winIVRSystem_IVRSystem_005_GetEyeOutputViewport(struct w_steam_iface *_this, Hmd_Eye eEye, uint32_t *pnX, uint32_t *pnY, uint32_t *pnWidth, uint32_t *pnHeight)
+void __thiscall winIVRSystem_IVRSystem_005_GetEyeOutputViewport(winIVRSystem_IVRSystem_005 *_this, Hmd_Eye eEye, uint32_t *pnX, uint32_t *pnY, uint32_t *pnWidth, uint32_t *pnHeight)
 {
-    struct cppIVRSystem_IVRSystem_005_GetEyeOutputViewport_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eEye = eEye,
-        .pnX = pnX,
-        .pnY = pnY,
-        .pnWidth = pnWidth,
-        .pnHeight = pnHeight,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_005_GetEyeOutputViewport( &params );
+    cppIVRSystem_IVRSystem_005_GetEyeOutputViewport(_this->linux_side, eEye, pnX, pnY, pnWidth, pnHeight);
 }
 
-HmdMatrix44_t * __thiscall winIVRSystem_IVRSystem_005_GetProjectionMatrix(struct w_steam_iface *_this, HmdMatrix44_t *_ret, Hmd_Eye eEye, float fNearZ, float fFarZ, GraphicsAPIConvention eProjType)
+HmdMatrix44_t *__thiscall winIVRSystem_IVRSystem_005_GetProjectionMatrix(winIVRSystem_IVRSystem_005 *_this, HmdMatrix44_t *_r, Hmd_Eye eEye, float fNearZ, float fFarZ, GraphicsAPIConvention eProjType)
 {
-    struct cppIVRSystem_IVRSystem_005_GetProjectionMatrix_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .eEye = eEye,
-        .fNearZ = fNearZ,
-        .fFarZ = fFarZ,
-        .eProjType = eProjType,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_005_GetProjectionMatrix( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_005_GetProjectionMatrix(_this->linux_side, eEye, fNearZ, fFarZ, eProjType);
+    return _r;
 }
 
-void __thiscall winIVRSystem_IVRSystem_005_GetProjectionRaw(struct w_steam_iface *_this, Hmd_Eye eEye, float *pfLeft, float *pfRight, float *pfTop, float *pfBottom)
+void __thiscall winIVRSystem_IVRSystem_005_GetProjectionRaw(winIVRSystem_IVRSystem_005 *_this, Hmd_Eye eEye, float *pfLeft, float *pfRight, float *pfTop, float *pfBottom)
 {
-    struct cppIVRSystem_IVRSystem_005_GetProjectionRaw_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eEye = eEye,
-        .pfLeft = pfLeft,
-        .pfRight = pfRight,
-        .pfTop = pfTop,
-        .pfBottom = pfBottom,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_005_GetProjectionRaw( &params );
+    cppIVRSystem_IVRSystem_005_GetProjectionRaw(_this->linux_side, eEye, pfLeft, pfRight, pfTop, pfBottom);
 }
 
-DistortionCoordinates_t * __thiscall winIVRSystem_IVRSystem_005_ComputeDistortion(struct w_steam_iface *_this, DistortionCoordinates_t *_ret, Hmd_Eye eEye, float fU, float fV)
+DistortionCoordinates_t *__thiscall winIVRSystem_IVRSystem_005_ComputeDistortion(winIVRSystem_IVRSystem_005 *_this, DistortionCoordinates_t *_r, Hmd_Eye eEye, float fU, float fV)
 {
-    struct cppIVRSystem_IVRSystem_005_ComputeDistortion_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .eEye = eEye,
-        .fU = fU,
-        .fV = fV,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_005_ComputeDistortion( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_005_ComputeDistortion(_this->linux_side, eEye, fU, fV);
+    return _r;
 }
 
-HmdMatrix34_t * __thiscall winIVRSystem_IVRSystem_005_GetEyeToHeadTransform(struct w_steam_iface *_this, HmdMatrix34_t *_ret, Hmd_Eye eEye)
+HmdMatrix34_t *__thiscall winIVRSystem_IVRSystem_005_GetEyeToHeadTransform(winIVRSystem_IVRSystem_005 *_this, HmdMatrix34_t *_r, Hmd_Eye eEye)
 {
-    struct cppIVRSystem_IVRSystem_005_GetEyeToHeadTransform_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .eEye = eEye,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_005_GetEyeToHeadTransform( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_005_GetEyeToHeadTransform(_this->linux_side, eEye);
+    return _r;
 }
 
-bool __thiscall winIVRSystem_IVRSystem_005_GetTimeSinceLastVsync(struct w_steam_iface *_this, float *pfSecondsSinceLastVsync, uint64_t *pulFrameCounter)
+bool __thiscall winIVRSystem_IVRSystem_005_GetTimeSinceLastVsync(winIVRSystem_IVRSystem_005 *_this, float *pfSecondsSinceLastVsync, uint64_t *pulFrameCounter)
 {
-    struct cppIVRSystem_IVRSystem_005_GetTimeSinceLastVsync_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pfSecondsSinceLastVsync = pfSecondsSinceLastVsync,
-        .pulFrameCounter = pulFrameCounter,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_005_GetTimeSinceLastVsync( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_005_GetTimeSinceLastVsync(_this->linux_side, pfSecondsSinceLastVsync, pulFrameCounter);
 }
 
-int32_t __thiscall winIVRSystem_IVRSystem_005_GetD3D9AdapterIndex(struct w_steam_iface *_this)
+int32_t __thiscall winIVRSystem_IVRSystem_005_GetD3D9AdapterIndex(winIVRSystem_IVRSystem_005 *_this)
 {
-    struct cppIVRSystem_IVRSystem_005_GetD3D9AdapterIndex_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_005_GetD3D9AdapterIndex( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_005_GetD3D9AdapterIndex(_this->linux_side);
 }
 
-extern void __thiscall winIVRSystem_IVRSystem_005_GetDXGIOutputInfo(struct w_steam_iface *_this, int32_t *pnAdapterIndex, int32_t *pnAdapterOutputIndex);
-
-bool __thiscall winIVRSystem_IVRSystem_005_AttachToWindow(struct w_steam_iface *_this, void *hWnd)
+void __thiscall winIVRSystem_IVRSystem_005_GetDXGIOutputInfo(winIVRSystem_IVRSystem_005 *_this, int32_t *pnAdapterIndex, int32_t *pnAdapterOutputIndex)
 {
-    struct cppIVRSystem_IVRSystem_005_AttachToWindow_params params =
-    {
-        .linux_side = _this->u_iface,
-        .hWnd = hWnd,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_005_AttachToWindow( &params );
-    return params._ret;
+    get_dxgi_output_info2(cppIVRSystem_IVRSystem_005_GetDXGIOutputInfo, _this->linux_side, pnAdapterIndex, pnAdapterOutputIndex, 5);
 }
 
-void __thiscall winIVRSystem_IVRSystem_005_GetDeviceToAbsoluteTrackingPose(struct w_steam_iface *_this, TrackingUniverseOrigin eOrigin, float fPredictedSecondsToPhotonsFromNow, TrackedDevicePose_t *pTrackedDevicePoseArray, uint32_t unTrackedDevicePoseArrayCount)
+bool __thiscall winIVRSystem_IVRSystem_005_AttachToWindow(winIVRSystem_IVRSystem_005 *_this, void *hWnd)
 {
-    struct cppIVRSystem_IVRSystem_005_GetDeviceToAbsoluteTrackingPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eOrigin = eOrigin,
-        .fPredictedSecondsToPhotonsFromNow = fPredictedSecondsToPhotonsFromNow,
-        .pTrackedDevicePoseArray = pTrackedDevicePoseArray,
-        .unTrackedDevicePoseArrayCount = unTrackedDevicePoseArrayCount,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_005_GetDeviceToAbsoluteTrackingPose( &params );
+    return cppIVRSystem_IVRSystem_005_AttachToWindow(_this->linux_side, hWnd);
 }
 
-void __thiscall winIVRSystem_IVRSystem_005_ResetSeatedZeroPose(struct w_steam_iface *_this)
+void __thiscall winIVRSystem_IVRSystem_005_GetDeviceToAbsoluteTrackingPose(winIVRSystem_IVRSystem_005 *_this, TrackingUniverseOrigin eOrigin, float fPredictedSecondsToPhotonsFromNow, TrackedDevicePose_t *pTrackedDevicePoseArray, uint32_t unTrackedDevicePoseArrayCount)
 {
-    struct cppIVRSystem_IVRSystem_005_ResetSeatedZeroPose_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_005_ResetSeatedZeroPose( &params );
+    cppIVRSystem_IVRSystem_005_GetDeviceToAbsoluteTrackingPose(_this->linux_side, eOrigin, fPredictedSecondsToPhotonsFromNow, pTrackedDevicePoseArray, unTrackedDevicePoseArrayCount);
 }
 
-HmdMatrix34_t * __thiscall winIVRSystem_IVRSystem_005_GetSeatedZeroPoseToStandingAbsoluteTrackingPose(struct w_steam_iface *_this, HmdMatrix34_t *_ret)
+void __thiscall winIVRSystem_IVRSystem_005_ResetSeatedZeroPose(winIVRSystem_IVRSystem_005 *_this)
 {
-    struct cppIVRSystem_IVRSystem_005_GetSeatedZeroPoseToStandingAbsoluteTrackingPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_005_GetSeatedZeroPoseToStandingAbsoluteTrackingPose( &params );
-    return params._ret;
+    cppIVRSystem_IVRSystem_005_ResetSeatedZeroPose(_this->linux_side);
 }
 
-uint32_t __thiscall winIVRSystem_IVRSystem_005_GetSortedTrackedDeviceIndicesOfClass(struct w_steam_iface *_this, TrackedDeviceClass eTrackedDeviceClass, TrackedDeviceIndex_t *punTrackedDeviceIndexArray, uint32_t unTrackedDeviceIndexArrayCount, TrackedDeviceIndex_t unRelativeToTrackedDeviceIndex)
+HmdMatrix34_t *__thiscall winIVRSystem_IVRSystem_005_GetSeatedZeroPoseToStandingAbsoluteTrackingPose(winIVRSystem_IVRSystem_005 *_this, HmdMatrix34_t *_r)
 {
-    struct cppIVRSystem_IVRSystem_005_GetSortedTrackedDeviceIndicesOfClass_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eTrackedDeviceClass = eTrackedDeviceClass,
-        .punTrackedDeviceIndexArray = punTrackedDeviceIndexArray,
-        .unTrackedDeviceIndexArrayCount = unTrackedDeviceIndexArrayCount,
-        .unRelativeToTrackedDeviceIndex = unRelativeToTrackedDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_005_GetSortedTrackedDeviceIndicesOfClass( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_005_GetSeatedZeroPoseToStandingAbsoluteTrackingPose(_this->linux_side);
+    return _r;
 }
 
-TrackedDeviceClass __thiscall winIVRSystem_IVRSystem_005_GetTrackedDeviceClass(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex)
+uint32_t __thiscall winIVRSystem_IVRSystem_005_GetSortedTrackedDeviceIndicesOfClass(winIVRSystem_IVRSystem_005 *_this, TrackedDeviceClass eTrackedDeviceClass, TrackedDeviceIndex_t *punTrackedDeviceIndexArray, uint32_t unTrackedDeviceIndexArrayCount, TrackedDeviceIndex_t unRelativeToTrackedDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_005_GetTrackedDeviceClass_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_005_GetTrackedDeviceClass( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_005_GetSortedTrackedDeviceIndicesOfClass(_this->linux_side, eTrackedDeviceClass, punTrackedDeviceIndexArray, unTrackedDeviceIndexArrayCount, unRelativeToTrackedDeviceIndex);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_005_IsTrackedDeviceConnected(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex)
+TrackedDeviceClass __thiscall winIVRSystem_IVRSystem_005_GetTrackedDeviceClass(winIVRSystem_IVRSystem_005 *_this, TrackedDeviceIndex_t unDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_005_IsTrackedDeviceConnected_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_005_IsTrackedDeviceConnected( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_005_GetTrackedDeviceClass(_this->linux_side, unDeviceIndex);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_005_GetBoolTrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, TrackedDeviceProperty prop, TrackedPropertyError *pError)
+bool __thiscall winIVRSystem_IVRSystem_005_IsTrackedDeviceConnected(winIVRSystem_IVRSystem_005 *_this, TrackedDeviceIndex_t unDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_005_GetBoolTrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_005_GetBoolTrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_005_IsTrackedDeviceConnected(_this->linux_side, unDeviceIndex);
 }
 
-float __thiscall winIVRSystem_IVRSystem_005_GetFloatTrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, TrackedDeviceProperty prop, TrackedPropertyError *pError)
+bool __thiscall winIVRSystem_IVRSystem_005_GetBoolTrackedDeviceProperty(winIVRSystem_IVRSystem_005 *_this, TrackedDeviceIndex_t unDeviceIndex, TrackedDeviceProperty prop, TrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_005_GetFloatTrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_005_GetFloatTrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_005_GetBoolTrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
 }
 
-int32_t __thiscall winIVRSystem_IVRSystem_005_GetInt32TrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, TrackedDeviceProperty prop, TrackedPropertyError *pError)
+float __thiscall winIVRSystem_IVRSystem_005_GetFloatTrackedDeviceProperty(winIVRSystem_IVRSystem_005 *_this, TrackedDeviceIndex_t unDeviceIndex, TrackedDeviceProperty prop, TrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_005_GetInt32TrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_005_GetInt32TrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_005_GetFloatTrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
 }
 
-uint64_t __thiscall winIVRSystem_IVRSystem_005_GetUint64TrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, TrackedDeviceProperty prop, TrackedPropertyError *pError)
+int32_t __thiscall winIVRSystem_IVRSystem_005_GetInt32TrackedDeviceProperty(winIVRSystem_IVRSystem_005 *_this, TrackedDeviceIndex_t unDeviceIndex, TrackedDeviceProperty prop, TrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_005_GetUint64TrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_005_GetUint64TrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_005_GetInt32TrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
 }
 
-HmdMatrix34_t * __thiscall winIVRSystem_IVRSystem_005_GetMatrix34TrackedDeviceProperty(struct w_steam_iface *_this, HmdMatrix34_t *_ret, TrackedDeviceIndex_t unDeviceIndex, TrackedDeviceProperty prop, TrackedPropertyError *pError)
+uint64_t __thiscall winIVRSystem_IVRSystem_005_GetUint64TrackedDeviceProperty(winIVRSystem_IVRSystem_005 *_this, TrackedDeviceIndex_t unDeviceIndex, TrackedDeviceProperty prop, TrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_005_GetMatrix34TrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_005_GetMatrix34TrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_005_GetUint64TrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
 }
 
-uint32_t __thiscall winIVRSystem_IVRSystem_005_GetStringTrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, TrackedDeviceProperty prop, char *pchValue, uint32_t unBufferSize, TrackedPropertyError *pError)
+HmdMatrix34_t *__thiscall winIVRSystem_IVRSystem_005_GetMatrix34TrackedDeviceProperty(winIVRSystem_IVRSystem_005 *_this, HmdMatrix34_t *_r, TrackedDeviceIndex_t unDeviceIndex, TrackedDeviceProperty prop, TrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_005_GetStringTrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pchValue = pchValue,
-        .unBufferSize = unBufferSize,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_005_GetStringTrackedDeviceProperty( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_005_GetMatrix34TrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
+    return _r;
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_005_GetPropErrorNameFromEnum(struct w_steam_iface *_this, TrackedPropertyError error)
+uint32_t __thiscall winIVRSystem_IVRSystem_005_GetStringTrackedDeviceProperty(winIVRSystem_IVRSystem_005 *_this, TrackedDeviceIndex_t unDeviceIndex, TrackedDeviceProperty prop, char *pchValue, uint32_t unBufferSize, TrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_005_GetPropErrorNameFromEnum_params params =
-    {
-        .linux_side = _this->u_iface,
-        .error = error,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_005_GetPropErrorNameFromEnum( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_005_GetStringTrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pchValue, unBufferSize, pError);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_005_PollNextEvent(struct w_steam_iface *_this, VREvent_t *pEvent)
+const char * __thiscall winIVRSystem_IVRSystem_005_GetPropErrorNameFromEnum(winIVRSystem_IVRSystem_005 *_this, TrackedPropertyError error)
 {
-    struct cppIVRSystem_IVRSystem_005_PollNextEvent_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pEvent = pEvent,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_005_PollNextEvent( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_005_GetPropErrorNameFromEnum(_this->linux_side, error);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_005_PollNextEventWithPose(struct w_steam_iface *_this, TrackingUniverseOrigin eOrigin, VREvent_t *pEvent, TrackedDevicePose_t *pTrackedDevicePose)
+bool __thiscall winIVRSystem_IVRSystem_005_PollNextEvent(winIVRSystem_IVRSystem_005 *_this, VREvent_t *pEvent)
 {
-    struct cppIVRSystem_IVRSystem_005_PollNextEventWithPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eOrigin = eOrigin,
-        .pEvent = pEvent,
-        .pTrackedDevicePose = pTrackedDevicePose,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_005_PollNextEventWithPose( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_005_PollNextEvent(_this->linux_side, pEvent);
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_005_GetEventTypeNameFromEnum(struct w_steam_iface *_this, EVREventType eType)
+bool __thiscall winIVRSystem_IVRSystem_005_PollNextEventWithPose(winIVRSystem_IVRSystem_005 *_this, TrackingUniverseOrigin eOrigin, VREvent_t *pEvent, TrackedDevicePose_t *pTrackedDevicePose)
 {
-    struct cppIVRSystem_IVRSystem_005_GetEventTypeNameFromEnum_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eType = eType,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_005_GetEventTypeNameFromEnum( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_005_PollNextEventWithPose(_this->linux_side, eOrigin, pEvent, pTrackedDevicePose);
 }
 
-HiddenAreaMesh_t * __thiscall winIVRSystem_IVRSystem_005_GetHiddenAreaMesh(struct w_steam_iface *_this, HiddenAreaMesh_t *_ret, Hmd_Eye eEye)
+const char * __thiscall winIVRSystem_IVRSystem_005_GetEventTypeNameFromEnum(winIVRSystem_IVRSystem_005 *_this, EVREventType eType)
 {
-    struct cppIVRSystem_IVRSystem_005_GetHiddenAreaMesh_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .eEye = eEye,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_005_GetHiddenAreaMesh( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_005_GetEventTypeNameFromEnum(_this->linux_side, eType);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_005_GetControllerState(struct w_steam_iface *_this, TrackedDeviceIndex_t unControllerDeviceIndex, winVRControllerState001_t_098 *pControllerState)
+HiddenAreaMesh_t *__thiscall winIVRSystem_IVRSystem_005_GetHiddenAreaMesh(winIVRSystem_IVRSystem_005 *_this, HiddenAreaMesh_t *_r, Hmd_Eye eEye)
 {
-    struct cppIVRSystem_IVRSystem_005_GetControllerState_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unControllerDeviceIndex = unControllerDeviceIndex,
-        .pControllerState = pControllerState,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_005_GetControllerState( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_005_GetHiddenAreaMesh(_this->linux_side, eEye);
+    return _r;
 }
 
-bool __thiscall winIVRSystem_IVRSystem_005_GetControllerStateWithPose(struct w_steam_iface *_this, TrackingUniverseOrigin eOrigin, TrackedDeviceIndex_t unControllerDeviceIndex, winVRControllerState001_t_098 *pControllerState, TrackedDevicePose_t *pTrackedDevicePose)
+bool __thiscall winIVRSystem_IVRSystem_005_GetControllerState(winIVRSystem_IVRSystem_005 *_this, TrackedDeviceIndex_t unControllerDeviceIndex, winVRControllerState001_t_098 *pControllerState)
 {
-    struct cppIVRSystem_IVRSystem_005_GetControllerStateWithPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eOrigin = eOrigin,
-        .unControllerDeviceIndex = unControllerDeviceIndex,
-        .pControllerState = pControllerState,
-        .pTrackedDevicePose = pTrackedDevicePose,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_005_GetControllerStateWithPose( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_005_GetControllerState(_this->linux_side, unControllerDeviceIndex, pControllerState);
 }
 
-void __thiscall winIVRSystem_IVRSystem_005_TriggerHapticPulse(struct w_steam_iface *_this, TrackedDeviceIndex_t unControllerDeviceIndex, uint32_t unAxisId, unsigned short usDurationMicroSec)
+bool __thiscall winIVRSystem_IVRSystem_005_GetControllerStateWithPose(winIVRSystem_IVRSystem_005 *_this, TrackingUniverseOrigin eOrigin, TrackedDeviceIndex_t unControllerDeviceIndex, winVRControllerState001_t_098 *pControllerState, TrackedDevicePose_t *pTrackedDevicePose)
 {
-    struct cppIVRSystem_IVRSystem_005_TriggerHapticPulse_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unControllerDeviceIndex = unControllerDeviceIndex,
-        .unAxisId = unAxisId,
-        .usDurationMicroSec = usDurationMicroSec,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_005_TriggerHapticPulse( &params );
+    return cppIVRSystem_IVRSystem_005_GetControllerStateWithPose(_this->linux_side, eOrigin, unControllerDeviceIndex, pControllerState, pTrackedDevicePose);
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_005_GetButtonIdNameFromEnum(struct w_steam_iface *_this, EVRButtonId eButtonId)
+void __thiscall winIVRSystem_IVRSystem_005_TriggerHapticPulse(winIVRSystem_IVRSystem_005 *_this, TrackedDeviceIndex_t unControllerDeviceIndex, uint32_t unAxisId, unsigned short usDurationMicroSec)
 {
-    struct cppIVRSystem_IVRSystem_005_GetButtonIdNameFromEnum_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eButtonId = eButtonId,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_005_GetButtonIdNameFromEnum( &params );
-    return params._ret;
+    cppIVRSystem_IVRSystem_005_TriggerHapticPulse(_this->linux_side, unControllerDeviceIndex, unAxisId, usDurationMicroSec);
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_005_GetControllerAxisTypeNameFromEnum(struct w_steam_iface *_this, EVRControllerAxisType eAxisType)
+const char * __thiscall winIVRSystem_IVRSystem_005_GetButtonIdNameFromEnum(winIVRSystem_IVRSystem_005 *_this, EVRButtonId eButtonId)
 {
-    struct cppIVRSystem_IVRSystem_005_GetControllerAxisTypeNameFromEnum_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eAxisType = eAxisType,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_005_GetControllerAxisTypeNameFromEnum( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_005_GetButtonIdNameFromEnum(_this->linux_side, eButtonId);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_005_CaptureInputFocus(struct w_steam_iface *_this)
+const char * __thiscall winIVRSystem_IVRSystem_005_GetControllerAxisTypeNameFromEnum(winIVRSystem_IVRSystem_005 *_this, EVRControllerAxisType eAxisType)
 {
-    struct cppIVRSystem_IVRSystem_005_CaptureInputFocus_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_005_CaptureInputFocus( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_005_GetControllerAxisTypeNameFromEnum(_this->linux_side, eAxisType);
 }
 
-void __thiscall winIVRSystem_IVRSystem_005_ReleaseInputFocus(struct w_steam_iface *_this)
+bool __thiscall winIVRSystem_IVRSystem_005_CaptureInputFocus(winIVRSystem_IVRSystem_005 *_this)
 {
-    struct cppIVRSystem_IVRSystem_005_ReleaseInputFocus_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_005_ReleaseInputFocus( &params );
+    return cppIVRSystem_IVRSystem_005_CaptureInputFocus(_this->linux_side);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_005_IsInputFocusCapturedByAnotherProcess(struct w_steam_iface *_this)
+void __thiscall winIVRSystem_IVRSystem_005_ReleaseInputFocus(winIVRSystem_IVRSystem_005 *_this)
 {
-    struct cppIVRSystem_IVRSystem_005_IsInputFocusCapturedByAnotherProcess_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_005_IsInputFocusCapturedByAnotherProcess( &params );
-    return params._ret;
+    cppIVRSystem_IVRSystem_005_ReleaseInputFocus(_this->linux_side);
 }
 
-uint32_t __thiscall winIVRSystem_IVRSystem_005_DriverDebugRequest(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, const char *pchRequest, char *pchResponseBuffer, uint32_t unResponseBufferSize)
+bool __thiscall winIVRSystem_IVRSystem_005_IsInputFocusCapturedByAnotherProcess(winIVRSystem_IVRSystem_005 *_this)
 {
-    struct cppIVRSystem_IVRSystem_005_DriverDebugRequest_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .pchRequest = pchRequest,
-        .pchResponseBuffer = pchResponseBuffer,
-        .unResponseBufferSize = unResponseBufferSize,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_005_DriverDebugRequest( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_005_IsInputFocusCapturedByAnotherProcess(_this->linux_side);
+}
+
+uint32_t __thiscall winIVRSystem_IVRSystem_005_DriverDebugRequest(winIVRSystem_IVRSystem_005 *_this, TrackedDeviceIndex_t unDeviceIndex, const char *pchRequest, char *pchResponseBuffer, uint32_t unResponseBufferSize)
+{
+    TRACE("%p\n", _this);
+    return cppIVRSystem_IVRSystem_005_DriverDebugRequest(_this->linux_side, unDeviceIndex, pchRequest, pchResponseBuffer, unResponseBufferSize);
 }
 
 extern vtable_ptr winIVRSystem_IVRSystem_005_vtable;
@@ -1850,24 +1133,24 @@ void __asm_dummy_vtables(void) {
 }
 #endif
 
-struct w_steam_iface *create_winIVRSystem_IVRSystem_005(void *u_iface)
+winIVRSystem_IVRSystem_005 *create_winIVRSystem_IVRSystem_005(void *linux_side)
 {
-    struct w_steam_iface *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(*r));
+    winIVRSystem_IVRSystem_005 *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(winIVRSystem_IVRSystem_005));
     TRACE("-> %p\n", r);
     r->vtable = &winIVRSystem_IVRSystem_005_vtable;
-    r->u_iface = u_iface;
+    r->linux_side = linux_side;
     return r;
 }
 
-void destroy_winIVRSystem_IVRSystem_005(struct w_steam_iface *object)
+void destroy_winIVRSystem_IVRSystem_005(void *object)
 {
     TRACE("%p\n", object);
     HeapFree(GetProcessHeap(), 0, object);
 }
 
-struct w_steam_iface *create_winIVRSystem_IVRSystem_005_FnTable(void *u_iface)
+winIVRSystem_IVRSystem_005 *create_winIVRSystem_IVRSystem_005_FnTable(void *linux_side)
 {
-    struct w_steam_iface *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(*r));
+    winIVRSystem_IVRSystem_005 *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(winIVRSystem_IVRSystem_005));
     struct thunk *thunks = alloc_thunks(37);
     struct thunk **vtable = HeapAlloc(GetProcessHeap(), 0, 37 * sizeof(*vtable));
     int i;
@@ -1912,20 +1195,26 @@ struct w_steam_iface *create_winIVRSystem_IVRSystem_005_FnTable(void *u_iface)
     init_thunk(&thunks[36], r, winIVRSystem_IVRSystem_005_DriverDebugRequest, 4, FALSE, FALSE);
     for (i = 0; i < 37; i++)
         vtable[i] = &thunks[i];
-    r->u_iface = u_iface;
+    r->linux_side = linux_side;
     r->vtable = (void *)vtable;
     return r;
 }
 
-void destroy_winIVRSystem_IVRSystem_005_FnTable(struct w_steam_iface *object)
+void destroy_winIVRSystem_IVRSystem_005_FnTable(void *object)
 {
-    TRACE("%p\n", object);
-    VirtualFree(object->vtable[0], 0, MEM_RELEASE);
-    HeapFree(GetProcessHeap(), 0, object->vtable);
-    HeapFree(GetProcessHeap(), 0, object);
+    winIVRSystem_IVRSystem_005 *win_object = object;
+    TRACE("%p\n", win_object);
+    VirtualFree(win_object->vtable[0], 0, MEM_RELEASE);
+    HeapFree(GetProcessHeap(), 0, win_object->vtable);
+    HeapFree(GetProcessHeap(), 0, win_object);
 }
 
 #include "cppIVRSystem_IVRSystem_006.h"
+
+typedef struct __winIVRSystem_IVRSystem_006 {
+    vtable_ptr *vtable;
+    void *linux_side;
+} winIVRSystem_IVRSystem_006;
 
 DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_006_GetWindowBounds, 20)
 DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_006_GetRecommendedRenderTargetSize, 12)
@@ -1970,538 +1259,263 @@ DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_006_PerformFirmwareUpdate, 8)
 DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_006_IsDisplayOnDesktop, 4)
 DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_006_SetDisplayVisibility, 8)
 
-void __thiscall winIVRSystem_IVRSystem_006_GetWindowBounds(struct w_steam_iface *_this, int32_t *pnX, int32_t *pnY, uint32_t *pnWidth, uint32_t *pnHeight)
+void __thiscall winIVRSystem_IVRSystem_006_GetWindowBounds(winIVRSystem_IVRSystem_006 *_this, int32_t *pnX, int32_t *pnY, uint32_t *pnWidth, uint32_t *pnHeight)
 {
-    struct cppIVRSystem_IVRSystem_006_GetWindowBounds_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pnX = pnX,
-        .pnY = pnY,
-        .pnWidth = pnWidth,
-        .pnHeight = pnHeight,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_006_GetWindowBounds( &params );
+    cppIVRSystem_IVRSystem_006_GetWindowBounds(_this->linux_side, pnX, pnY, pnWidth, pnHeight);
 }
 
-void __thiscall winIVRSystem_IVRSystem_006_GetRecommendedRenderTargetSize(struct w_steam_iface *_this, uint32_t *pnWidth, uint32_t *pnHeight)
+void __thiscall winIVRSystem_IVRSystem_006_GetRecommendedRenderTargetSize(winIVRSystem_IVRSystem_006 *_this, uint32_t *pnWidth, uint32_t *pnHeight)
 {
-    struct cppIVRSystem_IVRSystem_006_GetRecommendedRenderTargetSize_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pnWidth = pnWidth,
-        .pnHeight = pnHeight,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_006_GetRecommendedRenderTargetSize( &params );
+    cppIVRSystem_IVRSystem_006_GetRecommendedRenderTargetSize(_this->linux_side, pnWidth, pnHeight);
 }
 
-void __thiscall winIVRSystem_IVRSystem_006_GetEyeOutputViewport(struct w_steam_iface *_this, Hmd_Eye eEye, uint32_t *pnX, uint32_t *pnY, uint32_t *pnWidth, uint32_t *pnHeight)
+void __thiscall winIVRSystem_IVRSystem_006_GetEyeOutputViewport(winIVRSystem_IVRSystem_006 *_this, Hmd_Eye eEye, uint32_t *pnX, uint32_t *pnY, uint32_t *pnWidth, uint32_t *pnHeight)
 {
-    struct cppIVRSystem_IVRSystem_006_GetEyeOutputViewport_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eEye = eEye,
-        .pnX = pnX,
-        .pnY = pnY,
-        .pnWidth = pnWidth,
-        .pnHeight = pnHeight,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_006_GetEyeOutputViewport( &params );
+    cppIVRSystem_IVRSystem_006_GetEyeOutputViewport(_this->linux_side, eEye, pnX, pnY, pnWidth, pnHeight);
 }
 
-HmdMatrix44_t * __thiscall winIVRSystem_IVRSystem_006_GetProjectionMatrix(struct w_steam_iface *_this, HmdMatrix44_t *_ret, Hmd_Eye eEye, float fNearZ, float fFarZ, GraphicsAPIConvention eProjType)
+HmdMatrix44_t *__thiscall winIVRSystem_IVRSystem_006_GetProjectionMatrix(winIVRSystem_IVRSystem_006 *_this, HmdMatrix44_t *_r, Hmd_Eye eEye, float fNearZ, float fFarZ, GraphicsAPIConvention eProjType)
 {
-    struct cppIVRSystem_IVRSystem_006_GetProjectionMatrix_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .eEye = eEye,
-        .fNearZ = fNearZ,
-        .fFarZ = fFarZ,
-        .eProjType = eProjType,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_006_GetProjectionMatrix( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_006_GetProjectionMatrix(_this->linux_side, eEye, fNearZ, fFarZ, eProjType);
+    return _r;
 }
 
-void __thiscall winIVRSystem_IVRSystem_006_GetProjectionRaw(struct w_steam_iface *_this, Hmd_Eye eEye, float *pfLeft, float *pfRight, float *pfTop, float *pfBottom)
+void __thiscall winIVRSystem_IVRSystem_006_GetProjectionRaw(winIVRSystem_IVRSystem_006 *_this, Hmd_Eye eEye, float *pfLeft, float *pfRight, float *pfTop, float *pfBottom)
 {
-    struct cppIVRSystem_IVRSystem_006_GetProjectionRaw_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eEye = eEye,
-        .pfLeft = pfLeft,
-        .pfRight = pfRight,
-        .pfTop = pfTop,
-        .pfBottom = pfBottom,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_006_GetProjectionRaw( &params );
+    cppIVRSystem_IVRSystem_006_GetProjectionRaw(_this->linux_side, eEye, pfLeft, pfRight, pfTop, pfBottom);
 }
 
-DistortionCoordinates_t * __thiscall winIVRSystem_IVRSystem_006_ComputeDistortion(struct w_steam_iface *_this, DistortionCoordinates_t *_ret, Hmd_Eye eEye, float fU, float fV)
+DistortionCoordinates_t *__thiscall winIVRSystem_IVRSystem_006_ComputeDistortion(winIVRSystem_IVRSystem_006 *_this, DistortionCoordinates_t *_r, Hmd_Eye eEye, float fU, float fV)
 {
-    struct cppIVRSystem_IVRSystem_006_ComputeDistortion_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .eEye = eEye,
-        .fU = fU,
-        .fV = fV,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_006_ComputeDistortion( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_006_ComputeDistortion(_this->linux_side, eEye, fU, fV);
+    return _r;
 }
 
-HmdMatrix34_t * __thiscall winIVRSystem_IVRSystem_006_GetEyeToHeadTransform(struct w_steam_iface *_this, HmdMatrix34_t *_ret, Hmd_Eye eEye)
+HmdMatrix34_t *__thiscall winIVRSystem_IVRSystem_006_GetEyeToHeadTransform(winIVRSystem_IVRSystem_006 *_this, HmdMatrix34_t *_r, Hmd_Eye eEye)
 {
-    struct cppIVRSystem_IVRSystem_006_GetEyeToHeadTransform_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .eEye = eEye,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_006_GetEyeToHeadTransform( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_006_GetEyeToHeadTransform(_this->linux_side, eEye);
+    return _r;
 }
 
-bool __thiscall winIVRSystem_IVRSystem_006_GetTimeSinceLastVsync(struct w_steam_iface *_this, float *pfSecondsSinceLastVsync, uint64_t *pulFrameCounter)
+bool __thiscall winIVRSystem_IVRSystem_006_GetTimeSinceLastVsync(winIVRSystem_IVRSystem_006 *_this, float *pfSecondsSinceLastVsync, uint64_t *pulFrameCounter)
 {
-    struct cppIVRSystem_IVRSystem_006_GetTimeSinceLastVsync_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pfSecondsSinceLastVsync = pfSecondsSinceLastVsync,
-        .pulFrameCounter = pulFrameCounter,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_006_GetTimeSinceLastVsync( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_006_GetTimeSinceLastVsync(_this->linux_side, pfSecondsSinceLastVsync, pulFrameCounter);
 }
 
-int32_t __thiscall winIVRSystem_IVRSystem_006_GetD3D9AdapterIndex(struct w_steam_iface *_this)
+int32_t __thiscall winIVRSystem_IVRSystem_006_GetD3D9AdapterIndex(winIVRSystem_IVRSystem_006 *_this)
 {
-    struct cppIVRSystem_IVRSystem_006_GetD3D9AdapterIndex_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_006_GetD3D9AdapterIndex( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_006_GetD3D9AdapterIndex(_this->linux_side);
 }
 
-extern void __thiscall winIVRSystem_IVRSystem_006_GetDXGIOutputInfo(struct w_steam_iface *_this, int32_t *pnAdapterIndex, int32_t *pnAdapterOutputIndex);
-
-bool __thiscall winIVRSystem_IVRSystem_006_AttachToWindow(struct w_steam_iface *_this, void *hWnd)
+void __thiscall winIVRSystem_IVRSystem_006_GetDXGIOutputInfo(winIVRSystem_IVRSystem_006 *_this, int32_t *pnAdapterIndex, int32_t *pnAdapterOutputIndex)
 {
-    struct cppIVRSystem_IVRSystem_006_AttachToWindow_params params =
-    {
-        .linux_side = _this->u_iface,
-        .hWnd = hWnd,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_006_AttachToWindow( &params );
-    return params._ret;
+    get_dxgi_output_info2(cppIVRSystem_IVRSystem_006_GetDXGIOutputInfo, _this->linux_side, pnAdapterIndex, pnAdapterOutputIndex, 6);
 }
 
-void __thiscall winIVRSystem_IVRSystem_006_GetDeviceToAbsoluteTrackingPose(struct w_steam_iface *_this, TrackingUniverseOrigin eOrigin, float fPredictedSecondsToPhotonsFromNow, TrackedDevicePose_t *pTrackedDevicePoseArray, uint32_t unTrackedDevicePoseArrayCount)
+bool __thiscall winIVRSystem_IVRSystem_006_AttachToWindow(winIVRSystem_IVRSystem_006 *_this, void *hWnd)
 {
-    struct cppIVRSystem_IVRSystem_006_GetDeviceToAbsoluteTrackingPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eOrigin = eOrigin,
-        .fPredictedSecondsToPhotonsFromNow = fPredictedSecondsToPhotonsFromNow,
-        .pTrackedDevicePoseArray = pTrackedDevicePoseArray,
-        .unTrackedDevicePoseArrayCount = unTrackedDevicePoseArrayCount,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_006_GetDeviceToAbsoluteTrackingPose( &params );
+    return cppIVRSystem_IVRSystem_006_AttachToWindow(_this->linux_side, hWnd);
 }
 
-void __thiscall winIVRSystem_IVRSystem_006_ResetSeatedZeroPose(struct w_steam_iface *_this)
+void __thiscall winIVRSystem_IVRSystem_006_GetDeviceToAbsoluteTrackingPose(winIVRSystem_IVRSystem_006 *_this, TrackingUniverseOrigin eOrigin, float fPredictedSecondsToPhotonsFromNow, TrackedDevicePose_t *pTrackedDevicePoseArray, uint32_t unTrackedDevicePoseArrayCount)
 {
-    struct cppIVRSystem_IVRSystem_006_ResetSeatedZeroPose_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_006_ResetSeatedZeroPose( &params );
+    cppIVRSystem_IVRSystem_006_GetDeviceToAbsoluteTrackingPose(_this->linux_side, eOrigin, fPredictedSecondsToPhotonsFromNow, pTrackedDevicePoseArray, unTrackedDevicePoseArrayCount);
 }
 
-HmdMatrix34_t * __thiscall winIVRSystem_IVRSystem_006_GetSeatedZeroPoseToStandingAbsoluteTrackingPose(struct w_steam_iface *_this, HmdMatrix34_t *_ret)
+void __thiscall winIVRSystem_IVRSystem_006_ResetSeatedZeroPose(winIVRSystem_IVRSystem_006 *_this)
 {
-    struct cppIVRSystem_IVRSystem_006_GetSeatedZeroPoseToStandingAbsoluteTrackingPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_006_GetSeatedZeroPoseToStandingAbsoluteTrackingPose( &params );
-    return params._ret;
+    cppIVRSystem_IVRSystem_006_ResetSeatedZeroPose(_this->linux_side);
 }
 
-HmdMatrix34_t * __thiscall winIVRSystem_IVRSystem_006_GetRawZeroPoseToStandingAbsoluteTrackingPose(struct w_steam_iface *_this, HmdMatrix34_t *_ret)
+HmdMatrix34_t *__thiscall winIVRSystem_IVRSystem_006_GetSeatedZeroPoseToStandingAbsoluteTrackingPose(winIVRSystem_IVRSystem_006 *_this, HmdMatrix34_t *_r)
 {
-    struct cppIVRSystem_IVRSystem_006_GetRawZeroPoseToStandingAbsoluteTrackingPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_006_GetRawZeroPoseToStandingAbsoluteTrackingPose( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_006_GetSeatedZeroPoseToStandingAbsoluteTrackingPose(_this->linux_side);
+    return _r;
 }
 
-uint32_t __thiscall winIVRSystem_IVRSystem_006_GetSortedTrackedDeviceIndicesOfClass(struct w_steam_iface *_this, TrackedDeviceClass eTrackedDeviceClass, TrackedDeviceIndex_t *punTrackedDeviceIndexArray, uint32_t unTrackedDeviceIndexArrayCount, TrackedDeviceIndex_t unRelativeToTrackedDeviceIndex)
+HmdMatrix34_t *__thiscall winIVRSystem_IVRSystem_006_GetRawZeroPoseToStandingAbsoluteTrackingPose(winIVRSystem_IVRSystem_006 *_this, HmdMatrix34_t *_r)
 {
-    struct cppIVRSystem_IVRSystem_006_GetSortedTrackedDeviceIndicesOfClass_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eTrackedDeviceClass = eTrackedDeviceClass,
-        .punTrackedDeviceIndexArray = punTrackedDeviceIndexArray,
-        .unTrackedDeviceIndexArrayCount = unTrackedDeviceIndexArrayCount,
-        .unRelativeToTrackedDeviceIndex = unRelativeToTrackedDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_006_GetSortedTrackedDeviceIndicesOfClass( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_006_GetRawZeroPoseToStandingAbsoluteTrackingPose(_this->linux_side);
+    return _r;
 }
 
-EDeviceActivityLevel __thiscall winIVRSystem_IVRSystem_006_GetTrackedDeviceActivityLevel(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceId)
+uint32_t __thiscall winIVRSystem_IVRSystem_006_GetSortedTrackedDeviceIndicesOfClass(winIVRSystem_IVRSystem_006 *_this, TrackedDeviceClass eTrackedDeviceClass, TrackedDeviceIndex_t *punTrackedDeviceIndexArray, uint32_t unTrackedDeviceIndexArrayCount, TrackedDeviceIndex_t unRelativeToTrackedDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_006_GetTrackedDeviceActivityLevel_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceId = unDeviceId,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_006_GetTrackedDeviceActivityLevel( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_006_GetSortedTrackedDeviceIndicesOfClass(_this->linux_side, eTrackedDeviceClass, punTrackedDeviceIndexArray, unTrackedDeviceIndexArrayCount, unRelativeToTrackedDeviceIndex);
 }
 
-TrackedDeviceClass __thiscall winIVRSystem_IVRSystem_006_GetTrackedDeviceClass(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex)
+EDeviceActivityLevel __thiscall winIVRSystem_IVRSystem_006_GetTrackedDeviceActivityLevel(winIVRSystem_IVRSystem_006 *_this, TrackedDeviceIndex_t unDeviceId)
 {
-    struct cppIVRSystem_IVRSystem_006_GetTrackedDeviceClass_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_006_GetTrackedDeviceClass( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_006_GetTrackedDeviceActivityLevel(_this->linux_side, unDeviceId);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_006_IsTrackedDeviceConnected(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex)
+TrackedDeviceClass __thiscall winIVRSystem_IVRSystem_006_GetTrackedDeviceClass(winIVRSystem_IVRSystem_006 *_this, TrackedDeviceIndex_t unDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_006_IsTrackedDeviceConnected_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_006_IsTrackedDeviceConnected( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_006_GetTrackedDeviceClass(_this->linux_side, unDeviceIndex);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_006_GetBoolTrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, TrackedDeviceProperty prop, TrackedPropertyError *pError)
+bool __thiscall winIVRSystem_IVRSystem_006_IsTrackedDeviceConnected(winIVRSystem_IVRSystem_006 *_this, TrackedDeviceIndex_t unDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_006_GetBoolTrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_006_GetBoolTrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_006_IsTrackedDeviceConnected(_this->linux_side, unDeviceIndex);
 }
 
-float __thiscall winIVRSystem_IVRSystem_006_GetFloatTrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, TrackedDeviceProperty prop, TrackedPropertyError *pError)
+bool __thiscall winIVRSystem_IVRSystem_006_GetBoolTrackedDeviceProperty(winIVRSystem_IVRSystem_006 *_this, TrackedDeviceIndex_t unDeviceIndex, TrackedDeviceProperty prop, TrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_006_GetFloatTrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_006_GetFloatTrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_006_GetBoolTrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
 }
 
-int32_t __thiscall winIVRSystem_IVRSystem_006_GetInt32TrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, TrackedDeviceProperty prop, TrackedPropertyError *pError)
+float __thiscall winIVRSystem_IVRSystem_006_GetFloatTrackedDeviceProperty(winIVRSystem_IVRSystem_006 *_this, TrackedDeviceIndex_t unDeviceIndex, TrackedDeviceProperty prop, TrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_006_GetInt32TrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_006_GetInt32TrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_006_GetFloatTrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
 }
 
-uint64_t __thiscall winIVRSystem_IVRSystem_006_GetUint64TrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, TrackedDeviceProperty prop, TrackedPropertyError *pError)
+int32_t __thiscall winIVRSystem_IVRSystem_006_GetInt32TrackedDeviceProperty(winIVRSystem_IVRSystem_006 *_this, TrackedDeviceIndex_t unDeviceIndex, TrackedDeviceProperty prop, TrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_006_GetUint64TrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_006_GetUint64TrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_006_GetInt32TrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
 }
 
-HmdMatrix34_t * __thiscall winIVRSystem_IVRSystem_006_GetMatrix34TrackedDeviceProperty(struct w_steam_iface *_this, HmdMatrix34_t *_ret, TrackedDeviceIndex_t unDeviceIndex, TrackedDeviceProperty prop, TrackedPropertyError *pError)
+uint64_t __thiscall winIVRSystem_IVRSystem_006_GetUint64TrackedDeviceProperty(winIVRSystem_IVRSystem_006 *_this, TrackedDeviceIndex_t unDeviceIndex, TrackedDeviceProperty prop, TrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_006_GetMatrix34TrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_006_GetMatrix34TrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_006_GetUint64TrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
 }
 
-uint32_t __thiscall winIVRSystem_IVRSystem_006_GetStringTrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, TrackedDeviceProperty prop, char *pchValue, uint32_t unBufferSize, TrackedPropertyError *pError)
+HmdMatrix34_t *__thiscall winIVRSystem_IVRSystem_006_GetMatrix34TrackedDeviceProperty(winIVRSystem_IVRSystem_006 *_this, HmdMatrix34_t *_r, TrackedDeviceIndex_t unDeviceIndex, TrackedDeviceProperty prop, TrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_006_GetStringTrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pchValue = pchValue,
-        .unBufferSize = unBufferSize,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_006_GetStringTrackedDeviceProperty( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_006_GetMatrix34TrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
+    return _r;
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_006_GetPropErrorNameFromEnum(struct w_steam_iface *_this, TrackedPropertyError error)
+uint32_t __thiscall winIVRSystem_IVRSystem_006_GetStringTrackedDeviceProperty(winIVRSystem_IVRSystem_006 *_this, TrackedDeviceIndex_t unDeviceIndex, TrackedDeviceProperty prop, char *pchValue, uint32_t unBufferSize, TrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_006_GetPropErrorNameFromEnum_params params =
-    {
-        .linux_side = _this->u_iface,
-        .error = error,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_006_GetPropErrorNameFromEnum( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_006_GetStringTrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pchValue, unBufferSize, pError);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_006_PollNextEvent(struct w_steam_iface *_this, VREvent_t *pEvent)
+const char * __thiscall winIVRSystem_IVRSystem_006_GetPropErrorNameFromEnum(winIVRSystem_IVRSystem_006 *_this, TrackedPropertyError error)
 {
-    struct cppIVRSystem_IVRSystem_006_PollNextEvent_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pEvent = pEvent,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_006_PollNextEvent( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_006_GetPropErrorNameFromEnum(_this->linux_side, error);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_006_PollNextEventWithPose(struct w_steam_iface *_this, TrackingUniverseOrigin eOrigin, VREvent_t *pEvent, TrackedDevicePose_t *pTrackedDevicePose)
+bool __thiscall winIVRSystem_IVRSystem_006_PollNextEvent(winIVRSystem_IVRSystem_006 *_this, VREvent_t *pEvent)
 {
-    struct cppIVRSystem_IVRSystem_006_PollNextEventWithPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eOrigin = eOrigin,
-        .pEvent = pEvent,
-        .pTrackedDevicePose = pTrackedDevicePose,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_006_PollNextEventWithPose( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_006_PollNextEvent(_this->linux_side, pEvent);
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_006_GetEventTypeNameFromEnum(struct w_steam_iface *_this, EVREventType eType)
+bool __thiscall winIVRSystem_IVRSystem_006_PollNextEventWithPose(winIVRSystem_IVRSystem_006 *_this, TrackingUniverseOrigin eOrigin, VREvent_t *pEvent, TrackedDevicePose_t *pTrackedDevicePose)
 {
-    struct cppIVRSystem_IVRSystem_006_GetEventTypeNameFromEnum_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eType = eType,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_006_GetEventTypeNameFromEnum( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_006_PollNextEventWithPose(_this->linux_side, eOrigin, pEvent, pTrackedDevicePose);
 }
 
-HiddenAreaMesh_t * __thiscall winIVRSystem_IVRSystem_006_GetHiddenAreaMesh(struct w_steam_iface *_this, HiddenAreaMesh_t *_ret, Hmd_Eye eEye)
+const char * __thiscall winIVRSystem_IVRSystem_006_GetEventTypeNameFromEnum(winIVRSystem_IVRSystem_006 *_this, EVREventType eType)
 {
-    struct cppIVRSystem_IVRSystem_006_GetHiddenAreaMesh_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .eEye = eEye,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_006_GetHiddenAreaMesh( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_006_GetEventTypeNameFromEnum(_this->linux_side, eType);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_006_GetControllerState(struct w_steam_iface *_this, TrackedDeviceIndex_t unControllerDeviceIndex, winVRControllerState001_t_0910 *pControllerState)
+HiddenAreaMesh_t *__thiscall winIVRSystem_IVRSystem_006_GetHiddenAreaMesh(winIVRSystem_IVRSystem_006 *_this, HiddenAreaMesh_t *_r, Hmd_Eye eEye)
 {
-    struct cppIVRSystem_IVRSystem_006_GetControllerState_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unControllerDeviceIndex = unControllerDeviceIndex,
-        .pControllerState = pControllerState,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_006_GetControllerState( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_006_GetHiddenAreaMesh(_this->linux_side, eEye);
+    return _r;
 }
 
-bool __thiscall winIVRSystem_IVRSystem_006_GetControllerStateWithPose(struct w_steam_iface *_this, TrackingUniverseOrigin eOrigin, TrackedDeviceIndex_t unControllerDeviceIndex, winVRControllerState001_t_0910 *pControllerState, TrackedDevicePose_t *pTrackedDevicePose)
+bool __thiscall winIVRSystem_IVRSystem_006_GetControllerState(winIVRSystem_IVRSystem_006 *_this, TrackedDeviceIndex_t unControllerDeviceIndex, winVRControllerState001_t_0910 *pControllerState)
 {
-    struct cppIVRSystem_IVRSystem_006_GetControllerStateWithPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eOrigin = eOrigin,
-        .unControllerDeviceIndex = unControllerDeviceIndex,
-        .pControllerState = pControllerState,
-        .pTrackedDevicePose = pTrackedDevicePose,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_006_GetControllerStateWithPose( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_006_GetControllerState(_this->linux_side, unControllerDeviceIndex, pControllerState);
 }
 
-void __thiscall winIVRSystem_IVRSystem_006_TriggerHapticPulse(struct w_steam_iface *_this, TrackedDeviceIndex_t unControllerDeviceIndex, uint32_t unAxisId, unsigned short usDurationMicroSec)
+bool __thiscall winIVRSystem_IVRSystem_006_GetControllerStateWithPose(winIVRSystem_IVRSystem_006 *_this, TrackingUniverseOrigin eOrigin, TrackedDeviceIndex_t unControllerDeviceIndex, winVRControllerState001_t_0910 *pControllerState, TrackedDevicePose_t *pTrackedDevicePose)
 {
-    struct cppIVRSystem_IVRSystem_006_TriggerHapticPulse_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unControllerDeviceIndex = unControllerDeviceIndex,
-        .unAxisId = unAxisId,
-        .usDurationMicroSec = usDurationMicroSec,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_006_TriggerHapticPulse( &params );
+    return cppIVRSystem_IVRSystem_006_GetControllerStateWithPose(_this->linux_side, eOrigin, unControllerDeviceIndex, pControllerState, pTrackedDevicePose);
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_006_GetButtonIdNameFromEnum(struct w_steam_iface *_this, EVRButtonId eButtonId)
+void __thiscall winIVRSystem_IVRSystem_006_TriggerHapticPulse(winIVRSystem_IVRSystem_006 *_this, TrackedDeviceIndex_t unControllerDeviceIndex, uint32_t unAxisId, unsigned short usDurationMicroSec)
 {
-    struct cppIVRSystem_IVRSystem_006_GetButtonIdNameFromEnum_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eButtonId = eButtonId,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_006_GetButtonIdNameFromEnum( &params );
-    return params._ret;
+    cppIVRSystem_IVRSystem_006_TriggerHapticPulse(_this->linux_side, unControllerDeviceIndex, unAxisId, usDurationMicroSec);
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_006_GetControllerAxisTypeNameFromEnum(struct w_steam_iface *_this, EVRControllerAxisType eAxisType)
+const char * __thiscall winIVRSystem_IVRSystem_006_GetButtonIdNameFromEnum(winIVRSystem_IVRSystem_006 *_this, EVRButtonId eButtonId)
 {
-    struct cppIVRSystem_IVRSystem_006_GetControllerAxisTypeNameFromEnum_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eAxisType = eAxisType,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_006_GetControllerAxisTypeNameFromEnum( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_006_GetButtonIdNameFromEnum(_this->linux_side, eButtonId);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_006_CaptureInputFocus(struct w_steam_iface *_this)
+const char * __thiscall winIVRSystem_IVRSystem_006_GetControllerAxisTypeNameFromEnum(winIVRSystem_IVRSystem_006 *_this, EVRControllerAxisType eAxisType)
 {
-    struct cppIVRSystem_IVRSystem_006_CaptureInputFocus_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_006_CaptureInputFocus( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_006_GetControllerAxisTypeNameFromEnum(_this->linux_side, eAxisType);
 }
 
-void __thiscall winIVRSystem_IVRSystem_006_ReleaseInputFocus(struct w_steam_iface *_this)
+bool __thiscall winIVRSystem_IVRSystem_006_CaptureInputFocus(winIVRSystem_IVRSystem_006 *_this)
 {
-    struct cppIVRSystem_IVRSystem_006_ReleaseInputFocus_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_006_ReleaseInputFocus( &params );
+    return cppIVRSystem_IVRSystem_006_CaptureInputFocus(_this->linux_side);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_006_IsInputFocusCapturedByAnotherProcess(struct w_steam_iface *_this)
+void __thiscall winIVRSystem_IVRSystem_006_ReleaseInputFocus(winIVRSystem_IVRSystem_006 *_this)
 {
-    struct cppIVRSystem_IVRSystem_006_IsInputFocusCapturedByAnotherProcess_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_006_IsInputFocusCapturedByAnotherProcess( &params );
-    return params._ret;
+    cppIVRSystem_IVRSystem_006_ReleaseInputFocus(_this->linux_side);
 }
 
-uint32_t __thiscall winIVRSystem_IVRSystem_006_DriverDebugRequest(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, const char *pchRequest, char *pchResponseBuffer, uint32_t unResponseBufferSize)
+bool __thiscall winIVRSystem_IVRSystem_006_IsInputFocusCapturedByAnotherProcess(winIVRSystem_IVRSystem_006 *_this)
 {
-    struct cppIVRSystem_IVRSystem_006_DriverDebugRequest_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .pchRequest = pchRequest,
-        .pchResponseBuffer = pchResponseBuffer,
-        .unResponseBufferSize = unResponseBufferSize,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_006_DriverDebugRequest( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_006_IsInputFocusCapturedByAnotherProcess(_this->linux_side);
 }
 
-VRFirmwareError __thiscall winIVRSystem_IVRSystem_006_PerformFirmwareUpdate(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex)
+uint32_t __thiscall winIVRSystem_IVRSystem_006_DriverDebugRequest(winIVRSystem_IVRSystem_006 *_this, TrackedDeviceIndex_t unDeviceIndex, const char *pchRequest, char *pchResponseBuffer, uint32_t unResponseBufferSize)
 {
-    struct cppIVRSystem_IVRSystem_006_PerformFirmwareUpdate_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_006_PerformFirmwareUpdate( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_006_DriverDebugRequest(_this->linux_side, unDeviceIndex, pchRequest, pchResponseBuffer, unResponseBufferSize);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_006_IsDisplayOnDesktop(struct w_steam_iface *_this)
+VRFirmwareError __thiscall winIVRSystem_IVRSystem_006_PerformFirmwareUpdate(winIVRSystem_IVRSystem_006 *_this, TrackedDeviceIndex_t unDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_006_IsDisplayOnDesktop_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_006_IsDisplayOnDesktop( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_006_PerformFirmwareUpdate(_this->linux_side, unDeviceIndex);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_006_SetDisplayVisibility(struct w_steam_iface *_this, bool bIsVisibleOnDesktop)
+bool __thiscall winIVRSystem_IVRSystem_006_IsDisplayOnDesktop(winIVRSystem_IVRSystem_006 *_this)
 {
-    struct cppIVRSystem_IVRSystem_006_SetDisplayVisibility_params params =
-    {
-        .linux_side = _this->u_iface,
-        .bIsVisibleOnDesktop = bIsVisibleOnDesktop,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_006_SetDisplayVisibility( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_006_IsDisplayOnDesktop(_this->linux_side);
+}
+
+bool __thiscall winIVRSystem_IVRSystem_006_SetDisplayVisibility(winIVRSystem_IVRSystem_006 *_this, bool bIsVisibleOnDesktop)
+{
+    TRACE("%p\n", _this);
+    return cppIVRSystem_IVRSystem_006_SetDisplayVisibility(_this->linux_side, bIsVisibleOnDesktop);
 }
 
 extern vtable_ptr winIVRSystem_IVRSystem_006_vtable;
@@ -2557,24 +1571,24 @@ void __asm_dummy_vtables(void) {
 }
 #endif
 
-struct w_steam_iface *create_winIVRSystem_IVRSystem_006(void *u_iface)
+winIVRSystem_IVRSystem_006 *create_winIVRSystem_IVRSystem_006(void *linux_side)
 {
-    struct w_steam_iface *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(*r));
+    winIVRSystem_IVRSystem_006 *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(winIVRSystem_IVRSystem_006));
     TRACE("-> %p\n", r);
     r->vtable = &winIVRSystem_IVRSystem_006_vtable;
-    r->u_iface = u_iface;
+    r->linux_side = linux_side;
     return r;
 }
 
-void destroy_winIVRSystem_IVRSystem_006(struct w_steam_iface *object)
+void destroy_winIVRSystem_IVRSystem_006(void *object)
 {
     TRACE("%p\n", object);
     HeapFree(GetProcessHeap(), 0, object);
 }
 
-struct w_steam_iface *create_winIVRSystem_IVRSystem_006_FnTable(void *u_iface)
+winIVRSystem_IVRSystem_006 *create_winIVRSystem_IVRSystem_006_FnTable(void *linux_side)
 {
-    struct w_steam_iface *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(*r));
+    winIVRSystem_IVRSystem_006 *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(winIVRSystem_IVRSystem_006));
     struct thunk *thunks = alloc_thunks(42);
     struct thunk **vtable = HeapAlloc(GetProcessHeap(), 0, 42 * sizeof(*vtable));
     int i;
@@ -2624,20 +1638,26 @@ struct w_steam_iface *create_winIVRSystem_IVRSystem_006_FnTable(void *u_iface)
     init_thunk(&thunks[41], r, winIVRSystem_IVRSystem_006_SetDisplayVisibility, 1, FALSE, FALSE);
     for (i = 0; i < 42; i++)
         vtable[i] = &thunks[i];
-    r->u_iface = u_iface;
+    r->linux_side = linux_side;
     r->vtable = (void *)vtable;
     return r;
 }
 
-void destroy_winIVRSystem_IVRSystem_006_FnTable(struct w_steam_iface *object)
+void destroy_winIVRSystem_IVRSystem_006_FnTable(void *object)
 {
-    TRACE("%p\n", object);
-    VirtualFree(object->vtable[0], 0, MEM_RELEASE);
-    HeapFree(GetProcessHeap(), 0, object->vtable);
-    HeapFree(GetProcessHeap(), 0, object);
+    winIVRSystem_IVRSystem_006 *win_object = object;
+    TRACE("%p\n", win_object);
+    VirtualFree(win_object->vtable[0], 0, MEM_RELEASE);
+    HeapFree(GetProcessHeap(), 0, win_object->vtable);
+    HeapFree(GetProcessHeap(), 0, win_object);
 }
 
 #include "cppIVRSystem_IVRSystem_009.h"
+
+typedef struct __winIVRSystem_IVRSystem_009 {
+    vtable_ptr *vtable;
+    void *linux_side;
+} winIVRSystem_IVRSystem_009;
 
 DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_009_GetRecommendedRenderTargetSize, 12)
 DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_009_GetProjectionMatrix, 24)
@@ -2682,530 +1702,263 @@ DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_009_PerformFirmwareUpdate, 8)
 DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_009_AcknowledgeQuit_Exiting, 4)
 DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_009_AcknowledgeQuit_UserPrompt, 4)
 
-void __thiscall winIVRSystem_IVRSystem_009_GetRecommendedRenderTargetSize(struct w_steam_iface *_this, uint32_t *pnWidth, uint32_t *pnHeight)
+void __thiscall winIVRSystem_IVRSystem_009_GetRecommendedRenderTargetSize(winIVRSystem_IVRSystem_009 *_this, uint32_t *pnWidth, uint32_t *pnHeight)
 {
-    struct cppIVRSystem_IVRSystem_009_GetRecommendedRenderTargetSize_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pnWidth = pnWidth,
-        .pnHeight = pnHeight,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_009_GetRecommendedRenderTargetSize( &params );
+    cppIVRSystem_IVRSystem_009_GetRecommendedRenderTargetSize(_this->linux_side, pnWidth, pnHeight);
 }
 
-HmdMatrix44_t * __thiscall winIVRSystem_IVRSystem_009_GetProjectionMatrix(struct w_steam_iface *_this, HmdMatrix44_t *_ret, EVREye eEye, float fNearZ, float fFarZ, EGraphicsAPIConvention eProjType)
+HmdMatrix44_t *__thiscall winIVRSystem_IVRSystem_009_GetProjectionMatrix(winIVRSystem_IVRSystem_009 *_this, HmdMatrix44_t *_r, EVREye eEye, float fNearZ, float fFarZ, EGraphicsAPIConvention eProjType)
 {
-    struct cppIVRSystem_IVRSystem_009_GetProjectionMatrix_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .eEye = eEye,
-        .fNearZ = fNearZ,
-        .fFarZ = fFarZ,
-        .eProjType = eProjType,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_009_GetProjectionMatrix( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_009_GetProjectionMatrix(_this->linux_side, eEye, fNearZ, fFarZ, eProjType);
+    return _r;
 }
 
-void __thiscall winIVRSystem_IVRSystem_009_GetProjectionRaw(struct w_steam_iface *_this, EVREye eEye, float *pfLeft, float *pfRight, float *pfTop, float *pfBottom)
+void __thiscall winIVRSystem_IVRSystem_009_GetProjectionRaw(winIVRSystem_IVRSystem_009 *_this, EVREye eEye, float *pfLeft, float *pfRight, float *pfTop, float *pfBottom)
 {
-    struct cppIVRSystem_IVRSystem_009_GetProjectionRaw_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eEye = eEye,
-        .pfLeft = pfLeft,
-        .pfRight = pfRight,
-        .pfTop = pfTop,
-        .pfBottom = pfBottom,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_009_GetProjectionRaw( &params );
+    cppIVRSystem_IVRSystem_009_GetProjectionRaw(_this->linux_side, eEye, pfLeft, pfRight, pfTop, pfBottom);
 }
 
-DistortionCoordinates_t * __thiscall winIVRSystem_IVRSystem_009_ComputeDistortion(struct w_steam_iface *_this, DistortionCoordinates_t *_ret, EVREye eEye, float fU, float fV)
+DistortionCoordinates_t *__thiscall winIVRSystem_IVRSystem_009_ComputeDistortion(winIVRSystem_IVRSystem_009 *_this, DistortionCoordinates_t *_r, EVREye eEye, float fU, float fV)
 {
-    struct cppIVRSystem_IVRSystem_009_ComputeDistortion_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .eEye = eEye,
-        .fU = fU,
-        .fV = fV,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_009_ComputeDistortion( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_009_ComputeDistortion(_this->linux_side, eEye, fU, fV);
+    return _r;
 }
 
-HmdMatrix34_t * __thiscall winIVRSystem_IVRSystem_009_GetEyeToHeadTransform(struct w_steam_iface *_this, HmdMatrix34_t *_ret, EVREye eEye)
+HmdMatrix34_t *__thiscall winIVRSystem_IVRSystem_009_GetEyeToHeadTransform(winIVRSystem_IVRSystem_009 *_this, HmdMatrix34_t *_r, EVREye eEye)
 {
-    struct cppIVRSystem_IVRSystem_009_GetEyeToHeadTransform_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .eEye = eEye,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_009_GetEyeToHeadTransform( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_009_GetEyeToHeadTransform(_this->linux_side, eEye);
+    return _r;
 }
 
-bool __thiscall winIVRSystem_IVRSystem_009_GetTimeSinceLastVsync(struct w_steam_iface *_this, float *pfSecondsSinceLastVsync, uint64_t *pulFrameCounter)
+bool __thiscall winIVRSystem_IVRSystem_009_GetTimeSinceLastVsync(winIVRSystem_IVRSystem_009 *_this, float *pfSecondsSinceLastVsync, uint64_t *pulFrameCounter)
 {
-    struct cppIVRSystem_IVRSystem_009_GetTimeSinceLastVsync_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pfSecondsSinceLastVsync = pfSecondsSinceLastVsync,
-        .pulFrameCounter = pulFrameCounter,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_009_GetTimeSinceLastVsync( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_009_GetTimeSinceLastVsync(_this->linux_side, pfSecondsSinceLastVsync, pulFrameCounter);
 }
 
-int32_t __thiscall winIVRSystem_IVRSystem_009_GetD3D9AdapterIndex(struct w_steam_iface *_this)
+int32_t __thiscall winIVRSystem_IVRSystem_009_GetD3D9AdapterIndex(winIVRSystem_IVRSystem_009 *_this)
 {
-    struct cppIVRSystem_IVRSystem_009_GetD3D9AdapterIndex_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_009_GetD3D9AdapterIndex( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_009_GetD3D9AdapterIndex(_this->linux_side);
 }
 
-extern void __thiscall winIVRSystem_IVRSystem_009_GetDXGIOutputInfo(struct w_steam_iface *_this, int32_t *pnAdapterIndex);
-
-bool __thiscall winIVRSystem_IVRSystem_009_IsDisplayOnDesktop(struct w_steam_iface *_this)
+void __thiscall winIVRSystem_IVRSystem_009_GetDXGIOutputInfo(winIVRSystem_IVRSystem_009 *_this, int32_t *pnAdapterIndex)
 {
-    struct cppIVRSystem_IVRSystem_009_IsDisplayOnDesktop_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_009_IsDisplayOnDesktop( &params );
-    return params._ret;
+    get_dxgi_output_info(cppIVRSystem_IVRSystem_009_GetDXGIOutputInfo, _this->linux_side, pnAdapterIndex, 9);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_009_SetDisplayVisibility(struct w_steam_iface *_this, bool bIsVisibleOnDesktop)
+bool __thiscall winIVRSystem_IVRSystem_009_IsDisplayOnDesktop(winIVRSystem_IVRSystem_009 *_this)
 {
-    struct cppIVRSystem_IVRSystem_009_SetDisplayVisibility_params params =
-    {
-        .linux_side = _this->u_iface,
-        .bIsVisibleOnDesktop = bIsVisibleOnDesktop,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_009_SetDisplayVisibility( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_009_IsDisplayOnDesktop(_this->linux_side);
 }
 
-void __thiscall winIVRSystem_IVRSystem_009_GetDeviceToAbsoluteTrackingPose(struct w_steam_iface *_this, ETrackingUniverseOrigin eOrigin, float fPredictedSecondsToPhotonsFromNow, TrackedDevicePose_t *pTrackedDevicePoseArray, uint32_t unTrackedDevicePoseArrayCount)
+bool __thiscall winIVRSystem_IVRSystem_009_SetDisplayVisibility(winIVRSystem_IVRSystem_009 *_this, bool bIsVisibleOnDesktop)
 {
-    struct cppIVRSystem_IVRSystem_009_GetDeviceToAbsoluteTrackingPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eOrigin = eOrigin,
-        .fPredictedSecondsToPhotonsFromNow = fPredictedSecondsToPhotonsFromNow,
-        .pTrackedDevicePoseArray = pTrackedDevicePoseArray,
-        .unTrackedDevicePoseArrayCount = unTrackedDevicePoseArrayCount,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_009_GetDeviceToAbsoluteTrackingPose( &params );
+    return cppIVRSystem_IVRSystem_009_SetDisplayVisibility(_this->linux_side, bIsVisibleOnDesktop);
 }
 
-void __thiscall winIVRSystem_IVRSystem_009_ResetSeatedZeroPose(struct w_steam_iface *_this)
+void __thiscall winIVRSystem_IVRSystem_009_GetDeviceToAbsoluteTrackingPose(winIVRSystem_IVRSystem_009 *_this, ETrackingUniverseOrigin eOrigin, float fPredictedSecondsToPhotonsFromNow, TrackedDevicePose_t *pTrackedDevicePoseArray, uint32_t unTrackedDevicePoseArrayCount)
 {
-    struct cppIVRSystem_IVRSystem_009_ResetSeatedZeroPose_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_009_ResetSeatedZeroPose( &params );
+    cppIVRSystem_IVRSystem_009_GetDeviceToAbsoluteTrackingPose(_this->linux_side, eOrigin, fPredictedSecondsToPhotonsFromNow, pTrackedDevicePoseArray, unTrackedDevicePoseArrayCount);
 }
 
-HmdMatrix34_t * __thiscall winIVRSystem_IVRSystem_009_GetSeatedZeroPoseToStandingAbsoluteTrackingPose(struct w_steam_iface *_this, HmdMatrix34_t *_ret)
+void __thiscall winIVRSystem_IVRSystem_009_ResetSeatedZeroPose(winIVRSystem_IVRSystem_009 *_this)
 {
-    struct cppIVRSystem_IVRSystem_009_GetSeatedZeroPoseToStandingAbsoluteTrackingPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_009_GetSeatedZeroPoseToStandingAbsoluteTrackingPose( &params );
-    return params._ret;
+    cppIVRSystem_IVRSystem_009_ResetSeatedZeroPose(_this->linux_side);
 }
 
-HmdMatrix34_t * __thiscall winIVRSystem_IVRSystem_009_GetRawZeroPoseToStandingAbsoluteTrackingPose(struct w_steam_iface *_this, HmdMatrix34_t *_ret)
+HmdMatrix34_t *__thiscall winIVRSystem_IVRSystem_009_GetSeatedZeroPoseToStandingAbsoluteTrackingPose(winIVRSystem_IVRSystem_009 *_this, HmdMatrix34_t *_r)
 {
-    struct cppIVRSystem_IVRSystem_009_GetRawZeroPoseToStandingAbsoluteTrackingPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_009_GetRawZeroPoseToStandingAbsoluteTrackingPose( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_009_GetSeatedZeroPoseToStandingAbsoluteTrackingPose(_this->linux_side);
+    return _r;
 }
 
-uint32_t __thiscall winIVRSystem_IVRSystem_009_GetSortedTrackedDeviceIndicesOfClass(struct w_steam_iface *_this, ETrackedDeviceClass eTrackedDeviceClass, TrackedDeviceIndex_t *punTrackedDeviceIndexArray, uint32_t unTrackedDeviceIndexArrayCount, TrackedDeviceIndex_t unRelativeToTrackedDeviceIndex)
+HmdMatrix34_t *__thiscall winIVRSystem_IVRSystem_009_GetRawZeroPoseToStandingAbsoluteTrackingPose(winIVRSystem_IVRSystem_009 *_this, HmdMatrix34_t *_r)
 {
-    struct cppIVRSystem_IVRSystem_009_GetSortedTrackedDeviceIndicesOfClass_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eTrackedDeviceClass = eTrackedDeviceClass,
-        .punTrackedDeviceIndexArray = punTrackedDeviceIndexArray,
-        .unTrackedDeviceIndexArrayCount = unTrackedDeviceIndexArrayCount,
-        .unRelativeToTrackedDeviceIndex = unRelativeToTrackedDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_009_GetSortedTrackedDeviceIndicesOfClass( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_009_GetRawZeroPoseToStandingAbsoluteTrackingPose(_this->linux_side);
+    return _r;
 }
 
-EDeviceActivityLevel __thiscall winIVRSystem_IVRSystem_009_GetTrackedDeviceActivityLevel(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceId)
+uint32_t __thiscall winIVRSystem_IVRSystem_009_GetSortedTrackedDeviceIndicesOfClass(winIVRSystem_IVRSystem_009 *_this, ETrackedDeviceClass eTrackedDeviceClass, TrackedDeviceIndex_t *punTrackedDeviceIndexArray, uint32_t unTrackedDeviceIndexArrayCount, TrackedDeviceIndex_t unRelativeToTrackedDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_009_GetTrackedDeviceActivityLevel_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceId = unDeviceId,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_009_GetTrackedDeviceActivityLevel( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_009_GetSortedTrackedDeviceIndicesOfClass(_this->linux_side, eTrackedDeviceClass, punTrackedDeviceIndexArray, unTrackedDeviceIndexArrayCount, unRelativeToTrackedDeviceIndex);
 }
 
-void __thiscall winIVRSystem_IVRSystem_009_ApplyTransform(struct w_steam_iface *_this, TrackedDevicePose_t *pOutputPose, const TrackedDevicePose_t *pTrackedDevicePose, const HmdMatrix34_t *pTransform)
+EDeviceActivityLevel __thiscall winIVRSystem_IVRSystem_009_GetTrackedDeviceActivityLevel(winIVRSystem_IVRSystem_009 *_this, TrackedDeviceIndex_t unDeviceId)
 {
-    struct cppIVRSystem_IVRSystem_009_ApplyTransform_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pOutputPose = pOutputPose,
-        .pTrackedDevicePose = pTrackedDevicePose,
-        .pTransform = pTransform,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_009_ApplyTransform( &params );
+    return cppIVRSystem_IVRSystem_009_GetTrackedDeviceActivityLevel(_this->linux_side, unDeviceId);
 }
 
-ETrackedDeviceClass __thiscall winIVRSystem_IVRSystem_009_GetTrackedDeviceClass(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex)
+void __thiscall winIVRSystem_IVRSystem_009_ApplyTransform(winIVRSystem_IVRSystem_009 *_this, TrackedDevicePose_t *pOutputPose, TrackedDevicePose_t *pTrackedDevicePose, HmdMatrix34_t *pTransform)
 {
-    struct cppIVRSystem_IVRSystem_009_GetTrackedDeviceClass_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_009_GetTrackedDeviceClass( &params );
-    return params._ret;
+    cppIVRSystem_IVRSystem_009_ApplyTransform(_this->linux_side, pOutputPose, pTrackedDevicePose, pTransform);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_009_IsTrackedDeviceConnected(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex)
+ETrackedDeviceClass __thiscall winIVRSystem_IVRSystem_009_GetTrackedDeviceClass(winIVRSystem_IVRSystem_009 *_this, TrackedDeviceIndex_t unDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_009_IsTrackedDeviceConnected_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_009_IsTrackedDeviceConnected( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_009_GetTrackedDeviceClass(_this->linux_side, unDeviceIndex);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_009_GetBoolTrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
+bool __thiscall winIVRSystem_IVRSystem_009_IsTrackedDeviceConnected(winIVRSystem_IVRSystem_009 *_this, TrackedDeviceIndex_t unDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_009_GetBoolTrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_009_GetBoolTrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_009_IsTrackedDeviceConnected(_this->linux_side, unDeviceIndex);
 }
 
-float __thiscall winIVRSystem_IVRSystem_009_GetFloatTrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
+bool __thiscall winIVRSystem_IVRSystem_009_GetBoolTrackedDeviceProperty(winIVRSystem_IVRSystem_009 *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_009_GetFloatTrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_009_GetFloatTrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_009_GetBoolTrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
 }
 
-int32_t __thiscall winIVRSystem_IVRSystem_009_GetInt32TrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
+float __thiscall winIVRSystem_IVRSystem_009_GetFloatTrackedDeviceProperty(winIVRSystem_IVRSystem_009 *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_009_GetInt32TrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_009_GetInt32TrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_009_GetFloatTrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
 }
 
-uint64_t __thiscall winIVRSystem_IVRSystem_009_GetUint64TrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
+int32_t __thiscall winIVRSystem_IVRSystem_009_GetInt32TrackedDeviceProperty(winIVRSystem_IVRSystem_009 *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_009_GetUint64TrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_009_GetUint64TrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_009_GetInt32TrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
 }
 
-HmdMatrix34_t * __thiscall winIVRSystem_IVRSystem_009_GetMatrix34TrackedDeviceProperty(struct w_steam_iface *_this, HmdMatrix34_t *_ret, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
+uint64_t __thiscall winIVRSystem_IVRSystem_009_GetUint64TrackedDeviceProperty(winIVRSystem_IVRSystem_009 *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_009_GetMatrix34TrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_009_GetMatrix34TrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_009_GetUint64TrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
 }
 
-uint32_t __thiscall winIVRSystem_IVRSystem_009_GetStringTrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, char *pchValue, uint32_t unBufferSize, ETrackedPropertyError *pError)
+HmdMatrix34_t *__thiscall winIVRSystem_IVRSystem_009_GetMatrix34TrackedDeviceProperty(winIVRSystem_IVRSystem_009 *_this, HmdMatrix34_t *_r, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_009_GetStringTrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pchValue = pchValue,
-        .unBufferSize = unBufferSize,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_009_GetStringTrackedDeviceProperty( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_009_GetMatrix34TrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
+    return _r;
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_009_GetPropErrorNameFromEnum(struct w_steam_iface *_this, ETrackedPropertyError error)
+uint32_t __thiscall winIVRSystem_IVRSystem_009_GetStringTrackedDeviceProperty(winIVRSystem_IVRSystem_009 *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, char *pchValue, uint32_t unBufferSize, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_009_GetPropErrorNameFromEnum_params params =
-    {
-        .linux_side = _this->u_iface,
-        .error = error,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_009_GetPropErrorNameFromEnum( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_009_GetStringTrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pchValue, unBufferSize, pError);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_009_PollNextEvent(struct w_steam_iface *_this, VREvent_t *pEvent)
+const char * __thiscall winIVRSystem_IVRSystem_009_GetPropErrorNameFromEnum(winIVRSystem_IVRSystem_009 *_this, ETrackedPropertyError error)
 {
-    struct cppIVRSystem_IVRSystem_009_PollNextEvent_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pEvent = pEvent,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_009_PollNextEvent( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_009_GetPropErrorNameFromEnum(_this->linux_side, error);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_009_PollNextEventWithPose(struct w_steam_iface *_this, ETrackingUniverseOrigin eOrigin, VREvent_t *pEvent, TrackedDevicePose_t *pTrackedDevicePose)
+bool __thiscall winIVRSystem_IVRSystem_009_PollNextEvent(winIVRSystem_IVRSystem_009 *_this, VREvent_t *pEvent)
 {
-    struct cppIVRSystem_IVRSystem_009_PollNextEventWithPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eOrigin = eOrigin,
-        .pEvent = pEvent,
-        .pTrackedDevicePose = pTrackedDevicePose,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_009_PollNextEventWithPose( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_009_PollNextEvent(_this->linux_side, pEvent);
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_009_GetEventTypeNameFromEnum(struct w_steam_iface *_this, EVREventType eType)
+bool __thiscall winIVRSystem_IVRSystem_009_PollNextEventWithPose(winIVRSystem_IVRSystem_009 *_this, ETrackingUniverseOrigin eOrigin, VREvent_t *pEvent, TrackedDevicePose_t *pTrackedDevicePose)
 {
-    struct cppIVRSystem_IVRSystem_009_GetEventTypeNameFromEnum_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eType = eType,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_009_GetEventTypeNameFromEnum( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_009_PollNextEventWithPose(_this->linux_side, eOrigin, pEvent, pTrackedDevicePose);
 }
 
-HiddenAreaMesh_t * __thiscall winIVRSystem_IVRSystem_009_GetHiddenAreaMesh(struct w_steam_iface *_this, HiddenAreaMesh_t *_ret, EVREye eEye)
+const char * __thiscall winIVRSystem_IVRSystem_009_GetEventTypeNameFromEnum(winIVRSystem_IVRSystem_009 *_this, EVREventType eType)
 {
-    struct cppIVRSystem_IVRSystem_009_GetHiddenAreaMesh_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .eEye = eEye,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_009_GetHiddenAreaMesh( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_009_GetEventTypeNameFromEnum(_this->linux_side, eType);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_009_GetControllerState(struct w_steam_iface *_this, TrackedDeviceIndex_t unControllerDeviceIndex, winVRControllerState001_t_0912 *pControllerState)
+HiddenAreaMesh_t *__thiscall winIVRSystem_IVRSystem_009_GetHiddenAreaMesh(winIVRSystem_IVRSystem_009 *_this, HiddenAreaMesh_t *_r, EVREye eEye)
 {
-    struct cppIVRSystem_IVRSystem_009_GetControllerState_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unControllerDeviceIndex = unControllerDeviceIndex,
-        .pControllerState = pControllerState,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_009_GetControllerState( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_009_GetHiddenAreaMesh(_this->linux_side, eEye);
+    return _r;
 }
 
-bool __thiscall winIVRSystem_IVRSystem_009_GetControllerStateWithPose(struct w_steam_iface *_this, ETrackingUniverseOrigin eOrigin, TrackedDeviceIndex_t unControllerDeviceIndex, winVRControllerState001_t_0912 *pControllerState, TrackedDevicePose_t *pTrackedDevicePose)
+bool __thiscall winIVRSystem_IVRSystem_009_GetControllerState(winIVRSystem_IVRSystem_009 *_this, TrackedDeviceIndex_t unControllerDeviceIndex, winVRControllerState001_t_0912 *pControllerState)
 {
-    struct cppIVRSystem_IVRSystem_009_GetControllerStateWithPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eOrigin = eOrigin,
-        .unControllerDeviceIndex = unControllerDeviceIndex,
-        .pControllerState = pControllerState,
-        .pTrackedDevicePose = pTrackedDevicePose,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_009_GetControllerStateWithPose( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_009_GetControllerState(_this->linux_side, unControllerDeviceIndex, pControllerState);
 }
 
-void __thiscall winIVRSystem_IVRSystem_009_TriggerHapticPulse(struct w_steam_iface *_this, TrackedDeviceIndex_t unControllerDeviceIndex, uint32_t unAxisId, unsigned short usDurationMicroSec)
+bool __thiscall winIVRSystem_IVRSystem_009_GetControllerStateWithPose(winIVRSystem_IVRSystem_009 *_this, ETrackingUniverseOrigin eOrigin, TrackedDeviceIndex_t unControllerDeviceIndex, winVRControllerState001_t_0912 *pControllerState, TrackedDevicePose_t *pTrackedDevicePose)
 {
-    struct cppIVRSystem_IVRSystem_009_TriggerHapticPulse_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unControllerDeviceIndex = unControllerDeviceIndex,
-        .unAxisId = unAxisId,
-        .usDurationMicroSec = usDurationMicroSec,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_009_TriggerHapticPulse( &params );
+    return cppIVRSystem_IVRSystem_009_GetControllerStateWithPose(_this->linux_side, eOrigin, unControllerDeviceIndex, pControllerState, pTrackedDevicePose);
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_009_GetButtonIdNameFromEnum(struct w_steam_iface *_this, EVRButtonId eButtonId)
+void __thiscall winIVRSystem_IVRSystem_009_TriggerHapticPulse(winIVRSystem_IVRSystem_009 *_this, TrackedDeviceIndex_t unControllerDeviceIndex, uint32_t unAxisId, unsigned short usDurationMicroSec)
 {
-    struct cppIVRSystem_IVRSystem_009_GetButtonIdNameFromEnum_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eButtonId = eButtonId,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_009_GetButtonIdNameFromEnum( &params );
-    return params._ret;
+    cppIVRSystem_IVRSystem_009_TriggerHapticPulse(_this->linux_side, unControllerDeviceIndex, unAxisId, usDurationMicroSec);
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_009_GetControllerAxisTypeNameFromEnum(struct w_steam_iface *_this, EVRControllerAxisType eAxisType)
+const char * __thiscall winIVRSystem_IVRSystem_009_GetButtonIdNameFromEnum(winIVRSystem_IVRSystem_009 *_this, EVRButtonId eButtonId)
 {
-    struct cppIVRSystem_IVRSystem_009_GetControllerAxisTypeNameFromEnum_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eAxisType = eAxisType,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_009_GetControllerAxisTypeNameFromEnum( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_009_GetButtonIdNameFromEnum(_this->linux_side, eButtonId);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_009_CaptureInputFocus(struct w_steam_iface *_this)
+const char * __thiscall winIVRSystem_IVRSystem_009_GetControllerAxisTypeNameFromEnum(winIVRSystem_IVRSystem_009 *_this, EVRControllerAxisType eAxisType)
 {
-    struct cppIVRSystem_IVRSystem_009_CaptureInputFocus_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_009_CaptureInputFocus( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_009_GetControllerAxisTypeNameFromEnum(_this->linux_side, eAxisType);
 }
 
-void __thiscall winIVRSystem_IVRSystem_009_ReleaseInputFocus(struct w_steam_iface *_this)
+bool __thiscall winIVRSystem_IVRSystem_009_CaptureInputFocus(winIVRSystem_IVRSystem_009 *_this)
 {
-    struct cppIVRSystem_IVRSystem_009_ReleaseInputFocus_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_009_ReleaseInputFocus( &params );
+    return cppIVRSystem_IVRSystem_009_CaptureInputFocus(_this->linux_side);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_009_IsInputFocusCapturedByAnotherProcess(struct w_steam_iface *_this)
+void __thiscall winIVRSystem_IVRSystem_009_ReleaseInputFocus(winIVRSystem_IVRSystem_009 *_this)
 {
-    struct cppIVRSystem_IVRSystem_009_IsInputFocusCapturedByAnotherProcess_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_009_IsInputFocusCapturedByAnotherProcess( &params );
-    return params._ret;
+    cppIVRSystem_IVRSystem_009_ReleaseInputFocus(_this->linux_side);
 }
 
-uint32_t __thiscall winIVRSystem_IVRSystem_009_DriverDebugRequest(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, const char *pchRequest, char *pchResponseBuffer, uint32_t unResponseBufferSize)
+bool __thiscall winIVRSystem_IVRSystem_009_IsInputFocusCapturedByAnotherProcess(winIVRSystem_IVRSystem_009 *_this)
 {
-    struct cppIVRSystem_IVRSystem_009_DriverDebugRequest_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .pchRequest = pchRequest,
-        .pchResponseBuffer = pchResponseBuffer,
-        .unResponseBufferSize = unResponseBufferSize,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_009_DriverDebugRequest( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_009_IsInputFocusCapturedByAnotherProcess(_this->linux_side);
 }
 
-EVRFirmwareError __thiscall winIVRSystem_IVRSystem_009_PerformFirmwareUpdate(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex)
+uint32_t __thiscall winIVRSystem_IVRSystem_009_DriverDebugRequest(winIVRSystem_IVRSystem_009 *_this, TrackedDeviceIndex_t unDeviceIndex, const char *pchRequest, char *pchResponseBuffer, uint32_t unResponseBufferSize)
 {
-    struct cppIVRSystem_IVRSystem_009_PerformFirmwareUpdate_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_009_PerformFirmwareUpdate( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_009_DriverDebugRequest(_this->linux_side, unDeviceIndex, pchRequest, pchResponseBuffer, unResponseBufferSize);
 }
 
-void __thiscall winIVRSystem_IVRSystem_009_AcknowledgeQuit_Exiting(struct w_steam_iface *_this)
+EVRFirmwareError __thiscall winIVRSystem_IVRSystem_009_PerformFirmwareUpdate(winIVRSystem_IVRSystem_009 *_this, TrackedDeviceIndex_t unDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_009_AcknowledgeQuit_Exiting_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_009_AcknowledgeQuit_Exiting( &params );
+    return cppIVRSystem_IVRSystem_009_PerformFirmwareUpdate(_this->linux_side, unDeviceIndex);
 }
 
-void __thiscall winIVRSystem_IVRSystem_009_AcknowledgeQuit_UserPrompt(struct w_steam_iface *_this)
+void __thiscall winIVRSystem_IVRSystem_009_AcknowledgeQuit_Exiting(winIVRSystem_IVRSystem_009 *_this)
 {
-    struct cppIVRSystem_IVRSystem_009_AcknowledgeQuit_UserPrompt_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_009_AcknowledgeQuit_UserPrompt( &params );
+    cppIVRSystem_IVRSystem_009_AcknowledgeQuit_Exiting(_this->linux_side);
+}
+
+void __thiscall winIVRSystem_IVRSystem_009_AcknowledgeQuit_UserPrompt(winIVRSystem_IVRSystem_009 *_this)
+{
+    TRACE("%p\n", _this);
+    cppIVRSystem_IVRSystem_009_AcknowledgeQuit_UserPrompt(_this->linux_side);
 }
 
 extern vtable_ptr winIVRSystem_IVRSystem_009_vtable;
@@ -3261,24 +2014,24 @@ void __asm_dummy_vtables(void) {
 }
 #endif
 
-struct w_steam_iface *create_winIVRSystem_IVRSystem_009(void *u_iface)
+winIVRSystem_IVRSystem_009 *create_winIVRSystem_IVRSystem_009(void *linux_side)
 {
-    struct w_steam_iface *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(*r));
+    winIVRSystem_IVRSystem_009 *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(winIVRSystem_IVRSystem_009));
     TRACE("-> %p\n", r);
     r->vtable = &winIVRSystem_IVRSystem_009_vtable;
-    r->u_iface = u_iface;
+    r->linux_side = linux_side;
     return r;
 }
 
-void destroy_winIVRSystem_IVRSystem_009(struct w_steam_iface *object)
+void destroy_winIVRSystem_IVRSystem_009(void *object)
 {
     TRACE("%p\n", object);
     HeapFree(GetProcessHeap(), 0, object);
 }
 
-struct w_steam_iface *create_winIVRSystem_IVRSystem_009_FnTable(void *u_iface)
+winIVRSystem_IVRSystem_009 *create_winIVRSystem_IVRSystem_009_FnTable(void *linux_side)
 {
-    struct w_steam_iface *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(*r));
+    winIVRSystem_IVRSystem_009 *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(winIVRSystem_IVRSystem_009));
     struct thunk *thunks = alloc_thunks(42);
     struct thunk **vtable = HeapAlloc(GetProcessHeap(), 0, 42 * sizeof(*vtable));
     int i;
@@ -3328,20 +2081,26 @@ struct w_steam_iface *create_winIVRSystem_IVRSystem_009_FnTable(void *u_iface)
     init_thunk(&thunks[41], r, winIVRSystem_IVRSystem_009_AcknowledgeQuit_UserPrompt, 0, FALSE, FALSE);
     for (i = 0; i < 42; i++)
         vtable[i] = &thunks[i];
-    r->u_iface = u_iface;
+    r->linux_side = linux_side;
     r->vtable = (void *)vtable;
     return r;
 }
 
-void destroy_winIVRSystem_IVRSystem_009_FnTable(struct w_steam_iface *object)
+void destroy_winIVRSystem_IVRSystem_009_FnTable(void *object)
 {
-    TRACE("%p\n", object);
-    VirtualFree(object->vtable[0], 0, MEM_RELEASE);
-    HeapFree(GetProcessHeap(), 0, object->vtable);
-    HeapFree(GetProcessHeap(), 0, object);
+    winIVRSystem_IVRSystem_009 *win_object = object;
+    TRACE("%p\n", win_object);
+    VirtualFree(win_object->vtable[0], 0, MEM_RELEASE);
+    HeapFree(GetProcessHeap(), 0, win_object->vtable);
+    HeapFree(GetProcessHeap(), 0, win_object);
 }
 
 #include "cppIVRSystem_IVRSystem_010.h"
+
+typedef struct __winIVRSystem_IVRSystem_010 {
+    vtable_ptr *vtable;
+    void *linux_side;
+} winIVRSystem_IVRSystem_010;
 
 DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_010_GetRecommendedRenderTargetSize, 12)
 DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_010_GetProjectionMatrix, 24)
@@ -3390,576 +2149,287 @@ DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_010_AcknowledgeQuit_UserPrompt, 4
 DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_010_PerformanceTestEnableCapture, 8)
 DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_010_PerformanceTestReportFidelityLevelChange, 8)
 
-void __thiscall winIVRSystem_IVRSystem_010_GetRecommendedRenderTargetSize(struct w_steam_iface *_this, uint32_t *pnWidth, uint32_t *pnHeight)
+void __thiscall winIVRSystem_IVRSystem_010_GetRecommendedRenderTargetSize(winIVRSystem_IVRSystem_010 *_this, uint32_t *pnWidth, uint32_t *pnHeight)
 {
-    struct cppIVRSystem_IVRSystem_010_GetRecommendedRenderTargetSize_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pnWidth = pnWidth,
-        .pnHeight = pnHeight,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_010_GetRecommendedRenderTargetSize( &params );
+    cppIVRSystem_IVRSystem_010_GetRecommendedRenderTargetSize(_this->linux_side, pnWidth, pnHeight);
 }
 
-HmdMatrix44_t * __thiscall winIVRSystem_IVRSystem_010_GetProjectionMatrix(struct w_steam_iface *_this, HmdMatrix44_t *_ret, EVREye eEye, float fNearZ, float fFarZ, EGraphicsAPIConvention eProjType)
+HmdMatrix44_t *__thiscall winIVRSystem_IVRSystem_010_GetProjectionMatrix(winIVRSystem_IVRSystem_010 *_this, HmdMatrix44_t *_r, EVREye eEye, float fNearZ, float fFarZ, EGraphicsAPIConvention eProjType)
 {
-    struct cppIVRSystem_IVRSystem_010_GetProjectionMatrix_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .eEye = eEye,
-        .fNearZ = fNearZ,
-        .fFarZ = fFarZ,
-        .eProjType = eProjType,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_010_GetProjectionMatrix( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_010_GetProjectionMatrix(_this->linux_side, eEye, fNearZ, fFarZ, eProjType);
+    return _r;
 }
 
-void __thiscall winIVRSystem_IVRSystem_010_GetProjectionRaw(struct w_steam_iface *_this, EVREye eEye, float *pfLeft, float *pfRight, float *pfTop, float *pfBottom)
+void __thiscall winIVRSystem_IVRSystem_010_GetProjectionRaw(winIVRSystem_IVRSystem_010 *_this, EVREye eEye, float *pfLeft, float *pfRight, float *pfTop, float *pfBottom)
 {
-    struct cppIVRSystem_IVRSystem_010_GetProjectionRaw_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eEye = eEye,
-        .pfLeft = pfLeft,
-        .pfRight = pfRight,
-        .pfTop = pfTop,
-        .pfBottom = pfBottom,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_010_GetProjectionRaw( &params );
+    cppIVRSystem_IVRSystem_010_GetProjectionRaw(_this->linux_side, eEye, pfLeft, pfRight, pfTop, pfBottom);
 }
 
-DistortionCoordinates_t * __thiscall winIVRSystem_IVRSystem_010_ComputeDistortion(struct w_steam_iface *_this, DistortionCoordinates_t *_ret, EVREye eEye, float fU, float fV)
+DistortionCoordinates_t *__thiscall winIVRSystem_IVRSystem_010_ComputeDistortion(winIVRSystem_IVRSystem_010 *_this, DistortionCoordinates_t *_r, EVREye eEye, float fU, float fV)
 {
-    struct cppIVRSystem_IVRSystem_010_ComputeDistortion_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .eEye = eEye,
-        .fU = fU,
-        .fV = fV,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_010_ComputeDistortion( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_010_ComputeDistortion(_this->linux_side, eEye, fU, fV);
+    return _r;
 }
 
-HmdMatrix34_t * __thiscall winIVRSystem_IVRSystem_010_GetEyeToHeadTransform(struct w_steam_iface *_this, HmdMatrix34_t *_ret, EVREye eEye)
+HmdMatrix34_t *__thiscall winIVRSystem_IVRSystem_010_GetEyeToHeadTransform(winIVRSystem_IVRSystem_010 *_this, HmdMatrix34_t *_r, EVREye eEye)
 {
-    struct cppIVRSystem_IVRSystem_010_GetEyeToHeadTransform_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .eEye = eEye,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_010_GetEyeToHeadTransform( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_010_GetEyeToHeadTransform(_this->linux_side, eEye);
+    return _r;
 }
 
-bool __thiscall winIVRSystem_IVRSystem_010_GetTimeSinceLastVsync(struct w_steam_iface *_this, float *pfSecondsSinceLastVsync, uint64_t *pulFrameCounter)
+bool __thiscall winIVRSystem_IVRSystem_010_GetTimeSinceLastVsync(winIVRSystem_IVRSystem_010 *_this, float *pfSecondsSinceLastVsync, uint64_t *pulFrameCounter)
 {
-    struct cppIVRSystem_IVRSystem_010_GetTimeSinceLastVsync_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pfSecondsSinceLastVsync = pfSecondsSinceLastVsync,
-        .pulFrameCounter = pulFrameCounter,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_010_GetTimeSinceLastVsync( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_010_GetTimeSinceLastVsync(_this->linux_side, pfSecondsSinceLastVsync, pulFrameCounter);
 }
 
-int32_t __thiscall winIVRSystem_IVRSystem_010_GetD3D9AdapterIndex(struct w_steam_iface *_this)
+int32_t __thiscall winIVRSystem_IVRSystem_010_GetD3D9AdapterIndex(winIVRSystem_IVRSystem_010 *_this)
 {
-    struct cppIVRSystem_IVRSystem_010_GetD3D9AdapterIndex_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_010_GetD3D9AdapterIndex( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_010_GetD3D9AdapterIndex(_this->linux_side);
 }
 
-extern void __thiscall winIVRSystem_IVRSystem_010_GetDXGIOutputInfo(struct w_steam_iface *_this, int32_t *pnAdapterIndex);
-
-bool __thiscall winIVRSystem_IVRSystem_010_IsDisplayOnDesktop(struct w_steam_iface *_this)
+void __thiscall winIVRSystem_IVRSystem_010_GetDXGIOutputInfo(winIVRSystem_IVRSystem_010 *_this, int32_t *pnAdapterIndex)
 {
-    struct cppIVRSystem_IVRSystem_010_IsDisplayOnDesktop_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_010_IsDisplayOnDesktop( &params );
-    return params._ret;
+    get_dxgi_output_info(cppIVRSystem_IVRSystem_010_GetDXGIOutputInfo, _this->linux_side, pnAdapterIndex, 10);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_010_SetDisplayVisibility(struct w_steam_iface *_this, bool bIsVisibleOnDesktop)
+bool __thiscall winIVRSystem_IVRSystem_010_IsDisplayOnDesktop(winIVRSystem_IVRSystem_010 *_this)
 {
-    struct cppIVRSystem_IVRSystem_010_SetDisplayVisibility_params params =
-    {
-        .linux_side = _this->u_iface,
-        .bIsVisibleOnDesktop = bIsVisibleOnDesktop,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_010_SetDisplayVisibility( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_010_IsDisplayOnDesktop(_this->linux_side);
 }
 
-void __thiscall winIVRSystem_IVRSystem_010_GetDeviceToAbsoluteTrackingPose(struct w_steam_iface *_this, ETrackingUniverseOrigin eOrigin, float fPredictedSecondsToPhotonsFromNow, TrackedDevicePose_t *pTrackedDevicePoseArray, uint32_t unTrackedDevicePoseArrayCount)
+bool __thiscall winIVRSystem_IVRSystem_010_SetDisplayVisibility(winIVRSystem_IVRSystem_010 *_this, bool bIsVisibleOnDesktop)
 {
-    struct cppIVRSystem_IVRSystem_010_GetDeviceToAbsoluteTrackingPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eOrigin = eOrigin,
-        .fPredictedSecondsToPhotonsFromNow = fPredictedSecondsToPhotonsFromNow,
-        .pTrackedDevicePoseArray = pTrackedDevicePoseArray,
-        .unTrackedDevicePoseArrayCount = unTrackedDevicePoseArrayCount,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_010_GetDeviceToAbsoluteTrackingPose( &params );
+    return cppIVRSystem_IVRSystem_010_SetDisplayVisibility(_this->linux_side, bIsVisibleOnDesktop);
 }
 
-void __thiscall winIVRSystem_IVRSystem_010_ResetSeatedZeroPose(struct w_steam_iface *_this)
+void __thiscall winIVRSystem_IVRSystem_010_GetDeviceToAbsoluteTrackingPose(winIVRSystem_IVRSystem_010 *_this, ETrackingUniverseOrigin eOrigin, float fPredictedSecondsToPhotonsFromNow, TrackedDevicePose_t *pTrackedDevicePoseArray, uint32_t unTrackedDevicePoseArrayCount)
 {
-    struct cppIVRSystem_IVRSystem_010_ResetSeatedZeroPose_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_010_ResetSeatedZeroPose( &params );
+    cppIVRSystem_IVRSystem_010_GetDeviceToAbsoluteTrackingPose(_this->linux_side, eOrigin, fPredictedSecondsToPhotonsFromNow, pTrackedDevicePoseArray, unTrackedDevicePoseArrayCount);
 }
 
-HmdMatrix34_t * __thiscall winIVRSystem_IVRSystem_010_GetSeatedZeroPoseToStandingAbsoluteTrackingPose(struct w_steam_iface *_this, HmdMatrix34_t *_ret)
+void __thiscall winIVRSystem_IVRSystem_010_ResetSeatedZeroPose(winIVRSystem_IVRSystem_010 *_this)
 {
-    struct cppIVRSystem_IVRSystem_010_GetSeatedZeroPoseToStandingAbsoluteTrackingPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_010_GetSeatedZeroPoseToStandingAbsoluteTrackingPose( &params );
-    return params._ret;
+    cppIVRSystem_IVRSystem_010_ResetSeatedZeroPose(_this->linux_side);
 }
 
-HmdMatrix34_t * __thiscall winIVRSystem_IVRSystem_010_GetRawZeroPoseToStandingAbsoluteTrackingPose(struct w_steam_iface *_this, HmdMatrix34_t *_ret)
+HmdMatrix34_t *__thiscall winIVRSystem_IVRSystem_010_GetSeatedZeroPoseToStandingAbsoluteTrackingPose(winIVRSystem_IVRSystem_010 *_this, HmdMatrix34_t *_r)
 {
-    struct cppIVRSystem_IVRSystem_010_GetRawZeroPoseToStandingAbsoluteTrackingPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_010_GetRawZeroPoseToStandingAbsoluteTrackingPose( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_010_GetSeatedZeroPoseToStandingAbsoluteTrackingPose(_this->linux_side);
+    return _r;
 }
 
-uint32_t __thiscall winIVRSystem_IVRSystem_010_GetSortedTrackedDeviceIndicesOfClass(struct w_steam_iface *_this, ETrackedDeviceClass eTrackedDeviceClass, TrackedDeviceIndex_t *punTrackedDeviceIndexArray, uint32_t unTrackedDeviceIndexArrayCount, TrackedDeviceIndex_t unRelativeToTrackedDeviceIndex)
+HmdMatrix34_t *__thiscall winIVRSystem_IVRSystem_010_GetRawZeroPoseToStandingAbsoluteTrackingPose(winIVRSystem_IVRSystem_010 *_this, HmdMatrix34_t *_r)
 {
-    struct cppIVRSystem_IVRSystem_010_GetSortedTrackedDeviceIndicesOfClass_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eTrackedDeviceClass = eTrackedDeviceClass,
-        .punTrackedDeviceIndexArray = punTrackedDeviceIndexArray,
-        .unTrackedDeviceIndexArrayCount = unTrackedDeviceIndexArrayCount,
-        .unRelativeToTrackedDeviceIndex = unRelativeToTrackedDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_010_GetSortedTrackedDeviceIndicesOfClass( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_010_GetRawZeroPoseToStandingAbsoluteTrackingPose(_this->linux_side);
+    return _r;
 }
 
-EDeviceActivityLevel __thiscall winIVRSystem_IVRSystem_010_GetTrackedDeviceActivityLevel(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceId)
+uint32_t __thiscall winIVRSystem_IVRSystem_010_GetSortedTrackedDeviceIndicesOfClass(winIVRSystem_IVRSystem_010 *_this, ETrackedDeviceClass eTrackedDeviceClass, TrackedDeviceIndex_t *punTrackedDeviceIndexArray, uint32_t unTrackedDeviceIndexArrayCount, TrackedDeviceIndex_t unRelativeToTrackedDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_010_GetTrackedDeviceActivityLevel_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceId = unDeviceId,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_010_GetTrackedDeviceActivityLevel( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_010_GetSortedTrackedDeviceIndicesOfClass(_this->linux_side, eTrackedDeviceClass, punTrackedDeviceIndexArray, unTrackedDeviceIndexArrayCount, unRelativeToTrackedDeviceIndex);
 }
 
-void __thiscall winIVRSystem_IVRSystem_010_ApplyTransform(struct w_steam_iface *_this, TrackedDevicePose_t *pOutputPose, const TrackedDevicePose_t *pTrackedDevicePose, const HmdMatrix34_t *pTransform)
+EDeviceActivityLevel __thiscall winIVRSystem_IVRSystem_010_GetTrackedDeviceActivityLevel(winIVRSystem_IVRSystem_010 *_this, TrackedDeviceIndex_t unDeviceId)
 {
-    struct cppIVRSystem_IVRSystem_010_ApplyTransform_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pOutputPose = pOutputPose,
-        .pTrackedDevicePose = pTrackedDevicePose,
-        .pTransform = pTransform,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_010_ApplyTransform( &params );
+    return cppIVRSystem_IVRSystem_010_GetTrackedDeviceActivityLevel(_this->linux_side, unDeviceId);
 }
 
-TrackedDeviceIndex_t __thiscall winIVRSystem_IVRSystem_010_GetTrackedDeviceIndexForControllerRole(struct w_steam_iface *_this, ETrackedControllerRole unDeviceType)
+void __thiscall winIVRSystem_IVRSystem_010_ApplyTransform(winIVRSystem_IVRSystem_010 *_this, TrackedDevicePose_t *pOutputPose, TrackedDevicePose_t *pTrackedDevicePose, HmdMatrix34_t *pTransform)
 {
-    struct cppIVRSystem_IVRSystem_010_GetTrackedDeviceIndexForControllerRole_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceType = unDeviceType,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_010_GetTrackedDeviceIndexForControllerRole( &params );
-    return params._ret;
+    cppIVRSystem_IVRSystem_010_ApplyTransform(_this->linux_side, pOutputPose, pTrackedDevicePose, pTransform);
 }
 
-ETrackedControllerRole __thiscall winIVRSystem_IVRSystem_010_GetControllerRoleForTrackedDeviceIndex(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex)
+TrackedDeviceIndex_t __thiscall winIVRSystem_IVRSystem_010_GetTrackedDeviceIndexForControllerRole(winIVRSystem_IVRSystem_010 *_this, ETrackedControllerRole unDeviceType)
 {
-    struct cppIVRSystem_IVRSystem_010_GetControllerRoleForTrackedDeviceIndex_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_010_GetControllerRoleForTrackedDeviceIndex( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_010_GetTrackedDeviceIndexForControllerRole(_this->linux_side, unDeviceType);
 }
 
-ETrackedDeviceClass __thiscall winIVRSystem_IVRSystem_010_GetTrackedDeviceClass(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex)
+ETrackedControllerRole __thiscall winIVRSystem_IVRSystem_010_GetControllerRoleForTrackedDeviceIndex(winIVRSystem_IVRSystem_010 *_this, TrackedDeviceIndex_t unDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_010_GetTrackedDeviceClass_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_010_GetTrackedDeviceClass( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_010_GetControllerRoleForTrackedDeviceIndex(_this->linux_side, unDeviceIndex);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_010_IsTrackedDeviceConnected(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex)
+ETrackedDeviceClass __thiscall winIVRSystem_IVRSystem_010_GetTrackedDeviceClass(winIVRSystem_IVRSystem_010 *_this, TrackedDeviceIndex_t unDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_010_IsTrackedDeviceConnected_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_010_IsTrackedDeviceConnected( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_010_GetTrackedDeviceClass(_this->linux_side, unDeviceIndex);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_010_GetBoolTrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
+bool __thiscall winIVRSystem_IVRSystem_010_IsTrackedDeviceConnected(winIVRSystem_IVRSystem_010 *_this, TrackedDeviceIndex_t unDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_010_GetBoolTrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_010_GetBoolTrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_010_IsTrackedDeviceConnected(_this->linux_side, unDeviceIndex);
 }
 
-float __thiscall winIVRSystem_IVRSystem_010_GetFloatTrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
+bool __thiscall winIVRSystem_IVRSystem_010_GetBoolTrackedDeviceProperty(winIVRSystem_IVRSystem_010 *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_010_GetFloatTrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_010_GetFloatTrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_010_GetBoolTrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
 }
 
-int32_t __thiscall winIVRSystem_IVRSystem_010_GetInt32TrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
+float __thiscall winIVRSystem_IVRSystem_010_GetFloatTrackedDeviceProperty(winIVRSystem_IVRSystem_010 *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_010_GetInt32TrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_010_GetInt32TrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_010_GetFloatTrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
 }
 
-uint64_t __thiscall winIVRSystem_IVRSystem_010_GetUint64TrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
+int32_t __thiscall winIVRSystem_IVRSystem_010_GetInt32TrackedDeviceProperty(winIVRSystem_IVRSystem_010 *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_010_GetUint64TrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_010_GetUint64TrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_010_GetInt32TrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
 }
 
-HmdMatrix34_t * __thiscall winIVRSystem_IVRSystem_010_GetMatrix34TrackedDeviceProperty(struct w_steam_iface *_this, HmdMatrix34_t *_ret, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
+uint64_t __thiscall winIVRSystem_IVRSystem_010_GetUint64TrackedDeviceProperty(winIVRSystem_IVRSystem_010 *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_010_GetMatrix34TrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_010_GetMatrix34TrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_010_GetUint64TrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
 }
 
-uint32_t __thiscall winIVRSystem_IVRSystem_010_GetStringTrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, char *pchValue, uint32_t unBufferSize, ETrackedPropertyError *pError)
+HmdMatrix34_t *__thiscall winIVRSystem_IVRSystem_010_GetMatrix34TrackedDeviceProperty(winIVRSystem_IVRSystem_010 *_this, HmdMatrix34_t *_r, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_010_GetStringTrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pchValue = pchValue,
-        .unBufferSize = unBufferSize,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_010_GetStringTrackedDeviceProperty( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_010_GetMatrix34TrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
+    return _r;
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_010_GetPropErrorNameFromEnum(struct w_steam_iface *_this, ETrackedPropertyError error)
+uint32_t __thiscall winIVRSystem_IVRSystem_010_GetStringTrackedDeviceProperty(winIVRSystem_IVRSystem_010 *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, char *pchValue, uint32_t unBufferSize, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_010_GetPropErrorNameFromEnum_params params =
-    {
-        .linux_side = _this->u_iface,
-        .error = error,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_010_GetPropErrorNameFromEnum( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_010_GetStringTrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pchValue, unBufferSize, pError);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_010_PollNextEvent(struct w_steam_iface *_this, VREvent_t *pEvent)
+const char * __thiscall winIVRSystem_IVRSystem_010_GetPropErrorNameFromEnum(winIVRSystem_IVRSystem_010 *_this, ETrackedPropertyError error)
 {
-    struct cppIVRSystem_IVRSystem_010_PollNextEvent_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pEvent = pEvent,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_010_PollNextEvent( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_010_GetPropErrorNameFromEnum(_this->linux_side, error);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_010_PollNextEventWithPose(struct w_steam_iface *_this, ETrackingUniverseOrigin eOrigin, VREvent_t *pEvent, TrackedDevicePose_t *pTrackedDevicePose)
+bool __thiscall winIVRSystem_IVRSystem_010_PollNextEvent(winIVRSystem_IVRSystem_010 *_this, VREvent_t *pEvent)
 {
-    struct cppIVRSystem_IVRSystem_010_PollNextEventWithPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eOrigin = eOrigin,
-        .pEvent = pEvent,
-        .pTrackedDevicePose = pTrackedDevicePose,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_010_PollNextEventWithPose( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_010_PollNextEvent(_this->linux_side, pEvent);
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_010_GetEventTypeNameFromEnum(struct w_steam_iface *_this, EVREventType eType)
+bool __thiscall winIVRSystem_IVRSystem_010_PollNextEventWithPose(winIVRSystem_IVRSystem_010 *_this, ETrackingUniverseOrigin eOrigin, VREvent_t *pEvent, TrackedDevicePose_t *pTrackedDevicePose)
 {
-    struct cppIVRSystem_IVRSystem_010_GetEventTypeNameFromEnum_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eType = eType,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_010_GetEventTypeNameFromEnum( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_010_PollNextEventWithPose(_this->linux_side, eOrigin, pEvent, pTrackedDevicePose);
 }
 
-HiddenAreaMesh_t * __thiscall winIVRSystem_IVRSystem_010_GetHiddenAreaMesh(struct w_steam_iface *_this, HiddenAreaMesh_t *_ret, EVREye eEye)
+const char * __thiscall winIVRSystem_IVRSystem_010_GetEventTypeNameFromEnum(winIVRSystem_IVRSystem_010 *_this, EVREventType eType)
 {
-    struct cppIVRSystem_IVRSystem_010_GetHiddenAreaMesh_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .eEye = eEye,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_010_GetHiddenAreaMesh( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_010_GetEventTypeNameFromEnum(_this->linux_side, eType);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_010_GetControllerState(struct w_steam_iface *_this, TrackedDeviceIndex_t unControllerDeviceIndex, winVRControllerState001_t_0914 *pControllerState)
+HiddenAreaMesh_t *__thiscall winIVRSystem_IVRSystem_010_GetHiddenAreaMesh(winIVRSystem_IVRSystem_010 *_this, HiddenAreaMesh_t *_r, EVREye eEye)
 {
-    struct cppIVRSystem_IVRSystem_010_GetControllerState_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unControllerDeviceIndex = unControllerDeviceIndex,
-        .pControllerState = pControllerState,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_010_GetControllerState( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_010_GetHiddenAreaMesh(_this->linux_side, eEye);
+    return _r;
 }
 
-bool __thiscall winIVRSystem_IVRSystem_010_GetControllerStateWithPose(struct w_steam_iface *_this, ETrackingUniverseOrigin eOrigin, TrackedDeviceIndex_t unControllerDeviceIndex, winVRControllerState001_t_0914 *pControllerState, TrackedDevicePose_t *pTrackedDevicePose)
+bool __thiscall winIVRSystem_IVRSystem_010_GetControllerState(winIVRSystem_IVRSystem_010 *_this, TrackedDeviceIndex_t unControllerDeviceIndex, winVRControllerState001_t_0914 *pControllerState)
 {
-    struct cppIVRSystem_IVRSystem_010_GetControllerStateWithPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eOrigin = eOrigin,
-        .unControllerDeviceIndex = unControllerDeviceIndex,
-        .pControllerState = pControllerState,
-        .pTrackedDevicePose = pTrackedDevicePose,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_010_GetControllerStateWithPose( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_010_GetControllerState(_this->linux_side, unControllerDeviceIndex, pControllerState);
 }
 
-void __thiscall winIVRSystem_IVRSystem_010_TriggerHapticPulse(struct w_steam_iface *_this, TrackedDeviceIndex_t unControllerDeviceIndex, uint32_t unAxisId, unsigned short usDurationMicroSec)
+bool __thiscall winIVRSystem_IVRSystem_010_GetControllerStateWithPose(winIVRSystem_IVRSystem_010 *_this, ETrackingUniverseOrigin eOrigin, TrackedDeviceIndex_t unControllerDeviceIndex, winVRControllerState001_t_0914 *pControllerState, TrackedDevicePose_t *pTrackedDevicePose)
 {
-    struct cppIVRSystem_IVRSystem_010_TriggerHapticPulse_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unControllerDeviceIndex = unControllerDeviceIndex,
-        .unAxisId = unAxisId,
-        .usDurationMicroSec = usDurationMicroSec,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_010_TriggerHapticPulse( &params );
+    return cppIVRSystem_IVRSystem_010_GetControllerStateWithPose(_this->linux_side, eOrigin, unControllerDeviceIndex, pControllerState, pTrackedDevicePose);
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_010_GetButtonIdNameFromEnum(struct w_steam_iface *_this, EVRButtonId eButtonId)
+void __thiscall winIVRSystem_IVRSystem_010_TriggerHapticPulse(winIVRSystem_IVRSystem_010 *_this, TrackedDeviceIndex_t unControllerDeviceIndex, uint32_t unAxisId, unsigned short usDurationMicroSec)
 {
-    struct cppIVRSystem_IVRSystem_010_GetButtonIdNameFromEnum_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eButtonId = eButtonId,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_010_GetButtonIdNameFromEnum( &params );
-    return params._ret;
+    cppIVRSystem_IVRSystem_010_TriggerHapticPulse(_this->linux_side, unControllerDeviceIndex, unAxisId, usDurationMicroSec);
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_010_GetControllerAxisTypeNameFromEnum(struct w_steam_iface *_this, EVRControllerAxisType eAxisType)
+const char * __thiscall winIVRSystem_IVRSystem_010_GetButtonIdNameFromEnum(winIVRSystem_IVRSystem_010 *_this, EVRButtonId eButtonId)
 {
-    struct cppIVRSystem_IVRSystem_010_GetControllerAxisTypeNameFromEnum_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eAxisType = eAxisType,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_010_GetControllerAxisTypeNameFromEnum( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_010_GetButtonIdNameFromEnum(_this->linux_side, eButtonId);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_010_CaptureInputFocus(struct w_steam_iface *_this)
+const char * __thiscall winIVRSystem_IVRSystem_010_GetControllerAxisTypeNameFromEnum(winIVRSystem_IVRSystem_010 *_this, EVRControllerAxisType eAxisType)
 {
-    struct cppIVRSystem_IVRSystem_010_CaptureInputFocus_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_010_CaptureInputFocus( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_010_GetControllerAxisTypeNameFromEnum(_this->linux_side, eAxisType);
 }
 
-void __thiscall winIVRSystem_IVRSystem_010_ReleaseInputFocus(struct w_steam_iface *_this)
+bool __thiscall winIVRSystem_IVRSystem_010_CaptureInputFocus(winIVRSystem_IVRSystem_010 *_this)
 {
-    struct cppIVRSystem_IVRSystem_010_ReleaseInputFocus_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_010_ReleaseInputFocus( &params );
+    return cppIVRSystem_IVRSystem_010_CaptureInputFocus(_this->linux_side);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_010_IsInputFocusCapturedByAnotherProcess(struct w_steam_iface *_this)
+void __thiscall winIVRSystem_IVRSystem_010_ReleaseInputFocus(winIVRSystem_IVRSystem_010 *_this)
 {
-    struct cppIVRSystem_IVRSystem_010_IsInputFocusCapturedByAnotherProcess_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_010_IsInputFocusCapturedByAnotherProcess( &params );
-    return params._ret;
+    cppIVRSystem_IVRSystem_010_ReleaseInputFocus(_this->linux_side);
 }
 
-uint32_t __thiscall winIVRSystem_IVRSystem_010_DriverDebugRequest(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, const char *pchRequest, char *pchResponseBuffer, uint32_t unResponseBufferSize)
+bool __thiscall winIVRSystem_IVRSystem_010_IsInputFocusCapturedByAnotherProcess(winIVRSystem_IVRSystem_010 *_this)
 {
-    struct cppIVRSystem_IVRSystem_010_DriverDebugRequest_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .pchRequest = pchRequest,
-        .pchResponseBuffer = pchResponseBuffer,
-        .unResponseBufferSize = unResponseBufferSize,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_010_DriverDebugRequest( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_010_IsInputFocusCapturedByAnotherProcess(_this->linux_side);
 }
 
-EVRFirmwareError __thiscall winIVRSystem_IVRSystem_010_PerformFirmwareUpdate(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex)
+uint32_t __thiscall winIVRSystem_IVRSystem_010_DriverDebugRequest(winIVRSystem_IVRSystem_010 *_this, TrackedDeviceIndex_t unDeviceIndex, const char *pchRequest, char *pchResponseBuffer, uint32_t unResponseBufferSize)
 {
-    struct cppIVRSystem_IVRSystem_010_PerformFirmwareUpdate_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_010_PerformFirmwareUpdate( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_010_DriverDebugRequest(_this->linux_side, unDeviceIndex, pchRequest, pchResponseBuffer, unResponseBufferSize);
 }
 
-void __thiscall winIVRSystem_IVRSystem_010_AcknowledgeQuit_Exiting(struct w_steam_iface *_this)
+EVRFirmwareError __thiscall winIVRSystem_IVRSystem_010_PerformFirmwareUpdate(winIVRSystem_IVRSystem_010 *_this, TrackedDeviceIndex_t unDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_010_AcknowledgeQuit_Exiting_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_010_AcknowledgeQuit_Exiting( &params );
+    return cppIVRSystem_IVRSystem_010_PerformFirmwareUpdate(_this->linux_side, unDeviceIndex);
 }
 
-void __thiscall winIVRSystem_IVRSystem_010_AcknowledgeQuit_UserPrompt(struct w_steam_iface *_this)
+void __thiscall winIVRSystem_IVRSystem_010_AcknowledgeQuit_Exiting(winIVRSystem_IVRSystem_010 *_this)
 {
-    struct cppIVRSystem_IVRSystem_010_AcknowledgeQuit_UserPrompt_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_010_AcknowledgeQuit_UserPrompt( &params );
+    cppIVRSystem_IVRSystem_010_AcknowledgeQuit_Exiting(_this->linux_side);
 }
 
-void __thiscall winIVRSystem_IVRSystem_010_PerformanceTestEnableCapture(struct w_steam_iface *_this, bool bEnable)
+void __thiscall winIVRSystem_IVRSystem_010_AcknowledgeQuit_UserPrompt(winIVRSystem_IVRSystem_010 *_this)
 {
-    struct cppIVRSystem_IVRSystem_010_PerformanceTestEnableCapture_params params =
-    {
-        .linux_side = _this->u_iface,
-        .bEnable = bEnable,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_010_PerformanceTestEnableCapture( &params );
+    cppIVRSystem_IVRSystem_010_AcknowledgeQuit_UserPrompt(_this->linux_side);
 }
 
-void __thiscall winIVRSystem_IVRSystem_010_PerformanceTestReportFidelityLevelChange(struct w_steam_iface *_this, int nFidelityLevel)
+void __thiscall winIVRSystem_IVRSystem_010_PerformanceTestEnableCapture(winIVRSystem_IVRSystem_010 *_this, bool bEnable)
 {
-    struct cppIVRSystem_IVRSystem_010_PerformanceTestReportFidelityLevelChange_params params =
-    {
-        .linux_side = _this->u_iface,
-        .nFidelityLevel = nFidelityLevel,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_010_PerformanceTestReportFidelityLevelChange( &params );
+    cppIVRSystem_IVRSystem_010_PerformanceTestEnableCapture(_this->linux_side, bEnable);
+}
+
+void __thiscall winIVRSystem_IVRSystem_010_PerformanceTestReportFidelityLevelChange(winIVRSystem_IVRSystem_010 *_this, int nFidelityLevel)
+{
+    TRACE("%p\n", _this);
+    cppIVRSystem_IVRSystem_010_PerformanceTestReportFidelityLevelChange(_this->linux_side, nFidelityLevel);
 }
 
 extern vtable_ptr winIVRSystem_IVRSystem_010_vtable;
@@ -4019,24 +2489,24 @@ void __asm_dummy_vtables(void) {
 }
 #endif
 
-struct w_steam_iface *create_winIVRSystem_IVRSystem_010(void *u_iface)
+winIVRSystem_IVRSystem_010 *create_winIVRSystem_IVRSystem_010(void *linux_side)
 {
-    struct w_steam_iface *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(*r));
+    winIVRSystem_IVRSystem_010 *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(winIVRSystem_IVRSystem_010));
     TRACE("-> %p\n", r);
     r->vtable = &winIVRSystem_IVRSystem_010_vtable;
-    r->u_iface = u_iface;
+    r->linux_side = linux_side;
     return r;
 }
 
-void destroy_winIVRSystem_IVRSystem_010(struct w_steam_iface *object)
+void destroy_winIVRSystem_IVRSystem_010(void *object)
 {
     TRACE("%p\n", object);
     HeapFree(GetProcessHeap(), 0, object);
 }
 
-struct w_steam_iface *create_winIVRSystem_IVRSystem_010_FnTable(void *u_iface)
+winIVRSystem_IVRSystem_010 *create_winIVRSystem_IVRSystem_010_FnTable(void *linux_side)
 {
-    struct w_steam_iface *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(*r));
+    winIVRSystem_IVRSystem_010 *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(winIVRSystem_IVRSystem_010));
     struct thunk *thunks = alloc_thunks(46);
     struct thunk **vtable = HeapAlloc(GetProcessHeap(), 0, 46 * sizeof(*vtable));
     int i;
@@ -4090,20 +2560,26 @@ struct w_steam_iface *create_winIVRSystem_IVRSystem_010_FnTable(void *u_iface)
     init_thunk(&thunks[45], r, winIVRSystem_IVRSystem_010_PerformanceTestReportFidelityLevelChange, 1, FALSE, FALSE);
     for (i = 0; i < 46; i++)
         vtable[i] = &thunks[i];
-    r->u_iface = u_iface;
+    r->linux_side = linux_side;
     r->vtable = (void *)vtable;
     return r;
 }
 
-void destroy_winIVRSystem_IVRSystem_010_FnTable(struct w_steam_iface *object)
+void destroy_winIVRSystem_IVRSystem_010_FnTable(void *object)
 {
-    TRACE("%p\n", object);
-    VirtualFree(object->vtable[0], 0, MEM_RELEASE);
-    HeapFree(GetProcessHeap(), 0, object->vtable);
-    HeapFree(GetProcessHeap(), 0, object);
+    winIVRSystem_IVRSystem_010 *win_object = object;
+    TRACE("%p\n", win_object);
+    VirtualFree(win_object->vtable[0], 0, MEM_RELEASE);
+    HeapFree(GetProcessHeap(), 0, win_object->vtable);
+    HeapFree(GetProcessHeap(), 0, win_object);
 }
 
 #include "cppIVRSystem_IVRSystem_011.h"
+
+typedef struct __winIVRSystem_IVRSystem_011 {
+    vtable_ptr *vtable;
+    void *linux_side;
+} winIVRSystem_IVRSystem_011;
 
 DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_011_GetRecommendedRenderTargetSize, 12)
 DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_011_GetProjectionMatrix, 24)
@@ -4152,578 +2628,287 @@ DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_011_AcknowledgeQuit_UserPrompt, 4
 DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_011_PerformanceTestEnableCapture, 8)
 DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_011_PerformanceTestReportFidelityLevelChange, 8)
 
-void __thiscall winIVRSystem_IVRSystem_011_GetRecommendedRenderTargetSize(struct w_steam_iface *_this, uint32_t *pnWidth, uint32_t *pnHeight)
+void __thiscall winIVRSystem_IVRSystem_011_GetRecommendedRenderTargetSize(winIVRSystem_IVRSystem_011 *_this, uint32_t *pnWidth, uint32_t *pnHeight)
 {
-    struct cppIVRSystem_IVRSystem_011_GetRecommendedRenderTargetSize_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pnWidth = pnWidth,
-        .pnHeight = pnHeight,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_011_GetRecommendedRenderTargetSize( &params );
+    cppIVRSystem_IVRSystem_011_GetRecommendedRenderTargetSize(_this->linux_side, pnWidth, pnHeight);
 }
 
-HmdMatrix44_t * __thiscall winIVRSystem_IVRSystem_011_GetProjectionMatrix(struct w_steam_iface *_this, HmdMatrix44_t *_ret, EVREye eEye, float fNearZ, float fFarZ, EGraphicsAPIConvention eProjType)
+HmdMatrix44_t *__thiscall winIVRSystem_IVRSystem_011_GetProjectionMatrix(winIVRSystem_IVRSystem_011 *_this, HmdMatrix44_t *_r, EVREye eEye, float fNearZ, float fFarZ, EGraphicsAPIConvention eProjType)
 {
-    struct cppIVRSystem_IVRSystem_011_GetProjectionMatrix_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .eEye = eEye,
-        .fNearZ = fNearZ,
-        .fFarZ = fFarZ,
-        .eProjType = eProjType,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_011_GetProjectionMatrix( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_011_GetProjectionMatrix(_this->linux_side, eEye, fNearZ, fFarZ, eProjType);
+    return _r;
 }
 
-void __thiscall winIVRSystem_IVRSystem_011_GetProjectionRaw(struct w_steam_iface *_this, EVREye eEye, float *pfLeft, float *pfRight, float *pfTop, float *pfBottom)
+void __thiscall winIVRSystem_IVRSystem_011_GetProjectionRaw(winIVRSystem_IVRSystem_011 *_this, EVREye eEye, float *pfLeft, float *pfRight, float *pfTop, float *pfBottom)
 {
-    struct cppIVRSystem_IVRSystem_011_GetProjectionRaw_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eEye = eEye,
-        .pfLeft = pfLeft,
-        .pfRight = pfRight,
-        .pfTop = pfTop,
-        .pfBottom = pfBottom,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_011_GetProjectionRaw( &params );
+    cppIVRSystem_IVRSystem_011_GetProjectionRaw(_this->linux_side, eEye, pfLeft, pfRight, pfTop, pfBottom);
 }
 
-DistortionCoordinates_t * __thiscall winIVRSystem_IVRSystem_011_ComputeDistortion(struct w_steam_iface *_this, DistortionCoordinates_t *_ret, EVREye eEye, float fU, float fV)
+DistortionCoordinates_t *__thiscall winIVRSystem_IVRSystem_011_ComputeDistortion(winIVRSystem_IVRSystem_011 *_this, DistortionCoordinates_t *_r, EVREye eEye, float fU, float fV)
 {
-    struct cppIVRSystem_IVRSystem_011_ComputeDistortion_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .eEye = eEye,
-        .fU = fU,
-        .fV = fV,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_011_ComputeDistortion( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_011_ComputeDistortion(_this->linux_side, eEye, fU, fV);
+    return _r;
 }
 
-HmdMatrix34_t * __thiscall winIVRSystem_IVRSystem_011_GetEyeToHeadTransform(struct w_steam_iface *_this, HmdMatrix34_t *_ret, EVREye eEye)
+HmdMatrix34_t *__thiscall winIVRSystem_IVRSystem_011_GetEyeToHeadTransform(winIVRSystem_IVRSystem_011 *_this, HmdMatrix34_t *_r, EVREye eEye)
 {
-    struct cppIVRSystem_IVRSystem_011_GetEyeToHeadTransform_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .eEye = eEye,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_011_GetEyeToHeadTransform( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_011_GetEyeToHeadTransform(_this->linux_side, eEye);
+    return _r;
 }
 
-bool __thiscall winIVRSystem_IVRSystem_011_GetTimeSinceLastVsync(struct w_steam_iface *_this, float *pfSecondsSinceLastVsync, uint64_t *pulFrameCounter)
+bool __thiscall winIVRSystem_IVRSystem_011_GetTimeSinceLastVsync(winIVRSystem_IVRSystem_011 *_this, float *pfSecondsSinceLastVsync, uint64_t *pulFrameCounter)
 {
-    struct cppIVRSystem_IVRSystem_011_GetTimeSinceLastVsync_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pfSecondsSinceLastVsync = pfSecondsSinceLastVsync,
-        .pulFrameCounter = pulFrameCounter,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_011_GetTimeSinceLastVsync( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_011_GetTimeSinceLastVsync(_this->linux_side, pfSecondsSinceLastVsync, pulFrameCounter);
 }
 
-int32_t __thiscall winIVRSystem_IVRSystem_011_GetD3D9AdapterIndex(struct w_steam_iface *_this)
+int32_t __thiscall winIVRSystem_IVRSystem_011_GetD3D9AdapterIndex(winIVRSystem_IVRSystem_011 *_this)
 {
-    struct cppIVRSystem_IVRSystem_011_GetD3D9AdapterIndex_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_011_GetD3D9AdapterIndex( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_011_GetD3D9AdapterIndex(_this->linux_side);
 }
 
-extern void __thiscall winIVRSystem_IVRSystem_011_GetDXGIOutputInfo(struct w_steam_iface *_this, int32_t *pnAdapterIndex);
-
-bool __thiscall winIVRSystem_IVRSystem_011_IsDisplayOnDesktop(struct w_steam_iface *_this)
+void __thiscall winIVRSystem_IVRSystem_011_GetDXGIOutputInfo(winIVRSystem_IVRSystem_011 *_this, int32_t *pnAdapterIndex)
 {
-    struct cppIVRSystem_IVRSystem_011_IsDisplayOnDesktop_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_011_IsDisplayOnDesktop( &params );
-    return params._ret;
+    get_dxgi_output_info(cppIVRSystem_IVRSystem_011_GetDXGIOutputInfo, _this->linux_side, pnAdapterIndex, 11);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_011_SetDisplayVisibility(struct w_steam_iface *_this, bool bIsVisibleOnDesktop)
+bool __thiscall winIVRSystem_IVRSystem_011_IsDisplayOnDesktop(winIVRSystem_IVRSystem_011 *_this)
 {
-    struct cppIVRSystem_IVRSystem_011_SetDisplayVisibility_params params =
-    {
-        .linux_side = _this->u_iface,
-        .bIsVisibleOnDesktop = bIsVisibleOnDesktop,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_011_SetDisplayVisibility( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_011_IsDisplayOnDesktop(_this->linux_side);
 }
 
-void __thiscall winIVRSystem_IVRSystem_011_GetDeviceToAbsoluteTrackingPose(struct w_steam_iface *_this, ETrackingUniverseOrigin eOrigin, float fPredictedSecondsToPhotonsFromNow, TrackedDevicePose_t *pTrackedDevicePoseArray, uint32_t unTrackedDevicePoseArrayCount)
+bool __thiscall winIVRSystem_IVRSystem_011_SetDisplayVisibility(winIVRSystem_IVRSystem_011 *_this, bool bIsVisibleOnDesktop)
 {
-    struct cppIVRSystem_IVRSystem_011_GetDeviceToAbsoluteTrackingPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eOrigin = eOrigin,
-        .fPredictedSecondsToPhotonsFromNow = fPredictedSecondsToPhotonsFromNow,
-        .pTrackedDevicePoseArray = pTrackedDevicePoseArray,
-        .unTrackedDevicePoseArrayCount = unTrackedDevicePoseArrayCount,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_011_GetDeviceToAbsoluteTrackingPose( &params );
+    return cppIVRSystem_IVRSystem_011_SetDisplayVisibility(_this->linux_side, bIsVisibleOnDesktop);
 }
 
-void __thiscall winIVRSystem_IVRSystem_011_ResetSeatedZeroPose(struct w_steam_iface *_this)
+void __thiscall winIVRSystem_IVRSystem_011_GetDeviceToAbsoluteTrackingPose(winIVRSystem_IVRSystem_011 *_this, ETrackingUniverseOrigin eOrigin, float fPredictedSecondsToPhotonsFromNow, TrackedDevicePose_t *pTrackedDevicePoseArray, uint32_t unTrackedDevicePoseArrayCount)
 {
-    struct cppIVRSystem_IVRSystem_011_ResetSeatedZeroPose_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_011_ResetSeatedZeroPose( &params );
+    cppIVRSystem_IVRSystem_011_GetDeviceToAbsoluteTrackingPose(_this->linux_side, eOrigin, fPredictedSecondsToPhotonsFromNow, pTrackedDevicePoseArray, unTrackedDevicePoseArrayCount);
 }
 
-HmdMatrix34_t * __thiscall winIVRSystem_IVRSystem_011_GetSeatedZeroPoseToStandingAbsoluteTrackingPose(struct w_steam_iface *_this, HmdMatrix34_t *_ret)
+void __thiscall winIVRSystem_IVRSystem_011_ResetSeatedZeroPose(winIVRSystem_IVRSystem_011 *_this)
 {
-    struct cppIVRSystem_IVRSystem_011_GetSeatedZeroPoseToStandingAbsoluteTrackingPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_011_GetSeatedZeroPoseToStandingAbsoluteTrackingPose( &params );
-    return params._ret;
+    cppIVRSystem_IVRSystem_011_ResetSeatedZeroPose(_this->linux_side);
 }
 
-HmdMatrix34_t * __thiscall winIVRSystem_IVRSystem_011_GetRawZeroPoseToStandingAbsoluteTrackingPose(struct w_steam_iface *_this, HmdMatrix34_t *_ret)
+HmdMatrix34_t *__thiscall winIVRSystem_IVRSystem_011_GetSeatedZeroPoseToStandingAbsoluteTrackingPose(winIVRSystem_IVRSystem_011 *_this, HmdMatrix34_t *_r)
 {
-    struct cppIVRSystem_IVRSystem_011_GetRawZeroPoseToStandingAbsoluteTrackingPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_011_GetRawZeroPoseToStandingAbsoluteTrackingPose( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_011_GetSeatedZeroPoseToStandingAbsoluteTrackingPose(_this->linux_side);
+    return _r;
 }
 
-uint32_t __thiscall winIVRSystem_IVRSystem_011_GetSortedTrackedDeviceIndicesOfClass(struct w_steam_iface *_this, ETrackedDeviceClass eTrackedDeviceClass, TrackedDeviceIndex_t *punTrackedDeviceIndexArray, uint32_t unTrackedDeviceIndexArrayCount, TrackedDeviceIndex_t unRelativeToTrackedDeviceIndex)
+HmdMatrix34_t *__thiscall winIVRSystem_IVRSystem_011_GetRawZeroPoseToStandingAbsoluteTrackingPose(winIVRSystem_IVRSystem_011 *_this, HmdMatrix34_t *_r)
 {
-    struct cppIVRSystem_IVRSystem_011_GetSortedTrackedDeviceIndicesOfClass_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eTrackedDeviceClass = eTrackedDeviceClass,
-        .punTrackedDeviceIndexArray = punTrackedDeviceIndexArray,
-        .unTrackedDeviceIndexArrayCount = unTrackedDeviceIndexArrayCount,
-        .unRelativeToTrackedDeviceIndex = unRelativeToTrackedDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_011_GetSortedTrackedDeviceIndicesOfClass( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_011_GetRawZeroPoseToStandingAbsoluteTrackingPose(_this->linux_side);
+    return _r;
 }
 
-EDeviceActivityLevel __thiscall winIVRSystem_IVRSystem_011_GetTrackedDeviceActivityLevel(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceId)
+uint32_t __thiscall winIVRSystem_IVRSystem_011_GetSortedTrackedDeviceIndicesOfClass(winIVRSystem_IVRSystem_011 *_this, ETrackedDeviceClass eTrackedDeviceClass, TrackedDeviceIndex_t *punTrackedDeviceIndexArray, uint32_t unTrackedDeviceIndexArrayCount, TrackedDeviceIndex_t unRelativeToTrackedDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_011_GetTrackedDeviceActivityLevel_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceId = unDeviceId,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_011_GetTrackedDeviceActivityLevel( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_011_GetSortedTrackedDeviceIndicesOfClass(_this->linux_side, eTrackedDeviceClass, punTrackedDeviceIndexArray, unTrackedDeviceIndexArrayCount, unRelativeToTrackedDeviceIndex);
 }
 
-void __thiscall winIVRSystem_IVRSystem_011_ApplyTransform(struct w_steam_iface *_this, TrackedDevicePose_t *pOutputPose, const TrackedDevicePose_t *pTrackedDevicePose, const HmdMatrix34_t *pTransform)
+EDeviceActivityLevel __thiscall winIVRSystem_IVRSystem_011_GetTrackedDeviceActivityLevel(winIVRSystem_IVRSystem_011 *_this, TrackedDeviceIndex_t unDeviceId)
 {
-    struct cppIVRSystem_IVRSystem_011_ApplyTransform_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pOutputPose = pOutputPose,
-        .pTrackedDevicePose = pTrackedDevicePose,
-        .pTransform = pTransform,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_011_ApplyTransform( &params );
+    return cppIVRSystem_IVRSystem_011_GetTrackedDeviceActivityLevel(_this->linux_side, unDeviceId);
 }
 
-TrackedDeviceIndex_t __thiscall winIVRSystem_IVRSystem_011_GetTrackedDeviceIndexForControllerRole(struct w_steam_iface *_this, ETrackedControllerRole unDeviceType)
+void __thiscall winIVRSystem_IVRSystem_011_ApplyTransform(winIVRSystem_IVRSystem_011 *_this, TrackedDevicePose_t *pOutputPose, TrackedDevicePose_t *pTrackedDevicePose, HmdMatrix34_t *pTransform)
 {
-    struct cppIVRSystem_IVRSystem_011_GetTrackedDeviceIndexForControllerRole_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceType = unDeviceType,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_011_GetTrackedDeviceIndexForControllerRole( &params );
-    return params._ret;
+    cppIVRSystem_IVRSystem_011_ApplyTransform(_this->linux_side, pOutputPose, pTrackedDevicePose, pTransform);
 }
 
-ETrackedControllerRole __thiscall winIVRSystem_IVRSystem_011_GetControllerRoleForTrackedDeviceIndex(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex)
+TrackedDeviceIndex_t __thiscall winIVRSystem_IVRSystem_011_GetTrackedDeviceIndexForControllerRole(winIVRSystem_IVRSystem_011 *_this, ETrackedControllerRole unDeviceType)
 {
-    struct cppIVRSystem_IVRSystem_011_GetControllerRoleForTrackedDeviceIndex_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_011_GetControllerRoleForTrackedDeviceIndex( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_011_GetTrackedDeviceIndexForControllerRole(_this->linux_side, unDeviceType);
 }
 
-ETrackedDeviceClass __thiscall winIVRSystem_IVRSystem_011_GetTrackedDeviceClass(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex)
+ETrackedControllerRole __thiscall winIVRSystem_IVRSystem_011_GetControllerRoleForTrackedDeviceIndex(winIVRSystem_IVRSystem_011 *_this, TrackedDeviceIndex_t unDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_011_GetTrackedDeviceClass_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_011_GetTrackedDeviceClass( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_011_GetControllerRoleForTrackedDeviceIndex(_this->linux_side, unDeviceIndex);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_011_IsTrackedDeviceConnected(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex)
+ETrackedDeviceClass __thiscall winIVRSystem_IVRSystem_011_GetTrackedDeviceClass(winIVRSystem_IVRSystem_011 *_this, TrackedDeviceIndex_t unDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_011_IsTrackedDeviceConnected_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_011_IsTrackedDeviceConnected( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_011_GetTrackedDeviceClass(_this->linux_side, unDeviceIndex);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_011_GetBoolTrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
+bool __thiscall winIVRSystem_IVRSystem_011_IsTrackedDeviceConnected(winIVRSystem_IVRSystem_011 *_this, TrackedDeviceIndex_t unDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_011_GetBoolTrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_011_GetBoolTrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_011_IsTrackedDeviceConnected(_this->linux_side, unDeviceIndex);
 }
 
-float __thiscall winIVRSystem_IVRSystem_011_GetFloatTrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
+bool __thiscall winIVRSystem_IVRSystem_011_GetBoolTrackedDeviceProperty(winIVRSystem_IVRSystem_011 *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_011_GetFloatTrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_011_GetFloatTrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_011_GetBoolTrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
 }
 
-int32_t __thiscall winIVRSystem_IVRSystem_011_GetInt32TrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
+float __thiscall winIVRSystem_IVRSystem_011_GetFloatTrackedDeviceProperty(winIVRSystem_IVRSystem_011 *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_011_GetInt32TrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_011_GetInt32TrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_011_GetFloatTrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
 }
 
-uint64_t __thiscall winIVRSystem_IVRSystem_011_GetUint64TrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
+int32_t __thiscall winIVRSystem_IVRSystem_011_GetInt32TrackedDeviceProperty(winIVRSystem_IVRSystem_011 *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_011_GetUint64TrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_011_GetUint64TrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_011_GetInt32TrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
 }
 
-HmdMatrix34_t * __thiscall winIVRSystem_IVRSystem_011_GetMatrix34TrackedDeviceProperty(struct w_steam_iface *_this, HmdMatrix34_t *_ret, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
+uint64_t __thiscall winIVRSystem_IVRSystem_011_GetUint64TrackedDeviceProperty(winIVRSystem_IVRSystem_011 *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_011_GetMatrix34TrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_011_GetMatrix34TrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_011_GetUint64TrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
 }
 
-uint32_t __thiscall winIVRSystem_IVRSystem_011_GetStringTrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, char *pchValue, uint32_t unBufferSize, ETrackedPropertyError *pError)
+HmdMatrix34_t *__thiscall winIVRSystem_IVRSystem_011_GetMatrix34TrackedDeviceProperty(winIVRSystem_IVRSystem_011 *_this, HmdMatrix34_t *_r, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_011_GetStringTrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pchValue = pchValue,
-        .unBufferSize = unBufferSize,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_011_GetStringTrackedDeviceProperty( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_011_GetMatrix34TrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
+    return _r;
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_011_GetPropErrorNameFromEnum(struct w_steam_iface *_this, ETrackedPropertyError error)
+uint32_t __thiscall winIVRSystem_IVRSystem_011_GetStringTrackedDeviceProperty(winIVRSystem_IVRSystem_011 *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, char *pchValue, uint32_t unBufferSize, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_011_GetPropErrorNameFromEnum_params params =
-    {
-        .linux_side = _this->u_iface,
-        .error = error,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_011_GetPropErrorNameFromEnum( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_011_GetStringTrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pchValue, unBufferSize, pError);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_011_PollNextEvent(struct w_steam_iface *_this, winVREvent_t_0918 *pEvent, uint32_t uncbVREvent)
+const char * __thiscall winIVRSystem_IVRSystem_011_GetPropErrorNameFromEnum(winIVRSystem_IVRSystem_011 *_this, ETrackedPropertyError error)
 {
-    struct cppIVRSystem_IVRSystem_011_PollNextEvent_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pEvent = pEvent,
-        .uncbVREvent = uncbVREvent,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_011_PollNextEvent( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_011_GetPropErrorNameFromEnum(_this->linux_side, error);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_011_PollNextEventWithPose(struct w_steam_iface *_this, ETrackingUniverseOrigin eOrigin, winVREvent_t_0918 *pEvent, uint32_t uncbVREvent, TrackedDevicePose_t *pTrackedDevicePose)
+bool __thiscall winIVRSystem_IVRSystem_011_PollNextEvent(winIVRSystem_IVRSystem_011 *_this, winVREvent_t_0918 *pEvent, uint32_t uncbVREvent)
 {
-    struct cppIVRSystem_IVRSystem_011_PollNextEventWithPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eOrigin = eOrigin,
-        .pEvent = pEvent,
-        .uncbVREvent = uncbVREvent,
-        .pTrackedDevicePose = pTrackedDevicePose,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_011_PollNextEventWithPose( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_011_PollNextEvent(_this->linux_side, pEvent, uncbVREvent);
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_011_GetEventTypeNameFromEnum(struct w_steam_iface *_this, EVREventType eType)
+bool __thiscall winIVRSystem_IVRSystem_011_PollNextEventWithPose(winIVRSystem_IVRSystem_011 *_this, ETrackingUniverseOrigin eOrigin, winVREvent_t_0918 *pEvent, uint32_t uncbVREvent, TrackedDevicePose_t *pTrackedDevicePose)
 {
-    struct cppIVRSystem_IVRSystem_011_GetEventTypeNameFromEnum_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eType = eType,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_011_GetEventTypeNameFromEnum( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_011_PollNextEventWithPose(_this->linux_side, eOrigin, pEvent, uncbVREvent, pTrackedDevicePose);
 }
 
-HiddenAreaMesh_t * __thiscall winIVRSystem_IVRSystem_011_GetHiddenAreaMesh(struct w_steam_iface *_this, HiddenAreaMesh_t *_ret, EVREye eEye)
+const char * __thiscall winIVRSystem_IVRSystem_011_GetEventTypeNameFromEnum(winIVRSystem_IVRSystem_011 *_this, EVREventType eType)
 {
-    struct cppIVRSystem_IVRSystem_011_GetHiddenAreaMesh_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .eEye = eEye,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_011_GetHiddenAreaMesh( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_011_GetEventTypeNameFromEnum(_this->linux_side, eType);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_011_GetControllerState(struct w_steam_iface *_this, TrackedDeviceIndex_t unControllerDeviceIndex, winVRControllerState001_t_0918 *pControllerState)
+HiddenAreaMesh_t *__thiscall winIVRSystem_IVRSystem_011_GetHiddenAreaMesh(winIVRSystem_IVRSystem_011 *_this, HiddenAreaMesh_t *_r, EVREye eEye)
 {
-    struct cppIVRSystem_IVRSystem_011_GetControllerState_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unControllerDeviceIndex = unControllerDeviceIndex,
-        .pControllerState = pControllerState,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_011_GetControllerState( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_011_GetHiddenAreaMesh(_this->linux_side, eEye);
+    return _r;
 }
 
-bool __thiscall winIVRSystem_IVRSystem_011_GetControllerStateWithPose(struct w_steam_iface *_this, ETrackingUniverseOrigin eOrigin, TrackedDeviceIndex_t unControllerDeviceIndex, winVRControllerState001_t_0918 *pControllerState, TrackedDevicePose_t *pTrackedDevicePose)
+bool __thiscall winIVRSystem_IVRSystem_011_GetControllerState(winIVRSystem_IVRSystem_011 *_this, TrackedDeviceIndex_t unControllerDeviceIndex, winVRControllerState001_t_0918 *pControllerState)
 {
-    struct cppIVRSystem_IVRSystem_011_GetControllerStateWithPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eOrigin = eOrigin,
-        .unControllerDeviceIndex = unControllerDeviceIndex,
-        .pControllerState = pControllerState,
-        .pTrackedDevicePose = pTrackedDevicePose,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_011_GetControllerStateWithPose( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_011_GetControllerState(_this->linux_side, unControllerDeviceIndex, pControllerState);
 }
 
-void __thiscall winIVRSystem_IVRSystem_011_TriggerHapticPulse(struct w_steam_iface *_this, TrackedDeviceIndex_t unControllerDeviceIndex, uint32_t unAxisId, unsigned short usDurationMicroSec)
+bool __thiscall winIVRSystem_IVRSystem_011_GetControllerStateWithPose(winIVRSystem_IVRSystem_011 *_this, ETrackingUniverseOrigin eOrigin, TrackedDeviceIndex_t unControllerDeviceIndex, winVRControllerState001_t_0918 *pControllerState, TrackedDevicePose_t *pTrackedDevicePose)
 {
-    struct cppIVRSystem_IVRSystem_011_TriggerHapticPulse_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unControllerDeviceIndex = unControllerDeviceIndex,
-        .unAxisId = unAxisId,
-        .usDurationMicroSec = usDurationMicroSec,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_011_TriggerHapticPulse( &params );
+    return cppIVRSystem_IVRSystem_011_GetControllerStateWithPose(_this->linux_side, eOrigin, unControllerDeviceIndex, pControllerState, pTrackedDevicePose);
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_011_GetButtonIdNameFromEnum(struct w_steam_iface *_this, EVRButtonId eButtonId)
+void __thiscall winIVRSystem_IVRSystem_011_TriggerHapticPulse(winIVRSystem_IVRSystem_011 *_this, TrackedDeviceIndex_t unControllerDeviceIndex, uint32_t unAxisId, unsigned short usDurationMicroSec)
 {
-    struct cppIVRSystem_IVRSystem_011_GetButtonIdNameFromEnum_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eButtonId = eButtonId,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_011_GetButtonIdNameFromEnum( &params );
-    return params._ret;
+    cppIVRSystem_IVRSystem_011_TriggerHapticPulse(_this->linux_side, unControllerDeviceIndex, unAxisId, usDurationMicroSec);
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_011_GetControllerAxisTypeNameFromEnum(struct w_steam_iface *_this, EVRControllerAxisType eAxisType)
+const char * __thiscall winIVRSystem_IVRSystem_011_GetButtonIdNameFromEnum(winIVRSystem_IVRSystem_011 *_this, EVRButtonId eButtonId)
 {
-    struct cppIVRSystem_IVRSystem_011_GetControllerAxisTypeNameFromEnum_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eAxisType = eAxisType,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_011_GetControllerAxisTypeNameFromEnum( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_011_GetButtonIdNameFromEnum(_this->linux_side, eButtonId);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_011_CaptureInputFocus(struct w_steam_iface *_this)
+const char * __thiscall winIVRSystem_IVRSystem_011_GetControllerAxisTypeNameFromEnum(winIVRSystem_IVRSystem_011 *_this, EVRControllerAxisType eAxisType)
 {
-    struct cppIVRSystem_IVRSystem_011_CaptureInputFocus_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_011_CaptureInputFocus( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_011_GetControllerAxisTypeNameFromEnum(_this->linux_side, eAxisType);
 }
 
-void __thiscall winIVRSystem_IVRSystem_011_ReleaseInputFocus(struct w_steam_iface *_this)
+bool __thiscall winIVRSystem_IVRSystem_011_CaptureInputFocus(winIVRSystem_IVRSystem_011 *_this)
 {
-    struct cppIVRSystem_IVRSystem_011_ReleaseInputFocus_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_011_ReleaseInputFocus( &params );
+    return cppIVRSystem_IVRSystem_011_CaptureInputFocus(_this->linux_side);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_011_IsInputFocusCapturedByAnotherProcess(struct w_steam_iface *_this)
+void __thiscall winIVRSystem_IVRSystem_011_ReleaseInputFocus(winIVRSystem_IVRSystem_011 *_this)
 {
-    struct cppIVRSystem_IVRSystem_011_IsInputFocusCapturedByAnotherProcess_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_011_IsInputFocusCapturedByAnotherProcess( &params );
-    return params._ret;
+    cppIVRSystem_IVRSystem_011_ReleaseInputFocus(_this->linux_side);
 }
 
-uint32_t __thiscall winIVRSystem_IVRSystem_011_DriverDebugRequest(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, const char *pchRequest, char *pchResponseBuffer, uint32_t unResponseBufferSize)
+bool __thiscall winIVRSystem_IVRSystem_011_IsInputFocusCapturedByAnotherProcess(winIVRSystem_IVRSystem_011 *_this)
 {
-    struct cppIVRSystem_IVRSystem_011_DriverDebugRequest_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .pchRequest = pchRequest,
-        .pchResponseBuffer = pchResponseBuffer,
-        .unResponseBufferSize = unResponseBufferSize,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_011_DriverDebugRequest( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_011_IsInputFocusCapturedByAnotherProcess(_this->linux_side);
 }
 
-EVRFirmwareError __thiscall winIVRSystem_IVRSystem_011_PerformFirmwareUpdate(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex)
+uint32_t __thiscall winIVRSystem_IVRSystem_011_DriverDebugRequest(winIVRSystem_IVRSystem_011 *_this, TrackedDeviceIndex_t unDeviceIndex, const char *pchRequest, char *pchResponseBuffer, uint32_t unResponseBufferSize)
 {
-    struct cppIVRSystem_IVRSystem_011_PerformFirmwareUpdate_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_011_PerformFirmwareUpdate( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_011_DriverDebugRequest(_this->linux_side, unDeviceIndex, pchRequest, pchResponseBuffer, unResponseBufferSize);
 }
 
-void __thiscall winIVRSystem_IVRSystem_011_AcknowledgeQuit_Exiting(struct w_steam_iface *_this)
+EVRFirmwareError __thiscall winIVRSystem_IVRSystem_011_PerformFirmwareUpdate(winIVRSystem_IVRSystem_011 *_this, TrackedDeviceIndex_t unDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_011_AcknowledgeQuit_Exiting_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_011_AcknowledgeQuit_Exiting( &params );
+    return cppIVRSystem_IVRSystem_011_PerformFirmwareUpdate(_this->linux_side, unDeviceIndex);
 }
 
-void __thiscall winIVRSystem_IVRSystem_011_AcknowledgeQuit_UserPrompt(struct w_steam_iface *_this)
+void __thiscall winIVRSystem_IVRSystem_011_AcknowledgeQuit_Exiting(winIVRSystem_IVRSystem_011 *_this)
 {
-    struct cppIVRSystem_IVRSystem_011_AcknowledgeQuit_UserPrompt_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_011_AcknowledgeQuit_UserPrompt( &params );
+    cppIVRSystem_IVRSystem_011_AcknowledgeQuit_Exiting(_this->linux_side);
 }
 
-void __thiscall winIVRSystem_IVRSystem_011_PerformanceTestEnableCapture(struct w_steam_iface *_this, bool bEnable)
+void __thiscall winIVRSystem_IVRSystem_011_AcknowledgeQuit_UserPrompt(winIVRSystem_IVRSystem_011 *_this)
 {
-    struct cppIVRSystem_IVRSystem_011_PerformanceTestEnableCapture_params params =
-    {
-        .linux_side = _this->u_iface,
-        .bEnable = bEnable,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_011_PerformanceTestEnableCapture( &params );
+    cppIVRSystem_IVRSystem_011_AcknowledgeQuit_UserPrompt(_this->linux_side);
 }
 
-void __thiscall winIVRSystem_IVRSystem_011_PerformanceTestReportFidelityLevelChange(struct w_steam_iface *_this, int nFidelityLevel)
+void __thiscall winIVRSystem_IVRSystem_011_PerformanceTestEnableCapture(winIVRSystem_IVRSystem_011 *_this, bool bEnable)
 {
-    struct cppIVRSystem_IVRSystem_011_PerformanceTestReportFidelityLevelChange_params params =
-    {
-        .linux_side = _this->u_iface,
-        .nFidelityLevel = nFidelityLevel,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_011_PerformanceTestReportFidelityLevelChange( &params );
+    cppIVRSystem_IVRSystem_011_PerformanceTestEnableCapture(_this->linux_side, bEnable);
+}
+
+void __thiscall winIVRSystem_IVRSystem_011_PerformanceTestReportFidelityLevelChange(winIVRSystem_IVRSystem_011 *_this, int nFidelityLevel)
+{
+    TRACE("%p\n", _this);
+    cppIVRSystem_IVRSystem_011_PerformanceTestReportFidelityLevelChange(_this->linux_side, nFidelityLevel);
 }
 
 extern vtable_ptr winIVRSystem_IVRSystem_011_vtable;
@@ -4783,24 +2968,24 @@ void __asm_dummy_vtables(void) {
 }
 #endif
 
-struct w_steam_iface *create_winIVRSystem_IVRSystem_011(void *u_iface)
+winIVRSystem_IVRSystem_011 *create_winIVRSystem_IVRSystem_011(void *linux_side)
 {
-    struct w_steam_iface *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(*r));
+    winIVRSystem_IVRSystem_011 *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(winIVRSystem_IVRSystem_011));
     TRACE("-> %p\n", r);
     r->vtable = &winIVRSystem_IVRSystem_011_vtable;
-    r->u_iface = u_iface;
+    r->linux_side = linux_side;
     return r;
 }
 
-void destroy_winIVRSystem_IVRSystem_011(struct w_steam_iface *object)
+void destroy_winIVRSystem_IVRSystem_011(void *object)
 {
     TRACE("%p\n", object);
     HeapFree(GetProcessHeap(), 0, object);
 }
 
-struct w_steam_iface *create_winIVRSystem_IVRSystem_011_FnTable(void *u_iface)
+winIVRSystem_IVRSystem_011 *create_winIVRSystem_IVRSystem_011_FnTable(void *linux_side)
 {
-    struct w_steam_iface *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(*r));
+    winIVRSystem_IVRSystem_011 *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(winIVRSystem_IVRSystem_011));
     struct thunk *thunks = alloc_thunks(46);
     struct thunk **vtable = HeapAlloc(GetProcessHeap(), 0, 46 * sizeof(*vtable));
     int i;
@@ -4854,20 +3039,26 @@ struct w_steam_iface *create_winIVRSystem_IVRSystem_011_FnTable(void *u_iface)
     init_thunk(&thunks[45], r, winIVRSystem_IVRSystem_011_PerformanceTestReportFidelityLevelChange, 1, FALSE, FALSE);
     for (i = 0; i < 46; i++)
         vtable[i] = &thunks[i];
-    r->u_iface = u_iface;
+    r->linux_side = linux_side;
     r->vtable = (void *)vtable;
     return r;
 }
 
-void destroy_winIVRSystem_IVRSystem_011_FnTable(struct w_steam_iface *object)
+void destroy_winIVRSystem_IVRSystem_011_FnTable(void *object)
 {
-    TRACE("%p\n", object);
-    VirtualFree(object->vtable[0], 0, MEM_RELEASE);
-    HeapFree(GetProcessHeap(), 0, object->vtable);
-    HeapFree(GetProcessHeap(), 0, object);
+    winIVRSystem_IVRSystem_011 *win_object = object;
+    TRACE("%p\n", win_object);
+    VirtualFree(win_object->vtable[0], 0, MEM_RELEASE);
+    HeapFree(GetProcessHeap(), 0, win_object->vtable);
+    HeapFree(GetProcessHeap(), 0, win_object);
 }
 
 #include "cppIVRSystem_IVRSystem_012.h"
+
+typedef struct __winIVRSystem_IVRSystem_012 {
+    vtable_ptr *vtable;
+    void *linux_side;
+} winIVRSystem_IVRSystem_012;
 
 DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_012_GetRecommendedRenderTargetSize, 12)
 DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_012_GetProjectionMatrix, 24)
@@ -4914,556 +3105,275 @@ DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_012_PerformFirmwareUpdate, 8)
 DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_012_AcknowledgeQuit_Exiting, 4)
 DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_012_AcknowledgeQuit_UserPrompt, 4)
 
-void __thiscall winIVRSystem_IVRSystem_012_GetRecommendedRenderTargetSize(struct w_steam_iface *_this, uint32_t *pnWidth, uint32_t *pnHeight)
+void __thiscall winIVRSystem_IVRSystem_012_GetRecommendedRenderTargetSize(winIVRSystem_IVRSystem_012 *_this, uint32_t *pnWidth, uint32_t *pnHeight)
 {
-    struct cppIVRSystem_IVRSystem_012_GetRecommendedRenderTargetSize_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pnWidth = pnWidth,
-        .pnHeight = pnHeight,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_012_GetRecommendedRenderTargetSize( &params );
+    cppIVRSystem_IVRSystem_012_GetRecommendedRenderTargetSize(_this->linux_side, pnWidth, pnHeight);
 }
 
-HmdMatrix44_t * __thiscall winIVRSystem_IVRSystem_012_GetProjectionMatrix(struct w_steam_iface *_this, HmdMatrix44_t *_ret, EVREye eEye, float fNearZ, float fFarZ, EGraphicsAPIConvention eProjType)
+HmdMatrix44_t *__thiscall winIVRSystem_IVRSystem_012_GetProjectionMatrix(winIVRSystem_IVRSystem_012 *_this, HmdMatrix44_t *_r, EVREye eEye, float fNearZ, float fFarZ, EGraphicsAPIConvention eProjType)
 {
-    struct cppIVRSystem_IVRSystem_012_GetProjectionMatrix_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .eEye = eEye,
-        .fNearZ = fNearZ,
-        .fFarZ = fFarZ,
-        .eProjType = eProjType,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_012_GetProjectionMatrix( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_012_GetProjectionMatrix(_this->linux_side, eEye, fNearZ, fFarZ, eProjType);
+    return _r;
 }
 
-void __thiscall winIVRSystem_IVRSystem_012_GetProjectionRaw(struct w_steam_iface *_this, EVREye eEye, float *pfLeft, float *pfRight, float *pfTop, float *pfBottom)
+void __thiscall winIVRSystem_IVRSystem_012_GetProjectionRaw(winIVRSystem_IVRSystem_012 *_this, EVREye eEye, float *pfLeft, float *pfRight, float *pfTop, float *pfBottom)
 {
-    struct cppIVRSystem_IVRSystem_012_GetProjectionRaw_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eEye = eEye,
-        .pfLeft = pfLeft,
-        .pfRight = pfRight,
-        .pfTop = pfTop,
-        .pfBottom = pfBottom,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_012_GetProjectionRaw( &params );
+    cppIVRSystem_IVRSystem_012_GetProjectionRaw(_this->linux_side, eEye, pfLeft, pfRight, pfTop, pfBottom);
 }
 
-DistortionCoordinates_t * __thiscall winIVRSystem_IVRSystem_012_ComputeDistortion(struct w_steam_iface *_this, DistortionCoordinates_t *_ret, EVREye eEye, float fU, float fV)
+DistortionCoordinates_t *__thiscall winIVRSystem_IVRSystem_012_ComputeDistortion(winIVRSystem_IVRSystem_012 *_this, DistortionCoordinates_t *_r, EVREye eEye, float fU, float fV)
 {
-    struct cppIVRSystem_IVRSystem_012_ComputeDistortion_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .eEye = eEye,
-        .fU = fU,
-        .fV = fV,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_012_ComputeDistortion( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_012_ComputeDistortion(_this->linux_side, eEye, fU, fV);
+    return _r;
 }
 
-HmdMatrix34_t * __thiscall winIVRSystem_IVRSystem_012_GetEyeToHeadTransform(struct w_steam_iface *_this, HmdMatrix34_t *_ret, EVREye eEye)
+HmdMatrix34_t *__thiscall winIVRSystem_IVRSystem_012_GetEyeToHeadTransform(winIVRSystem_IVRSystem_012 *_this, HmdMatrix34_t *_r, EVREye eEye)
 {
-    struct cppIVRSystem_IVRSystem_012_GetEyeToHeadTransform_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .eEye = eEye,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_012_GetEyeToHeadTransform( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_012_GetEyeToHeadTransform(_this->linux_side, eEye);
+    return _r;
 }
 
-bool __thiscall winIVRSystem_IVRSystem_012_GetTimeSinceLastVsync(struct w_steam_iface *_this, float *pfSecondsSinceLastVsync, uint64_t *pulFrameCounter)
+bool __thiscall winIVRSystem_IVRSystem_012_GetTimeSinceLastVsync(winIVRSystem_IVRSystem_012 *_this, float *pfSecondsSinceLastVsync, uint64_t *pulFrameCounter)
 {
-    struct cppIVRSystem_IVRSystem_012_GetTimeSinceLastVsync_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pfSecondsSinceLastVsync = pfSecondsSinceLastVsync,
-        .pulFrameCounter = pulFrameCounter,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_012_GetTimeSinceLastVsync( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_012_GetTimeSinceLastVsync(_this->linux_side, pfSecondsSinceLastVsync, pulFrameCounter);
 }
 
-int32_t __thiscall winIVRSystem_IVRSystem_012_GetD3D9AdapterIndex(struct w_steam_iface *_this)
+int32_t __thiscall winIVRSystem_IVRSystem_012_GetD3D9AdapterIndex(winIVRSystem_IVRSystem_012 *_this)
 {
-    struct cppIVRSystem_IVRSystem_012_GetD3D9AdapterIndex_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_012_GetD3D9AdapterIndex( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_012_GetD3D9AdapterIndex(_this->linux_side);
 }
 
-extern void __thiscall winIVRSystem_IVRSystem_012_GetDXGIOutputInfo(struct w_steam_iface *_this, int32_t *pnAdapterIndex);
-
-bool __thiscall winIVRSystem_IVRSystem_012_IsDisplayOnDesktop(struct w_steam_iface *_this)
+void __thiscall winIVRSystem_IVRSystem_012_GetDXGIOutputInfo(winIVRSystem_IVRSystem_012 *_this, int32_t *pnAdapterIndex)
 {
-    struct cppIVRSystem_IVRSystem_012_IsDisplayOnDesktop_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_012_IsDisplayOnDesktop( &params );
-    return params._ret;
+    get_dxgi_output_info(cppIVRSystem_IVRSystem_012_GetDXGIOutputInfo, _this->linux_side, pnAdapterIndex, 12);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_012_SetDisplayVisibility(struct w_steam_iface *_this, bool bIsVisibleOnDesktop)
+bool __thiscall winIVRSystem_IVRSystem_012_IsDisplayOnDesktop(winIVRSystem_IVRSystem_012 *_this)
 {
-    struct cppIVRSystem_IVRSystem_012_SetDisplayVisibility_params params =
-    {
-        .linux_side = _this->u_iface,
-        .bIsVisibleOnDesktop = bIsVisibleOnDesktop,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_012_SetDisplayVisibility( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_012_IsDisplayOnDesktop(_this->linux_side);
 }
 
-void __thiscall winIVRSystem_IVRSystem_012_GetDeviceToAbsoluteTrackingPose(struct w_steam_iface *_this, ETrackingUniverseOrigin eOrigin, float fPredictedSecondsToPhotonsFromNow, TrackedDevicePose_t *pTrackedDevicePoseArray, uint32_t unTrackedDevicePoseArrayCount)
+bool __thiscall winIVRSystem_IVRSystem_012_SetDisplayVisibility(winIVRSystem_IVRSystem_012 *_this, bool bIsVisibleOnDesktop)
 {
-    struct cppIVRSystem_IVRSystem_012_GetDeviceToAbsoluteTrackingPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eOrigin = eOrigin,
-        .fPredictedSecondsToPhotonsFromNow = fPredictedSecondsToPhotonsFromNow,
-        .pTrackedDevicePoseArray = pTrackedDevicePoseArray,
-        .unTrackedDevicePoseArrayCount = unTrackedDevicePoseArrayCount,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_012_GetDeviceToAbsoluteTrackingPose( &params );
+    return cppIVRSystem_IVRSystem_012_SetDisplayVisibility(_this->linux_side, bIsVisibleOnDesktop);
 }
 
-void __thiscall winIVRSystem_IVRSystem_012_ResetSeatedZeroPose(struct w_steam_iface *_this)
+void __thiscall winIVRSystem_IVRSystem_012_GetDeviceToAbsoluteTrackingPose(winIVRSystem_IVRSystem_012 *_this, ETrackingUniverseOrigin eOrigin, float fPredictedSecondsToPhotonsFromNow, TrackedDevicePose_t *pTrackedDevicePoseArray, uint32_t unTrackedDevicePoseArrayCount)
 {
-    struct cppIVRSystem_IVRSystem_012_ResetSeatedZeroPose_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_012_ResetSeatedZeroPose( &params );
+    cppIVRSystem_IVRSystem_012_GetDeviceToAbsoluteTrackingPose(_this->linux_side, eOrigin, fPredictedSecondsToPhotonsFromNow, pTrackedDevicePoseArray, unTrackedDevicePoseArrayCount);
 }
 
-HmdMatrix34_t * __thiscall winIVRSystem_IVRSystem_012_GetSeatedZeroPoseToStandingAbsoluteTrackingPose(struct w_steam_iface *_this, HmdMatrix34_t *_ret)
+void __thiscall winIVRSystem_IVRSystem_012_ResetSeatedZeroPose(winIVRSystem_IVRSystem_012 *_this)
 {
-    struct cppIVRSystem_IVRSystem_012_GetSeatedZeroPoseToStandingAbsoluteTrackingPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_012_GetSeatedZeroPoseToStandingAbsoluteTrackingPose( &params );
-    return params._ret;
+    cppIVRSystem_IVRSystem_012_ResetSeatedZeroPose(_this->linux_side);
 }
 
-HmdMatrix34_t * __thiscall winIVRSystem_IVRSystem_012_GetRawZeroPoseToStandingAbsoluteTrackingPose(struct w_steam_iface *_this, HmdMatrix34_t *_ret)
+HmdMatrix34_t *__thiscall winIVRSystem_IVRSystem_012_GetSeatedZeroPoseToStandingAbsoluteTrackingPose(winIVRSystem_IVRSystem_012 *_this, HmdMatrix34_t *_r)
 {
-    struct cppIVRSystem_IVRSystem_012_GetRawZeroPoseToStandingAbsoluteTrackingPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_012_GetRawZeroPoseToStandingAbsoluteTrackingPose( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_012_GetSeatedZeroPoseToStandingAbsoluteTrackingPose(_this->linux_side);
+    return _r;
 }
 
-uint32_t __thiscall winIVRSystem_IVRSystem_012_GetSortedTrackedDeviceIndicesOfClass(struct w_steam_iface *_this, ETrackedDeviceClass eTrackedDeviceClass, TrackedDeviceIndex_t *punTrackedDeviceIndexArray, uint32_t unTrackedDeviceIndexArrayCount, TrackedDeviceIndex_t unRelativeToTrackedDeviceIndex)
+HmdMatrix34_t *__thiscall winIVRSystem_IVRSystem_012_GetRawZeroPoseToStandingAbsoluteTrackingPose(winIVRSystem_IVRSystem_012 *_this, HmdMatrix34_t *_r)
 {
-    struct cppIVRSystem_IVRSystem_012_GetSortedTrackedDeviceIndicesOfClass_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eTrackedDeviceClass = eTrackedDeviceClass,
-        .punTrackedDeviceIndexArray = punTrackedDeviceIndexArray,
-        .unTrackedDeviceIndexArrayCount = unTrackedDeviceIndexArrayCount,
-        .unRelativeToTrackedDeviceIndex = unRelativeToTrackedDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_012_GetSortedTrackedDeviceIndicesOfClass( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_012_GetRawZeroPoseToStandingAbsoluteTrackingPose(_this->linux_side);
+    return _r;
 }
 
-EDeviceActivityLevel __thiscall winIVRSystem_IVRSystem_012_GetTrackedDeviceActivityLevel(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceId)
+uint32_t __thiscall winIVRSystem_IVRSystem_012_GetSortedTrackedDeviceIndicesOfClass(winIVRSystem_IVRSystem_012 *_this, ETrackedDeviceClass eTrackedDeviceClass, TrackedDeviceIndex_t *punTrackedDeviceIndexArray, uint32_t unTrackedDeviceIndexArrayCount, TrackedDeviceIndex_t unRelativeToTrackedDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_012_GetTrackedDeviceActivityLevel_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceId = unDeviceId,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_012_GetTrackedDeviceActivityLevel( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_012_GetSortedTrackedDeviceIndicesOfClass(_this->linux_side, eTrackedDeviceClass, punTrackedDeviceIndexArray, unTrackedDeviceIndexArrayCount, unRelativeToTrackedDeviceIndex);
 }
 
-void __thiscall winIVRSystem_IVRSystem_012_ApplyTransform(struct w_steam_iface *_this, TrackedDevicePose_t *pOutputPose, const TrackedDevicePose_t *pTrackedDevicePose, const HmdMatrix34_t *pTransform)
+EDeviceActivityLevel __thiscall winIVRSystem_IVRSystem_012_GetTrackedDeviceActivityLevel(winIVRSystem_IVRSystem_012 *_this, TrackedDeviceIndex_t unDeviceId)
 {
-    struct cppIVRSystem_IVRSystem_012_ApplyTransform_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pOutputPose = pOutputPose,
-        .pTrackedDevicePose = pTrackedDevicePose,
-        .pTransform = pTransform,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_012_ApplyTransform( &params );
+    return cppIVRSystem_IVRSystem_012_GetTrackedDeviceActivityLevel(_this->linux_side, unDeviceId);
 }
 
-TrackedDeviceIndex_t __thiscall winIVRSystem_IVRSystem_012_GetTrackedDeviceIndexForControllerRole(struct w_steam_iface *_this, ETrackedControllerRole unDeviceType)
+void __thiscall winIVRSystem_IVRSystem_012_ApplyTransform(winIVRSystem_IVRSystem_012 *_this, TrackedDevicePose_t *pOutputPose, TrackedDevicePose_t *pTrackedDevicePose, HmdMatrix34_t *pTransform)
 {
-    struct cppIVRSystem_IVRSystem_012_GetTrackedDeviceIndexForControllerRole_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceType = unDeviceType,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_012_GetTrackedDeviceIndexForControllerRole( &params );
-    return params._ret;
+    cppIVRSystem_IVRSystem_012_ApplyTransform(_this->linux_side, pOutputPose, pTrackedDevicePose, pTransform);
 }
 
-ETrackedControllerRole __thiscall winIVRSystem_IVRSystem_012_GetControllerRoleForTrackedDeviceIndex(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex)
+TrackedDeviceIndex_t __thiscall winIVRSystem_IVRSystem_012_GetTrackedDeviceIndexForControllerRole(winIVRSystem_IVRSystem_012 *_this, ETrackedControllerRole unDeviceType)
 {
-    struct cppIVRSystem_IVRSystem_012_GetControllerRoleForTrackedDeviceIndex_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_012_GetControllerRoleForTrackedDeviceIndex( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_012_GetTrackedDeviceIndexForControllerRole(_this->linux_side, unDeviceType);
 }
 
-ETrackedDeviceClass __thiscall winIVRSystem_IVRSystem_012_GetTrackedDeviceClass(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex)
+ETrackedControllerRole __thiscall winIVRSystem_IVRSystem_012_GetControllerRoleForTrackedDeviceIndex(winIVRSystem_IVRSystem_012 *_this, TrackedDeviceIndex_t unDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_012_GetTrackedDeviceClass_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_012_GetTrackedDeviceClass( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_012_GetControllerRoleForTrackedDeviceIndex(_this->linux_side, unDeviceIndex);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_012_IsTrackedDeviceConnected(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex)
+ETrackedDeviceClass __thiscall winIVRSystem_IVRSystem_012_GetTrackedDeviceClass(winIVRSystem_IVRSystem_012 *_this, TrackedDeviceIndex_t unDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_012_IsTrackedDeviceConnected_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_012_IsTrackedDeviceConnected( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_012_GetTrackedDeviceClass(_this->linux_side, unDeviceIndex);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_012_GetBoolTrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
+bool __thiscall winIVRSystem_IVRSystem_012_IsTrackedDeviceConnected(winIVRSystem_IVRSystem_012 *_this, TrackedDeviceIndex_t unDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_012_GetBoolTrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_012_GetBoolTrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_012_IsTrackedDeviceConnected(_this->linux_side, unDeviceIndex);
 }
 
-float __thiscall winIVRSystem_IVRSystem_012_GetFloatTrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
+bool __thiscall winIVRSystem_IVRSystem_012_GetBoolTrackedDeviceProperty(winIVRSystem_IVRSystem_012 *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_012_GetFloatTrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_012_GetFloatTrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_012_GetBoolTrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
 }
 
-int32_t __thiscall winIVRSystem_IVRSystem_012_GetInt32TrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
+float __thiscall winIVRSystem_IVRSystem_012_GetFloatTrackedDeviceProperty(winIVRSystem_IVRSystem_012 *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_012_GetInt32TrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_012_GetInt32TrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_012_GetFloatTrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
 }
 
-uint64_t __thiscall winIVRSystem_IVRSystem_012_GetUint64TrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
+int32_t __thiscall winIVRSystem_IVRSystem_012_GetInt32TrackedDeviceProperty(winIVRSystem_IVRSystem_012 *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_012_GetUint64TrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_012_GetUint64TrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_012_GetInt32TrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
 }
 
-HmdMatrix34_t * __thiscall winIVRSystem_IVRSystem_012_GetMatrix34TrackedDeviceProperty(struct w_steam_iface *_this, HmdMatrix34_t *_ret, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
+uint64_t __thiscall winIVRSystem_IVRSystem_012_GetUint64TrackedDeviceProperty(winIVRSystem_IVRSystem_012 *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_012_GetMatrix34TrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_012_GetMatrix34TrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_012_GetUint64TrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
 }
 
-uint32_t __thiscall winIVRSystem_IVRSystem_012_GetStringTrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, char *pchValue, uint32_t unBufferSize, ETrackedPropertyError *pError)
+HmdMatrix34_t *__thiscall winIVRSystem_IVRSystem_012_GetMatrix34TrackedDeviceProperty(winIVRSystem_IVRSystem_012 *_this, HmdMatrix34_t *_r, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_012_GetStringTrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pchValue = pchValue,
-        .unBufferSize = unBufferSize,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_012_GetStringTrackedDeviceProperty( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_012_GetMatrix34TrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
+    return _r;
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_012_GetPropErrorNameFromEnum(struct w_steam_iface *_this, ETrackedPropertyError error)
+uint32_t __thiscall winIVRSystem_IVRSystem_012_GetStringTrackedDeviceProperty(winIVRSystem_IVRSystem_012 *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, char *pchValue, uint32_t unBufferSize, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_012_GetPropErrorNameFromEnum_params params =
-    {
-        .linux_side = _this->u_iface,
-        .error = error,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_012_GetPropErrorNameFromEnum( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_012_GetStringTrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pchValue, unBufferSize, pError);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_012_PollNextEvent(struct w_steam_iface *_this, winVREvent_t_103 *pEvent, uint32_t uncbVREvent)
+const char * __thiscall winIVRSystem_IVRSystem_012_GetPropErrorNameFromEnum(winIVRSystem_IVRSystem_012 *_this, ETrackedPropertyError error)
 {
-    struct cppIVRSystem_IVRSystem_012_PollNextEvent_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pEvent = pEvent,
-        .uncbVREvent = uncbVREvent,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_012_PollNextEvent( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_012_GetPropErrorNameFromEnum(_this->linux_side, error);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_012_PollNextEventWithPose(struct w_steam_iface *_this, ETrackingUniverseOrigin eOrigin, winVREvent_t_103 *pEvent, uint32_t uncbVREvent, TrackedDevicePose_t *pTrackedDevicePose)
+bool __thiscall winIVRSystem_IVRSystem_012_PollNextEvent(winIVRSystem_IVRSystem_012 *_this, winVREvent_t_103 *pEvent, uint32_t uncbVREvent)
 {
-    struct cppIVRSystem_IVRSystem_012_PollNextEventWithPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eOrigin = eOrigin,
-        .pEvent = pEvent,
-        .uncbVREvent = uncbVREvent,
-        .pTrackedDevicePose = pTrackedDevicePose,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_012_PollNextEventWithPose( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_012_PollNextEvent(_this->linux_side, pEvent, uncbVREvent);
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_012_GetEventTypeNameFromEnum(struct w_steam_iface *_this, EVREventType eType)
+bool __thiscall winIVRSystem_IVRSystem_012_PollNextEventWithPose(winIVRSystem_IVRSystem_012 *_this, ETrackingUniverseOrigin eOrigin, winVREvent_t_103 *pEvent, uint32_t uncbVREvent, TrackedDevicePose_t *pTrackedDevicePose)
 {
-    struct cppIVRSystem_IVRSystem_012_GetEventTypeNameFromEnum_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eType = eType,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_012_GetEventTypeNameFromEnum( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_012_PollNextEventWithPose(_this->linux_side, eOrigin, pEvent, uncbVREvent, pTrackedDevicePose);
 }
 
-HiddenAreaMesh_t * __thiscall winIVRSystem_IVRSystem_012_GetHiddenAreaMesh(struct w_steam_iface *_this, HiddenAreaMesh_t *_ret, EVREye eEye)
+const char * __thiscall winIVRSystem_IVRSystem_012_GetEventTypeNameFromEnum(winIVRSystem_IVRSystem_012 *_this, EVREventType eType)
 {
-    struct cppIVRSystem_IVRSystem_012_GetHiddenAreaMesh_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .eEye = eEye,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_012_GetHiddenAreaMesh( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_012_GetEventTypeNameFromEnum(_this->linux_side, eType);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_012_GetControllerState(struct w_steam_iface *_this, TrackedDeviceIndex_t unControllerDeviceIndex, winVRControllerState001_t_103 *pControllerState)
+HiddenAreaMesh_t *__thiscall winIVRSystem_IVRSystem_012_GetHiddenAreaMesh(winIVRSystem_IVRSystem_012 *_this, HiddenAreaMesh_t *_r, EVREye eEye)
 {
-    struct cppIVRSystem_IVRSystem_012_GetControllerState_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unControllerDeviceIndex = unControllerDeviceIndex,
-        .pControllerState = pControllerState,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_012_GetControllerState( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_012_GetHiddenAreaMesh(_this->linux_side, eEye);
+    return _r;
 }
 
-bool __thiscall winIVRSystem_IVRSystem_012_GetControllerStateWithPose(struct w_steam_iface *_this, ETrackingUniverseOrigin eOrigin, TrackedDeviceIndex_t unControllerDeviceIndex, winVRControllerState001_t_103 *pControllerState, TrackedDevicePose_t *pTrackedDevicePose)
+bool __thiscall winIVRSystem_IVRSystem_012_GetControllerState(winIVRSystem_IVRSystem_012 *_this, TrackedDeviceIndex_t unControllerDeviceIndex, winVRControllerState001_t_103 *pControllerState)
 {
-    struct cppIVRSystem_IVRSystem_012_GetControllerStateWithPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eOrigin = eOrigin,
-        .unControllerDeviceIndex = unControllerDeviceIndex,
-        .pControllerState = pControllerState,
-        .pTrackedDevicePose = pTrackedDevicePose,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_012_GetControllerStateWithPose( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_012_GetControllerState(_this->linux_side, unControllerDeviceIndex, pControllerState);
 }
 
-void __thiscall winIVRSystem_IVRSystem_012_TriggerHapticPulse(struct w_steam_iface *_this, TrackedDeviceIndex_t unControllerDeviceIndex, uint32_t unAxisId, unsigned short usDurationMicroSec)
+bool __thiscall winIVRSystem_IVRSystem_012_GetControllerStateWithPose(winIVRSystem_IVRSystem_012 *_this, ETrackingUniverseOrigin eOrigin, TrackedDeviceIndex_t unControllerDeviceIndex, winVRControllerState001_t_103 *pControllerState, TrackedDevicePose_t *pTrackedDevicePose)
 {
-    struct cppIVRSystem_IVRSystem_012_TriggerHapticPulse_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unControllerDeviceIndex = unControllerDeviceIndex,
-        .unAxisId = unAxisId,
-        .usDurationMicroSec = usDurationMicroSec,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_012_TriggerHapticPulse( &params );
+    return cppIVRSystem_IVRSystem_012_GetControllerStateWithPose(_this->linux_side, eOrigin, unControllerDeviceIndex, pControllerState, pTrackedDevicePose);
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_012_GetButtonIdNameFromEnum(struct w_steam_iface *_this, EVRButtonId eButtonId)
+void __thiscall winIVRSystem_IVRSystem_012_TriggerHapticPulse(winIVRSystem_IVRSystem_012 *_this, TrackedDeviceIndex_t unControllerDeviceIndex, uint32_t unAxisId, unsigned short usDurationMicroSec)
 {
-    struct cppIVRSystem_IVRSystem_012_GetButtonIdNameFromEnum_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eButtonId = eButtonId,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_012_GetButtonIdNameFromEnum( &params );
-    return params._ret;
+    cppIVRSystem_IVRSystem_012_TriggerHapticPulse(_this->linux_side, unControllerDeviceIndex, unAxisId, usDurationMicroSec);
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_012_GetControllerAxisTypeNameFromEnum(struct w_steam_iface *_this, EVRControllerAxisType eAxisType)
+const char * __thiscall winIVRSystem_IVRSystem_012_GetButtonIdNameFromEnum(winIVRSystem_IVRSystem_012 *_this, EVRButtonId eButtonId)
 {
-    struct cppIVRSystem_IVRSystem_012_GetControllerAxisTypeNameFromEnum_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eAxisType = eAxisType,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_012_GetControllerAxisTypeNameFromEnum( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_012_GetButtonIdNameFromEnum(_this->linux_side, eButtonId);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_012_CaptureInputFocus(struct w_steam_iface *_this)
+const char * __thiscall winIVRSystem_IVRSystem_012_GetControllerAxisTypeNameFromEnum(winIVRSystem_IVRSystem_012 *_this, EVRControllerAxisType eAxisType)
 {
-    struct cppIVRSystem_IVRSystem_012_CaptureInputFocus_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_012_CaptureInputFocus( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_012_GetControllerAxisTypeNameFromEnum(_this->linux_side, eAxisType);
 }
 
-void __thiscall winIVRSystem_IVRSystem_012_ReleaseInputFocus(struct w_steam_iface *_this)
+bool __thiscall winIVRSystem_IVRSystem_012_CaptureInputFocus(winIVRSystem_IVRSystem_012 *_this)
 {
-    struct cppIVRSystem_IVRSystem_012_ReleaseInputFocus_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_012_ReleaseInputFocus( &params );
+    return cppIVRSystem_IVRSystem_012_CaptureInputFocus(_this->linux_side);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_012_IsInputFocusCapturedByAnotherProcess(struct w_steam_iface *_this)
+void __thiscall winIVRSystem_IVRSystem_012_ReleaseInputFocus(winIVRSystem_IVRSystem_012 *_this)
 {
-    struct cppIVRSystem_IVRSystem_012_IsInputFocusCapturedByAnotherProcess_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_012_IsInputFocusCapturedByAnotherProcess( &params );
-    return params._ret;
+    cppIVRSystem_IVRSystem_012_ReleaseInputFocus(_this->linux_side);
 }
 
-uint32_t __thiscall winIVRSystem_IVRSystem_012_DriverDebugRequest(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, const char *pchRequest, char *pchResponseBuffer, uint32_t unResponseBufferSize)
+bool __thiscall winIVRSystem_IVRSystem_012_IsInputFocusCapturedByAnotherProcess(winIVRSystem_IVRSystem_012 *_this)
 {
-    struct cppIVRSystem_IVRSystem_012_DriverDebugRequest_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .pchRequest = pchRequest,
-        .pchResponseBuffer = pchResponseBuffer,
-        .unResponseBufferSize = unResponseBufferSize,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_012_DriverDebugRequest( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_012_IsInputFocusCapturedByAnotherProcess(_this->linux_side);
 }
 
-EVRFirmwareError __thiscall winIVRSystem_IVRSystem_012_PerformFirmwareUpdate(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex)
+uint32_t __thiscall winIVRSystem_IVRSystem_012_DriverDebugRequest(winIVRSystem_IVRSystem_012 *_this, TrackedDeviceIndex_t unDeviceIndex, const char *pchRequest, char *pchResponseBuffer, uint32_t unResponseBufferSize)
 {
-    struct cppIVRSystem_IVRSystem_012_PerformFirmwareUpdate_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_012_PerformFirmwareUpdate( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_012_DriverDebugRequest(_this->linux_side, unDeviceIndex, pchRequest, pchResponseBuffer, unResponseBufferSize);
 }
 
-void __thiscall winIVRSystem_IVRSystem_012_AcknowledgeQuit_Exiting(struct w_steam_iface *_this)
+EVRFirmwareError __thiscall winIVRSystem_IVRSystem_012_PerformFirmwareUpdate(winIVRSystem_IVRSystem_012 *_this, TrackedDeviceIndex_t unDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_012_AcknowledgeQuit_Exiting_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_012_AcknowledgeQuit_Exiting( &params );
+    return cppIVRSystem_IVRSystem_012_PerformFirmwareUpdate(_this->linux_side, unDeviceIndex);
 }
 
-void __thiscall winIVRSystem_IVRSystem_012_AcknowledgeQuit_UserPrompt(struct w_steam_iface *_this)
+void __thiscall winIVRSystem_IVRSystem_012_AcknowledgeQuit_Exiting(winIVRSystem_IVRSystem_012 *_this)
 {
-    struct cppIVRSystem_IVRSystem_012_AcknowledgeQuit_UserPrompt_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_012_AcknowledgeQuit_UserPrompt( &params );
+    cppIVRSystem_IVRSystem_012_AcknowledgeQuit_Exiting(_this->linux_side);
+}
+
+void __thiscall winIVRSystem_IVRSystem_012_AcknowledgeQuit_UserPrompt(winIVRSystem_IVRSystem_012 *_this)
+{
+    TRACE("%p\n", _this);
+    cppIVRSystem_IVRSystem_012_AcknowledgeQuit_UserPrompt(_this->linux_side);
 }
 
 extern vtable_ptr winIVRSystem_IVRSystem_012_vtable;
@@ -5521,24 +3431,24 @@ void __asm_dummy_vtables(void) {
 }
 #endif
 
-struct w_steam_iface *create_winIVRSystem_IVRSystem_012(void *u_iface)
+winIVRSystem_IVRSystem_012 *create_winIVRSystem_IVRSystem_012(void *linux_side)
 {
-    struct w_steam_iface *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(*r));
+    winIVRSystem_IVRSystem_012 *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(winIVRSystem_IVRSystem_012));
     TRACE("-> %p\n", r);
     r->vtable = &winIVRSystem_IVRSystem_012_vtable;
-    r->u_iface = u_iface;
+    r->linux_side = linux_side;
     return r;
 }
 
-void destroy_winIVRSystem_IVRSystem_012(struct w_steam_iface *object)
+void destroy_winIVRSystem_IVRSystem_012(void *object)
 {
     TRACE("%p\n", object);
     HeapFree(GetProcessHeap(), 0, object);
 }
 
-struct w_steam_iface *create_winIVRSystem_IVRSystem_012_FnTable(void *u_iface)
+winIVRSystem_IVRSystem_012 *create_winIVRSystem_IVRSystem_012_FnTable(void *linux_side)
 {
-    struct w_steam_iface *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(*r));
+    winIVRSystem_IVRSystem_012 *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(winIVRSystem_IVRSystem_012));
     struct thunk *thunks = alloc_thunks(44);
     struct thunk **vtable = HeapAlloc(GetProcessHeap(), 0, 44 * sizeof(*vtable));
     int i;
@@ -5590,20 +3500,26 @@ struct w_steam_iface *create_winIVRSystem_IVRSystem_012_FnTable(void *u_iface)
     init_thunk(&thunks[43], r, winIVRSystem_IVRSystem_012_AcknowledgeQuit_UserPrompt, 0, FALSE, FALSE);
     for (i = 0; i < 44; i++)
         vtable[i] = &thunks[i];
-    r->u_iface = u_iface;
+    r->linux_side = linux_side;
     r->vtable = (void *)vtable;
     return r;
 }
 
-void destroy_winIVRSystem_IVRSystem_012_FnTable(struct w_steam_iface *object)
+void destroy_winIVRSystem_IVRSystem_012_FnTable(void *object)
 {
-    TRACE("%p\n", object);
-    VirtualFree(object->vtable[0], 0, MEM_RELEASE);
-    HeapFree(GetProcessHeap(), 0, object->vtable);
-    HeapFree(GetProcessHeap(), 0, object);
+    winIVRSystem_IVRSystem_012 *win_object = object;
+    TRACE("%p\n", win_object);
+    VirtualFree(win_object->vtable[0], 0, MEM_RELEASE);
+    HeapFree(GetProcessHeap(), 0, win_object->vtable);
+    HeapFree(GetProcessHeap(), 0, win_object);
 }
 
 #include "cppIVRSystem_IVRSystem_014.h"
+
+typedef struct __winIVRSystem_IVRSystem_014 {
+    vtable_ptr *vtable;
+    void *linux_side;
+} winIVRSystem_IVRSystem_014;
 
 DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_014_GetRecommendedRenderTargetSize, 12)
 DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_014_GetProjectionMatrix, 24)
@@ -5650,559 +3566,274 @@ DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_014_PerformFirmwareUpdate, 8)
 DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_014_AcknowledgeQuit_Exiting, 4)
 DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_014_AcknowledgeQuit_UserPrompt, 4)
 
-void __thiscall winIVRSystem_IVRSystem_014_GetRecommendedRenderTargetSize(struct w_steam_iface *_this, uint32_t *pnWidth, uint32_t *pnHeight)
+void __thiscall winIVRSystem_IVRSystem_014_GetRecommendedRenderTargetSize(winIVRSystem_IVRSystem_014 *_this, uint32_t *pnWidth, uint32_t *pnHeight)
 {
-    struct cppIVRSystem_IVRSystem_014_GetRecommendedRenderTargetSize_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pnWidth = pnWidth,
-        .pnHeight = pnHeight,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_014_GetRecommendedRenderTargetSize( &params );
+    cppIVRSystem_IVRSystem_014_GetRecommendedRenderTargetSize(_this->linux_side, pnWidth, pnHeight);
 }
 
-HmdMatrix44_t * __thiscall winIVRSystem_IVRSystem_014_GetProjectionMatrix(struct w_steam_iface *_this, HmdMatrix44_t *_ret, EVREye eEye, float fNearZ, float fFarZ, EGraphicsAPIConvention eProjType)
+HmdMatrix44_t *__thiscall winIVRSystem_IVRSystem_014_GetProjectionMatrix(winIVRSystem_IVRSystem_014 *_this, HmdMatrix44_t *_r, EVREye eEye, float fNearZ, float fFarZ, EGraphicsAPIConvention eProjType)
 {
-    struct cppIVRSystem_IVRSystem_014_GetProjectionMatrix_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .eEye = eEye,
-        .fNearZ = fNearZ,
-        .fFarZ = fFarZ,
-        .eProjType = eProjType,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_014_GetProjectionMatrix( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_014_GetProjectionMatrix(_this->linux_side, eEye, fNearZ, fFarZ, eProjType);
+    return _r;
 }
 
-void __thiscall winIVRSystem_IVRSystem_014_GetProjectionRaw(struct w_steam_iface *_this, EVREye eEye, float *pfLeft, float *pfRight, float *pfTop, float *pfBottom)
+void __thiscall winIVRSystem_IVRSystem_014_GetProjectionRaw(winIVRSystem_IVRSystem_014 *_this, EVREye eEye, float *pfLeft, float *pfRight, float *pfTop, float *pfBottom)
 {
-    struct cppIVRSystem_IVRSystem_014_GetProjectionRaw_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eEye = eEye,
-        .pfLeft = pfLeft,
-        .pfRight = pfRight,
-        .pfTop = pfTop,
-        .pfBottom = pfBottom,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_014_GetProjectionRaw( &params );
+    cppIVRSystem_IVRSystem_014_GetProjectionRaw(_this->linux_side, eEye, pfLeft, pfRight, pfTop, pfBottom);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_014_ComputeDistortion(struct w_steam_iface *_this, EVREye eEye, float fU, float fV, DistortionCoordinates_t *pDistortionCoordinates)
+bool __thiscall winIVRSystem_IVRSystem_014_ComputeDistortion(winIVRSystem_IVRSystem_014 *_this, EVREye eEye, float fU, float fV, DistortionCoordinates_t *pDistortionCoordinates)
 {
-    struct cppIVRSystem_IVRSystem_014_ComputeDistortion_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eEye = eEye,
-        .fU = fU,
-        .fV = fV,
-        .pDistortionCoordinates = pDistortionCoordinates,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_014_ComputeDistortion( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_014_ComputeDistortion(_this->linux_side, eEye, fU, fV, pDistortionCoordinates);
 }
 
-HmdMatrix34_t * __thiscall winIVRSystem_IVRSystem_014_GetEyeToHeadTransform(struct w_steam_iface *_this, HmdMatrix34_t *_ret, EVREye eEye)
+HmdMatrix34_t *__thiscall winIVRSystem_IVRSystem_014_GetEyeToHeadTransform(winIVRSystem_IVRSystem_014 *_this, HmdMatrix34_t *_r, EVREye eEye)
 {
-    struct cppIVRSystem_IVRSystem_014_GetEyeToHeadTransform_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .eEye = eEye,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_014_GetEyeToHeadTransform( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_014_GetEyeToHeadTransform(_this->linux_side, eEye);
+    return _r;
 }
 
-bool __thiscall winIVRSystem_IVRSystem_014_GetTimeSinceLastVsync(struct w_steam_iface *_this, float *pfSecondsSinceLastVsync, uint64_t *pulFrameCounter)
+bool __thiscall winIVRSystem_IVRSystem_014_GetTimeSinceLastVsync(winIVRSystem_IVRSystem_014 *_this, float *pfSecondsSinceLastVsync, uint64_t *pulFrameCounter)
 {
-    struct cppIVRSystem_IVRSystem_014_GetTimeSinceLastVsync_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pfSecondsSinceLastVsync = pfSecondsSinceLastVsync,
-        .pulFrameCounter = pulFrameCounter,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_014_GetTimeSinceLastVsync( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_014_GetTimeSinceLastVsync(_this->linux_side, pfSecondsSinceLastVsync, pulFrameCounter);
 }
 
-int32_t __thiscall winIVRSystem_IVRSystem_014_GetD3D9AdapterIndex(struct w_steam_iface *_this)
+int32_t __thiscall winIVRSystem_IVRSystem_014_GetD3D9AdapterIndex(winIVRSystem_IVRSystem_014 *_this)
 {
-    struct cppIVRSystem_IVRSystem_014_GetD3D9AdapterIndex_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_014_GetD3D9AdapterIndex( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_014_GetD3D9AdapterIndex(_this->linux_side);
 }
 
-extern void __thiscall winIVRSystem_IVRSystem_014_GetDXGIOutputInfo(struct w_steam_iface *_this, int32_t *pnAdapterIndex);
-
-bool __thiscall winIVRSystem_IVRSystem_014_IsDisplayOnDesktop(struct w_steam_iface *_this)
+void __thiscall winIVRSystem_IVRSystem_014_GetDXGIOutputInfo(winIVRSystem_IVRSystem_014 *_this, int32_t *pnAdapterIndex)
 {
-    struct cppIVRSystem_IVRSystem_014_IsDisplayOnDesktop_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_014_IsDisplayOnDesktop( &params );
-    return params._ret;
+    get_dxgi_output_info(cppIVRSystem_IVRSystem_014_GetDXGIOutputInfo, _this->linux_side, pnAdapterIndex, 14);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_014_SetDisplayVisibility(struct w_steam_iface *_this, bool bIsVisibleOnDesktop)
+bool __thiscall winIVRSystem_IVRSystem_014_IsDisplayOnDesktop(winIVRSystem_IVRSystem_014 *_this)
 {
-    struct cppIVRSystem_IVRSystem_014_SetDisplayVisibility_params params =
-    {
-        .linux_side = _this->u_iface,
-        .bIsVisibleOnDesktop = bIsVisibleOnDesktop,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_014_SetDisplayVisibility( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_014_IsDisplayOnDesktop(_this->linux_side);
 }
 
-void __thiscall winIVRSystem_IVRSystem_014_GetDeviceToAbsoluteTrackingPose(struct w_steam_iface *_this, ETrackingUniverseOrigin eOrigin, float fPredictedSecondsToPhotonsFromNow, TrackedDevicePose_t *pTrackedDevicePoseArray, uint32_t unTrackedDevicePoseArrayCount)
+bool __thiscall winIVRSystem_IVRSystem_014_SetDisplayVisibility(winIVRSystem_IVRSystem_014 *_this, bool bIsVisibleOnDesktop)
 {
-    struct cppIVRSystem_IVRSystem_014_GetDeviceToAbsoluteTrackingPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eOrigin = eOrigin,
-        .fPredictedSecondsToPhotonsFromNow = fPredictedSecondsToPhotonsFromNow,
-        .pTrackedDevicePoseArray = pTrackedDevicePoseArray,
-        .unTrackedDevicePoseArrayCount = unTrackedDevicePoseArrayCount,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_014_GetDeviceToAbsoluteTrackingPose( &params );
+    return cppIVRSystem_IVRSystem_014_SetDisplayVisibility(_this->linux_side, bIsVisibleOnDesktop);
 }
 
-void __thiscall winIVRSystem_IVRSystem_014_ResetSeatedZeroPose(struct w_steam_iface *_this)
+void __thiscall winIVRSystem_IVRSystem_014_GetDeviceToAbsoluteTrackingPose(winIVRSystem_IVRSystem_014 *_this, ETrackingUniverseOrigin eOrigin, float fPredictedSecondsToPhotonsFromNow, TrackedDevicePose_t *pTrackedDevicePoseArray, uint32_t unTrackedDevicePoseArrayCount)
 {
-    struct cppIVRSystem_IVRSystem_014_ResetSeatedZeroPose_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_014_ResetSeatedZeroPose( &params );
+    cppIVRSystem_IVRSystem_014_GetDeviceToAbsoluteTrackingPose(_this->linux_side, eOrigin, fPredictedSecondsToPhotonsFromNow, pTrackedDevicePoseArray, unTrackedDevicePoseArrayCount);
 }
 
-HmdMatrix34_t * __thiscall winIVRSystem_IVRSystem_014_GetSeatedZeroPoseToStandingAbsoluteTrackingPose(struct w_steam_iface *_this, HmdMatrix34_t *_ret)
+void __thiscall winIVRSystem_IVRSystem_014_ResetSeatedZeroPose(winIVRSystem_IVRSystem_014 *_this)
 {
-    struct cppIVRSystem_IVRSystem_014_GetSeatedZeroPoseToStandingAbsoluteTrackingPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_014_GetSeatedZeroPoseToStandingAbsoluteTrackingPose( &params );
-    return params._ret;
+    cppIVRSystem_IVRSystem_014_ResetSeatedZeroPose(_this->linux_side);
 }
 
-HmdMatrix34_t * __thiscall winIVRSystem_IVRSystem_014_GetRawZeroPoseToStandingAbsoluteTrackingPose(struct w_steam_iface *_this, HmdMatrix34_t *_ret)
+HmdMatrix34_t *__thiscall winIVRSystem_IVRSystem_014_GetSeatedZeroPoseToStandingAbsoluteTrackingPose(winIVRSystem_IVRSystem_014 *_this, HmdMatrix34_t *_r)
 {
-    struct cppIVRSystem_IVRSystem_014_GetRawZeroPoseToStandingAbsoluteTrackingPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_014_GetRawZeroPoseToStandingAbsoluteTrackingPose( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_014_GetSeatedZeroPoseToStandingAbsoluteTrackingPose(_this->linux_side);
+    return _r;
 }
 
-uint32_t __thiscall winIVRSystem_IVRSystem_014_GetSortedTrackedDeviceIndicesOfClass(struct w_steam_iface *_this, ETrackedDeviceClass eTrackedDeviceClass, TrackedDeviceIndex_t *punTrackedDeviceIndexArray, uint32_t unTrackedDeviceIndexArrayCount, TrackedDeviceIndex_t unRelativeToTrackedDeviceIndex)
+HmdMatrix34_t *__thiscall winIVRSystem_IVRSystem_014_GetRawZeroPoseToStandingAbsoluteTrackingPose(winIVRSystem_IVRSystem_014 *_this, HmdMatrix34_t *_r)
 {
-    struct cppIVRSystem_IVRSystem_014_GetSortedTrackedDeviceIndicesOfClass_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eTrackedDeviceClass = eTrackedDeviceClass,
-        .punTrackedDeviceIndexArray = punTrackedDeviceIndexArray,
-        .unTrackedDeviceIndexArrayCount = unTrackedDeviceIndexArrayCount,
-        .unRelativeToTrackedDeviceIndex = unRelativeToTrackedDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_014_GetSortedTrackedDeviceIndicesOfClass( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_014_GetRawZeroPoseToStandingAbsoluteTrackingPose(_this->linux_side);
+    return _r;
 }
 
-EDeviceActivityLevel __thiscall winIVRSystem_IVRSystem_014_GetTrackedDeviceActivityLevel(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceId)
+uint32_t __thiscall winIVRSystem_IVRSystem_014_GetSortedTrackedDeviceIndicesOfClass(winIVRSystem_IVRSystem_014 *_this, ETrackedDeviceClass eTrackedDeviceClass, TrackedDeviceIndex_t *punTrackedDeviceIndexArray, uint32_t unTrackedDeviceIndexArrayCount, TrackedDeviceIndex_t unRelativeToTrackedDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_014_GetTrackedDeviceActivityLevel_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceId = unDeviceId,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_014_GetTrackedDeviceActivityLevel( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_014_GetSortedTrackedDeviceIndicesOfClass(_this->linux_side, eTrackedDeviceClass, punTrackedDeviceIndexArray, unTrackedDeviceIndexArrayCount, unRelativeToTrackedDeviceIndex);
 }
 
-void __thiscall winIVRSystem_IVRSystem_014_ApplyTransform(struct w_steam_iface *_this, TrackedDevicePose_t *pOutputPose, const TrackedDevicePose_t *pTrackedDevicePose, const HmdMatrix34_t *pTransform)
+EDeviceActivityLevel __thiscall winIVRSystem_IVRSystem_014_GetTrackedDeviceActivityLevel(winIVRSystem_IVRSystem_014 *_this, TrackedDeviceIndex_t unDeviceId)
 {
-    struct cppIVRSystem_IVRSystem_014_ApplyTransform_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pOutputPose = pOutputPose,
-        .pTrackedDevicePose = pTrackedDevicePose,
-        .pTransform = pTransform,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_014_ApplyTransform( &params );
+    return cppIVRSystem_IVRSystem_014_GetTrackedDeviceActivityLevel(_this->linux_side, unDeviceId);
 }
 
-TrackedDeviceIndex_t __thiscall winIVRSystem_IVRSystem_014_GetTrackedDeviceIndexForControllerRole(struct w_steam_iface *_this, ETrackedControllerRole unDeviceType)
+void __thiscall winIVRSystem_IVRSystem_014_ApplyTransform(winIVRSystem_IVRSystem_014 *_this, TrackedDevicePose_t *pOutputPose, TrackedDevicePose_t *pTrackedDevicePose, HmdMatrix34_t *pTransform)
 {
-    struct cppIVRSystem_IVRSystem_014_GetTrackedDeviceIndexForControllerRole_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceType = unDeviceType,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_014_GetTrackedDeviceIndexForControllerRole( &params );
-    return params._ret;
+    cppIVRSystem_IVRSystem_014_ApplyTransform(_this->linux_side, pOutputPose, pTrackedDevicePose, pTransform);
 }
 
-ETrackedControllerRole __thiscall winIVRSystem_IVRSystem_014_GetControllerRoleForTrackedDeviceIndex(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex)
+TrackedDeviceIndex_t __thiscall winIVRSystem_IVRSystem_014_GetTrackedDeviceIndexForControllerRole(winIVRSystem_IVRSystem_014 *_this, ETrackedControllerRole unDeviceType)
 {
-    struct cppIVRSystem_IVRSystem_014_GetControllerRoleForTrackedDeviceIndex_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_014_GetControllerRoleForTrackedDeviceIndex( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_014_GetTrackedDeviceIndexForControllerRole(_this->linux_side, unDeviceType);
 }
 
-ETrackedDeviceClass __thiscall winIVRSystem_IVRSystem_014_GetTrackedDeviceClass(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex)
+ETrackedControllerRole __thiscall winIVRSystem_IVRSystem_014_GetControllerRoleForTrackedDeviceIndex(winIVRSystem_IVRSystem_014 *_this, TrackedDeviceIndex_t unDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_014_GetTrackedDeviceClass_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_014_GetTrackedDeviceClass( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_014_GetControllerRoleForTrackedDeviceIndex(_this->linux_side, unDeviceIndex);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_014_IsTrackedDeviceConnected(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex)
+ETrackedDeviceClass __thiscall winIVRSystem_IVRSystem_014_GetTrackedDeviceClass(winIVRSystem_IVRSystem_014 *_this, TrackedDeviceIndex_t unDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_014_IsTrackedDeviceConnected_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_014_IsTrackedDeviceConnected( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_014_GetTrackedDeviceClass(_this->linux_side, unDeviceIndex);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_014_GetBoolTrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
+bool __thiscall winIVRSystem_IVRSystem_014_IsTrackedDeviceConnected(winIVRSystem_IVRSystem_014 *_this, TrackedDeviceIndex_t unDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_014_GetBoolTrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_014_GetBoolTrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_014_IsTrackedDeviceConnected(_this->linux_side, unDeviceIndex);
 }
 
-float __thiscall winIVRSystem_IVRSystem_014_GetFloatTrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
+bool __thiscall winIVRSystem_IVRSystem_014_GetBoolTrackedDeviceProperty(winIVRSystem_IVRSystem_014 *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_014_GetFloatTrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_014_GetFloatTrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_014_GetBoolTrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
 }
 
-int32_t __thiscall winIVRSystem_IVRSystem_014_GetInt32TrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
+float __thiscall winIVRSystem_IVRSystem_014_GetFloatTrackedDeviceProperty(winIVRSystem_IVRSystem_014 *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_014_GetInt32TrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_014_GetInt32TrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_014_GetFloatTrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
 }
 
-uint64_t __thiscall winIVRSystem_IVRSystem_014_GetUint64TrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
+int32_t __thiscall winIVRSystem_IVRSystem_014_GetInt32TrackedDeviceProperty(winIVRSystem_IVRSystem_014 *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_014_GetUint64TrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_014_GetUint64TrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_014_GetInt32TrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
 }
 
-HmdMatrix34_t * __thiscall winIVRSystem_IVRSystem_014_GetMatrix34TrackedDeviceProperty(struct w_steam_iface *_this, HmdMatrix34_t *_ret, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
+uint64_t __thiscall winIVRSystem_IVRSystem_014_GetUint64TrackedDeviceProperty(winIVRSystem_IVRSystem_014 *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_014_GetMatrix34TrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_014_GetMatrix34TrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_014_GetUint64TrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
 }
 
-uint32_t __thiscall winIVRSystem_IVRSystem_014_GetStringTrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, char *pchValue, uint32_t unBufferSize, ETrackedPropertyError *pError)
+HmdMatrix34_t *__thiscall winIVRSystem_IVRSystem_014_GetMatrix34TrackedDeviceProperty(winIVRSystem_IVRSystem_014 *_this, HmdMatrix34_t *_r, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_014_GetStringTrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pchValue = pchValue,
-        .unBufferSize = unBufferSize,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_014_GetStringTrackedDeviceProperty( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_014_GetMatrix34TrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
+    return _r;
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_014_GetPropErrorNameFromEnum(struct w_steam_iface *_this, ETrackedPropertyError error)
+uint32_t __thiscall winIVRSystem_IVRSystem_014_GetStringTrackedDeviceProperty(winIVRSystem_IVRSystem_014 *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, char *pchValue, uint32_t unBufferSize, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_014_GetPropErrorNameFromEnum_params params =
-    {
-        .linux_side = _this->u_iface,
-        .error = error,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_014_GetPropErrorNameFromEnum( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_014_GetStringTrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pchValue, unBufferSize, pError);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_014_PollNextEvent(struct w_steam_iface *_this, winVREvent_t_104 *pEvent, uint32_t uncbVREvent)
+const char * __thiscall winIVRSystem_IVRSystem_014_GetPropErrorNameFromEnum(winIVRSystem_IVRSystem_014 *_this, ETrackedPropertyError error)
 {
-    struct cppIVRSystem_IVRSystem_014_PollNextEvent_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pEvent = pEvent,
-        .uncbVREvent = uncbVREvent,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_014_PollNextEvent( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_014_GetPropErrorNameFromEnum(_this->linux_side, error);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_014_PollNextEventWithPose(struct w_steam_iface *_this, ETrackingUniverseOrigin eOrigin, winVREvent_t_104 *pEvent, uint32_t uncbVREvent, TrackedDevicePose_t *pTrackedDevicePose)
+bool __thiscall winIVRSystem_IVRSystem_014_PollNextEvent(winIVRSystem_IVRSystem_014 *_this, winVREvent_t_104 *pEvent, uint32_t uncbVREvent)
 {
-    struct cppIVRSystem_IVRSystem_014_PollNextEventWithPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eOrigin = eOrigin,
-        .pEvent = pEvent,
-        .uncbVREvent = uncbVREvent,
-        .pTrackedDevicePose = pTrackedDevicePose,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_014_PollNextEventWithPose( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_014_PollNextEvent(_this->linux_side, pEvent, uncbVREvent);
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_014_GetEventTypeNameFromEnum(struct w_steam_iface *_this, EVREventType eType)
+bool __thiscall winIVRSystem_IVRSystem_014_PollNextEventWithPose(winIVRSystem_IVRSystem_014 *_this, ETrackingUniverseOrigin eOrigin, winVREvent_t_104 *pEvent, uint32_t uncbVREvent, TrackedDevicePose_t *pTrackedDevicePose)
 {
-    struct cppIVRSystem_IVRSystem_014_GetEventTypeNameFromEnum_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eType = eType,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_014_GetEventTypeNameFromEnum( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_014_PollNextEventWithPose(_this->linux_side, eOrigin, pEvent, uncbVREvent, pTrackedDevicePose);
 }
 
-HiddenAreaMesh_t * __thiscall winIVRSystem_IVRSystem_014_GetHiddenAreaMesh(struct w_steam_iface *_this, HiddenAreaMesh_t *_ret, EVREye eEye, EHiddenAreaMeshType type)
+const char * __thiscall winIVRSystem_IVRSystem_014_GetEventTypeNameFromEnum(winIVRSystem_IVRSystem_014 *_this, EVREventType eType)
 {
-    struct cppIVRSystem_IVRSystem_014_GetHiddenAreaMesh_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .eEye = eEye,
-        .type = type,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_014_GetHiddenAreaMesh( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_014_GetEventTypeNameFromEnum(_this->linux_side, eType);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_014_GetControllerState(struct w_steam_iface *_this, TrackedDeviceIndex_t unControllerDeviceIndex, winVRControllerState001_t_104 *pControllerState, uint32_t unControllerStateSize)
+HiddenAreaMesh_t *__thiscall winIVRSystem_IVRSystem_014_GetHiddenAreaMesh(winIVRSystem_IVRSystem_014 *_this, HiddenAreaMesh_t *_r, EVREye eEye, EHiddenAreaMeshType type)
 {
-    struct cppIVRSystem_IVRSystem_014_GetControllerState_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unControllerDeviceIndex = unControllerDeviceIndex,
-        .pControllerState = pControllerState,
-        .unControllerStateSize = unControllerStateSize,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_014_GetControllerState( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_014_GetHiddenAreaMesh(_this->linux_side, eEye, type);
+    return _r;
 }
 
-bool __thiscall winIVRSystem_IVRSystem_014_GetControllerStateWithPose(struct w_steam_iface *_this, ETrackingUniverseOrigin eOrigin, TrackedDeviceIndex_t unControllerDeviceIndex, winVRControllerState001_t_104 *pControllerState, uint32_t unControllerStateSize, TrackedDevicePose_t *pTrackedDevicePose)
+bool __thiscall winIVRSystem_IVRSystem_014_GetControllerState(winIVRSystem_IVRSystem_014 *_this, TrackedDeviceIndex_t unControllerDeviceIndex, winVRControllerState001_t_104 *pControllerState, uint32_t unControllerStateSize)
 {
-    struct cppIVRSystem_IVRSystem_014_GetControllerStateWithPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eOrigin = eOrigin,
-        .unControllerDeviceIndex = unControllerDeviceIndex,
-        .pControllerState = pControllerState,
-        .unControllerStateSize = unControllerStateSize,
-        .pTrackedDevicePose = pTrackedDevicePose,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_014_GetControllerStateWithPose( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_014_GetControllerState(_this->linux_side, unControllerDeviceIndex, pControllerState, unControllerStateSize);
 }
 
-void __thiscall winIVRSystem_IVRSystem_014_TriggerHapticPulse(struct w_steam_iface *_this, TrackedDeviceIndex_t unControllerDeviceIndex, uint32_t unAxisId, unsigned short usDurationMicroSec)
+bool __thiscall winIVRSystem_IVRSystem_014_GetControllerStateWithPose(winIVRSystem_IVRSystem_014 *_this, ETrackingUniverseOrigin eOrigin, TrackedDeviceIndex_t unControllerDeviceIndex, winVRControllerState001_t_104 *pControllerState, uint32_t unControllerStateSize, TrackedDevicePose_t *pTrackedDevicePose)
 {
-    struct cppIVRSystem_IVRSystem_014_TriggerHapticPulse_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unControllerDeviceIndex = unControllerDeviceIndex,
-        .unAxisId = unAxisId,
-        .usDurationMicroSec = usDurationMicroSec,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_014_TriggerHapticPulse( &params );
+    return cppIVRSystem_IVRSystem_014_GetControllerStateWithPose(_this->linux_side, eOrigin, unControllerDeviceIndex, pControllerState, unControllerStateSize, pTrackedDevicePose);
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_014_GetButtonIdNameFromEnum(struct w_steam_iface *_this, EVRButtonId eButtonId)
+void __thiscall winIVRSystem_IVRSystem_014_TriggerHapticPulse(winIVRSystem_IVRSystem_014 *_this, TrackedDeviceIndex_t unControllerDeviceIndex, uint32_t unAxisId, unsigned short usDurationMicroSec)
 {
-    struct cppIVRSystem_IVRSystem_014_GetButtonIdNameFromEnum_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eButtonId = eButtonId,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_014_GetButtonIdNameFromEnum( &params );
-    return params._ret;
+    cppIVRSystem_IVRSystem_014_TriggerHapticPulse(_this->linux_side, unControllerDeviceIndex, unAxisId, usDurationMicroSec);
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_014_GetControllerAxisTypeNameFromEnum(struct w_steam_iface *_this, EVRControllerAxisType eAxisType)
+const char * __thiscall winIVRSystem_IVRSystem_014_GetButtonIdNameFromEnum(winIVRSystem_IVRSystem_014 *_this, EVRButtonId eButtonId)
 {
-    struct cppIVRSystem_IVRSystem_014_GetControllerAxisTypeNameFromEnum_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eAxisType = eAxisType,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_014_GetControllerAxisTypeNameFromEnum( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_014_GetButtonIdNameFromEnum(_this->linux_side, eButtonId);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_014_CaptureInputFocus(struct w_steam_iface *_this)
+const char * __thiscall winIVRSystem_IVRSystem_014_GetControllerAxisTypeNameFromEnum(winIVRSystem_IVRSystem_014 *_this, EVRControllerAxisType eAxisType)
 {
-    struct cppIVRSystem_IVRSystem_014_CaptureInputFocus_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_014_CaptureInputFocus( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_014_GetControllerAxisTypeNameFromEnum(_this->linux_side, eAxisType);
 }
 
-void __thiscall winIVRSystem_IVRSystem_014_ReleaseInputFocus(struct w_steam_iface *_this)
+bool __thiscall winIVRSystem_IVRSystem_014_CaptureInputFocus(winIVRSystem_IVRSystem_014 *_this)
 {
-    struct cppIVRSystem_IVRSystem_014_ReleaseInputFocus_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_014_ReleaseInputFocus( &params );
+    return cppIVRSystem_IVRSystem_014_CaptureInputFocus(_this->linux_side);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_014_IsInputFocusCapturedByAnotherProcess(struct w_steam_iface *_this)
+void __thiscall winIVRSystem_IVRSystem_014_ReleaseInputFocus(winIVRSystem_IVRSystem_014 *_this)
 {
-    struct cppIVRSystem_IVRSystem_014_IsInputFocusCapturedByAnotherProcess_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_014_IsInputFocusCapturedByAnotherProcess( &params );
-    return params._ret;
+    cppIVRSystem_IVRSystem_014_ReleaseInputFocus(_this->linux_side);
 }
 
-uint32_t __thiscall winIVRSystem_IVRSystem_014_DriverDebugRequest(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, const char *pchRequest, char *pchResponseBuffer, uint32_t unResponseBufferSize)
+bool __thiscall winIVRSystem_IVRSystem_014_IsInputFocusCapturedByAnotherProcess(winIVRSystem_IVRSystem_014 *_this)
 {
-    struct cppIVRSystem_IVRSystem_014_DriverDebugRequest_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .pchRequest = pchRequest,
-        .pchResponseBuffer = pchResponseBuffer,
-        .unResponseBufferSize = unResponseBufferSize,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_014_DriverDebugRequest( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_014_IsInputFocusCapturedByAnotherProcess(_this->linux_side);
 }
 
-EVRFirmwareError __thiscall winIVRSystem_IVRSystem_014_PerformFirmwareUpdate(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex)
+uint32_t __thiscall winIVRSystem_IVRSystem_014_DriverDebugRequest(winIVRSystem_IVRSystem_014 *_this, TrackedDeviceIndex_t unDeviceIndex, const char *pchRequest, char *pchResponseBuffer, uint32_t unResponseBufferSize)
 {
-    struct cppIVRSystem_IVRSystem_014_PerformFirmwareUpdate_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_014_PerformFirmwareUpdate( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_014_DriverDebugRequest(_this->linux_side, unDeviceIndex, pchRequest, pchResponseBuffer, unResponseBufferSize);
 }
 
-void __thiscall winIVRSystem_IVRSystem_014_AcknowledgeQuit_Exiting(struct w_steam_iface *_this)
+EVRFirmwareError __thiscall winIVRSystem_IVRSystem_014_PerformFirmwareUpdate(winIVRSystem_IVRSystem_014 *_this, TrackedDeviceIndex_t unDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_014_AcknowledgeQuit_Exiting_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_014_AcknowledgeQuit_Exiting( &params );
+    return cppIVRSystem_IVRSystem_014_PerformFirmwareUpdate(_this->linux_side, unDeviceIndex);
 }
 
-void __thiscall winIVRSystem_IVRSystem_014_AcknowledgeQuit_UserPrompt(struct w_steam_iface *_this)
+void __thiscall winIVRSystem_IVRSystem_014_AcknowledgeQuit_Exiting(winIVRSystem_IVRSystem_014 *_this)
 {
-    struct cppIVRSystem_IVRSystem_014_AcknowledgeQuit_UserPrompt_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_014_AcknowledgeQuit_UserPrompt( &params );
+    cppIVRSystem_IVRSystem_014_AcknowledgeQuit_Exiting(_this->linux_side);
+}
+
+void __thiscall winIVRSystem_IVRSystem_014_AcknowledgeQuit_UserPrompt(winIVRSystem_IVRSystem_014 *_this)
+{
+    TRACE("%p\n", _this);
+    cppIVRSystem_IVRSystem_014_AcknowledgeQuit_UserPrompt(_this->linux_side);
 }
 
 extern vtable_ptr winIVRSystem_IVRSystem_014_vtable;
@@ -6260,24 +3891,24 @@ void __asm_dummy_vtables(void) {
 }
 #endif
 
-struct w_steam_iface *create_winIVRSystem_IVRSystem_014(void *u_iface)
+winIVRSystem_IVRSystem_014 *create_winIVRSystem_IVRSystem_014(void *linux_side)
 {
-    struct w_steam_iface *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(*r));
+    winIVRSystem_IVRSystem_014 *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(winIVRSystem_IVRSystem_014));
     TRACE("-> %p\n", r);
     r->vtable = &winIVRSystem_IVRSystem_014_vtable;
-    r->u_iface = u_iface;
+    r->linux_side = linux_side;
     return r;
 }
 
-void destroy_winIVRSystem_IVRSystem_014(struct w_steam_iface *object)
+void destroy_winIVRSystem_IVRSystem_014(void *object)
 {
     TRACE("%p\n", object);
     HeapFree(GetProcessHeap(), 0, object);
 }
 
-struct w_steam_iface *create_winIVRSystem_IVRSystem_014_FnTable(void *u_iface)
+winIVRSystem_IVRSystem_014 *create_winIVRSystem_IVRSystem_014_FnTable(void *linux_side)
 {
-    struct w_steam_iface *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(*r));
+    winIVRSystem_IVRSystem_014 *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(winIVRSystem_IVRSystem_014));
     struct thunk *thunks = alloc_thunks(44);
     struct thunk **vtable = HeapAlloc(GetProcessHeap(), 0, 44 * sizeof(*vtable));
     int i;
@@ -6329,20 +3960,26 @@ struct w_steam_iface *create_winIVRSystem_IVRSystem_014_FnTable(void *u_iface)
     init_thunk(&thunks[43], r, winIVRSystem_IVRSystem_014_AcknowledgeQuit_UserPrompt, 0, FALSE, FALSE);
     for (i = 0; i < 44; i++)
         vtable[i] = &thunks[i];
-    r->u_iface = u_iface;
+    r->linux_side = linux_side;
     r->vtable = (void *)vtable;
     return r;
 }
 
-void destroy_winIVRSystem_IVRSystem_014_FnTable(struct w_steam_iface *object)
+void destroy_winIVRSystem_IVRSystem_014_FnTable(void *object)
 {
-    TRACE("%p\n", object);
-    VirtualFree(object->vtable[0], 0, MEM_RELEASE);
-    HeapFree(GetProcessHeap(), 0, object->vtable);
-    HeapFree(GetProcessHeap(), 0, object);
+    winIVRSystem_IVRSystem_014 *win_object = object;
+    TRACE("%p\n", win_object);
+    VirtualFree(win_object->vtable[0], 0, MEM_RELEASE);
+    HeapFree(GetProcessHeap(), 0, win_object->vtable);
+    HeapFree(GetProcessHeap(), 0, win_object);
 }
 
 #include "cppIVRSystem_IVRSystem_015.h"
+
+typedef struct __winIVRSystem_IVRSystem_015 {
+    vtable_ptr *vtable;
+    void *linux_side;
+} winIVRSystem_IVRSystem_015;
 
 DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_015_GetRecommendedRenderTargetSize, 12)
 DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_015_GetProjectionMatrix, 20)
@@ -6389,558 +4026,274 @@ DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_015_PerformFirmwareUpdate, 8)
 DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_015_AcknowledgeQuit_Exiting, 4)
 DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_015_AcknowledgeQuit_UserPrompt, 4)
 
-void __thiscall winIVRSystem_IVRSystem_015_GetRecommendedRenderTargetSize(struct w_steam_iface *_this, uint32_t *pnWidth, uint32_t *pnHeight)
+void __thiscall winIVRSystem_IVRSystem_015_GetRecommendedRenderTargetSize(winIVRSystem_IVRSystem_015 *_this, uint32_t *pnWidth, uint32_t *pnHeight)
 {
-    struct cppIVRSystem_IVRSystem_015_GetRecommendedRenderTargetSize_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pnWidth = pnWidth,
-        .pnHeight = pnHeight,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_015_GetRecommendedRenderTargetSize( &params );
+    cppIVRSystem_IVRSystem_015_GetRecommendedRenderTargetSize(_this->linux_side, pnWidth, pnHeight);
 }
 
-HmdMatrix44_t * __thiscall winIVRSystem_IVRSystem_015_GetProjectionMatrix(struct w_steam_iface *_this, HmdMatrix44_t *_ret, EVREye eEye, float fNearZ, float fFarZ)
+HmdMatrix44_t *__thiscall winIVRSystem_IVRSystem_015_GetProjectionMatrix(winIVRSystem_IVRSystem_015 *_this, HmdMatrix44_t *_r, EVREye eEye, float fNearZ, float fFarZ)
 {
-    struct cppIVRSystem_IVRSystem_015_GetProjectionMatrix_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .eEye = eEye,
-        .fNearZ = fNearZ,
-        .fFarZ = fFarZ,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_015_GetProjectionMatrix( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_015_GetProjectionMatrix(_this->linux_side, eEye, fNearZ, fFarZ);
+    return _r;
 }
 
-void __thiscall winIVRSystem_IVRSystem_015_GetProjectionRaw(struct w_steam_iface *_this, EVREye eEye, float *pfLeft, float *pfRight, float *pfTop, float *pfBottom)
+void __thiscall winIVRSystem_IVRSystem_015_GetProjectionRaw(winIVRSystem_IVRSystem_015 *_this, EVREye eEye, float *pfLeft, float *pfRight, float *pfTop, float *pfBottom)
 {
-    struct cppIVRSystem_IVRSystem_015_GetProjectionRaw_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eEye = eEye,
-        .pfLeft = pfLeft,
-        .pfRight = pfRight,
-        .pfTop = pfTop,
-        .pfBottom = pfBottom,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_015_GetProjectionRaw( &params );
+    cppIVRSystem_IVRSystem_015_GetProjectionRaw(_this->linux_side, eEye, pfLeft, pfRight, pfTop, pfBottom);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_015_ComputeDistortion(struct w_steam_iface *_this, EVREye eEye, float fU, float fV, DistortionCoordinates_t *pDistortionCoordinates)
+bool __thiscall winIVRSystem_IVRSystem_015_ComputeDistortion(winIVRSystem_IVRSystem_015 *_this, EVREye eEye, float fU, float fV, DistortionCoordinates_t *pDistortionCoordinates)
 {
-    struct cppIVRSystem_IVRSystem_015_ComputeDistortion_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eEye = eEye,
-        .fU = fU,
-        .fV = fV,
-        .pDistortionCoordinates = pDistortionCoordinates,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_015_ComputeDistortion( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_015_ComputeDistortion(_this->linux_side, eEye, fU, fV, pDistortionCoordinates);
 }
 
-HmdMatrix34_t * __thiscall winIVRSystem_IVRSystem_015_GetEyeToHeadTransform(struct w_steam_iface *_this, HmdMatrix34_t *_ret, EVREye eEye)
+HmdMatrix34_t *__thiscall winIVRSystem_IVRSystem_015_GetEyeToHeadTransform(winIVRSystem_IVRSystem_015 *_this, HmdMatrix34_t *_r, EVREye eEye)
 {
-    struct cppIVRSystem_IVRSystem_015_GetEyeToHeadTransform_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .eEye = eEye,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_015_GetEyeToHeadTransform( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_015_GetEyeToHeadTransform(_this->linux_side, eEye);
+    return _r;
 }
 
-bool __thiscall winIVRSystem_IVRSystem_015_GetTimeSinceLastVsync(struct w_steam_iface *_this, float *pfSecondsSinceLastVsync, uint64_t *pulFrameCounter)
+bool __thiscall winIVRSystem_IVRSystem_015_GetTimeSinceLastVsync(winIVRSystem_IVRSystem_015 *_this, float *pfSecondsSinceLastVsync, uint64_t *pulFrameCounter)
 {
-    struct cppIVRSystem_IVRSystem_015_GetTimeSinceLastVsync_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pfSecondsSinceLastVsync = pfSecondsSinceLastVsync,
-        .pulFrameCounter = pulFrameCounter,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_015_GetTimeSinceLastVsync( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_015_GetTimeSinceLastVsync(_this->linux_side, pfSecondsSinceLastVsync, pulFrameCounter);
 }
 
-int32_t __thiscall winIVRSystem_IVRSystem_015_GetD3D9AdapterIndex(struct w_steam_iface *_this)
+int32_t __thiscall winIVRSystem_IVRSystem_015_GetD3D9AdapterIndex(winIVRSystem_IVRSystem_015 *_this)
 {
-    struct cppIVRSystem_IVRSystem_015_GetD3D9AdapterIndex_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_015_GetD3D9AdapterIndex( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_015_GetD3D9AdapterIndex(_this->linux_side);
 }
 
-extern void __thiscall winIVRSystem_IVRSystem_015_GetDXGIOutputInfo(struct w_steam_iface *_this, int32_t *pnAdapterIndex);
-
-bool __thiscall winIVRSystem_IVRSystem_015_IsDisplayOnDesktop(struct w_steam_iface *_this)
+void __thiscall winIVRSystem_IVRSystem_015_GetDXGIOutputInfo(winIVRSystem_IVRSystem_015 *_this, int32_t *pnAdapterIndex)
 {
-    struct cppIVRSystem_IVRSystem_015_IsDisplayOnDesktop_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_015_IsDisplayOnDesktop( &params );
-    return params._ret;
+    get_dxgi_output_info(cppIVRSystem_IVRSystem_015_GetDXGIOutputInfo, _this->linux_side, pnAdapterIndex, 15);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_015_SetDisplayVisibility(struct w_steam_iface *_this, bool bIsVisibleOnDesktop)
+bool __thiscall winIVRSystem_IVRSystem_015_IsDisplayOnDesktop(winIVRSystem_IVRSystem_015 *_this)
 {
-    struct cppIVRSystem_IVRSystem_015_SetDisplayVisibility_params params =
-    {
-        .linux_side = _this->u_iface,
-        .bIsVisibleOnDesktop = bIsVisibleOnDesktop,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_015_SetDisplayVisibility( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_015_IsDisplayOnDesktop(_this->linux_side);
 }
 
-void __thiscall winIVRSystem_IVRSystem_015_GetDeviceToAbsoluteTrackingPose(struct w_steam_iface *_this, ETrackingUniverseOrigin eOrigin, float fPredictedSecondsToPhotonsFromNow, TrackedDevicePose_t *pTrackedDevicePoseArray, uint32_t unTrackedDevicePoseArrayCount)
+bool __thiscall winIVRSystem_IVRSystem_015_SetDisplayVisibility(winIVRSystem_IVRSystem_015 *_this, bool bIsVisibleOnDesktop)
 {
-    struct cppIVRSystem_IVRSystem_015_GetDeviceToAbsoluteTrackingPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eOrigin = eOrigin,
-        .fPredictedSecondsToPhotonsFromNow = fPredictedSecondsToPhotonsFromNow,
-        .pTrackedDevicePoseArray = pTrackedDevicePoseArray,
-        .unTrackedDevicePoseArrayCount = unTrackedDevicePoseArrayCount,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_015_GetDeviceToAbsoluteTrackingPose( &params );
+    return cppIVRSystem_IVRSystem_015_SetDisplayVisibility(_this->linux_side, bIsVisibleOnDesktop);
 }
 
-void __thiscall winIVRSystem_IVRSystem_015_ResetSeatedZeroPose(struct w_steam_iface *_this)
+void __thiscall winIVRSystem_IVRSystem_015_GetDeviceToAbsoluteTrackingPose(winIVRSystem_IVRSystem_015 *_this, ETrackingUniverseOrigin eOrigin, float fPredictedSecondsToPhotonsFromNow, TrackedDevicePose_t *pTrackedDevicePoseArray, uint32_t unTrackedDevicePoseArrayCount)
 {
-    struct cppIVRSystem_IVRSystem_015_ResetSeatedZeroPose_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_015_ResetSeatedZeroPose( &params );
+    cppIVRSystem_IVRSystem_015_GetDeviceToAbsoluteTrackingPose(_this->linux_side, eOrigin, fPredictedSecondsToPhotonsFromNow, pTrackedDevicePoseArray, unTrackedDevicePoseArrayCount);
 }
 
-HmdMatrix34_t * __thiscall winIVRSystem_IVRSystem_015_GetSeatedZeroPoseToStandingAbsoluteTrackingPose(struct w_steam_iface *_this, HmdMatrix34_t *_ret)
+void __thiscall winIVRSystem_IVRSystem_015_ResetSeatedZeroPose(winIVRSystem_IVRSystem_015 *_this)
 {
-    struct cppIVRSystem_IVRSystem_015_GetSeatedZeroPoseToStandingAbsoluteTrackingPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_015_GetSeatedZeroPoseToStandingAbsoluteTrackingPose( &params );
-    return params._ret;
+    cppIVRSystem_IVRSystem_015_ResetSeatedZeroPose(_this->linux_side);
 }
 
-HmdMatrix34_t * __thiscall winIVRSystem_IVRSystem_015_GetRawZeroPoseToStandingAbsoluteTrackingPose(struct w_steam_iface *_this, HmdMatrix34_t *_ret)
+HmdMatrix34_t *__thiscall winIVRSystem_IVRSystem_015_GetSeatedZeroPoseToStandingAbsoluteTrackingPose(winIVRSystem_IVRSystem_015 *_this, HmdMatrix34_t *_r)
 {
-    struct cppIVRSystem_IVRSystem_015_GetRawZeroPoseToStandingAbsoluteTrackingPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_015_GetRawZeroPoseToStandingAbsoluteTrackingPose( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_015_GetSeatedZeroPoseToStandingAbsoluteTrackingPose(_this->linux_side);
+    return _r;
 }
 
-uint32_t __thiscall winIVRSystem_IVRSystem_015_GetSortedTrackedDeviceIndicesOfClass(struct w_steam_iface *_this, ETrackedDeviceClass eTrackedDeviceClass, TrackedDeviceIndex_t *punTrackedDeviceIndexArray, uint32_t unTrackedDeviceIndexArrayCount, TrackedDeviceIndex_t unRelativeToTrackedDeviceIndex)
+HmdMatrix34_t *__thiscall winIVRSystem_IVRSystem_015_GetRawZeroPoseToStandingAbsoluteTrackingPose(winIVRSystem_IVRSystem_015 *_this, HmdMatrix34_t *_r)
 {
-    struct cppIVRSystem_IVRSystem_015_GetSortedTrackedDeviceIndicesOfClass_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eTrackedDeviceClass = eTrackedDeviceClass,
-        .punTrackedDeviceIndexArray = punTrackedDeviceIndexArray,
-        .unTrackedDeviceIndexArrayCount = unTrackedDeviceIndexArrayCount,
-        .unRelativeToTrackedDeviceIndex = unRelativeToTrackedDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_015_GetSortedTrackedDeviceIndicesOfClass( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_015_GetRawZeroPoseToStandingAbsoluteTrackingPose(_this->linux_side);
+    return _r;
 }
 
-EDeviceActivityLevel __thiscall winIVRSystem_IVRSystem_015_GetTrackedDeviceActivityLevel(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceId)
+uint32_t __thiscall winIVRSystem_IVRSystem_015_GetSortedTrackedDeviceIndicesOfClass(winIVRSystem_IVRSystem_015 *_this, ETrackedDeviceClass eTrackedDeviceClass, TrackedDeviceIndex_t *punTrackedDeviceIndexArray, uint32_t unTrackedDeviceIndexArrayCount, TrackedDeviceIndex_t unRelativeToTrackedDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_015_GetTrackedDeviceActivityLevel_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceId = unDeviceId,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_015_GetTrackedDeviceActivityLevel( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_015_GetSortedTrackedDeviceIndicesOfClass(_this->linux_side, eTrackedDeviceClass, punTrackedDeviceIndexArray, unTrackedDeviceIndexArrayCount, unRelativeToTrackedDeviceIndex);
 }
 
-void __thiscall winIVRSystem_IVRSystem_015_ApplyTransform(struct w_steam_iface *_this, TrackedDevicePose_t *pOutputPose, const TrackedDevicePose_t *pTrackedDevicePose, const HmdMatrix34_t *pTransform)
+EDeviceActivityLevel __thiscall winIVRSystem_IVRSystem_015_GetTrackedDeviceActivityLevel(winIVRSystem_IVRSystem_015 *_this, TrackedDeviceIndex_t unDeviceId)
 {
-    struct cppIVRSystem_IVRSystem_015_ApplyTransform_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pOutputPose = pOutputPose,
-        .pTrackedDevicePose = pTrackedDevicePose,
-        .pTransform = pTransform,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_015_ApplyTransform( &params );
+    return cppIVRSystem_IVRSystem_015_GetTrackedDeviceActivityLevel(_this->linux_side, unDeviceId);
 }
 
-TrackedDeviceIndex_t __thiscall winIVRSystem_IVRSystem_015_GetTrackedDeviceIndexForControllerRole(struct w_steam_iface *_this, ETrackedControllerRole unDeviceType)
+void __thiscall winIVRSystem_IVRSystem_015_ApplyTransform(winIVRSystem_IVRSystem_015 *_this, TrackedDevicePose_t *pOutputPose, TrackedDevicePose_t *pTrackedDevicePose, HmdMatrix34_t *pTransform)
 {
-    struct cppIVRSystem_IVRSystem_015_GetTrackedDeviceIndexForControllerRole_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceType = unDeviceType,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_015_GetTrackedDeviceIndexForControllerRole( &params );
-    return params._ret;
+    cppIVRSystem_IVRSystem_015_ApplyTransform(_this->linux_side, pOutputPose, pTrackedDevicePose, pTransform);
 }
 
-ETrackedControllerRole __thiscall winIVRSystem_IVRSystem_015_GetControllerRoleForTrackedDeviceIndex(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex)
+TrackedDeviceIndex_t __thiscall winIVRSystem_IVRSystem_015_GetTrackedDeviceIndexForControllerRole(winIVRSystem_IVRSystem_015 *_this, ETrackedControllerRole unDeviceType)
 {
-    struct cppIVRSystem_IVRSystem_015_GetControllerRoleForTrackedDeviceIndex_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_015_GetControllerRoleForTrackedDeviceIndex( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_015_GetTrackedDeviceIndexForControllerRole(_this->linux_side, unDeviceType);
 }
 
-ETrackedDeviceClass __thiscall winIVRSystem_IVRSystem_015_GetTrackedDeviceClass(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex)
+ETrackedControllerRole __thiscall winIVRSystem_IVRSystem_015_GetControllerRoleForTrackedDeviceIndex(winIVRSystem_IVRSystem_015 *_this, TrackedDeviceIndex_t unDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_015_GetTrackedDeviceClass_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_015_GetTrackedDeviceClass( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_015_GetControllerRoleForTrackedDeviceIndex(_this->linux_side, unDeviceIndex);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_015_IsTrackedDeviceConnected(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex)
+ETrackedDeviceClass __thiscall winIVRSystem_IVRSystem_015_GetTrackedDeviceClass(winIVRSystem_IVRSystem_015 *_this, TrackedDeviceIndex_t unDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_015_IsTrackedDeviceConnected_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_015_IsTrackedDeviceConnected( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_015_GetTrackedDeviceClass(_this->linux_side, unDeviceIndex);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_015_GetBoolTrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
+bool __thiscall winIVRSystem_IVRSystem_015_IsTrackedDeviceConnected(winIVRSystem_IVRSystem_015 *_this, TrackedDeviceIndex_t unDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_015_GetBoolTrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_015_GetBoolTrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_015_IsTrackedDeviceConnected(_this->linux_side, unDeviceIndex);
 }
 
-float __thiscall winIVRSystem_IVRSystem_015_GetFloatTrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
+bool __thiscall winIVRSystem_IVRSystem_015_GetBoolTrackedDeviceProperty(winIVRSystem_IVRSystem_015 *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_015_GetFloatTrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_015_GetFloatTrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_015_GetBoolTrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
 }
 
-int32_t __thiscall winIVRSystem_IVRSystem_015_GetInt32TrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
+float __thiscall winIVRSystem_IVRSystem_015_GetFloatTrackedDeviceProperty(winIVRSystem_IVRSystem_015 *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_015_GetInt32TrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_015_GetInt32TrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_015_GetFloatTrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
 }
 
-uint64_t __thiscall winIVRSystem_IVRSystem_015_GetUint64TrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
+int32_t __thiscall winIVRSystem_IVRSystem_015_GetInt32TrackedDeviceProperty(winIVRSystem_IVRSystem_015 *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_015_GetUint64TrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_015_GetUint64TrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_015_GetInt32TrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
 }
 
-HmdMatrix34_t * __thiscall winIVRSystem_IVRSystem_015_GetMatrix34TrackedDeviceProperty(struct w_steam_iface *_this, HmdMatrix34_t *_ret, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
+uint64_t __thiscall winIVRSystem_IVRSystem_015_GetUint64TrackedDeviceProperty(winIVRSystem_IVRSystem_015 *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_015_GetMatrix34TrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_015_GetMatrix34TrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_015_GetUint64TrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
 }
 
-uint32_t __thiscall winIVRSystem_IVRSystem_015_GetStringTrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, char *pchValue, uint32_t unBufferSize, ETrackedPropertyError *pError)
+HmdMatrix34_t *__thiscall winIVRSystem_IVRSystem_015_GetMatrix34TrackedDeviceProperty(winIVRSystem_IVRSystem_015 *_this, HmdMatrix34_t *_r, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_015_GetStringTrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pchValue = pchValue,
-        .unBufferSize = unBufferSize,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_015_GetStringTrackedDeviceProperty( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_015_GetMatrix34TrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
+    return _r;
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_015_GetPropErrorNameFromEnum(struct w_steam_iface *_this, ETrackedPropertyError error)
+uint32_t __thiscall winIVRSystem_IVRSystem_015_GetStringTrackedDeviceProperty(winIVRSystem_IVRSystem_015 *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, char *pchValue, uint32_t unBufferSize, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_015_GetPropErrorNameFromEnum_params params =
-    {
-        .linux_side = _this->u_iface,
-        .error = error,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_015_GetPropErrorNameFromEnum( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_015_GetStringTrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pchValue, unBufferSize, pError);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_015_PollNextEvent(struct w_steam_iface *_this, winVREvent_t_107 *pEvent, uint32_t uncbVREvent)
+const char * __thiscall winIVRSystem_IVRSystem_015_GetPropErrorNameFromEnum(winIVRSystem_IVRSystem_015 *_this, ETrackedPropertyError error)
 {
-    struct cppIVRSystem_IVRSystem_015_PollNextEvent_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pEvent = pEvent,
-        .uncbVREvent = uncbVREvent,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_015_PollNextEvent( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_015_GetPropErrorNameFromEnum(_this->linux_side, error);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_015_PollNextEventWithPose(struct w_steam_iface *_this, ETrackingUniverseOrigin eOrigin, winVREvent_t_107 *pEvent, uint32_t uncbVREvent, TrackedDevicePose_t *pTrackedDevicePose)
+bool __thiscall winIVRSystem_IVRSystem_015_PollNextEvent(winIVRSystem_IVRSystem_015 *_this, winVREvent_t_107 *pEvent, uint32_t uncbVREvent)
 {
-    struct cppIVRSystem_IVRSystem_015_PollNextEventWithPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eOrigin = eOrigin,
-        .pEvent = pEvent,
-        .uncbVREvent = uncbVREvent,
-        .pTrackedDevicePose = pTrackedDevicePose,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_015_PollNextEventWithPose( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_015_PollNextEvent(_this->linux_side, pEvent, uncbVREvent);
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_015_GetEventTypeNameFromEnum(struct w_steam_iface *_this, EVREventType eType)
+bool __thiscall winIVRSystem_IVRSystem_015_PollNextEventWithPose(winIVRSystem_IVRSystem_015 *_this, ETrackingUniverseOrigin eOrigin, winVREvent_t_107 *pEvent, uint32_t uncbVREvent, TrackedDevicePose_t *pTrackedDevicePose)
 {
-    struct cppIVRSystem_IVRSystem_015_GetEventTypeNameFromEnum_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eType = eType,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_015_GetEventTypeNameFromEnum( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_015_PollNextEventWithPose(_this->linux_side, eOrigin, pEvent, uncbVREvent, pTrackedDevicePose);
 }
 
-HiddenAreaMesh_t * __thiscall winIVRSystem_IVRSystem_015_GetHiddenAreaMesh(struct w_steam_iface *_this, HiddenAreaMesh_t *_ret, EVREye eEye, EHiddenAreaMeshType type)
+const char * __thiscall winIVRSystem_IVRSystem_015_GetEventTypeNameFromEnum(winIVRSystem_IVRSystem_015 *_this, EVREventType eType)
 {
-    struct cppIVRSystem_IVRSystem_015_GetHiddenAreaMesh_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .eEye = eEye,
-        .type = type,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_015_GetHiddenAreaMesh( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_015_GetEventTypeNameFromEnum(_this->linux_side, eType);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_015_GetControllerState(struct w_steam_iface *_this, TrackedDeviceIndex_t unControllerDeviceIndex, winVRControllerState001_t_107 *pControllerState, uint32_t unControllerStateSize)
+HiddenAreaMesh_t *__thiscall winIVRSystem_IVRSystem_015_GetHiddenAreaMesh(winIVRSystem_IVRSystem_015 *_this, HiddenAreaMesh_t *_r, EVREye eEye, EHiddenAreaMeshType type)
 {
-    struct cppIVRSystem_IVRSystem_015_GetControllerState_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unControllerDeviceIndex = unControllerDeviceIndex,
-        .pControllerState = pControllerState,
-        .unControllerStateSize = unControllerStateSize,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_015_GetControllerState( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_015_GetHiddenAreaMesh(_this->linux_side, eEye, type);
+    return _r;
 }
 
-bool __thiscall winIVRSystem_IVRSystem_015_GetControllerStateWithPose(struct w_steam_iface *_this, ETrackingUniverseOrigin eOrigin, TrackedDeviceIndex_t unControllerDeviceIndex, winVRControllerState001_t_107 *pControllerState, uint32_t unControllerStateSize, TrackedDevicePose_t *pTrackedDevicePose)
+bool __thiscall winIVRSystem_IVRSystem_015_GetControllerState(winIVRSystem_IVRSystem_015 *_this, TrackedDeviceIndex_t unControllerDeviceIndex, winVRControllerState001_t_107 *pControllerState, uint32_t unControllerStateSize)
 {
-    struct cppIVRSystem_IVRSystem_015_GetControllerStateWithPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eOrigin = eOrigin,
-        .unControllerDeviceIndex = unControllerDeviceIndex,
-        .pControllerState = pControllerState,
-        .unControllerStateSize = unControllerStateSize,
-        .pTrackedDevicePose = pTrackedDevicePose,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_015_GetControllerStateWithPose( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_015_GetControllerState(_this->linux_side, unControllerDeviceIndex, pControllerState, unControllerStateSize);
 }
 
-void __thiscall winIVRSystem_IVRSystem_015_TriggerHapticPulse(struct w_steam_iface *_this, TrackedDeviceIndex_t unControllerDeviceIndex, uint32_t unAxisId, unsigned short usDurationMicroSec)
+bool __thiscall winIVRSystem_IVRSystem_015_GetControllerStateWithPose(winIVRSystem_IVRSystem_015 *_this, ETrackingUniverseOrigin eOrigin, TrackedDeviceIndex_t unControllerDeviceIndex, winVRControllerState001_t_107 *pControllerState, uint32_t unControllerStateSize, TrackedDevicePose_t *pTrackedDevicePose)
 {
-    struct cppIVRSystem_IVRSystem_015_TriggerHapticPulse_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unControllerDeviceIndex = unControllerDeviceIndex,
-        .unAxisId = unAxisId,
-        .usDurationMicroSec = usDurationMicroSec,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_015_TriggerHapticPulse( &params );
+    return cppIVRSystem_IVRSystem_015_GetControllerStateWithPose(_this->linux_side, eOrigin, unControllerDeviceIndex, pControllerState, unControllerStateSize, pTrackedDevicePose);
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_015_GetButtonIdNameFromEnum(struct w_steam_iface *_this, EVRButtonId eButtonId)
+void __thiscall winIVRSystem_IVRSystem_015_TriggerHapticPulse(winIVRSystem_IVRSystem_015 *_this, TrackedDeviceIndex_t unControllerDeviceIndex, uint32_t unAxisId, unsigned short usDurationMicroSec)
 {
-    struct cppIVRSystem_IVRSystem_015_GetButtonIdNameFromEnum_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eButtonId = eButtonId,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_015_GetButtonIdNameFromEnum( &params );
-    return params._ret;
+    cppIVRSystem_IVRSystem_015_TriggerHapticPulse(_this->linux_side, unControllerDeviceIndex, unAxisId, usDurationMicroSec);
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_015_GetControllerAxisTypeNameFromEnum(struct w_steam_iface *_this, EVRControllerAxisType eAxisType)
+const char * __thiscall winIVRSystem_IVRSystem_015_GetButtonIdNameFromEnum(winIVRSystem_IVRSystem_015 *_this, EVRButtonId eButtonId)
 {
-    struct cppIVRSystem_IVRSystem_015_GetControllerAxisTypeNameFromEnum_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eAxisType = eAxisType,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_015_GetControllerAxisTypeNameFromEnum( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_015_GetButtonIdNameFromEnum(_this->linux_side, eButtonId);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_015_CaptureInputFocus(struct w_steam_iface *_this)
+const char * __thiscall winIVRSystem_IVRSystem_015_GetControllerAxisTypeNameFromEnum(winIVRSystem_IVRSystem_015 *_this, EVRControllerAxisType eAxisType)
 {
-    struct cppIVRSystem_IVRSystem_015_CaptureInputFocus_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_015_CaptureInputFocus( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_015_GetControllerAxisTypeNameFromEnum(_this->linux_side, eAxisType);
 }
 
-void __thiscall winIVRSystem_IVRSystem_015_ReleaseInputFocus(struct w_steam_iface *_this)
+bool __thiscall winIVRSystem_IVRSystem_015_CaptureInputFocus(winIVRSystem_IVRSystem_015 *_this)
 {
-    struct cppIVRSystem_IVRSystem_015_ReleaseInputFocus_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_015_ReleaseInputFocus( &params );
+    return cppIVRSystem_IVRSystem_015_CaptureInputFocus(_this->linux_side);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_015_IsInputFocusCapturedByAnotherProcess(struct w_steam_iface *_this)
+void __thiscall winIVRSystem_IVRSystem_015_ReleaseInputFocus(winIVRSystem_IVRSystem_015 *_this)
 {
-    struct cppIVRSystem_IVRSystem_015_IsInputFocusCapturedByAnotherProcess_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_015_IsInputFocusCapturedByAnotherProcess( &params );
-    return params._ret;
+    cppIVRSystem_IVRSystem_015_ReleaseInputFocus(_this->linux_side);
 }
 
-uint32_t __thiscall winIVRSystem_IVRSystem_015_DriverDebugRequest(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, const char *pchRequest, char *pchResponseBuffer, uint32_t unResponseBufferSize)
+bool __thiscall winIVRSystem_IVRSystem_015_IsInputFocusCapturedByAnotherProcess(winIVRSystem_IVRSystem_015 *_this)
 {
-    struct cppIVRSystem_IVRSystem_015_DriverDebugRequest_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .pchRequest = pchRequest,
-        .pchResponseBuffer = pchResponseBuffer,
-        .unResponseBufferSize = unResponseBufferSize,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_015_DriverDebugRequest( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_015_IsInputFocusCapturedByAnotherProcess(_this->linux_side);
 }
 
-EVRFirmwareError __thiscall winIVRSystem_IVRSystem_015_PerformFirmwareUpdate(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex)
+uint32_t __thiscall winIVRSystem_IVRSystem_015_DriverDebugRequest(winIVRSystem_IVRSystem_015 *_this, TrackedDeviceIndex_t unDeviceIndex, const char *pchRequest, char *pchResponseBuffer, uint32_t unResponseBufferSize)
 {
-    struct cppIVRSystem_IVRSystem_015_PerformFirmwareUpdate_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_015_PerformFirmwareUpdate( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_015_DriverDebugRequest(_this->linux_side, unDeviceIndex, pchRequest, pchResponseBuffer, unResponseBufferSize);
 }
 
-void __thiscall winIVRSystem_IVRSystem_015_AcknowledgeQuit_Exiting(struct w_steam_iface *_this)
+EVRFirmwareError __thiscall winIVRSystem_IVRSystem_015_PerformFirmwareUpdate(winIVRSystem_IVRSystem_015 *_this, TrackedDeviceIndex_t unDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_015_AcknowledgeQuit_Exiting_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_015_AcknowledgeQuit_Exiting( &params );
+    return cppIVRSystem_IVRSystem_015_PerformFirmwareUpdate(_this->linux_side, unDeviceIndex);
 }
 
-void __thiscall winIVRSystem_IVRSystem_015_AcknowledgeQuit_UserPrompt(struct w_steam_iface *_this)
+void __thiscall winIVRSystem_IVRSystem_015_AcknowledgeQuit_Exiting(winIVRSystem_IVRSystem_015 *_this)
 {
-    struct cppIVRSystem_IVRSystem_015_AcknowledgeQuit_UserPrompt_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_015_AcknowledgeQuit_UserPrompt( &params );
+    cppIVRSystem_IVRSystem_015_AcknowledgeQuit_Exiting(_this->linux_side);
+}
+
+void __thiscall winIVRSystem_IVRSystem_015_AcknowledgeQuit_UserPrompt(winIVRSystem_IVRSystem_015 *_this)
+{
+    TRACE("%p\n", _this);
+    cppIVRSystem_IVRSystem_015_AcknowledgeQuit_UserPrompt(_this->linux_side);
 }
 
 extern vtable_ptr winIVRSystem_IVRSystem_015_vtable;
@@ -6998,24 +4351,24 @@ void __asm_dummy_vtables(void) {
 }
 #endif
 
-struct w_steam_iface *create_winIVRSystem_IVRSystem_015(void *u_iface)
+winIVRSystem_IVRSystem_015 *create_winIVRSystem_IVRSystem_015(void *linux_side)
 {
-    struct w_steam_iface *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(*r));
+    winIVRSystem_IVRSystem_015 *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(winIVRSystem_IVRSystem_015));
     TRACE("-> %p\n", r);
     r->vtable = &winIVRSystem_IVRSystem_015_vtable;
-    r->u_iface = u_iface;
+    r->linux_side = linux_side;
     return r;
 }
 
-void destroy_winIVRSystem_IVRSystem_015(struct w_steam_iface *object)
+void destroy_winIVRSystem_IVRSystem_015(void *object)
 {
     TRACE("%p\n", object);
     HeapFree(GetProcessHeap(), 0, object);
 }
 
-struct w_steam_iface *create_winIVRSystem_IVRSystem_015_FnTable(void *u_iface)
+winIVRSystem_IVRSystem_015 *create_winIVRSystem_IVRSystem_015_FnTable(void *linux_side)
 {
-    struct w_steam_iface *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(*r));
+    winIVRSystem_IVRSystem_015 *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(winIVRSystem_IVRSystem_015));
     struct thunk *thunks = alloc_thunks(44);
     struct thunk **vtable = HeapAlloc(GetProcessHeap(), 0, 44 * sizeof(*vtable));
     int i;
@@ -7067,20 +4420,26 @@ struct w_steam_iface *create_winIVRSystem_IVRSystem_015_FnTable(void *u_iface)
     init_thunk(&thunks[43], r, winIVRSystem_IVRSystem_015_AcknowledgeQuit_UserPrompt, 0, FALSE, FALSE);
     for (i = 0; i < 44; i++)
         vtable[i] = &thunks[i];
-    r->u_iface = u_iface;
+    r->linux_side = linux_side;
     r->vtable = (void *)vtable;
     return r;
 }
 
-void destroy_winIVRSystem_IVRSystem_015_FnTable(struct w_steam_iface *object)
+void destroy_winIVRSystem_IVRSystem_015_FnTable(void *object)
 {
-    TRACE("%p\n", object);
-    VirtualFree(object->vtable[0], 0, MEM_RELEASE);
-    HeapFree(GetProcessHeap(), 0, object->vtable);
-    HeapFree(GetProcessHeap(), 0, object);
+    winIVRSystem_IVRSystem_015 *win_object = object;
+    TRACE("%p\n", win_object);
+    VirtualFree(win_object->vtable[0], 0, MEM_RELEASE);
+    HeapFree(GetProcessHeap(), 0, win_object->vtable);
+    HeapFree(GetProcessHeap(), 0, win_object);
 }
 
 #include "cppIVRSystem_IVRSystem_016.h"
+
+typedef struct __winIVRSystem_IVRSystem_016 {
+    vtable_ptr *vtable;
+    void *linux_side;
+} winIVRSystem_IVRSystem_016;
 
 DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_016_GetRecommendedRenderTargetSize, 12)
 DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_016_GetProjectionMatrix, 20)
@@ -7128,570 +4487,280 @@ DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_016_PerformFirmwareUpdate, 8)
 DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_016_AcknowledgeQuit_Exiting, 4)
 DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_016_AcknowledgeQuit_UserPrompt, 4)
 
-void __thiscall winIVRSystem_IVRSystem_016_GetRecommendedRenderTargetSize(struct w_steam_iface *_this, uint32_t *pnWidth, uint32_t *pnHeight)
+void __thiscall winIVRSystem_IVRSystem_016_GetRecommendedRenderTargetSize(winIVRSystem_IVRSystem_016 *_this, uint32_t *pnWidth, uint32_t *pnHeight)
 {
-    struct cppIVRSystem_IVRSystem_016_GetRecommendedRenderTargetSize_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pnWidth = pnWidth,
-        .pnHeight = pnHeight,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_016_GetRecommendedRenderTargetSize( &params );
+    cppIVRSystem_IVRSystem_016_GetRecommendedRenderTargetSize(_this->linux_side, pnWidth, pnHeight);
 }
 
-HmdMatrix44_t * __thiscall winIVRSystem_IVRSystem_016_GetProjectionMatrix(struct w_steam_iface *_this, HmdMatrix44_t *_ret, EVREye eEye, float fNearZ, float fFarZ)
+HmdMatrix44_t *__thiscall winIVRSystem_IVRSystem_016_GetProjectionMatrix(winIVRSystem_IVRSystem_016 *_this, HmdMatrix44_t *_r, EVREye eEye, float fNearZ, float fFarZ)
 {
-    struct cppIVRSystem_IVRSystem_016_GetProjectionMatrix_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .eEye = eEye,
-        .fNearZ = fNearZ,
-        .fFarZ = fFarZ,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_016_GetProjectionMatrix( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_016_GetProjectionMatrix(_this->linux_side, eEye, fNearZ, fFarZ);
+    return _r;
 }
 
-void __thiscall winIVRSystem_IVRSystem_016_GetProjectionRaw(struct w_steam_iface *_this, EVREye eEye, float *pfLeft, float *pfRight, float *pfTop, float *pfBottom)
+void __thiscall winIVRSystem_IVRSystem_016_GetProjectionRaw(winIVRSystem_IVRSystem_016 *_this, EVREye eEye, float *pfLeft, float *pfRight, float *pfTop, float *pfBottom)
 {
-    struct cppIVRSystem_IVRSystem_016_GetProjectionRaw_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eEye = eEye,
-        .pfLeft = pfLeft,
-        .pfRight = pfRight,
-        .pfTop = pfTop,
-        .pfBottom = pfBottom,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_016_GetProjectionRaw( &params );
+    cppIVRSystem_IVRSystem_016_GetProjectionRaw(_this->linux_side, eEye, pfLeft, pfRight, pfTop, pfBottom);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_016_ComputeDistortion(struct w_steam_iface *_this, EVREye eEye, float fU, float fV, DistortionCoordinates_t *pDistortionCoordinates)
+bool __thiscall winIVRSystem_IVRSystem_016_ComputeDistortion(winIVRSystem_IVRSystem_016 *_this, EVREye eEye, float fU, float fV, DistortionCoordinates_t *pDistortionCoordinates)
 {
-    struct cppIVRSystem_IVRSystem_016_ComputeDistortion_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eEye = eEye,
-        .fU = fU,
-        .fV = fV,
-        .pDistortionCoordinates = pDistortionCoordinates,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_016_ComputeDistortion( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_016_ComputeDistortion(_this->linux_side, eEye, fU, fV, pDistortionCoordinates);
 }
 
-HmdMatrix34_t * __thiscall winIVRSystem_IVRSystem_016_GetEyeToHeadTransform(struct w_steam_iface *_this, HmdMatrix34_t *_ret, EVREye eEye)
+HmdMatrix34_t *__thiscall winIVRSystem_IVRSystem_016_GetEyeToHeadTransform(winIVRSystem_IVRSystem_016 *_this, HmdMatrix34_t *_r, EVREye eEye)
 {
-    struct cppIVRSystem_IVRSystem_016_GetEyeToHeadTransform_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .eEye = eEye,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_016_GetEyeToHeadTransform( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_016_GetEyeToHeadTransform(_this->linux_side, eEye);
+    return _r;
 }
 
-bool __thiscall winIVRSystem_IVRSystem_016_GetTimeSinceLastVsync(struct w_steam_iface *_this, float *pfSecondsSinceLastVsync, uint64_t *pulFrameCounter)
+bool __thiscall winIVRSystem_IVRSystem_016_GetTimeSinceLastVsync(winIVRSystem_IVRSystem_016 *_this, float *pfSecondsSinceLastVsync, uint64_t *pulFrameCounter)
 {
-    struct cppIVRSystem_IVRSystem_016_GetTimeSinceLastVsync_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pfSecondsSinceLastVsync = pfSecondsSinceLastVsync,
-        .pulFrameCounter = pulFrameCounter,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_016_GetTimeSinceLastVsync( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_016_GetTimeSinceLastVsync(_this->linux_side, pfSecondsSinceLastVsync, pulFrameCounter);
 }
 
-int32_t __thiscall winIVRSystem_IVRSystem_016_GetD3D9AdapterIndex(struct w_steam_iface *_this)
+int32_t __thiscall winIVRSystem_IVRSystem_016_GetD3D9AdapterIndex(winIVRSystem_IVRSystem_016 *_this)
 {
-    struct cppIVRSystem_IVRSystem_016_GetD3D9AdapterIndex_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_016_GetD3D9AdapterIndex( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_016_GetD3D9AdapterIndex(_this->linux_side);
 }
 
-extern void __thiscall winIVRSystem_IVRSystem_016_GetDXGIOutputInfo(struct w_steam_iface *_this, int32_t *pnAdapterIndex);
-
-void __thiscall winIVRSystem_IVRSystem_016_GetOutputDevice(struct w_steam_iface *_this, uint64_t *pnDevice, ETextureType textureType)
+void __thiscall winIVRSystem_IVRSystem_016_GetDXGIOutputInfo(winIVRSystem_IVRSystem_016 *_this, int32_t *pnAdapterIndex)
 {
-    struct cppIVRSystem_IVRSystem_016_GetOutputDevice_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pnDevice = pnDevice,
-        .textureType = textureType,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_016_GetOutputDevice( &params );
+    get_dxgi_output_info(cppIVRSystem_IVRSystem_016_GetDXGIOutputInfo, _this->linux_side, pnAdapterIndex, 16);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_016_IsDisplayOnDesktop(struct w_steam_iface *_this)
+void __thiscall winIVRSystem_IVRSystem_016_GetOutputDevice(winIVRSystem_IVRSystem_016 *_this, uint64_t *pnDevice, ETextureType textureType)
 {
-    struct cppIVRSystem_IVRSystem_016_IsDisplayOnDesktop_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_016_IsDisplayOnDesktop( &params );
-    return params._ret;
+    ivrsystem_016_get_output_device(cppIVRSystem_IVRSystem_016_GetOutputDevice, _this->linux_side, pnDevice, textureType, 16);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_016_SetDisplayVisibility(struct w_steam_iface *_this, bool bIsVisibleOnDesktop)
+bool __thiscall winIVRSystem_IVRSystem_016_IsDisplayOnDesktop(winIVRSystem_IVRSystem_016 *_this)
 {
-    struct cppIVRSystem_IVRSystem_016_SetDisplayVisibility_params params =
-    {
-        .linux_side = _this->u_iface,
-        .bIsVisibleOnDesktop = bIsVisibleOnDesktop,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_016_SetDisplayVisibility( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_016_IsDisplayOnDesktop(_this->linux_side);
 }
 
-void __thiscall winIVRSystem_IVRSystem_016_GetDeviceToAbsoluteTrackingPose(struct w_steam_iface *_this, ETrackingUniverseOrigin eOrigin, float fPredictedSecondsToPhotonsFromNow, TrackedDevicePose_t *pTrackedDevicePoseArray, uint32_t unTrackedDevicePoseArrayCount)
+bool __thiscall winIVRSystem_IVRSystem_016_SetDisplayVisibility(winIVRSystem_IVRSystem_016 *_this, bool bIsVisibleOnDesktop)
 {
-    struct cppIVRSystem_IVRSystem_016_GetDeviceToAbsoluteTrackingPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eOrigin = eOrigin,
-        .fPredictedSecondsToPhotonsFromNow = fPredictedSecondsToPhotonsFromNow,
-        .pTrackedDevicePoseArray = pTrackedDevicePoseArray,
-        .unTrackedDevicePoseArrayCount = unTrackedDevicePoseArrayCount,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_016_GetDeviceToAbsoluteTrackingPose( &params );
+    return cppIVRSystem_IVRSystem_016_SetDisplayVisibility(_this->linux_side, bIsVisibleOnDesktop);
 }
 
-void __thiscall winIVRSystem_IVRSystem_016_ResetSeatedZeroPose(struct w_steam_iface *_this)
+void __thiscall winIVRSystem_IVRSystem_016_GetDeviceToAbsoluteTrackingPose(winIVRSystem_IVRSystem_016 *_this, ETrackingUniverseOrigin eOrigin, float fPredictedSecondsToPhotonsFromNow, TrackedDevicePose_t *pTrackedDevicePoseArray, uint32_t unTrackedDevicePoseArrayCount)
 {
-    struct cppIVRSystem_IVRSystem_016_ResetSeatedZeroPose_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_016_ResetSeatedZeroPose( &params );
+    cppIVRSystem_IVRSystem_016_GetDeviceToAbsoluteTrackingPose(_this->linux_side, eOrigin, fPredictedSecondsToPhotonsFromNow, pTrackedDevicePoseArray, unTrackedDevicePoseArrayCount);
 }
 
-HmdMatrix34_t * __thiscall winIVRSystem_IVRSystem_016_GetSeatedZeroPoseToStandingAbsoluteTrackingPose(struct w_steam_iface *_this, HmdMatrix34_t *_ret)
+void __thiscall winIVRSystem_IVRSystem_016_ResetSeatedZeroPose(winIVRSystem_IVRSystem_016 *_this)
 {
-    struct cppIVRSystem_IVRSystem_016_GetSeatedZeroPoseToStandingAbsoluteTrackingPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_016_GetSeatedZeroPoseToStandingAbsoluteTrackingPose( &params );
-    return params._ret;
+    cppIVRSystem_IVRSystem_016_ResetSeatedZeroPose(_this->linux_side);
 }
 
-HmdMatrix34_t * __thiscall winIVRSystem_IVRSystem_016_GetRawZeroPoseToStandingAbsoluteTrackingPose(struct w_steam_iface *_this, HmdMatrix34_t *_ret)
+HmdMatrix34_t *__thiscall winIVRSystem_IVRSystem_016_GetSeatedZeroPoseToStandingAbsoluteTrackingPose(winIVRSystem_IVRSystem_016 *_this, HmdMatrix34_t *_r)
 {
-    struct cppIVRSystem_IVRSystem_016_GetRawZeroPoseToStandingAbsoluteTrackingPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_016_GetRawZeroPoseToStandingAbsoluteTrackingPose( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_016_GetSeatedZeroPoseToStandingAbsoluteTrackingPose(_this->linux_side);
+    return _r;
 }
 
-uint32_t __thiscall winIVRSystem_IVRSystem_016_GetSortedTrackedDeviceIndicesOfClass(struct w_steam_iface *_this, ETrackedDeviceClass eTrackedDeviceClass, TrackedDeviceIndex_t *punTrackedDeviceIndexArray, uint32_t unTrackedDeviceIndexArrayCount, TrackedDeviceIndex_t unRelativeToTrackedDeviceIndex)
+HmdMatrix34_t *__thiscall winIVRSystem_IVRSystem_016_GetRawZeroPoseToStandingAbsoluteTrackingPose(winIVRSystem_IVRSystem_016 *_this, HmdMatrix34_t *_r)
 {
-    struct cppIVRSystem_IVRSystem_016_GetSortedTrackedDeviceIndicesOfClass_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eTrackedDeviceClass = eTrackedDeviceClass,
-        .punTrackedDeviceIndexArray = punTrackedDeviceIndexArray,
-        .unTrackedDeviceIndexArrayCount = unTrackedDeviceIndexArrayCount,
-        .unRelativeToTrackedDeviceIndex = unRelativeToTrackedDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_016_GetSortedTrackedDeviceIndicesOfClass( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_016_GetRawZeroPoseToStandingAbsoluteTrackingPose(_this->linux_side);
+    return _r;
 }
 
-EDeviceActivityLevel __thiscall winIVRSystem_IVRSystem_016_GetTrackedDeviceActivityLevel(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceId)
+uint32_t __thiscall winIVRSystem_IVRSystem_016_GetSortedTrackedDeviceIndicesOfClass(winIVRSystem_IVRSystem_016 *_this, ETrackedDeviceClass eTrackedDeviceClass, TrackedDeviceIndex_t *punTrackedDeviceIndexArray, uint32_t unTrackedDeviceIndexArrayCount, TrackedDeviceIndex_t unRelativeToTrackedDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_016_GetTrackedDeviceActivityLevel_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceId = unDeviceId,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_016_GetTrackedDeviceActivityLevel( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_016_GetSortedTrackedDeviceIndicesOfClass(_this->linux_side, eTrackedDeviceClass, punTrackedDeviceIndexArray, unTrackedDeviceIndexArrayCount, unRelativeToTrackedDeviceIndex);
 }
 
-void __thiscall winIVRSystem_IVRSystem_016_ApplyTransform(struct w_steam_iface *_this, TrackedDevicePose_t *pOutputPose, const TrackedDevicePose_t *pTrackedDevicePose, const HmdMatrix34_t *pTransform)
+EDeviceActivityLevel __thiscall winIVRSystem_IVRSystem_016_GetTrackedDeviceActivityLevel(winIVRSystem_IVRSystem_016 *_this, TrackedDeviceIndex_t unDeviceId)
 {
-    struct cppIVRSystem_IVRSystem_016_ApplyTransform_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pOutputPose = pOutputPose,
-        .pTrackedDevicePose = pTrackedDevicePose,
-        .pTransform = pTransform,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_016_ApplyTransform( &params );
+    return cppIVRSystem_IVRSystem_016_GetTrackedDeviceActivityLevel(_this->linux_side, unDeviceId);
 }
 
-TrackedDeviceIndex_t __thiscall winIVRSystem_IVRSystem_016_GetTrackedDeviceIndexForControllerRole(struct w_steam_iface *_this, ETrackedControllerRole unDeviceType)
+void __thiscall winIVRSystem_IVRSystem_016_ApplyTransform(winIVRSystem_IVRSystem_016 *_this, TrackedDevicePose_t *pOutputPose, TrackedDevicePose_t *pTrackedDevicePose, HmdMatrix34_t *pTransform)
 {
-    struct cppIVRSystem_IVRSystem_016_GetTrackedDeviceIndexForControllerRole_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceType = unDeviceType,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_016_GetTrackedDeviceIndexForControllerRole( &params );
-    return params._ret;
+    cppIVRSystem_IVRSystem_016_ApplyTransform(_this->linux_side, pOutputPose, pTrackedDevicePose, pTransform);
 }
 
-ETrackedControllerRole __thiscall winIVRSystem_IVRSystem_016_GetControllerRoleForTrackedDeviceIndex(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex)
+TrackedDeviceIndex_t __thiscall winIVRSystem_IVRSystem_016_GetTrackedDeviceIndexForControllerRole(winIVRSystem_IVRSystem_016 *_this, ETrackedControllerRole unDeviceType)
 {
-    struct cppIVRSystem_IVRSystem_016_GetControllerRoleForTrackedDeviceIndex_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_016_GetControllerRoleForTrackedDeviceIndex( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_016_GetTrackedDeviceIndexForControllerRole(_this->linux_side, unDeviceType);
 }
 
-ETrackedDeviceClass __thiscall winIVRSystem_IVRSystem_016_GetTrackedDeviceClass(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex)
+ETrackedControllerRole __thiscall winIVRSystem_IVRSystem_016_GetControllerRoleForTrackedDeviceIndex(winIVRSystem_IVRSystem_016 *_this, TrackedDeviceIndex_t unDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_016_GetTrackedDeviceClass_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_016_GetTrackedDeviceClass( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_016_GetControllerRoleForTrackedDeviceIndex(_this->linux_side, unDeviceIndex);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_016_IsTrackedDeviceConnected(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex)
+ETrackedDeviceClass __thiscall winIVRSystem_IVRSystem_016_GetTrackedDeviceClass(winIVRSystem_IVRSystem_016 *_this, TrackedDeviceIndex_t unDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_016_IsTrackedDeviceConnected_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_016_IsTrackedDeviceConnected( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_016_GetTrackedDeviceClass(_this->linux_side, unDeviceIndex);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_016_GetBoolTrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
+bool __thiscall winIVRSystem_IVRSystem_016_IsTrackedDeviceConnected(winIVRSystem_IVRSystem_016 *_this, TrackedDeviceIndex_t unDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_016_GetBoolTrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_016_GetBoolTrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_016_IsTrackedDeviceConnected(_this->linux_side, unDeviceIndex);
 }
 
-float __thiscall winIVRSystem_IVRSystem_016_GetFloatTrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
+bool __thiscall winIVRSystem_IVRSystem_016_GetBoolTrackedDeviceProperty(winIVRSystem_IVRSystem_016 *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_016_GetFloatTrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_016_GetFloatTrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_016_GetBoolTrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
 }
 
-int32_t __thiscall winIVRSystem_IVRSystem_016_GetInt32TrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
+float __thiscall winIVRSystem_IVRSystem_016_GetFloatTrackedDeviceProperty(winIVRSystem_IVRSystem_016 *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_016_GetInt32TrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_016_GetInt32TrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_016_GetFloatTrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
 }
 
-uint64_t __thiscall winIVRSystem_IVRSystem_016_GetUint64TrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
+int32_t __thiscall winIVRSystem_IVRSystem_016_GetInt32TrackedDeviceProperty(winIVRSystem_IVRSystem_016 *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_016_GetUint64TrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_016_GetUint64TrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_016_GetInt32TrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
 }
 
-HmdMatrix34_t * __thiscall winIVRSystem_IVRSystem_016_GetMatrix34TrackedDeviceProperty(struct w_steam_iface *_this, HmdMatrix34_t *_ret, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
+uint64_t __thiscall winIVRSystem_IVRSystem_016_GetUint64TrackedDeviceProperty(winIVRSystem_IVRSystem_016 *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_016_GetMatrix34TrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_016_GetMatrix34TrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_016_GetUint64TrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
 }
 
-uint32_t __thiscall winIVRSystem_IVRSystem_016_GetStringTrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, char *pchValue, uint32_t unBufferSize, ETrackedPropertyError *pError)
+HmdMatrix34_t *__thiscall winIVRSystem_IVRSystem_016_GetMatrix34TrackedDeviceProperty(winIVRSystem_IVRSystem_016 *_this, HmdMatrix34_t *_r, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_016_GetStringTrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pchValue = pchValue,
-        .unBufferSize = unBufferSize,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_016_GetStringTrackedDeviceProperty( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_016_GetMatrix34TrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
+    return _r;
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_016_GetPropErrorNameFromEnum(struct w_steam_iface *_this, ETrackedPropertyError error)
+uint32_t __thiscall winIVRSystem_IVRSystem_016_GetStringTrackedDeviceProperty(winIVRSystem_IVRSystem_016 *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, char *pchValue, uint32_t unBufferSize, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_016_GetPropErrorNameFromEnum_params params =
-    {
-        .linux_side = _this->u_iface,
-        .error = error,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_016_GetPropErrorNameFromEnum( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_016_GetStringTrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pchValue, unBufferSize, pError);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_016_PollNextEvent(struct w_steam_iface *_this, winVREvent_t_109 *pEvent, uint32_t uncbVREvent)
+const char * __thiscall winIVRSystem_IVRSystem_016_GetPropErrorNameFromEnum(winIVRSystem_IVRSystem_016 *_this, ETrackedPropertyError error)
 {
-    struct cppIVRSystem_IVRSystem_016_PollNextEvent_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pEvent = pEvent,
-        .uncbVREvent = uncbVREvent,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_016_PollNextEvent( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_016_GetPropErrorNameFromEnum(_this->linux_side, error);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_016_PollNextEventWithPose(struct w_steam_iface *_this, ETrackingUniverseOrigin eOrigin, winVREvent_t_109 *pEvent, uint32_t uncbVREvent, TrackedDevicePose_t *pTrackedDevicePose)
+bool __thiscall winIVRSystem_IVRSystem_016_PollNextEvent(winIVRSystem_IVRSystem_016 *_this, winVREvent_t_109 *pEvent, uint32_t uncbVREvent)
 {
-    struct cppIVRSystem_IVRSystem_016_PollNextEventWithPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eOrigin = eOrigin,
-        .pEvent = pEvent,
-        .uncbVREvent = uncbVREvent,
-        .pTrackedDevicePose = pTrackedDevicePose,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_016_PollNextEventWithPose( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_016_PollNextEvent(_this->linux_side, pEvent, uncbVREvent);
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_016_GetEventTypeNameFromEnum(struct w_steam_iface *_this, EVREventType eType)
+bool __thiscall winIVRSystem_IVRSystem_016_PollNextEventWithPose(winIVRSystem_IVRSystem_016 *_this, ETrackingUniverseOrigin eOrigin, winVREvent_t_109 *pEvent, uint32_t uncbVREvent, TrackedDevicePose_t *pTrackedDevicePose)
 {
-    struct cppIVRSystem_IVRSystem_016_GetEventTypeNameFromEnum_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eType = eType,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_016_GetEventTypeNameFromEnum( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_016_PollNextEventWithPose(_this->linux_side, eOrigin, pEvent, uncbVREvent, pTrackedDevicePose);
 }
 
-HiddenAreaMesh_t * __thiscall winIVRSystem_IVRSystem_016_GetHiddenAreaMesh(struct w_steam_iface *_this, HiddenAreaMesh_t *_ret, EVREye eEye, EHiddenAreaMeshType type)
+const char * __thiscall winIVRSystem_IVRSystem_016_GetEventTypeNameFromEnum(winIVRSystem_IVRSystem_016 *_this, EVREventType eType)
 {
-    struct cppIVRSystem_IVRSystem_016_GetHiddenAreaMesh_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .eEye = eEye,
-        .type = type,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_016_GetHiddenAreaMesh( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_016_GetEventTypeNameFromEnum(_this->linux_side, eType);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_016_GetControllerState(struct w_steam_iface *_this, TrackedDeviceIndex_t unControllerDeviceIndex, winVRControllerState001_t_109 *pControllerState, uint32_t unControllerStateSize)
+HiddenAreaMesh_t *__thiscall winIVRSystem_IVRSystem_016_GetHiddenAreaMesh(winIVRSystem_IVRSystem_016 *_this, HiddenAreaMesh_t *_r, EVREye eEye, EHiddenAreaMeshType type)
 {
-    struct cppIVRSystem_IVRSystem_016_GetControllerState_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unControllerDeviceIndex = unControllerDeviceIndex,
-        .pControllerState = pControllerState,
-        .unControllerStateSize = unControllerStateSize,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_016_GetControllerState( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_016_GetHiddenAreaMesh(_this->linux_side, eEye, type);
+    return _r;
 }
 
-bool __thiscall winIVRSystem_IVRSystem_016_GetControllerStateWithPose(struct w_steam_iface *_this, ETrackingUniverseOrigin eOrigin, TrackedDeviceIndex_t unControllerDeviceIndex, winVRControllerState001_t_109 *pControllerState, uint32_t unControllerStateSize, TrackedDevicePose_t *pTrackedDevicePose)
+bool __thiscall winIVRSystem_IVRSystem_016_GetControllerState(winIVRSystem_IVRSystem_016 *_this, TrackedDeviceIndex_t unControllerDeviceIndex, winVRControllerState001_t_109 *pControllerState, uint32_t unControllerStateSize)
 {
-    struct cppIVRSystem_IVRSystem_016_GetControllerStateWithPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eOrigin = eOrigin,
-        .unControllerDeviceIndex = unControllerDeviceIndex,
-        .pControllerState = pControllerState,
-        .unControllerStateSize = unControllerStateSize,
-        .pTrackedDevicePose = pTrackedDevicePose,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_016_GetControllerStateWithPose( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_016_GetControllerState(_this->linux_side, unControllerDeviceIndex, pControllerState, unControllerStateSize);
 }
 
-void __thiscall winIVRSystem_IVRSystem_016_TriggerHapticPulse(struct w_steam_iface *_this, TrackedDeviceIndex_t unControllerDeviceIndex, uint32_t unAxisId, unsigned short usDurationMicroSec)
+bool __thiscall winIVRSystem_IVRSystem_016_GetControllerStateWithPose(winIVRSystem_IVRSystem_016 *_this, ETrackingUniverseOrigin eOrigin, TrackedDeviceIndex_t unControllerDeviceIndex, winVRControllerState001_t_109 *pControllerState, uint32_t unControllerStateSize, TrackedDevicePose_t *pTrackedDevicePose)
 {
-    struct cppIVRSystem_IVRSystem_016_TriggerHapticPulse_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unControllerDeviceIndex = unControllerDeviceIndex,
-        .unAxisId = unAxisId,
-        .usDurationMicroSec = usDurationMicroSec,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_016_TriggerHapticPulse( &params );
+    return cppIVRSystem_IVRSystem_016_GetControllerStateWithPose(_this->linux_side, eOrigin, unControllerDeviceIndex, pControllerState, unControllerStateSize, pTrackedDevicePose);
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_016_GetButtonIdNameFromEnum(struct w_steam_iface *_this, EVRButtonId eButtonId)
+void __thiscall winIVRSystem_IVRSystem_016_TriggerHapticPulse(winIVRSystem_IVRSystem_016 *_this, TrackedDeviceIndex_t unControllerDeviceIndex, uint32_t unAxisId, unsigned short usDurationMicroSec)
 {
-    struct cppIVRSystem_IVRSystem_016_GetButtonIdNameFromEnum_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eButtonId = eButtonId,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_016_GetButtonIdNameFromEnum( &params );
-    return params._ret;
+    cppIVRSystem_IVRSystem_016_TriggerHapticPulse(_this->linux_side, unControllerDeviceIndex, unAxisId, usDurationMicroSec);
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_016_GetControllerAxisTypeNameFromEnum(struct w_steam_iface *_this, EVRControllerAxisType eAxisType)
+const char * __thiscall winIVRSystem_IVRSystem_016_GetButtonIdNameFromEnum(winIVRSystem_IVRSystem_016 *_this, EVRButtonId eButtonId)
 {
-    struct cppIVRSystem_IVRSystem_016_GetControllerAxisTypeNameFromEnum_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eAxisType = eAxisType,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_016_GetControllerAxisTypeNameFromEnum( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_016_GetButtonIdNameFromEnum(_this->linux_side, eButtonId);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_016_CaptureInputFocus(struct w_steam_iface *_this)
+const char * __thiscall winIVRSystem_IVRSystem_016_GetControllerAxisTypeNameFromEnum(winIVRSystem_IVRSystem_016 *_this, EVRControllerAxisType eAxisType)
 {
-    struct cppIVRSystem_IVRSystem_016_CaptureInputFocus_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_016_CaptureInputFocus( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_016_GetControllerAxisTypeNameFromEnum(_this->linux_side, eAxisType);
 }
 
-void __thiscall winIVRSystem_IVRSystem_016_ReleaseInputFocus(struct w_steam_iface *_this)
+bool __thiscall winIVRSystem_IVRSystem_016_CaptureInputFocus(winIVRSystem_IVRSystem_016 *_this)
 {
-    struct cppIVRSystem_IVRSystem_016_ReleaseInputFocus_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_016_ReleaseInputFocus( &params );
+    return cppIVRSystem_IVRSystem_016_CaptureInputFocus(_this->linux_side);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_016_IsInputFocusCapturedByAnotherProcess(struct w_steam_iface *_this)
+void __thiscall winIVRSystem_IVRSystem_016_ReleaseInputFocus(winIVRSystem_IVRSystem_016 *_this)
 {
-    struct cppIVRSystem_IVRSystem_016_IsInputFocusCapturedByAnotherProcess_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_016_IsInputFocusCapturedByAnotherProcess( &params );
-    return params._ret;
+    cppIVRSystem_IVRSystem_016_ReleaseInputFocus(_this->linux_side);
 }
 
-uint32_t __thiscall winIVRSystem_IVRSystem_016_DriverDebugRequest(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, const char *pchRequest, char *pchResponseBuffer, uint32_t unResponseBufferSize)
+bool __thiscall winIVRSystem_IVRSystem_016_IsInputFocusCapturedByAnotherProcess(winIVRSystem_IVRSystem_016 *_this)
 {
-    struct cppIVRSystem_IVRSystem_016_DriverDebugRequest_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .pchRequest = pchRequest,
-        .pchResponseBuffer = pchResponseBuffer,
-        .unResponseBufferSize = unResponseBufferSize,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_016_DriverDebugRequest( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_016_IsInputFocusCapturedByAnotherProcess(_this->linux_side);
 }
 
-EVRFirmwareError __thiscall winIVRSystem_IVRSystem_016_PerformFirmwareUpdate(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex)
+uint32_t __thiscall winIVRSystem_IVRSystem_016_DriverDebugRequest(winIVRSystem_IVRSystem_016 *_this, TrackedDeviceIndex_t unDeviceIndex, const char *pchRequest, char *pchResponseBuffer, uint32_t unResponseBufferSize)
 {
-    struct cppIVRSystem_IVRSystem_016_PerformFirmwareUpdate_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_016_PerformFirmwareUpdate( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_016_DriverDebugRequest(_this->linux_side, unDeviceIndex, pchRequest, pchResponseBuffer, unResponseBufferSize);
 }
 
-void __thiscall winIVRSystem_IVRSystem_016_AcknowledgeQuit_Exiting(struct w_steam_iface *_this)
+EVRFirmwareError __thiscall winIVRSystem_IVRSystem_016_PerformFirmwareUpdate(winIVRSystem_IVRSystem_016 *_this, TrackedDeviceIndex_t unDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_016_AcknowledgeQuit_Exiting_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_016_AcknowledgeQuit_Exiting( &params );
+    return cppIVRSystem_IVRSystem_016_PerformFirmwareUpdate(_this->linux_side, unDeviceIndex);
 }
 
-void __thiscall winIVRSystem_IVRSystem_016_AcknowledgeQuit_UserPrompt(struct w_steam_iface *_this)
+void __thiscall winIVRSystem_IVRSystem_016_AcknowledgeQuit_Exiting(winIVRSystem_IVRSystem_016 *_this)
 {
-    struct cppIVRSystem_IVRSystem_016_AcknowledgeQuit_UserPrompt_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_016_AcknowledgeQuit_UserPrompt( &params );
+    cppIVRSystem_IVRSystem_016_AcknowledgeQuit_Exiting(_this->linux_side);
+}
+
+void __thiscall winIVRSystem_IVRSystem_016_AcknowledgeQuit_UserPrompt(winIVRSystem_IVRSystem_016 *_this)
+{
+    TRACE("%p\n", _this);
+    cppIVRSystem_IVRSystem_016_AcknowledgeQuit_UserPrompt(_this->linux_side);
 }
 
 extern vtable_ptr winIVRSystem_IVRSystem_016_vtable;
@@ -7750,24 +4819,24 @@ void __asm_dummy_vtables(void) {
 }
 #endif
 
-struct w_steam_iface *create_winIVRSystem_IVRSystem_016(void *u_iface)
+winIVRSystem_IVRSystem_016 *create_winIVRSystem_IVRSystem_016(void *linux_side)
 {
-    struct w_steam_iface *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(*r));
+    winIVRSystem_IVRSystem_016 *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(winIVRSystem_IVRSystem_016));
     TRACE("-> %p\n", r);
     r->vtable = &winIVRSystem_IVRSystem_016_vtable;
-    r->u_iface = u_iface;
+    r->linux_side = linux_side;
     return r;
 }
 
-void destroy_winIVRSystem_IVRSystem_016(struct w_steam_iface *object)
+void destroy_winIVRSystem_IVRSystem_016(void *object)
 {
     TRACE("%p\n", object);
     HeapFree(GetProcessHeap(), 0, object);
 }
 
-struct w_steam_iface *create_winIVRSystem_IVRSystem_016_FnTable(void *u_iface)
+winIVRSystem_IVRSystem_016 *create_winIVRSystem_IVRSystem_016_FnTable(void *linux_side)
 {
-    struct w_steam_iface *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(*r));
+    winIVRSystem_IVRSystem_016 *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(winIVRSystem_IVRSystem_016));
     struct thunk *thunks = alloc_thunks(45);
     struct thunk **vtable = HeapAlloc(GetProcessHeap(), 0, 45 * sizeof(*vtable));
     int i;
@@ -7820,20 +4889,26 @@ struct w_steam_iface *create_winIVRSystem_IVRSystem_016_FnTable(void *u_iface)
     init_thunk(&thunks[44], r, winIVRSystem_IVRSystem_016_AcknowledgeQuit_UserPrompt, 0, FALSE, FALSE);
     for (i = 0; i < 45; i++)
         vtable[i] = &thunks[i];
-    r->u_iface = u_iface;
+    r->linux_side = linux_side;
     r->vtable = (void *)vtable;
     return r;
 }
 
-void destroy_winIVRSystem_IVRSystem_016_FnTable(struct w_steam_iface *object)
+void destroy_winIVRSystem_IVRSystem_016_FnTable(void *object)
 {
-    TRACE("%p\n", object);
-    VirtualFree(object->vtable[0], 0, MEM_RELEASE);
-    HeapFree(GetProcessHeap(), 0, object->vtable);
-    HeapFree(GetProcessHeap(), 0, object);
+    winIVRSystem_IVRSystem_016 *win_object = object;
+    TRACE("%p\n", win_object);
+    VirtualFree(win_object->vtable[0], 0, MEM_RELEASE);
+    HeapFree(GetProcessHeap(), 0, win_object->vtable);
+    HeapFree(GetProcessHeap(), 0, win_object);
 }
 
 #include "cppIVRSystem_IVRSystem_017.h"
+
+typedef struct __winIVRSystem_IVRSystem_017 {
+    vtable_ptr *vtable;
+    void *linux_side;
+} winIVRSystem_IVRSystem_017;
 
 DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_017_GetRecommendedRenderTargetSize, 12)
 DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_017_GetProjectionMatrix, 20)
@@ -7881,560 +4956,280 @@ DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_017_PerformFirmwareUpdate, 8)
 DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_017_AcknowledgeQuit_Exiting, 4)
 DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_017_AcknowledgeQuit_UserPrompt, 4)
 
-void __thiscall winIVRSystem_IVRSystem_017_GetRecommendedRenderTargetSize(struct w_steam_iface *_this, uint32_t *pnWidth, uint32_t *pnHeight)
+void __thiscall winIVRSystem_IVRSystem_017_GetRecommendedRenderTargetSize(winIVRSystem_IVRSystem_017 *_this, uint32_t *pnWidth, uint32_t *pnHeight)
 {
-    struct cppIVRSystem_IVRSystem_017_GetRecommendedRenderTargetSize_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pnWidth = pnWidth,
-        .pnHeight = pnHeight,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_017_GetRecommendedRenderTargetSize( &params );
+    cppIVRSystem_IVRSystem_017_GetRecommendedRenderTargetSize(_this->linux_side, pnWidth, pnHeight);
 }
 
-HmdMatrix44_t * __thiscall winIVRSystem_IVRSystem_017_GetProjectionMatrix(struct w_steam_iface *_this, HmdMatrix44_t *_ret, EVREye eEye, float fNearZ, float fFarZ)
+HmdMatrix44_t *__thiscall winIVRSystem_IVRSystem_017_GetProjectionMatrix(winIVRSystem_IVRSystem_017 *_this, HmdMatrix44_t *_r, EVREye eEye, float fNearZ, float fFarZ)
 {
-    struct cppIVRSystem_IVRSystem_017_GetProjectionMatrix_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .eEye = eEye,
-        .fNearZ = fNearZ,
-        .fFarZ = fFarZ,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_017_GetProjectionMatrix( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_017_GetProjectionMatrix(_this->linux_side, eEye, fNearZ, fFarZ);
+    return _r;
 }
 
-void __thiscall winIVRSystem_IVRSystem_017_GetProjectionRaw(struct w_steam_iface *_this, EVREye eEye, float *pfLeft, float *pfRight, float *pfTop, float *pfBottom)
+void __thiscall winIVRSystem_IVRSystem_017_GetProjectionRaw(winIVRSystem_IVRSystem_017 *_this, EVREye eEye, float *pfLeft, float *pfRight, float *pfTop, float *pfBottom)
 {
-    struct cppIVRSystem_IVRSystem_017_GetProjectionRaw_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eEye = eEye,
-        .pfLeft = pfLeft,
-        .pfRight = pfRight,
-        .pfTop = pfTop,
-        .pfBottom = pfBottom,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_017_GetProjectionRaw( &params );
+    cppIVRSystem_IVRSystem_017_GetProjectionRaw(_this->linux_side, eEye, pfLeft, pfRight, pfTop, pfBottom);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_017_ComputeDistortion(struct w_steam_iface *_this, EVREye eEye, float fU, float fV, DistortionCoordinates_t *pDistortionCoordinates)
+bool __thiscall winIVRSystem_IVRSystem_017_ComputeDistortion(winIVRSystem_IVRSystem_017 *_this, EVREye eEye, float fU, float fV, DistortionCoordinates_t *pDistortionCoordinates)
 {
-    struct cppIVRSystem_IVRSystem_017_ComputeDistortion_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eEye = eEye,
-        .fU = fU,
-        .fV = fV,
-        .pDistortionCoordinates = pDistortionCoordinates,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_017_ComputeDistortion( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_017_ComputeDistortion(_this->linux_side, eEye, fU, fV, pDistortionCoordinates);
 }
 
-HmdMatrix34_t * __thiscall winIVRSystem_IVRSystem_017_GetEyeToHeadTransform(struct w_steam_iface *_this, HmdMatrix34_t *_ret, EVREye eEye)
+HmdMatrix34_t *__thiscall winIVRSystem_IVRSystem_017_GetEyeToHeadTransform(winIVRSystem_IVRSystem_017 *_this, HmdMatrix34_t *_r, EVREye eEye)
 {
-    struct cppIVRSystem_IVRSystem_017_GetEyeToHeadTransform_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .eEye = eEye,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_017_GetEyeToHeadTransform( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_017_GetEyeToHeadTransform(_this->linux_side, eEye);
+    return _r;
 }
 
-bool __thiscall winIVRSystem_IVRSystem_017_GetTimeSinceLastVsync(struct w_steam_iface *_this, float *pfSecondsSinceLastVsync, uint64_t *pulFrameCounter)
+bool __thiscall winIVRSystem_IVRSystem_017_GetTimeSinceLastVsync(winIVRSystem_IVRSystem_017 *_this, float *pfSecondsSinceLastVsync, uint64_t *pulFrameCounter)
 {
-    struct cppIVRSystem_IVRSystem_017_GetTimeSinceLastVsync_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pfSecondsSinceLastVsync = pfSecondsSinceLastVsync,
-        .pulFrameCounter = pulFrameCounter,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_017_GetTimeSinceLastVsync( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_017_GetTimeSinceLastVsync(_this->linux_side, pfSecondsSinceLastVsync, pulFrameCounter);
 }
 
-int32_t __thiscall winIVRSystem_IVRSystem_017_GetD3D9AdapterIndex(struct w_steam_iface *_this)
+int32_t __thiscall winIVRSystem_IVRSystem_017_GetD3D9AdapterIndex(winIVRSystem_IVRSystem_017 *_this)
 {
-    struct cppIVRSystem_IVRSystem_017_GetD3D9AdapterIndex_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_017_GetD3D9AdapterIndex( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_017_GetD3D9AdapterIndex(_this->linux_side);
 }
 
-extern void __thiscall winIVRSystem_IVRSystem_017_GetDXGIOutputInfo(struct w_steam_iface *_this, int32_t *pnAdapterIndex);
-
-extern void __thiscall winIVRSystem_IVRSystem_017_GetOutputDevice(struct w_steam_iface *_this, uint64_t *pnDevice, ETextureType textureType, VkInstance_T *pInstance);
-
-bool __thiscall winIVRSystem_IVRSystem_017_IsDisplayOnDesktop(struct w_steam_iface *_this)
+void __thiscall winIVRSystem_IVRSystem_017_GetDXGIOutputInfo(winIVRSystem_IVRSystem_017 *_this, int32_t *pnAdapterIndex)
 {
-    struct cppIVRSystem_IVRSystem_017_IsDisplayOnDesktop_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_017_IsDisplayOnDesktop( &params );
-    return params._ret;
+    get_dxgi_output_info(cppIVRSystem_IVRSystem_017_GetDXGIOutputInfo, _this->linux_side, pnAdapterIndex, 17);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_017_SetDisplayVisibility(struct w_steam_iface *_this, bool bIsVisibleOnDesktop)
+void __thiscall winIVRSystem_IVRSystem_017_GetOutputDevice(winIVRSystem_IVRSystem_017 *_this, uint64_t *pnDevice, ETextureType textureType, VkInstance_T *pInstance)
 {
-    struct cppIVRSystem_IVRSystem_017_SetDisplayVisibility_params params =
-    {
-        .linux_side = _this->u_iface,
-        .bIsVisibleOnDesktop = bIsVisibleOnDesktop,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_017_SetDisplayVisibility( &params );
-    return params._ret;
+    ivrsystem_get_output_device(cppIVRSystem_IVRSystem_017_GetOutputDevice, _this->linux_side, pnDevice, textureType, pInstance, 17);
 }
 
-void __thiscall winIVRSystem_IVRSystem_017_GetDeviceToAbsoluteTrackingPose(struct w_steam_iface *_this, ETrackingUniverseOrigin eOrigin, float fPredictedSecondsToPhotonsFromNow, TrackedDevicePose_t *pTrackedDevicePoseArray, uint32_t unTrackedDevicePoseArrayCount)
+bool __thiscall winIVRSystem_IVRSystem_017_IsDisplayOnDesktop(winIVRSystem_IVRSystem_017 *_this)
 {
-    struct cppIVRSystem_IVRSystem_017_GetDeviceToAbsoluteTrackingPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eOrigin = eOrigin,
-        .fPredictedSecondsToPhotonsFromNow = fPredictedSecondsToPhotonsFromNow,
-        .pTrackedDevicePoseArray = pTrackedDevicePoseArray,
-        .unTrackedDevicePoseArrayCount = unTrackedDevicePoseArrayCount,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_017_GetDeviceToAbsoluteTrackingPose( &params );
+    return cppIVRSystem_IVRSystem_017_IsDisplayOnDesktop(_this->linux_side);
 }
 
-void __thiscall winIVRSystem_IVRSystem_017_ResetSeatedZeroPose(struct w_steam_iface *_this)
+bool __thiscall winIVRSystem_IVRSystem_017_SetDisplayVisibility(winIVRSystem_IVRSystem_017 *_this, bool bIsVisibleOnDesktop)
 {
-    struct cppIVRSystem_IVRSystem_017_ResetSeatedZeroPose_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_017_ResetSeatedZeroPose( &params );
+    return cppIVRSystem_IVRSystem_017_SetDisplayVisibility(_this->linux_side, bIsVisibleOnDesktop);
 }
 
-HmdMatrix34_t * __thiscall winIVRSystem_IVRSystem_017_GetSeatedZeroPoseToStandingAbsoluteTrackingPose(struct w_steam_iface *_this, HmdMatrix34_t *_ret)
+void __thiscall winIVRSystem_IVRSystem_017_GetDeviceToAbsoluteTrackingPose(winIVRSystem_IVRSystem_017 *_this, ETrackingUniverseOrigin eOrigin, float fPredictedSecondsToPhotonsFromNow, TrackedDevicePose_t *pTrackedDevicePoseArray, uint32_t unTrackedDevicePoseArrayCount)
 {
-    struct cppIVRSystem_IVRSystem_017_GetSeatedZeroPoseToStandingAbsoluteTrackingPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_017_GetSeatedZeroPoseToStandingAbsoluteTrackingPose( &params );
-    return params._ret;
+    cppIVRSystem_IVRSystem_017_GetDeviceToAbsoluteTrackingPose(_this->linux_side, eOrigin, fPredictedSecondsToPhotonsFromNow, pTrackedDevicePoseArray, unTrackedDevicePoseArrayCount);
 }
 
-HmdMatrix34_t * __thiscall winIVRSystem_IVRSystem_017_GetRawZeroPoseToStandingAbsoluteTrackingPose(struct w_steam_iface *_this, HmdMatrix34_t *_ret)
+void __thiscall winIVRSystem_IVRSystem_017_ResetSeatedZeroPose(winIVRSystem_IVRSystem_017 *_this)
 {
-    struct cppIVRSystem_IVRSystem_017_GetRawZeroPoseToStandingAbsoluteTrackingPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_017_GetRawZeroPoseToStandingAbsoluteTrackingPose( &params );
-    return params._ret;
+    cppIVRSystem_IVRSystem_017_ResetSeatedZeroPose(_this->linux_side);
 }
 
-uint32_t __thiscall winIVRSystem_IVRSystem_017_GetSortedTrackedDeviceIndicesOfClass(struct w_steam_iface *_this, ETrackedDeviceClass eTrackedDeviceClass, TrackedDeviceIndex_t *punTrackedDeviceIndexArray, uint32_t unTrackedDeviceIndexArrayCount, TrackedDeviceIndex_t unRelativeToTrackedDeviceIndex)
+HmdMatrix34_t *__thiscall winIVRSystem_IVRSystem_017_GetSeatedZeroPoseToStandingAbsoluteTrackingPose(winIVRSystem_IVRSystem_017 *_this, HmdMatrix34_t *_r)
 {
-    struct cppIVRSystem_IVRSystem_017_GetSortedTrackedDeviceIndicesOfClass_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eTrackedDeviceClass = eTrackedDeviceClass,
-        .punTrackedDeviceIndexArray = punTrackedDeviceIndexArray,
-        .unTrackedDeviceIndexArrayCount = unTrackedDeviceIndexArrayCount,
-        .unRelativeToTrackedDeviceIndex = unRelativeToTrackedDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_017_GetSortedTrackedDeviceIndicesOfClass( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_017_GetSeatedZeroPoseToStandingAbsoluteTrackingPose(_this->linux_side);
+    return _r;
 }
 
-EDeviceActivityLevel __thiscall winIVRSystem_IVRSystem_017_GetTrackedDeviceActivityLevel(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceId)
+HmdMatrix34_t *__thiscall winIVRSystem_IVRSystem_017_GetRawZeroPoseToStandingAbsoluteTrackingPose(winIVRSystem_IVRSystem_017 *_this, HmdMatrix34_t *_r)
 {
-    struct cppIVRSystem_IVRSystem_017_GetTrackedDeviceActivityLevel_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceId = unDeviceId,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_017_GetTrackedDeviceActivityLevel( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_017_GetRawZeroPoseToStandingAbsoluteTrackingPose(_this->linux_side);
+    return _r;
 }
 
-void __thiscall winIVRSystem_IVRSystem_017_ApplyTransform(struct w_steam_iface *_this, TrackedDevicePose_t *pOutputPose, const TrackedDevicePose_t *pTrackedDevicePose, const HmdMatrix34_t *pTransform)
+uint32_t __thiscall winIVRSystem_IVRSystem_017_GetSortedTrackedDeviceIndicesOfClass(winIVRSystem_IVRSystem_017 *_this, ETrackedDeviceClass eTrackedDeviceClass, TrackedDeviceIndex_t *punTrackedDeviceIndexArray, uint32_t unTrackedDeviceIndexArrayCount, TrackedDeviceIndex_t unRelativeToTrackedDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_017_ApplyTransform_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pOutputPose = pOutputPose,
-        .pTrackedDevicePose = pTrackedDevicePose,
-        .pTransform = pTransform,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_017_ApplyTransform( &params );
+    return cppIVRSystem_IVRSystem_017_GetSortedTrackedDeviceIndicesOfClass(_this->linux_side, eTrackedDeviceClass, punTrackedDeviceIndexArray, unTrackedDeviceIndexArrayCount, unRelativeToTrackedDeviceIndex);
 }
 
-TrackedDeviceIndex_t __thiscall winIVRSystem_IVRSystem_017_GetTrackedDeviceIndexForControllerRole(struct w_steam_iface *_this, ETrackedControllerRole unDeviceType)
+EDeviceActivityLevel __thiscall winIVRSystem_IVRSystem_017_GetTrackedDeviceActivityLevel(winIVRSystem_IVRSystem_017 *_this, TrackedDeviceIndex_t unDeviceId)
 {
-    struct cppIVRSystem_IVRSystem_017_GetTrackedDeviceIndexForControllerRole_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceType = unDeviceType,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_017_GetTrackedDeviceIndexForControllerRole( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_017_GetTrackedDeviceActivityLevel(_this->linux_side, unDeviceId);
 }
 
-ETrackedControllerRole __thiscall winIVRSystem_IVRSystem_017_GetControllerRoleForTrackedDeviceIndex(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex)
+void __thiscall winIVRSystem_IVRSystem_017_ApplyTransform(winIVRSystem_IVRSystem_017 *_this, TrackedDevicePose_t *pOutputPose, TrackedDevicePose_t *pTrackedDevicePose, HmdMatrix34_t *pTransform)
 {
-    struct cppIVRSystem_IVRSystem_017_GetControllerRoleForTrackedDeviceIndex_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_017_GetControllerRoleForTrackedDeviceIndex( &params );
-    return params._ret;
+    cppIVRSystem_IVRSystem_017_ApplyTransform(_this->linux_side, pOutputPose, pTrackedDevicePose, pTransform);
 }
 
-ETrackedDeviceClass __thiscall winIVRSystem_IVRSystem_017_GetTrackedDeviceClass(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex)
+TrackedDeviceIndex_t __thiscall winIVRSystem_IVRSystem_017_GetTrackedDeviceIndexForControllerRole(winIVRSystem_IVRSystem_017 *_this, ETrackedControllerRole unDeviceType)
 {
-    struct cppIVRSystem_IVRSystem_017_GetTrackedDeviceClass_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_017_GetTrackedDeviceClass( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_017_GetTrackedDeviceIndexForControllerRole(_this->linux_side, unDeviceType);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_017_IsTrackedDeviceConnected(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex)
+ETrackedControllerRole __thiscall winIVRSystem_IVRSystem_017_GetControllerRoleForTrackedDeviceIndex(winIVRSystem_IVRSystem_017 *_this, TrackedDeviceIndex_t unDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_017_IsTrackedDeviceConnected_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_017_IsTrackedDeviceConnected( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_017_GetControllerRoleForTrackedDeviceIndex(_this->linux_side, unDeviceIndex);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_017_GetBoolTrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
+ETrackedDeviceClass __thiscall winIVRSystem_IVRSystem_017_GetTrackedDeviceClass(winIVRSystem_IVRSystem_017 *_this, TrackedDeviceIndex_t unDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_017_GetBoolTrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_017_GetBoolTrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_017_GetTrackedDeviceClass(_this->linux_side, unDeviceIndex);
 }
 
-float __thiscall winIVRSystem_IVRSystem_017_GetFloatTrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
+bool __thiscall winIVRSystem_IVRSystem_017_IsTrackedDeviceConnected(winIVRSystem_IVRSystem_017 *_this, TrackedDeviceIndex_t unDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_017_GetFloatTrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_017_GetFloatTrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_017_IsTrackedDeviceConnected(_this->linux_side, unDeviceIndex);
 }
 
-int32_t __thiscall winIVRSystem_IVRSystem_017_GetInt32TrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
+bool __thiscall winIVRSystem_IVRSystem_017_GetBoolTrackedDeviceProperty(winIVRSystem_IVRSystem_017 *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_017_GetInt32TrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_017_GetInt32TrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_017_GetBoolTrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
 }
 
-uint64_t __thiscall winIVRSystem_IVRSystem_017_GetUint64TrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
+float __thiscall winIVRSystem_IVRSystem_017_GetFloatTrackedDeviceProperty(winIVRSystem_IVRSystem_017 *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_017_GetUint64TrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_017_GetUint64TrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_017_GetFloatTrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
 }
 
-HmdMatrix34_t * __thiscall winIVRSystem_IVRSystem_017_GetMatrix34TrackedDeviceProperty(struct w_steam_iface *_this, HmdMatrix34_t *_ret, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
+int32_t __thiscall winIVRSystem_IVRSystem_017_GetInt32TrackedDeviceProperty(winIVRSystem_IVRSystem_017 *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_017_GetMatrix34TrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_017_GetMatrix34TrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_017_GetInt32TrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
 }
 
-uint32_t __thiscall winIVRSystem_IVRSystem_017_GetStringTrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, char *pchValue, uint32_t unBufferSize, ETrackedPropertyError *pError)
+uint64_t __thiscall winIVRSystem_IVRSystem_017_GetUint64TrackedDeviceProperty(winIVRSystem_IVRSystem_017 *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_017_GetStringTrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pchValue = pchValue,
-        .unBufferSize = unBufferSize,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_017_GetStringTrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_017_GetUint64TrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_017_GetPropErrorNameFromEnum(struct w_steam_iface *_this, ETrackedPropertyError error)
+HmdMatrix34_t *__thiscall winIVRSystem_IVRSystem_017_GetMatrix34TrackedDeviceProperty(winIVRSystem_IVRSystem_017 *_this, HmdMatrix34_t *_r, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_017_GetPropErrorNameFromEnum_params params =
-    {
-        .linux_side = _this->u_iface,
-        .error = error,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_017_GetPropErrorNameFromEnum( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_017_GetMatrix34TrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
+    return _r;
 }
 
-bool __thiscall winIVRSystem_IVRSystem_017_PollNextEvent(struct w_steam_iface *_this, winVREvent_t_1011 *pEvent, uint32_t uncbVREvent)
+uint32_t __thiscall winIVRSystem_IVRSystem_017_GetStringTrackedDeviceProperty(winIVRSystem_IVRSystem_017 *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, char *pchValue, uint32_t unBufferSize, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_017_PollNextEvent_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pEvent = pEvent,
-        .uncbVREvent = uncbVREvent,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_017_PollNextEvent( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_017_GetStringTrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pchValue, unBufferSize, pError);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_017_PollNextEventWithPose(struct w_steam_iface *_this, ETrackingUniverseOrigin eOrigin, winVREvent_t_1011 *pEvent, uint32_t uncbVREvent, TrackedDevicePose_t *pTrackedDevicePose)
+const char * __thiscall winIVRSystem_IVRSystem_017_GetPropErrorNameFromEnum(winIVRSystem_IVRSystem_017 *_this, ETrackedPropertyError error)
 {
-    struct cppIVRSystem_IVRSystem_017_PollNextEventWithPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eOrigin = eOrigin,
-        .pEvent = pEvent,
-        .uncbVREvent = uncbVREvent,
-        .pTrackedDevicePose = pTrackedDevicePose,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_017_PollNextEventWithPose( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_017_GetPropErrorNameFromEnum(_this->linux_side, error);
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_017_GetEventTypeNameFromEnum(struct w_steam_iface *_this, EVREventType eType)
+bool __thiscall winIVRSystem_IVRSystem_017_PollNextEvent(winIVRSystem_IVRSystem_017 *_this, winVREvent_t_1011 *pEvent, uint32_t uncbVREvent)
 {
-    struct cppIVRSystem_IVRSystem_017_GetEventTypeNameFromEnum_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eType = eType,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_017_GetEventTypeNameFromEnum( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_017_PollNextEvent(_this->linux_side, pEvent, uncbVREvent);
 }
 
-HiddenAreaMesh_t * __thiscall winIVRSystem_IVRSystem_017_GetHiddenAreaMesh(struct w_steam_iface *_this, HiddenAreaMesh_t *_ret, EVREye eEye, EHiddenAreaMeshType type)
+bool __thiscall winIVRSystem_IVRSystem_017_PollNextEventWithPose(winIVRSystem_IVRSystem_017 *_this, ETrackingUniverseOrigin eOrigin, winVREvent_t_1011 *pEvent, uint32_t uncbVREvent, TrackedDevicePose_t *pTrackedDevicePose)
 {
-    struct cppIVRSystem_IVRSystem_017_GetHiddenAreaMesh_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .eEye = eEye,
-        .type = type,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_017_GetHiddenAreaMesh( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_017_PollNextEventWithPose(_this->linux_side, eOrigin, pEvent, uncbVREvent, pTrackedDevicePose);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_017_GetControllerState(struct w_steam_iface *_this, TrackedDeviceIndex_t unControllerDeviceIndex, winVRControllerState001_t_1011 *pControllerState, uint32_t unControllerStateSize)
+const char * __thiscall winIVRSystem_IVRSystem_017_GetEventTypeNameFromEnum(winIVRSystem_IVRSystem_017 *_this, EVREventType eType)
 {
-    struct cppIVRSystem_IVRSystem_017_GetControllerState_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unControllerDeviceIndex = unControllerDeviceIndex,
-        .pControllerState = pControllerState,
-        .unControllerStateSize = unControllerStateSize,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_017_GetControllerState( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_017_GetEventTypeNameFromEnum(_this->linux_side, eType);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_017_GetControllerStateWithPose(struct w_steam_iface *_this, ETrackingUniverseOrigin eOrigin, TrackedDeviceIndex_t unControllerDeviceIndex, winVRControllerState001_t_1011 *pControllerState, uint32_t unControllerStateSize, TrackedDevicePose_t *pTrackedDevicePose)
+HiddenAreaMesh_t *__thiscall winIVRSystem_IVRSystem_017_GetHiddenAreaMesh(winIVRSystem_IVRSystem_017 *_this, HiddenAreaMesh_t *_r, EVREye eEye, EHiddenAreaMeshType type)
 {
-    struct cppIVRSystem_IVRSystem_017_GetControllerStateWithPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eOrigin = eOrigin,
-        .unControllerDeviceIndex = unControllerDeviceIndex,
-        .pControllerState = pControllerState,
-        .unControllerStateSize = unControllerStateSize,
-        .pTrackedDevicePose = pTrackedDevicePose,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_017_GetControllerStateWithPose( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_017_GetHiddenAreaMesh(_this->linux_side, eEye, type);
+    return _r;
 }
 
-void __thiscall winIVRSystem_IVRSystem_017_TriggerHapticPulse(struct w_steam_iface *_this, TrackedDeviceIndex_t unControllerDeviceIndex, uint32_t unAxisId, unsigned short usDurationMicroSec)
+bool __thiscall winIVRSystem_IVRSystem_017_GetControllerState(winIVRSystem_IVRSystem_017 *_this, TrackedDeviceIndex_t unControllerDeviceIndex, winVRControllerState001_t_1011 *pControllerState, uint32_t unControllerStateSize)
 {
-    struct cppIVRSystem_IVRSystem_017_TriggerHapticPulse_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unControllerDeviceIndex = unControllerDeviceIndex,
-        .unAxisId = unAxisId,
-        .usDurationMicroSec = usDurationMicroSec,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_017_TriggerHapticPulse( &params );
+    return cppIVRSystem_IVRSystem_017_GetControllerState(_this->linux_side, unControllerDeviceIndex, pControllerState, unControllerStateSize);
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_017_GetButtonIdNameFromEnum(struct w_steam_iface *_this, EVRButtonId eButtonId)
+bool __thiscall winIVRSystem_IVRSystem_017_GetControllerStateWithPose(winIVRSystem_IVRSystem_017 *_this, ETrackingUniverseOrigin eOrigin, TrackedDeviceIndex_t unControllerDeviceIndex, winVRControllerState001_t_1011 *pControllerState, uint32_t unControllerStateSize, TrackedDevicePose_t *pTrackedDevicePose)
 {
-    struct cppIVRSystem_IVRSystem_017_GetButtonIdNameFromEnum_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eButtonId = eButtonId,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_017_GetButtonIdNameFromEnum( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_017_GetControllerStateWithPose(_this->linux_side, eOrigin, unControllerDeviceIndex, pControllerState, unControllerStateSize, pTrackedDevicePose);
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_017_GetControllerAxisTypeNameFromEnum(struct w_steam_iface *_this, EVRControllerAxisType eAxisType)
+void __thiscall winIVRSystem_IVRSystem_017_TriggerHapticPulse(winIVRSystem_IVRSystem_017 *_this, TrackedDeviceIndex_t unControllerDeviceIndex, uint32_t unAxisId, unsigned short usDurationMicroSec)
 {
-    struct cppIVRSystem_IVRSystem_017_GetControllerAxisTypeNameFromEnum_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eAxisType = eAxisType,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_017_GetControllerAxisTypeNameFromEnum( &params );
-    return params._ret;
+    cppIVRSystem_IVRSystem_017_TriggerHapticPulse(_this->linux_side, unControllerDeviceIndex, unAxisId, usDurationMicroSec);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_017_CaptureInputFocus(struct w_steam_iface *_this)
+const char * __thiscall winIVRSystem_IVRSystem_017_GetButtonIdNameFromEnum(winIVRSystem_IVRSystem_017 *_this, EVRButtonId eButtonId)
 {
-    struct cppIVRSystem_IVRSystem_017_CaptureInputFocus_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_017_CaptureInputFocus( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_017_GetButtonIdNameFromEnum(_this->linux_side, eButtonId);
 }
 
-void __thiscall winIVRSystem_IVRSystem_017_ReleaseInputFocus(struct w_steam_iface *_this)
+const char * __thiscall winIVRSystem_IVRSystem_017_GetControllerAxisTypeNameFromEnum(winIVRSystem_IVRSystem_017 *_this, EVRControllerAxisType eAxisType)
 {
-    struct cppIVRSystem_IVRSystem_017_ReleaseInputFocus_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_017_ReleaseInputFocus( &params );
+    return cppIVRSystem_IVRSystem_017_GetControllerAxisTypeNameFromEnum(_this->linux_side, eAxisType);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_017_IsInputFocusCapturedByAnotherProcess(struct w_steam_iface *_this)
+bool __thiscall winIVRSystem_IVRSystem_017_CaptureInputFocus(winIVRSystem_IVRSystem_017 *_this)
 {
-    struct cppIVRSystem_IVRSystem_017_IsInputFocusCapturedByAnotherProcess_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_017_IsInputFocusCapturedByAnotherProcess( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_017_CaptureInputFocus(_this->linux_side);
 }
 
-uint32_t __thiscall winIVRSystem_IVRSystem_017_DriverDebugRequest(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, const char *pchRequest, char *pchResponseBuffer, uint32_t unResponseBufferSize)
+void __thiscall winIVRSystem_IVRSystem_017_ReleaseInputFocus(winIVRSystem_IVRSystem_017 *_this)
 {
-    struct cppIVRSystem_IVRSystem_017_DriverDebugRequest_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .pchRequest = pchRequest,
-        .pchResponseBuffer = pchResponseBuffer,
-        .unResponseBufferSize = unResponseBufferSize,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_017_DriverDebugRequest( &params );
-    return params._ret;
+    cppIVRSystem_IVRSystem_017_ReleaseInputFocus(_this->linux_side);
 }
 
-EVRFirmwareError __thiscall winIVRSystem_IVRSystem_017_PerformFirmwareUpdate(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex)
+bool __thiscall winIVRSystem_IVRSystem_017_IsInputFocusCapturedByAnotherProcess(winIVRSystem_IVRSystem_017 *_this)
 {
-    struct cppIVRSystem_IVRSystem_017_PerformFirmwareUpdate_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_017_PerformFirmwareUpdate( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_017_IsInputFocusCapturedByAnotherProcess(_this->linux_side);
 }
 
-void __thiscall winIVRSystem_IVRSystem_017_AcknowledgeQuit_Exiting(struct w_steam_iface *_this)
+uint32_t __thiscall winIVRSystem_IVRSystem_017_DriverDebugRequest(winIVRSystem_IVRSystem_017 *_this, TrackedDeviceIndex_t unDeviceIndex, const char *pchRequest, char *pchResponseBuffer, uint32_t unResponseBufferSize)
 {
-    struct cppIVRSystem_IVRSystem_017_AcknowledgeQuit_Exiting_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_017_AcknowledgeQuit_Exiting( &params );
+    return cppIVRSystem_IVRSystem_017_DriverDebugRequest(_this->linux_side, unDeviceIndex, pchRequest, pchResponseBuffer, unResponseBufferSize);
 }
 
-void __thiscall winIVRSystem_IVRSystem_017_AcknowledgeQuit_UserPrompt(struct w_steam_iface *_this)
+EVRFirmwareError __thiscall winIVRSystem_IVRSystem_017_PerformFirmwareUpdate(winIVRSystem_IVRSystem_017 *_this, TrackedDeviceIndex_t unDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_017_AcknowledgeQuit_UserPrompt_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_017_AcknowledgeQuit_UserPrompt( &params );
+    return cppIVRSystem_IVRSystem_017_PerformFirmwareUpdate(_this->linux_side, unDeviceIndex);
+}
+
+void __thiscall winIVRSystem_IVRSystem_017_AcknowledgeQuit_Exiting(winIVRSystem_IVRSystem_017 *_this)
+{
+    TRACE("%p\n", _this);
+    cppIVRSystem_IVRSystem_017_AcknowledgeQuit_Exiting(_this->linux_side);
+}
+
+void __thiscall winIVRSystem_IVRSystem_017_AcknowledgeQuit_UserPrompt(winIVRSystem_IVRSystem_017 *_this)
+{
+    TRACE("%p\n", _this);
+    cppIVRSystem_IVRSystem_017_AcknowledgeQuit_UserPrompt(_this->linux_side);
 }
 
 extern vtable_ptr winIVRSystem_IVRSystem_017_vtable;
@@ -8493,24 +5288,24 @@ void __asm_dummy_vtables(void) {
 }
 #endif
 
-struct w_steam_iface *create_winIVRSystem_IVRSystem_017(void *u_iface)
+winIVRSystem_IVRSystem_017 *create_winIVRSystem_IVRSystem_017(void *linux_side)
 {
-    struct w_steam_iface *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(*r));
+    winIVRSystem_IVRSystem_017 *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(winIVRSystem_IVRSystem_017));
     TRACE("-> %p\n", r);
     r->vtable = &winIVRSystem_IVRSystem_017_vtable;
-    r->u_iface = u_iface;
+    r->linux_side = linux_side;
     return r;
 }
 
-void destroy_winIVRSystem_IVRSystem_017(struct w_steam_iface *object)
+void destroy_winIVRSystem_IVRSystem_017(void *object)
 {
     TRACE("%p\n", object);
     HeapFree(GetProcessHeap(), 0, object);
 }
 
-struct w_steam_iface *create_winIVRSystem_IVRSystem_017_FnTable(void *u_iface)
+winIVRSystem_IVRSystem_017 *create_winIVRSystem_IVRSystem_017_FnTable(void *linux_side)
 {
-    struct w_steam_iface *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(*r));
+    winIVRSystem_IVRSystem_017 *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(winIVRSystem_IVRSystem_017));
     struct thunk *thunks = alloc_thunks(45);
     struct thunk **vtable = HeapAlloc(GetProcessHeap(), 0, 45 * sizeof(*vtable));
     int i;
@@ -8563,20 +5358,26 @@ struct w_steam_iface *create_winIVRSystem_IVRSystem_017_FnTable(void *u_iface)
     init_thunk(&thunks[44], r, winIVRSystem_IVRSystem_017_AcknowledgeQuit_UserPrompt, 0, FALSE, FALSE);
     for (i = 0; i < 45; i++)
         vtable[i] = &thunks[i];
-    r->u_iface = u_iface;
+    r->linux_side = linux_side;
     r->vtable = (void *)vtable;
     return r;
 }
 
-void destroy_winIVRSystem_IVRSystem_017_FnTable(struct w_steam_iface *object)
+void destroy_winIVRSystem_IVRSystem_017_FnTable(void *object)
 {
-    TRACE("%p\n", object);
-    VirtualFree(object->vtable[0], 0, MEM_RELEASE);
-    HeapFree(GetProcessHeap(), 0, object->vtable);
-    HeapFree(GetProcessHeap(), 0, object);
+    winIVRSystem_IVRSystem_017 *win_object = object;
+    TRACE("%p\n", win_object);
+    VirtualFree(win_object->vtable[0], 0, MEM_RELEASE);
+    HeapFree(GetProcessHeap(), 0, win_object->vtable);
+    HeapFree(GetProcessHeap(), 0, win_object);
 }
 
 #include "cppIVRSystem_IVRSystem_019.h"
+
+typedef struct __winIVRSystem_IVRSystem_019 {
+    vtable_ptr *vtable;
+    void *linux_side;
+} winIVRSystem_IVRSystem_019;
 
 DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_019_GetRecommendedRenderTargetSize, 12)
 DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_019_GetProjectionMatrix, 20)
@@ -8626,589 +5427,292 @@ DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_019_PerformFirmwareUpdate, 8)
 DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_019_AcknowledgeQuit_Exiting, 4)
 DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_019_AcknowledgeQuit_UserPrompt, 4)
 
-void __thiscall winIVRSystem_IVRSystem_019_GetRecommendedRenderTargetSize(struct w_steam_iface *_this, uint32_t *pnWidth, uint32_t *pnHeight)
+void __thiscall winIVRSystem_IVRSystem_019_GetRecommendedRenderTargetSize(winIVRSystem_IVRSystem_019 *_this, uint32_t *pnWidth, uint32_t *pnHeight)
 {
-    struct cppIVRSystem_IVRSystem_019_GetRecommendedRenderTargetSize_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pnWidth = pnWidth,
-        .pnHeight = pnHeight,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_019_GetRecommendedRenderTargetSize( &params );
+    cppIVRSystem_IVRSystem_019_GetRecommendedRenderTargetSize(_this->linux_side, pnWidth, pnHeight);
 }
 
-HmdMatrix44_t * __thiscall winIVRSystem_IVRSystem_019_GetProjectionMatrix(struct w_steam_iface *_this, HmdMatrix44_t *_ret, EVREye eEye, float fNearZ, float fFarZ)
+HmdMatrix44_t *__thiscall winIVRSystem_IVRSystem_019_GetProjectionMatrix(winIVRSystem_IVRSystem_019 *_this, HmdMatrix44_t *_r, EVREye eEye, float fNearZ, float fFarZ)
 {
-    struct cppIVRSystem_IVRSystem_019_GetProjectionMatrix_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .eEye = eEye,
-        .fNearZ = fNearZ,
-        .fFarZ = fFarZ,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_019_GetProjectionMatrix( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_019_GetProjectionMatrix(_this->linux_side, eEye, fNearZ, fFarZ);
+    return _r;
 }
 
-void __thiscall winIVRSystem_IVRSystem_019_GetProjectionRaw(struct w_steam_iface *_this, EVREye eEye, float *pfLeft, float *pfRight, float *pfTop, float *pfBottom)
+void __thiscall winIVRSystem_IVRSystem_019_GetProjectionRaw(winIVRSystem_IVRSystem_019 *_this, EVREye eEye, float *pfLeft, float *pfRight, float *pfTop, float *pfBottom)
 {
-    struct cppIVRSystem_IVRSystem_019_GetProjectionRaw_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eEye = eEye,
-        .pfLeft = pfLeft,
-        .pfRight = pfRight,
-        .pfTop = pfTop,
-        .pfBottom = pfBottom,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_019_GetProjectionRaw( &params );
+    cppIVRSystem_IVRSystem_019_GetProjectionRaw(_this->linux_side, eEye, pfLeft, pfRight, pfTop, pfBottom);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_019_ComputeDistortion(struct w_steam_iface *_this, EVREye eEye, float fU, float fV, DistortionCoordinates_t *pDistortionCoordinates)
+bool __thiscall winIVRSystem_IVRSystem_019_ComputeDistortion(winIVRSystem_IVRSystem_019 *_this, EVREye eEye, float fU, float fV, DistortionCoordinates_t *pDistortionCoordinates)
 {
-    struct cppIVRSystem_IVRSystem_019_ComputeDistortion_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eEye = eEye,
-        .fU = fU,
-        .fV = fV,
-        .pDistortionCoordinates = pDistortionCoordinates,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_019_ComputeDistortion( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_019_ComputeDistortion(_this->linux_side, eEye, fU, fV, pDistortionCoordinates);
 }
 
-HmdMatrix34_t * __thiscall winIVRSystem_IVRSystem_019_GetEyeToHeadTransform(struct w_steam_iface *_this, HmdMatrix34_t *_ret, EVREye eEye)
+HmdMatrix34_t *__thiscall winIVRSystem_IVRSystem_019_GetEyeToHeadTransform(winIVRSystem_IVRSystem_019 *_this, HmdMatrix34_t *_r, EVREye eEye)
 {
-    struct cppIVRSystem_IVRSystem_019_GetEyeToHeadTransform_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .eEye = eEye,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_019_GetEyeToHeadTransform( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_019_GetEyeToHeadTransform(_this->linux_side, eEye);
+    return _r;
 }
 
-bool __thiscall winIVRSystem_IVRSystem_019_GetTimeSinceLastVsync(struct w_steam_iface *_this, float *pfSecondsSinceLastVsync, uint64_t *pulFrameCounter)
+bool __thiscall winIVRSystem_IVRSystem_019_GetTimeSinceLastVsync(winIVRSystem_IVRSystem_019 *_this, float *pfSecondsSinceLastVsync, uint64_t *pulFrameCounter)
 {
-    struct cppIVRSystem_IVRSystem_019_GetTimeSinceLastVsync_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pfSecondsSinceLastVsync = pfSecondsSinceLastVsync,
-        .pulFrameCounter = pulFrameCounter,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_019_GetTimeSinceLastVsync( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_019_GetTimeSinceLastVsync(_this->linux_side, pfSecondsSinceLastVsync, pulFrameCounter);
 }
 
-int32_t __thiscall winIVRSystem_IVRSystem_019_GetD3D9AdapterIndex(struct w_steam_iface *_this)
+int32_t __thiscall winIVRSystem_IVRSystem_019_GetD3D9AdapterIndex(winIVRSystem_IVRSystem_019 *_this)
 {
-    struct cppIVRSystem_IVRSystem_019_GetD3D9AdapterIndex_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_019_GetD3D9AdapterIndex( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_019_GetD3D9AdapterIndex(_this->linux_side);
 }
 
-extern void __thiscall winIVRSystem_IVRSystem_019_GetDXGIOutputInfo(struct w_steam_iface *_this, int32_t *pnAdapterIndex);
-
-extern void __thiscall winIVRSystem_IVRSystem_019_GetOutputDevice(struct w_steam_iface *_this, uint64_t *pnDevice, ETextureType textureType, VkInstance_T *pInstance);
-
-bool __thiscall winIVRSystem_IVRSystem_019_IsDisplayOnDesktop(struct w_steam_iface *_this)
+void __thiscall winIVRSystem_IVRSystem_019_GetDXGIOutputInfo(winIVRSystem_IVRSystem_019 *_this, int32_t *pnAdapterIndex)
 {
-    struct cppIVRSystem_IVRSystem_019_IsDisplayOnDesktop_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_019_IsDisplayOnDesktop( &params );
-    return params._ret;
+    get_dxgi_output_info(cppIVRSystem_IVRSystem_019_GetDXGIOutputInfo, _this->linux_side, pnAdapterIndex, 19);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_019_SetDisplayVisibility(struct w_steam_iface *_this, bool bIsVisibleOnDesktop)
+void __thiscall winIVRSystem_IVRSystem_019_GetOutputDevice(winIVRSystem_IVRSystem_019 *_this, uint64_t *pnDevice, ETextureType textureType, VkInstance_T *pInstance)
 {
-    struct cppIVRSystem_IVRSystem_019_SetDisplayVisibility_params params =
-    {
-        .linux_side = _this->u_iface,
-        .bIsVisibleOnDesktop = bIsVisibleOnDesktop,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_019_SetDisplayVisibility( &params );
-    return params._ret;
+    ivrsystem_get_output_device(cppIVRSystem_IVRSystem_019_GetOutputDevice, _this->linux_side, pnDevice, textureType, pInstance, 19);
 }
 
-void __thiscall winIVRSystem_IVRSystem_019_GetDeviceToAbsoluteTrackingPose(struct w_steam_iface *_this, ETrackingUniverseOrigin eOrigin, float fPredictedSecondsToPhotonsFromNow, TrackedDevicePose_t *pTrackedDevicePoseArray, uint32_t unTrackedDevicePoseArrayCount)
+bool __thiscall winIVRSystem_IVRSystem_019_IsDisplayOnDesktop(winIVRSystem_IVRSystem_019 *_this)
 {
-    struct cppIVRSystem_IVRSystem_019_GetDeviceToAbsoluteTrackingPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eOrigin = eOrigin,
-        .fPredictedSecondsToPhotonsFromNow = fPredictedSecondsToPhotonsFromNow,
-        .pTrackedDevicePoseArray = pTrackedDevicePoseArray,
-        .unTrackedDevicePoseArrayCount = unTrackedDevicePoseArrayCount,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_019_GetDeviceToAbsoluteTrackingPose( &params );
+    return cppIVRSystem_IVRSystem_019_IsDisplayOnDesktop(_this->linux_side);
 }
 
-void __thiscall winIVRSystem_IVRSystem_019_ResetSeatedZeroPose(struct w_steam_iface *_this)
+bool __thiscall winIVRSystem_IVRSystem_019_SetDisplayVisibility(winIVRSystem_IVRSystem_019 *_this, bool bIsVisibleOnDesktop)
 {
-    struct cppIVRSystem_IVRSystem_019_ResetSeatedZeroPose_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_019_ResetSeatedZeroPose( &params );
+    return cppIVRSystem_IVRSystem_019_SetDisplayVisibility(_this->linux_side, bIsVisibleOnDesktop);
 }
 
-HmdMatrix34_t * __thiscall winIVRSystem_IVRSystem_019_GetSeatedZeroPoseToStandingAbsoluteTrackingPose(struct w_steam_iface *_this, HmdMatrix34_t *_ret)
+void __thiscall winIVRSystem_IVRSystem_019_GetDeviceToAbsoluteTrackingPose(winIVRSystem_IVRSystem_019 *_this, ETrackingUniverseOrigin eOrigin, float fPredictedSecondsToPhotonsFromNow, TrackedDevicePose_t *pTrackedDevicePoseArray, uint32_t unTrackedDevicePoseArrayCount)
 {
-    struct cppIVRSystem_IVRSystem_019_GetSeatedZeroPoseToStandingAbsoluteTrackingPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_019_GetSeatedZeroPoseToStandingAbsoluteTrackingPose( &params );
-    return params._ret;
+    cppIVRSystem_IVRSystem_019_GetDeviceToAbsoluteTrackingPose(_this->linux_side, eOrigin, fPredictedSecondsToPhotonsFromNow, pTrackedDevicePoseArray, unTrackedDevicePoseArrayCount);
 }
 
-HmdMatrix34_t * __thiscall winIVRSystem_IVRSystem_019_GetRawZeroPoseToStandingAbsoluteTrackingPose(struct w_steam_iface *_this, HmdMatrix34_t *_ret)
+void __thiscall winIVRSystem_IVRSystem_019_ResetSeatedZeroPose(winIVRSystem_IVRSystem_019 *_this)
 {
-    struct cppIVRSystem_IVRSystem_019_GetRawZeroPoseToStandingAbsoluteTrackingPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_019_GetRawZeroPoseToStandingAbsoluteTrackingPose( &params );
-    return params._ret;
+    cppIVRSystem_IVRSystem_019_ResetSeatedZeroPose(_this->linux_side);
 }
 
-uint32_t __thiscall winIVRSystem_IVRSystem_019_GetSortedTrackedDeviceIndicesOfClass(struct w_steam_iface *_this, ETrackedDeviceClass eTrackedDeviceClass, TrackedDeviceIndex_t *punTrackedDeviceIndexArray, uint32_t unTrackedDeviceIndexArrayCount, TrackedDeviceIndex_t unRelativeToTrackedDeviceIndex)
+HmdMatrix34_t *__thiscall winIVRSystem_IVRSystem_019_GetSeatedZeroPoseToStandingAbsoluteTrackingPose(winIVRSystem_IVRSystem_019 *_this, HmdMatrix34_t *_r)
 {
-    struct cppIVRSystem_IVRSystem_019_GetSortedTrackedDeviceIndicesOfClass_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eTrackedDeviceClass = eTrackedDeviceClass,
-        .punTrackedDeviceIndexArray = punTrackedDeviceIndexArray,
-        .unTrackedDeviceIndexArrayCount = unTrackedDeviceIndexArrayCount,
-        .unRelativeToTrackedDeviceIndex = unRelativeToTrackedDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_019_GetSortedTrackedDeviceIndicesOfClass( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_019_GetSeatedZeroPoseToStandingAbsoluteTrackingPose(_this->linux_side);
+    return _r;
 }
 
-EDeviceActivityLevel __thiscall winIVRSystem_IVRSystem_019_GetTrackedDeviceActivityLevel(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceId)
+HmdMatrix34_t *__thiscall winIVRSystem_IVRSystem_019_GetRawZeroPoseToStandingAbsoluteTrackingPose(winIVRSystem_IVRSystem_019 *_this, HmdMatrix34_t *_r)
 {
-    struct cppIVRSystem_IVRSystem_019_GetTrackedDeviceActivityLevel_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceId = unDeviceId,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_019_GetTrackedDeviceActivityLevel( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_019_GetRawZeroPoseToStandingAbsoluteTrackingPose(_this->linux_side);
+    return _r;
 }
 
-void __thiscall winIVRSystem_IVRSystem_019_ApplyTransform(struct w_steam_iface *_this, TrackedDevicePose_t *pOutputPose, const TrackedDevicePose_t *pTrackedDevicePose, const HmdMatrix34_t *pTransform)
+uint32_t __thiscall winIVRSystem_IVRSystem_019_GetSortedTrackedDeviceIndicesOfClass(winIVRSystem_IVRSystem_019 *_this, ETrackedDeviceClass eTrackedDeviceClass, TrackedDeviceIndex_t *punTrackedDeviceIndexArray, uint32_t unTrackedDeviceIndexArrayCount, TrackedDeviceIndex_t unRelativeToTrackedDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_019_ApplyTransform_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pOutputPose = pOutputPose,
-        .pTrackedDevicePose = pTrackedDevicePose,
-        .pTransform = pTransform,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_019_ApplyTransform( &params );
+    return cppIVRSystem_IVRSystem_019_GetSortedTrackedDeviceIndicesOfClass(_this->linux_side, eTrackedDeviceClass, punTrackedDeviceIndexArray, unTrackedDeviceIndexArrayCount, unRelativeToTrackedDeviceIndex);
 }
 
-TrackedDeviceIndex_t __thiscall winIVRSystem_IVRSystem_019_GetTrackedDeviceIndexForControllerRole(struct w_steam_iface *_this, ETrackedControllerRole unDeviceType)
+EDeviceActivityLevel __thiscall winIVRSystem_IVRSystem_019_GetTrackedDeviceActivityLevel(winIVRSystem_IVRSystem_019 *_this, TrackedDeviceIndex_t unDeviceId)
 {
-    struct cppIVRSystem_IVRSystem_019_GetTrackedDeviceIndexForControllerRole_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceType = unDeviceType,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_019_GetTrackedDeviceIndexForControllerRole( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_019_GetTrackedDeviceActivityLevel(_this->linux_side, unDeviceId);
 }
 
-ETrackedControllerRole __thiscall winIVRSystem_IVRSystem_019_GetControllerRoleForTrackedDeviceIndex(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex)
+void __thiscall winIVRSystem_IVRSystem_019_ApplyTransform(winIVRSystem_IVRSystem_019 *_this, TrackedDevicePose_t *pOutputPose, TrackedDevicePose_t *pTrackedDevicePose, HmdMatrix34_t *pTransform)
 {
-    struct cppIVRSystem_IVRSystem_019_GetControllerRoleForTrackedDeviceIndex_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_019_GetControllerRoleForTrackedDeviceIndex( &params );
-    return params._ret;
+    cppIVRSystem_IVRSystem_019_ApplyTransform(_this->linux_side, pOutputPose, pTrackedDevicePose, pTransform);
 }
 
-ETrackedDeviceClass __thiscall winIVRSystem_IVRSystem_019_GetTrackedDeviceClass(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex)
+TrackedDeviceIndex_t __thiscall winIVRSystem_IVRSystem_019_GetTrackedDeviceIndexForControllerRole(winIVRSystem_IVRSystem_019 *_this, ETrackedControllerRole unDeviceType)
 {
-    struct cppIVRSystem_IVRSystem_019_GetTrackedDeviceClass_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_019_GetTrackedDeviceClass( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_019_GetTrackedDeviceIndexForControllerRole(_this->linux_side, unDeviceType);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_019_IsTrackedDeviceConnected(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex)
+ETrackedControllerRole __thiscall winIVRSystem_IVRSystem_019_GetControllerRoleForTrackedDeviceIndex(winIVRSystem_IVRSystem_019 *_this, TrackedDeviceIndex_t unDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_019_IsTrackedDeviceConnected_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_019_IsTrackedDeviceConnected( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_019_GetControllerRoleForTrackedDeviceIndex(_this->linux_side, unDeviceIndex);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_019_GetBoolTrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
+ETrackedDeviceClass __thiscall winIVRSystem_IVRSystem_019_GetTrackedDeviceClass(winIVRSystem_IVRSystem_019 *_this, TrackedDeviceIndex_t unDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_019_GetBoolTrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_019_GetBoolTrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_019_GetTrackedDeviceClass(_this->linux_side, unDeviceIndex);
 }
 
-float __thiscall winIVRSystem_IVRSystem_019_GetFloatTrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
+bool __thiscall winIVRSystem_IVRSystem_019_IsTrackedDeviceConnected(winIVRSystem_IVRSystem_019 *_this, TrackedDeviceIndex_t unDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_019_GetFloatTrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_019_GetFloatTrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_019_IsTrackedDeviceConnected(_this->linux_side, unDeviceIndex);
 }
 
-int32_t __thiscall winIVRSystem_IVRSystem_019_GetInt32TrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
+bool __thiscall winIVRSystem_IVRSystem_019_GetBoolTrackedDeviceProperty(winIVRSystem_IVRSystem_019 *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_019_GetInt32TrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_019_GetInt32TrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_019_GetBoolTrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
 }
 
-uint64_t __thiscall winIVRSystem_IVRSystem_019_GetUint64TrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
+float __thiscall winIVRSystem_IVRSystem_019_GetFloatTrackedDeviceProperty(winIVRSystem_IVRSystem_019 *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_019_GetUint64TrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_019_GetUint64TrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_019_GetFloatTrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
 }
 
-HmdMatrix34_t * __thiscall winIVRSystem_IVRSystem_019_GetMatrix34TrackedDeviceProperty(struct w_steam_iface *_this, HmdMatrix34_t *_ret, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
+int32_t __thiscall winIVRSystem_IVRSystem_019_GetInt32TrackedDeviceProperty(winIVRSystem_IVRSystem_019 *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_019_GetMatrix34TrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_019_GetMatrix34TrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_019_GetInt32TrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
 }
 
-uint32_t __thiscall winIVRSystem_IVRSystem_019_GetArrayTrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, PropertyTypeTag_t propType, void *pBuffer, uint32_t unBufferSize, ETrackedPropertyError *pError)
+uint64_t __thiscall winIVRSystem_IVRSystem_019_GetUint64TrackedDeviceProperty(winIVRSystem_IVRSystem_019 *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_019_GetArrayTrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .propType = propType,
-        .pBuffer = pBuffer,
-        .unBufferSize = unBufferSize,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_019_GetArrayTrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_019_GetUint64TrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
 }
 
-uint32_t __thiscall winIVRSystem_IVRSystem_019_GetStringTrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, char *pchValue, uint32_t unBufferSize, ETrackedPropertyError *pError)
+HmdMatrix34_t *__thiscall winIVRSystem_IVRSystem_019_GetMatrix34TrackedDeviceProperty(winIVRSystem_IVRSystem_019 *_this, HmdMatrix34_t *_r, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_019_GetStringTrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pchValue = pchValue,
-        .unBufferSize = unBufferSize,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_019_GetStringTrackedDeviceProperty( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_019_GetMatrix34TrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
+    return _r;
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_019_GetPropErrorNameFromEnum(struct w_steam_iface *_this, ETrackedPropertyError error)
+uint32_t __thiscall winIVRSystem_IVRSystem_019_GetArrayTrackedDeviceProperty(winIVRSystem_IVRSystem_019 *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, PropertyTypeTag_t propType, void *pBuffer, uint32_t unBufferSize, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_019_GetPropErrorNameFromEnum_params params =
-    {
-        .linux_side = _this->u_iface,
-        .error = error,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_019_GetPropErrorNameFromEnum( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_019_GetArrayTrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, propType, pBuffer, unBufferSize, pError);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_019_PollNextEvent(struct w_steam_iface *_this, winVREvent_t_1418 *pEvent, uint32_t uncbVREvent)
+uint32_t __thiscall winIVRSystem_IVRSystem_019_GetStringTrackedDeviceProperty(winIVRSystem_IVRSystem_019 *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, char *pchValue, uint32_t unBufferSize, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_019_PollNextEvent_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pEvent = pEvent,
-        .uncbVREvent = uncbVREvent,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_019_PollNextEvent( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_019_GetStringTrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pchValue, unBufferSize, pError);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_019_PollNextEventWithPose(struct w_steam_iface *_this, ETrackingUniverseOrigin eOrigin, winVREvent_t_1418 *pEvent, uint32_t uncbVREvent, TrackedDevicePose_t *pTrackedDevicePose)
+const char * __thiscall winIVRSystem_IVRSystem_019_GetPropErrorNameFromEnum(winIVRSystem_IVRSystem_019 *_this, ETrackedPropertyError error)
 {
-    struct cppIVRSystem_IVRSystem_019_PollNextEventWithPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eOrigin = eOrigin,
-        .pEvent = pEvent,
-        .uncbVREvent = uncbVREvent,
-        .pTrackedDevicePose = pTrackedDevicePose,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_019_PollNextEventWithPose( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_019_GetPropErrorNameFromEnum(_this->linux_side, error);
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_019_GetEventTypeNameFromEnum(struct w_steam_iface *_this, EVREventType eType)
+bool __thiscall winIVRSystem_IVRSystem_019_PollNextEvent(winIVRSystem_IVRSystem_019 *_this, winVREvent_t_1418 *pEvent, uint32_t uncbVREvent)
 {
-    struct cppIVRSystem_IVRSystem_019_GetEventTypeNameFromEnum_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eType = eType,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_019_GetEventTypeNameFromEnum( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_019_PollNextEvent(_this->linux_side, pEvent, uncbVREvent);
 }
 
-HiddenAreaMesh_t * __thiscall winIVRSystem_IVRSystem_019_GetHiddenAreaMesh(struct w_steam_iface *_this, HiddenAreaMesh_t *_ret, EVREye eEye, EHiddenAreaMeshType type)
+bool __thiscall winIVRSystem_IVRSystem_019_PollNextEventWithPose(winIVRSystem_IVRSystem_019 *_this, ETrackingUniverseOrigin eOrigin, winVREvent_t_1418 *pEvent, uint32_t uncbVREvent, TrackedDevicePose_t *pTrackedDevicePose)
 {
-    struct cppIVRSystem_IVRSystem_019_GetHiddenAreaMesh_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .eEye = eEye,
-        .type = type,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_019_GetHiddenAreaMesh( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_019_PollNextEventWithPose(_this->linux_side, eOrigin, pEvent, uncbVREvent, pTrackedDevicePose);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_019_GetControllerState(struct w_steam_iface *_this, TrackedDeviceIndex_t unControllerDeviceIndex, winVRControllerState001_t_1418 *pControllerState, uint32_t unControllerStateSize)
+const char * __thiscall winIVRSystem_IVRSystem_019_GetEventTypeNameFromEnum(winIVRSystem_IVRSystem_019 *_this, EVREventType eType)
 {
-    struct cppIVRSystem_IVRSystem_019_GetControllerState_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unControllerDeviceIndex = unControllerDeviceIndex,
-        .pControllerState = pControllerState,
-        .unControllerStateSize = unControllerStateSize,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_019_GetControllerState( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_019_GetEventTypeNameFromEnum(_this->linux_side, eType);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_019_GetControllerStateWithPose(struct w_steam_iface *_this, ETrackingUniverseOrigin eOrigin, TrackedDeviceIndex_t unControllerDeviceIndex, winVRControllerState001_t_1418 *pControllerState, uint32_t unControllerStateSize, TrackedDevicePose_t *pTrackedDevicePose)
+HiddenAreaMesh_t *__thiscall winIVRSystem_IVRSystem_019_GetHiddenAreaMesh(winIVRSystem_IVRSystem_019 *_this, HiddenAreaMesh_t *_r, EVREye eEye, EHiddenAreaMeshType type)
 {
-    struct cppIVRSystem_IVRSystem_019_GetControllerStateWithPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eOrigin = eOrigin,
-        .unControllerDeviceIndex = unControllerDeviceIndex,
-        .pControllerState = pControllerState,
-        .unControllerStateSize = unControllerStateSize,
-        .pTrackedDevicePose = pTrackedDevicePose,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_019_GetControllerStateWithPose( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_019_GetHiddenAreaMesh(_this->linux_side, eEye, type);
+    return _r;
 }
 
-void __thiscall winIVRSystem_IVRSystem_019_TriggerHapticPulse(struct w_steam_iface *_this, TrackedDeviceIndex_t unControllerDeviceIndex, uint32_t unAxisId, unsigned short usDurationMicroSec)
+bool __thiscall winIVRSystem_IVRSystem_019_GetControllerState(winIVRSystem_IVRSystem_019 *_this, TrackedDeviceIndex_t unControllerDeviceIndex, winVRControllerState001_t_1418 *pControllerState, uint32_t unControllerStateSize)
 {
-    struct cppIVRSystem_IVRSystem_019_TriggerHapticPulse_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unControllerDeviceIndex = unControllerDeviceIndex,
-        .unAxisId = unAxisId,
-        .usDurationMicroSec = usDurationMicroSec,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_019_TriggerHapticPulse( &params );
+    return cppIVRSystem_IVRSystem_019_GetControllerState(_this->linux_side, unControllerDeviceIndex, pControllerState, unControllerStateSize);
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_019_GetButtonIdNameFromEnum(struct w_steam_iface *_this, EVRButtonId eButtonId)
+bool __thiscall winIVRSystem_IVRSystem_019_GetControllerStateWithPose(winIVRSystem_IVRSystem_019 *_this, ETrackingUniverseOrigin eOrigin, TrackedDeviceIndex_t unControllerDeviceIndex, winVRControllerState001_t_1418 *pControllerState, uint32_t unControllerStateSize, TrackedDevicePose_t *pTrackedDevicePose)
 {
-    struct cppIVRSystem_IVRSystem_019_GetButtonIdNameFromEnum_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eButtonId = eButtonId,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_019_GetButtonIdNameFromEnum( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_019_GetControllerStateWithPose(_this->linux_side, eOrigin, unControllerDeviceIndex, pControllerState, unControllerStateSize, pTrackedDevicePose);
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_019_GetControllerAxisTypeNameFromEnum(struct w_steam_iface *_this, EVRControllerAxisType eAxisType)
+void __thiscall winIVRSystem_IVRSystem_019_TriggerHapticPulse(winIVRSystem_IVRSystem_019 *_this, TrackedDeviceIndex_t unControllerDeviceIndex, uint32_t unAxisId, unsigned short usDurationMicroSec)
 {
-    struct cppIVRSystem_IVRSystem_019_GetControllerAxisTypeNameFromEnum_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eAxisType = eAxisType,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_019_GetControllerAxisTypeNameFromEnum( &params );
-    return params._ret;
+    cppIVRSystem_IVRSystem_019_TriggerHapticPulse(_this->linux_side, unControllerDeviceIndex, unAxisId, usDurationMicroSec);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_019_IsInputAvailable(struct w_steam_iface *_this)
+const char * __thiscall winIVRSystem_IVRSystem_019_GetButtonIdNameFromEnum(winIVRSystem_IVRSystem_019 *_this, EVRButtonId eButtonId)
 {
-    struct cppIVRSystem_IVRSystem_019_IsInputAvailable_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_019_IsInputAvailable( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_019_GetButtonIdNameFromEnum(_this->linux_side, eButtonId);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_019_IsSteamVRDrawingControllers(struct w_steam_iface *_this)
+const char * __thiscall winIVRSystem_IVRSystem_019_GetControllerAxisTypeNameFromEnum(winIVRSystem_IVRSystem_019 *_this, EVRControllerAxisType eAxisType)
 {
-    struct cppIVRSystem_IVRSystem_019_IsSteamVRDrawingControllers_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_019_IsSteamVRDrawingControllers( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_019_GetControllerAxisTypeNameFromEnum(_this->linux_side, eAxisType);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_019_ShouldApplicationPause(struct w_steam_iface *_this)
+bool __thiscall winIVRSystem_IVRSystem_019_IsInputAvailable(winIVRSystem_IVRSystem_019 *_this)
 {
-    struct cppIVRSystem_IVRSystem_019_ShouldApplicationPause_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_019_ShouldApplicationPause( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_019_IsInputAvailable(_this->linux_side);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_019_ShouldApplicationReduceRenderingWork(struct w_steam_iface *_this)
+bool __thiscall winIVRSystem_IVRSystem_019_IsSteamVRDrawingControllers(winIVRSystem_IVRSystem_019 *_this)
 {
-    struct cppIVRSystem_IVRSystem_019_ShouldApplicationReduceRenderingWork_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_019_ShouldApplicationReduceRenderingWork( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_019_IsSteamVRDrawingControllers(_this->linux_side);
 }
 
-uint32_t __thiscall winIVRSystem_IVRSystem_019_DriverDebugRequest(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, const char *pchRequest, char *pchResponseBuffer, uint32_t unResponseBufferSize)
+bool __thiscall winIVRSystem_IVRSystem_019_ShouldApplicationPause(winIVRSystem_IVRSystem_019 *_this)
 {
-    struct cppIVRSystem_IVRSystem_019_DriverDebugRequest_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .pchRequest = pchRequest,
-        .pchResponseBuffer = pchResponseBuffer,
-        .unResponseBufferSize = unResponseBufferSize,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_019_DriverDebugRequest( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_019_ShouldApplicationPause(_this->linux_side);
 }
 
-EVRFirmwareError __thiscall winIVRSystem_IVRSystem_019_PerformFirmwareUpdate(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex)
+bool __thiscall winIVRSystem_IVRSystem_019_ShouldApplicationReduceRenderingWork(winIVRSystem_IVRSystem_019 *_this)
 {
-    struct cppIVRSystem_IVRSystem_019_PerformFirmwareUpdate_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_019_PerformFirmwareUpdate( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_019_ShouldApplicationReduceRenderingWork(_this->linux_side);
 }
 
-void __thiscall winIVRSystem_IVRSystem_019_AcknowledgeQuit_Exiting(struct w_steam_iface *_this)
+uint32_t __thiscall winIVRSystem_IVRSystem_019_DriverDebugRequest(winIVRSystem_IVRSystem_019 *_this, TrackedDeviceIndex_t unDeviceIndex, const char *pchRequest, char *pchResponseBuffer, uint32_t unResponseBufferSize)
 {
-    struct cppIVRSystem_IVRSystem_019_AcknowledgeQuit_Exiting_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_019_AcknowledgeQuit_Exiting( &params );
+    return cppIVRSystem_IVRSystem_019_DriverDebugRequest(_this->linux_side, unDeviceIndex, pchRequest, pchResponseBuffer, unResponseBufferSize);
 }
 
-void __thiscall winIVRSystem_IVRSystem_019_AcknowledgeQuit_UserPrompt(struct w_steam_iface *_this)
+EVRFirmwareError __thiscall winIVRSystem_IVRSystem_019_PerformFirmwareUpdate(winIVRSystem_IVRSystem_019 *_this, TrackedDeviceIndex_t unDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_019_AcknowledgeQuit_UserPrompt_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_019_AcknowledgeQuit_UserPrompt( &params );
+    return cppIVRSystem_IVRSystem_019_PerformFirmwareUpdate(_this->linux_side, unDeviceIndex);
+}
+
+void __thiscall winIVRSystem_IVRSystem_019_AcknowledgeQuit_Exiting(winIVRSystem_IVRSystem_019 *_this)
+{
+    TRACE("%p\n", _this);
+    cppIVRSystem_IVRSystem_019_AcknowledgeQuit_Exiting(_this->linux_side);
+}
+
+void __thiscall winIVRSystem_IVRSystem_019_AcknowledgeQuit_UserPrompt(winIVRSystem_IVRSystem_019 *_this)
+{
+    TRACE("%p\n", _this);
+    cppIVRSystem_IVRSystem_019_AcknowledgeQuit_UserPrompt(_this->linux_side);
 }
 
 extern vtable_ptr winIVRSystem_IVRSystem_019_vtable;
@@ -9269,24 +5773,24 @@ void __asm_dummy_vtables(void) {
 }
 #endif
 
-struct w_steam_iface *create_winIVRSystem_IVRSystem_019(void *u_iface)
+winIVRSystem_IVRSystem_019 *create_winIVRSystem_IVRSystem_019(void *linux_side)
 {
-    struct w_steam_iface *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(*r));
+    winIVRSystem_IVRSystem_019 *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(winIVRSystem_IVRSystem_019));
     TRACE("-> %p\n", r);
     r->vtable = &winIVRSystem_IVRSystem_019_vtable;
-    r->u_iface = u_iface;
+    r->linux_side = linux_side;
     return r;
 }
 
-void destroy_winIVRSystem_IVRSystem_019(struct w_steam_iface *object)
+void destroy_winIVRSystem_IVRSystem_019(void *object)
 {
     TRACE("%p\n", object);
     HeapFree(GetProcessHeap(), 0, object);
 }
 
-struct w_steam_iface *create_winIVRSystem_IVRSystem_019_FnTable(void *u_iface)
+winIVRSystem_IVRSystem_019 *create_winIVRSystem_IVRSystem_019_FnTable(void *linux_side)
 {
-    struct w_steam_iface *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(*r));
+    winIVRSystem_IVRSystem_019 *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(winIVRSystem_IVRSystem_019));
     struct thunk *thunks = alloc_thunks(47);
     struct thunk **vtable = HeapAlloc(GetProcessHeap(), 0, 47 * sizeof(*vtable));
     int i;
@@ -9341,20 +5845,26 @@ struct w_steam_iface *create_winIVRSystem_IVRSystem_019_FnTable(void *u_iface)
     init_thunk(&thunks[46], r, winIVRSystem_IVRSystem_019_AcknowledgeQuit_UserPrompt, 0, FALSE, FALSE);
     for (i = 0; i < 47; i++)
         vtable[i] = &thunks[i];
-    r->u_iface = u_iface;
+    r->linux_side = linux_side;
     r->vtable = (void *)vtable;
     return r;
 }
 
-void destroy_winIVRSystem_IVRSystem_019_FnTable(struct w_steam_iface *object)
+void destroy_winIVRSystem_IVRSystem_019_FnTable(void *object)
 {
-    TRACE("%p\n", object);
-    VirtualFree(object->vtable[0], 0, MEM_RELEASE);
-    HeapFree(GetProcessHeap(), 0, object->vtable);
-    HeapFree(GetProcessHeap(), 0, object);
+    winIVRSystem_IVRSystem_019 *win_object = object;
+    TRACE("%p\n", win_object);
+    VirtualFree(win_object->vtable[0], 0, MEM_RELEASE);
+    HeapFree(GetProcessHeap(), 0, win_object->vtable);
+    HeapFree(GetProcessHeap(), 0, win_object);
 }
 
 #include "cppIVRSystem_IVRSystem_020.h"
+
+typedef struct __winIVRSystem_IVRSystem_020 {
+    vtable_ptr *vtable;
+    void *linux_side;
+} winIVRSystem_IVRSystem_020;
 
 DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_020_GetRecommendedRenderTargetSize, 12)
 DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_020_GetProjectionMatrix, 20)
@@ -9405,598 +5915,298 @@ DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_020_AcknowledgeQuit_UserPrompt, 4
 DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_020_GetAppContainerFilePaths, 12)
 DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_020_GetRuntimeVersion, 4)
 
-void __thiscall winIVRSystem_IVRSystem_020_GetRecommendedRenderTargetSize(struct w_steam_iface *_this, uint32_t *pnWidth, uint32_t *pnHeight)
+void __thiscall winIVRSystem_IVRSystem_020_GetRecommendedRenderTargetSize(winIVRSystem_IVRSystem_020 *_this, uint32_t *pnWidth, uint32_t *pnHeight)
 {
-    struct cppIVRSystem_IVRSystem_020_GetRecommendedRenderTargetSize_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pnWidth = pnWidth,
-        .pnHeight = pnHeight,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_020_GetRecommendedRenderTargetSize( &params );
+    cppIVRSystem_IVRSystem_020_GetRecommendedRenderTargetSize(_this->linux_side, pnWidth, pnHeight);
 }
 
-HmdMatrix44_t * __thiscall winIVRSystem_IVRSystem_020_GetProjectionMatrix(struct w_steam_iface *_this, HmdMatrix44_t *_ret, EVREye eEye, float fNearZ, float fFarZ)
+HmdMatrix44_t *__thiscall winIVRSystem_IVRSystem_020_GetProjectionMatrix(winIVRSystem_IVRSystem_020 *_this, HmdMatrix44_t *_r, EVREye eEye, float fNearZ, float fFarZ)
 {
-    struct cppIVRSystem_IVRSystem_020_GetProjectionMatrix_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .eEye = eEye,
-        .fNearZ = fNearZ,
-        .fFarZ = fFarZ,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_020_GetProjectionMatrix( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_020_GetProjectionMatrix(_this->linux_side, eEye, fNearZ, fFarZ);
+    return _r;
 }
 
-void __thiscall winIVRSystem_IVRSystem_020_GetProjectionRaw(struct w_steam_iface *_this, EVREye eEye, float *pfLeft, float *pfRight, float *pfTop, float *pfBottom)
+void __thiscall winIVRSystem_IVRSystem_020_GetProjectionRaw(winIVRSystem_IVRSystem_020 *_this, EVREye eEye, float *pfLeft, float *pfRight, float *pfTop, float *pfBottom)
 {
-    struct cppIVRSystem_IVRSystem_020_GetProjectionRaw_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eEye = eEye,
-        .pfLeft = pfLeft,
-        .pfRight = pfRight,
-        .pfTop = pfTop,
-        .pfBottom = pfBottom,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_020_GetProjectionRaw( &params );
+    cppIVRSystem_IVRSystem_020_GetProjectionRaw(_this->linux_side, eEye, pfLeft, pfRight, pfTop, pfBottom);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_020_ComputeDistortion(struct w_steam_iface *_this, EVREye eEye, float fU, float fV, DistortionCoordinates_t *pDistortionCoordinates)
+bool __thiscall winIVRSystem_IVRSystem_020_ComputeDistortion(winIVRSystem_IVRSystem_020 *_this, EVREye eEye, float fU, float fV, DistortionCoordinates_t *pDistortionCoordinates)
 {
-    struct cppIVRSystem_IVRSystem_020_ComputeDistortion_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eEye = eEye,
-        .fU = fU,
-        .fV = fV,
-        .pDistortionCoordinates = pDistortionCoordinates,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_020_ComputeDistortion( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_020_ComputeDistortion(_this->linux_side, eEye, fU, fV, pDistortionCoordinates);
 }
 
-HmdMatrix34_t * __thiscall winIVRSystem_IVRSystem_020_GetEyeToHeadTransform(struct w_steam_iface *_this, HmdMatrix34_t *_ret, EVREye eEye)
+HmdMatrix34_t *__thiscall winIVRSystem_IVRSystem_020_GetEyeToHeadTransform(winIVRSystem_IVRSystem_020 *_this, HmdMatrix34_t *_r, EVREye eEye)
 {
-    struct cppIVRSystem_IVRSystem_020_GetEyeToHeadTransform_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .eEye = eEye,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_020_GetEyeToHeadTransform( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_020_GetEyeToHeadTransform(_this->linux_side, eEye);
+    return _r;
 }
 
-bool __thiscall winIVRSystem_IVRSystem_020_GetTimeSinceLastVsync(struct w_steam_iface *_this, float *pfSecondsSinceLastVsync, uint64_t *pulFrameCounter)
+bool __thiscall winIVRSystem_IVRSystem_020_GetTimeSinceLastVsync(winIVRSystem_IVRSystem_020 *_this, float *pfSecondsSinceLastVsync, uint64_t *pulFrameCounter)
 {
-    struct cppIVRSystem_IVRSystem_020_GetTimeSinceLastVsync_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pfSecondsSinceLastVsync = pfSecondsSinceLastVsync,
-        .pulFrameCounter = pulFrameCounter,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_020_GetTimeSinceLastVsync( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_020_GetTimeSinceLastVsync(_this->linux_side, pfSecondsSinceLastVsync, pulFrameCounter);
 }
 
-int32_t __thiscall winIVRSystem_IVRSystem_020_GetD3D9AdapterIndex(struct w_steam_iface *_this)
+int32_t __thiscall winIVRSystem_IVRSystem_020_GetD3D9AdapterIndex(winIVRSystem_IVRSystem_020 *_this)
 {
-    struct cppIVRSystem_IVRSystem_020_GetD3D9AdapterIndex_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_020_GetD3D9AdapterIndex( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_020_GetD3D9AdapterIndex(_this->linux_side);
 }
 
-extern void __thiscall winIVRSystem_IVRSystem_020_GetDXGIOutputInfo(struct w_steam_iface *_this, int32_t *pnAdapterIndex);
-
-extern void __thiscall winIVRSystem_IVRSystem_020_GetOutputDevice(struct w_steam_iface *_this, uint64_t *pnDevice, ETextureType textureType, VkInstance_T *pInstance);
-
-bool __thiscall winIVRSystem_IVRSystem_020_IsDisplayOnDesktop(struct w_steam_iface *_this)
+void __thiscall winIVRSystem_IVRSystem_020_GetDXGIOutputInfo(winIVRSystem_IVRSystem_020 *_this, int32_t *pnAdapterIndex)
 {
-    struct cppIVRSystem_IVRSystem_020_IsDisplayOnDesktop_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_020_IsDisplayOnDesktop( &params );
-    return params._ret;
+    get_dxgi_output_info(cppIVRSystem_IVRSystem_020_GetDXGIOutputInfo, _this->linux_side, pnAdapterIndex, 20);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_020_SetDisplayVisibility(struct w_steam_iface *_this, bool bIsVisibleOnDesktop)
+void __thiscall winIVRSystem_IVRSystem_020_GetOutputDevice(winIVRSystem_IVRSystem_020 *_this, uint64_t *pnDevice, ETextureType textureType, VkInstance_T *pInstance)
 {
-    struct cppIVRSystem_IVRSystem_020_SetDisplayVisibility_params params =
-    {
-        .linux_side = _this->u_iface,
-        .bIsVisibleOnDesktop = bIsVisibleOnDesktop,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_020_SetDisplayVisibility( &params );
-    return params._ret;
+    ivrsystem_get_output_device(cppIVRSystem_IVRSystem_020_GetOutputDevice, _this->linux_side, pnDevice, textureType, pInstance, 20);
 }
 
-void __thiscall winIVRSystem_IVRSystem_020_GetDeviceToAbsoluteTrackingPose(struct w_steam_iface *_this, ETrackingUniverseOrigin eOrigin, float fPredictedSecondsToPhotonsFromNow, TrackedDevicePose_t *pTrackedDevicePoseArray, uint32_t unTrackedDevicePoseArrayCount)
+bool __thiscall winIVRSystem_IVRSystem_020_IsDisplayOnDesktop(winIVRSystem_IVRSystem_020 *_this)
 {
-    struct cppIVRSystem_IVRSystem_020_GetDeviceToAbsoluteTrackingPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eOrigin = eOrigin,
-        .fPredictedSecondsToPhotonsFromNow = fPredictedSecondsToPhotonsFromNow,
-        .pTrackedDevicePoseArray = pTrackedDevicePoseArray,
-        .unTrackedDevicePoseArrayCount = unTrackedDevicePoseArrayCount,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_020_GetDeviceToAbsoluteTrackingPose( &params );
+    return cppIVRSystem_IVRSystem_020_IsDisplayOnDesktop(_this->linux_side);
 }
 
-void __thiscall winIVRSystem_IVRSystem_020_ResetSeatedZeroPose(struct w_steam_iface *_this)
+bool __thiscall winIVRSystem_IVRSystem_020_SetDisplayVisibility(winIVRSystem_IVRSystem_020 *_this, bool bIsVisibleOnDesktop)
 {
-    struct cppIVRSystem_IVRSystem_020_ResetSeatedZeroPose_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_020_ResetSeatedZeroPose( &params );
+    return cppIVRSystem_IVRSystem_020_SetDisplayVisibility(_this->linux_side, bIsVisibleOnDesktop);
 }
 
-HmdMatrix34_t * __thiscall winIVRSystem_IVRSystem_020_GetSeatedZeroPoseToStandingAbsoluteTrackingPose(struct w_steam_iface *_this, HmdMatrix34_t *_ret)
+void __thiscall winIVRSystem_IVRSystem_020_GetDeviceToAbsoluteTrackingPose(winIVRSystem_IVRSystem_020 *_this, ETrackingUniverseOrigin eOrigin, float fPredictedSecondsToPhotonsFromNow, TrackedDevicePose_t *pTrackedDevicePoseArray, uint32_t unTrackedDevicePoseArrayCount)
 {
-    struct cppIVRSystem_IVRSystem_020_GetSeatedZeroPoseToStandingAbsoluteTrackingPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_020_GetSeatedZeroPoseToStandingAbsoluteTrackingPose( &params );
-    return params._ret;
+    cppIVRSystem_IVRSystem_020_GetDeviceToAbsoluteTrackingPose(_this->linux_side, eOrigin, fPredictedSecondsToPhotonsFromNow, pTrackedDevicePoseArray, unTrackedDevicePoseArrayCount);
 }
 
-HmdMatrix34_t * __thiscall winIVRSystem_IVRSystem_020_GetRawZeroPoseToStandingAbsoluteTrackingPose(struct w_steam_iface *_this, HmdMatrix34_t *_ret)
+void __thiscall winIVRSystem_IVRSystem_020_ResetSeatedZeroPose(winIVRSystem_IVRSystem_020 *_this)
 {
-    struct cppIVRSystem_IVRSystem_020_GetRawZeroPoseToStandingAbsoluteTrackingPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_020_GetRawZeroPoseToStandingAbsoluteTrackingPose( &params );
-    return params._ret;
+    cppIVRSystem_IVRSystem_020_ResetSeatedZeroPose(_this->linux_side);
 }
 
-uint32_t __thiscall winIVRSystem_IVRSystem_020_GetSortedTrackedDeviceIndicesOfClass(struct w_steam_iface *_this, ETrackedDeviceClass eTrackedDeviceClass, TrackedDeviceIndex_t *punTrackedDeviceIndexArray, uint32_t unTrackedDeviceIndexArrayCount, TrackedDeviceIndex_t unRelativeToTrackedDeviceIndex)
+HmdMatrix34_t *__thiscall winIVRSystem_IVRSystem_020_GetSeatedZeroPoseToStandingAbsoluteTrackingPose(winIVRSystem_IVRSystem_020 *_this, HmdMatrix34_t *_r)
 {
-    struct cppIVRSystem_IVRSystem_020_GetSortedTrackedDeviceIndicesOfClass_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eTrackedDeviceClass = eTrackedDeviceClass,
-        .punTrackedDeviceIndexArray = punTrackedDeviceIndexArray,
-        .unTrackedDeviceIndexArrayCount = unTrackedDeviceIndexArrayCount,
-        .unRelativeToTrackedDeviceIndex = unRelativeToTrackedDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_020_GetSortedTrackedDeviceIndicesOfClass( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_020_GetSeatedZeroPoseToStandingAbsoluteTrackingPose(_this->linux_side);
+    return _r;
 }
 
-EDeviceActivityLevel __thiscall winIVRSystem_IVRSystem_020_GetTrackedDeviceActivityLevel(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceId)
+HmdMatrix34_t *__thiscall winIVRSystem_IVRSystem_020_GetRawZeroPoseToStandingAbsoluteTrackingPose(winIVRSystem_IVRSystem_020 *_this, HmdMatrix34_t *_r)
 {
-    struct cppIVRSystem_IVRSystem_020_GetTrackedDeviceActivityLevel_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceId = unDeviceId,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_020_GetTrackedDeviceActivityLevel( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_020_GetRawZeroPoseToStandingAbsoluteTrackingPose(_this->linux_side);
+    return _r;
 }
 
-void __thiscall winIVRSystem_IVRSystem_020_ApplyTransform(struct w_steam_iface *_this, TrackedDevicePose_t *pOutputPose, const TrackedDevicePose_t *pTrackedDevicePose, const HmdMatrix34_t *pTransform)
+uint32_t __thiscall winIVRSystem_IVRSystem_020_GetSortedTrackedDeviceIndicesOfClass(winIVRSystem_IVRSystem_020 *_this, ETrackedDeviceClass eTrackedDeviceClass, TrackedDeviceIndex_t *punTrackedDeviceIndexArray, uint32_t unTrackedDeviceIndexArrayCount, TrackedDeviceIndex_t unRelativeToTrackedDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_020_ApplyTransform_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pOutputPose = pOutputPose,
-        .pTrackedDevicePose = pTrackedDevicePose,
-        .pTransform = pTransform,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_020_ApplyTransform( &params );
+    return cppIVRSystem_IVRSystem_020_GetSortedTrackedDeviceIndicesOfClass(_this->linux_side, eTrackedDeviceClass, punTrackedDeviceIndexArray, unTrackedDeviceIndexArrayCount, unRelativeToTrackedDeviceIndex);
 }
 
-TrackedDeviceIndex_t __thiscall winIVRSystem_IVRSystem_020_GetTrackedDeviceIndexForControllerRole(struct w_steam_iface *_this, ETrackedControllerRole unDeviceType)
+EDeviceActivityLevel __thiscall winIVRSystem_IVRSystem_020_GetTrackedDeviceActivityLevel(winIVRSystem_IVRSystem_020 *_this, TrackedDeviceIndex_t unDeviceId)
 {
-    struct cppIVRSystem_IVRSystem_020_GetTrackedDeviceIndexForControllerRole_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceType = unDeviceType,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_020_GetTrackedDeviceIndexForControllerRole( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_020_GetTrackedDeviceActivityLevel(_this->linux_side, unDeviceId);
 }
 
-ETrackedControllerRole __thiscall winIVRSystem_IVRSystem_020_GetControllerRoleForTrackedDeviceIndex(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex)
+void __thiscall winIVRSystem_IVRSystem_020_ApplyTransform(winIVRSystem_IVRSystem_020 *_this, TrackedDevicePose_t *pOutputPose, TrackedDevicePose_t *pTrackedDevicePose, HmdMatrix34_t *pTransform)
 {
-    struct cppIVRSystem_IVRSystem_020_GetControllerRoleForTrackedDeviceIndex_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_020_GetControllerRoleForTrackedDeviceIndex( &params );
-    return params._ret;
+    cppIVRSystem_IVRSystem_020_ApplyTransform(_this->linux_side, pOutputPose, pTrackedDevicePose, pTransform);
 }
 
-ETrackedDeviceClass __thiscall winIVRSystem_IVRSystem_020_GetTrackedDeviceClass(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex)
+TrackedDeviceIndex_t __thiscall winIVRSystem_IVRSystem_020_GetTrackedDeviceIndexForControllerRole(winIVRSystem_IVRSystem_020 *_this, ETrackedControllerRole unDeviceType)
 {
-    struct cppIVRSystem_IVRSystem_020_GetTrackedDeviceClass_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_020_GetTrackedDeviceClass( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_020_GetTrackedDeviceIndexForControllerRole(_this->linux_side, unDeviceType);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_020_IsTrackedDeviceConnected(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex)
+ETrackedControllerRole __thiscall winIVRSystem_IVRSystem_020_GetControllerRoleForTrackedDeviceIndex(winIVRSystem_IVRSystem_020 *_this, TrackedDeviceIndex_t unDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_020_IsTrackedDeviceConnected_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_020_IsTrackedDeviceConnected( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_020_GetControllerRoleForTrackedDeviceIndex(_this->linux_side, unDeviceIndex);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_020_GetBoolTrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
+ETrackedDeviceClass __thiscall winIVRSystem_IVRSystem_020_GetTrackedDeviceClass(winIVRSystem_IVRSystem_020 *_this, TrackedDeviceIndex_t unDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_020_GetBoolTrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_020_GetBoolTrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_020_GetTrackedDeviceClass(_this->linux_side, unDeviceIndex);
 }
 
-float __thiscall winIVRSystem_IVRSystem_020_GetFloatTrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
+bool __thiscall winIVRSystem_IVRSystem_020_IsTrackedDeviceConnected(winIVRSystem_IVRSystem_020 *_this, TrackedDeviceIndex_t unDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_020_GetFloatTrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_020_GetFloatTrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_020_IsTrackedDeviceConnected(_this->linux_side, unDeviceIndex);
 }
 
-int32_t __thiscall winIVRSystem_IVRSystem_020_GetInt32TrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
+bool __thiscall winIVRSystem_IVRSystem_020_GetBoolTrackedDeviceProperty(winIVRSystem_IVRSystem_020 *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_020_GetInt32TrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_020_GetInt32TrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_020_GetBoolTrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
 }
 
-uint64_t __thiscall winIVRSystem_IVRSystem_020_GetUint64TrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
+float __thiscall winIVRSystem_IVRSystem_020_GetFloatTrackedDeviceProperty(winIVRSystem_IVRSystem_020 *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_020_GetUint64TrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_020_GetUint64TrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_020_GetFloatTrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
 }
 
-HmdMatrix34_t * __thiscall winIVRSystem_IVRSystem_020_GetMatrix34TrackedDeviceProperty(struct w_steam_iface *_this, HmdMatrix34_t *_ret, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
+int32_t __thiscall winIVRSystem_IVRSystem_020_GetInt32TrackedDeviceProperty(winIVRSystem_IVRSystem_020 *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_020_GetMatrix34TrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_020_GetMatrix34TrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_020_GetInt32TrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
 }
 
-uint32_t __thiscall winIVRSystem_IVRSystem_020_GetArrayTrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, PropertyTypeTag_t propType, void *pBuffer, uint32_t unBufferSize, ETrackedPropertyError *pError)
+uint64_t __thiscall winIVRSystem_IVRSystem_020_GetUint64TrackedDeviceProperty(winIVRSystem_IVRSystem_020 *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_020_GetArrayTrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .propType = propType,
-        .pBuffer = pBuffer,
-        .unBufferSize = unBufferSize,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_020_GetArrayTrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_020_GetUint64TrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
 }
 
-uint32_t __thiscall winIVRSystem_IVRSystem_020_GetStringTrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, char *pchValue, uint32_t unBufferSize, ETrackedPropertyError *pError)
+HmdMatrix34_t *__thiscall winIVRSystem_IVRSystem_020_GetMatrix34TrackedDeviceProperty(winIVRSystem_IVRSystem_020 *_this, HmdMatrix34_t *_r, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_020_GetStringTrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pchValue = pchValue,
-        .unBufferSize = unBufferSize,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_020_GetStringTrackedDeviceProperty( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_020_GetMatrix34TrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
+    return _r;
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_020_GetPropErrorNameFromEnum(struct w_steam_iface *_this, ETrackedPropertyError error)
+uint32_t __thiscall winIVRSystem_IVRSystem_020_GetArrayTrackedDeviceProperty(winIVRSystem_IVRSystem_020 *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, PropertyTypeTag_t propType, void *pBuffer, uint32_t unBufferSize, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_020_GetPropErrorNameFromEnum_params params =
-    {
-        .linux_side = _this->u_iface,
-        .error = error,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_020_GetPropErrorNameFromEnum( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_020_GetArrayTrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, propType, pBuffer, unBufferSize, pError);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_020_PollNextEvent(struct w_steam_iface *_this, winVREvent_t_1715 *pEvent, uint32_t uncbVREvent)
+uint32_t __thiscall winIVRSystem_IVRSystem_020_GetStringTrackedDeviceProperty(winIVRSystem_IVRSystem_020 *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, char *pchValue, uint32_t unBufferSize, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_020_PollNextEvent_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pEvent = pEvent,
-        .uncbVREvent = uncbVREvent,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_020_PollNextEvent( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_020_GetStringTrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pchValue, unBufferSize, pError);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_020_PollNextEventWithPose(struct w_steam_iface *_this, ETrackingUniverseOrigin eOrigin, winVREvent_t_1715 *pEvent, uint32_t uncbVREvent, TrackedDevicePose_t *pTrackedDevicePose)
+const char * __thiscall winIVRSystem_IVRSystem_020_GetPropErrorNameFromEnum(winIVRSystem_IVRSystem_020 *_this, ETrackedPropertyError error)
 {
-    struct cppIVRSystem_IVRSystem_020_PollNextEventWithPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eOrigin = eOrigin,
-        .pEvent = pEvent,
-        .uncbVREvent = uncbVREvent,
-        .pTrackedDevicePose = pTrackedDevicePose,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_020_PollNextEventWithPose( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_020_GetPropErrorNameFromEnum(_this->linux_side, error);
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_020_GetEventTypeNameFromEnum(struct w_steam_iface *_this, EVREventType eType)
+bool __thiscall winIVRSystem_IVRSystem_020_PollNextEvent(winIVRSystem_IVRSystem_020 *_this, winVREvent_t_1715 *pEvent, uint32_t uncbVREvent)
 {
-    struct cppIVRSystem_IVRSystem_020_GetEventTypeNameFromEnum_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eType = eType,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_020_GetEventTypeNameFromEnum( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_020_PollNextEvent(_this->linux_side, pEvent, uncbVREvent);
 }
 
-HiddenAreaMesh_t * __thiscall winIVRSystem_IVRSystem_020_GetHiddenAreaMesh(struct w_steam_iface *_this, HiddenAreaMesh_t *_ret, EVREye eEye, EHiddenAreaMeshType type)
+bool __thiscall winIVRSystem_IVRSystem_020_PollNextEventWithPose(winIVRSystem_IVRSystem_020 *_this, ETrackingUniverseOrigin eOrigin, winVREvent_t_1715 *pEvent, uint32_t uncbVREvent, TrackedDevicePose_t *pTrackedDevicePose)
 {
-    struct cppIVRSystem_IVRSystem_020_GetHiddenAreaMesh_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .eEye = eEye,
-        .type = type,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_020_GetHiddenAreaMesh( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_020_PollNextEventWithPose(_this->linux_side, eOrigin, pEvent, uncbVREvent, pTrackedDevicePose);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_020_GetControllerState(struct w_steam_iface *_this, TrackedDeviceIndex_t unControllerDeviceIndex, winVRControllerState001_t_1715 *pControllerState, uint32_t unControllerStateSize)
+const char * __thiscall winIVRSystem_IVRSystem_020_GetEventTypeNameFromEnum(winIVRSystem_IVRSystem_020 *_this, EVREventType eType)
 {
-    struct cppIVRSystem_IVRSystem_020_GetControllerState_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unControllerDeviceIndex = unControllerDeviceIndex,
-        .pControllerState = pControllerState,
-        .unControllerStateSize = unControllerStateSize,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_020_GetControllerState( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_020_GetEventTypeNameFromEnum(_this->linux_side, eType);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_020_GetControllerStateWithPose(struct w_steam_iface *_this, ETrackingUniverseOrigin eOrigin, TrackedDeviceIndex_t unControllerDeviceIndex, winVRControllerState001_t_1715 *pControllerState, uint32_t unControllerStateSize, TrackedDevicePose_t *pTrackedDevicePose)
+HiddenAreaMesh_t *__thiscall winIVRSystem_IVRSystem_020_GetHiddenAreaMesh(winIVRSystem_IVRSystem_020 *_this, HiddenAreaMesh_t *_r, EVREye eEye, EHiddenAreaMeshType type)
 {
-    struct cppIVRSystem_IVRSystem_020_GetControllerStateWithPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eOrigin = eOrigin,
-        .unControllerDeviceIndex = unControllerDeviceIndex,
-        .pControllerState = pControllerState,
-        .unControllerStateSize = unControllerStateSize,
-        .pTrackedDevicePose = pTrackedDevicePose,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_020_GetControllerStateWithPose( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_020_GetHiddenAreaMesh(_this->linux_side, eEye, type);
+    return _r;
 }
 
-void __thiscall winIVRSystem_IVRSystem_020_TriggerHapticPulse(struct w_steam_iface *_this, TrackedDeviceIndex_t unControllerDeviceIndex, uint32_t unAxisId, unsigned short usDurationMicroSec)
+bool __thiscall winIVRSystem_IVRSystem_020_GetControllerState(winIVRSystem_IVRSystem_020 *_this, TrackedDeviceIndex_t unControllerDeviceIndex, winVRControllerState001_t_1715 *pControllerState, uint32_t unControllerStateSize)
 {
-    struct cppIVRSystem_IVRSystem_020_TriggerHapticPulse_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unControllerDeviceIndex = unControllerDeviceIndex,
-        .unAxisId = unAxisId,
-        .usDurationMicroSec = usDurationMicroSec,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_020_TriggerHapticPulse( &params );
+    return cppIVRSystem_IVRSystem_020_GetControllerState(_this->linux_side, unControllerDeviceIndex, pControllerState, unControllerStateSize);
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_020_GetButtonIdNameFromEnum(struct w_steam_iface *_this, EVRButtonId eButtonId)
+bool __thiscall winIVRSystem_IVRSystem_020_GetControllerStateWithPose(winIVRSystem_IVRSystem_020 *_this, ETrackingUniverseOrigin eOrigin, TrackedDeviceIndex_t unControllerDeviceIndex, winVRControllerState001_t_1715 *pControllerState, uint32_t unControllerStateSize, TrackedDevicePose_t *pTrackedDevicePose)
 {
-    struct cppIVRSystem_IVRSystem_020_GetButtonIdNameFromEnum_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eButtonId = eButtonId,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_020_GetButtonIdNameFromEnum( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_020_GetControllerStateWithPose(_this->linux_side, eOrigin, unControllerDeviceIndex, pControllerState, unControllerStateSize, pTrackedDevicePose);
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_020_GetControllerAxisTypeNameFromEnum(struct w_steam_iface *_this, EVRControllerAxisType eAxisType)
+void __thiscall winIVRSystem_IVRSystem_020_TriggerHapticPulse(winIVRSystem_IVRSystem_020 *_this, TrackedDeviceIndex_t unControllerDeviceIndex, uint32_t unAxisId, unsigned short usDurationMicroSec)
 {
-    struct cppIVRSystem_IVRSystem_020_GetControllerAxisTypeNameFromEnum_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eAxisType = eAxisType,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_020_GetControllerAxisTypeNameFromEnum( &params );
-    return params._ret;
+    cppIVRSystem_IVRSystem_020_TriggerHapticPulse(_this->linux_side, unControllerDeviceIndex, unAxisId, usDurationMicroSec);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_020_IsInputAvailable(struct w_steam_iface *_this)
+const char * __thiscall winIVRSystem_IVRSystem_020_GetButtonIdNameFromEnum(winIVRSystem_IVRSystem_020 *_this, EVRButtonId eButtonId)
 {
-    struct cppIVRSystem_IVRSystem_020_IsInputAvailable_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_020_IsInputAvailable( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_020_GetButtonIdNameFromEnum(_this->linux_side, eButtonId);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_020_IsSteamVRDrawingControllers(struct w_steam_iface *_this)
+const char * __thiscall winIVRSystem_IVRSystem_020_GetControllerAxisTypeNameFromEnum(winIVRSystem_IVRSystem_020 *_this, EVRControllerAxisType eAxisType)
 {
-    struct cppIVRSystem_IVRSystem_020_IsSteamVRDrawingControllers_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_020_IsSteamVRDrawingControllers( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_020_GetControllerAxisTypeNameFromEnum(_this->linux_side, eAxisType);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_020_ShouldApplicationPause(struct w_steam_iface *_this)
+bool __thiscall winIVRSystem_IVRSystem_020_IsInputAvailable(winIVRSystem_IVRSystem_020 *_this)
 {
-    struct cppIVRSystem_IVRSystem_020_ShouldApplicationPause_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_020_ShouldApplicationPause( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_020_IsInputAvailable(_this->linux_side);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_020_ShouldApplicationReduceRenderingWork(struct w_steam_iface *_this)
+bool __thiscall winIVRSystem_IVRSystem_020_IsSteamVRDrawingControllers(winIVRSystem_IVRSystem_020 *_this)
 {
-    struct cppIVRSystem_IVRSystem_020_ShouldApplicationReduceRenderingWork_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_020_ShouldApplicationReduceRenderingWork( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_020_IsSteamVRDrawingControllers(_this->linux_side);
 }
 
-EVRFirmwareError __thiscall winIVRSystem_IVRSystem_020_PerformFirmwareUpdate(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex)
+bool __thiscall winIVRSystem_IVRSystem_020_ShouldApplicationPause(winIVRSystem_IVRSystem_020 *_this)
 {
-    struct cppIVRSystem_IVRSystem_020_PerformFirmwareUpdate_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_020_PerformFirmwareUpdate( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_020_ShouldApplicationPause(_this->linux_side);
 }
 
-void __thiscall winIVRSystem_IVRSystem_020_AcknowledgeQuit_Exiting(struct w_steam_iface *_this)
+bool __thiscall winIVRSystem_IVRSystem_020_ShouldApplicationReduceRenderingWork(winIVRSystem_IVRSystem_020 *_this)
 {
-    struct cppIVRSystem_IVRSystem_020_AcknowledgeQuit_Exiting_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_020_AcknowledgeQuit_Exiting( &params );
+    return cppIVRSystem_IVRSystem_020_ShouldApplicationReduceRenderingWork(_this->linux_side);
 }
 
-void __thiscall winIVRSystem_IVRSystem_020_AcknowledgeQuit_UserPrompt(struct w_steam_iface *_this)
+EVRFirmwareError __thiscall winIVRSystem_IVRSystem_020_PerformFirmwareUpdate(winIVRSystem_IVRSystem_020 *_this, TrackedDeviceIndex_t unDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_020_AcknowledgeQuit_UserPrompt_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_020_AcknowledgeQuit_UserPrompt( &params );
+    return cppIVRSystem_IVRSystem_020_PerformFirmwareUpdate(_this->linux_side, unDeviceIndex);
 }
 
-uint32_t __thiscall winIVRSystem_IVRSystem_020_GetAppContainerFilePaths(struct w_steam_iface *_this, char *pchBuffer, uint32_t unBufferSize)
+void __thiscall winIVRSystem_IVRSystem_020_AcknowledgeQuit_Exiting(winIVRSystem_IVRSystem_020 *_this)
 {
-    struct cppIVRSystem_IVRSystem_020_GetAppContainerFilePaths_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pchBuffer = pchBuffer,
-        .unBufferSize = unBufferSize,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_020_GetAppContainerFilePaths( &params );
-    return params._ret;
+    cppIVRSystem_IVRSystem_020_AcknowledgeQuit_Exiting(_this->linux_side);
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_020_GetRuntimeVersion(struct w_steam_iface *_this)
+void __thiscall winIVRSystem_IVRSystem_020_AcknowledgeQuit_UserPrompt(winIVRSystem_IVRSystem_020 *_this)
 {
-    struct cppIVRSystem_IVRSystem_020_GetRuntimeVersion_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_020_GetRuntimeVersion( &params );
-    return params._ret;
+    cppIVRSystem_IVRSystem_020_AcknowledgeQuit_UserPrompt(_this->linux_side);
+}
+
+uint32_t __thiscall winIVRSystem_IVRSystem_020_GetAppContainerFilePaths(winIVRSystem_IVRSystem_020 *_this, char *pchBuffer, uint32_t unBufferSize)
+{
+    TRACE("%p\n", _this);
+    return cppIVRSystem_IVRSystem_020_GetAppContainerFilePaths(_this->linux_side, pchBuffer, unBufferSize);
+}
+
+const char * __thiscall winIVRSystem_IVRSystem_020_GetRuntimeVersion(winIVRSystem_IVRSystem_020 *_this)
+{
+    TRACE("%p\n", _this);
+    return cppIVRSystem_IVRSystem_020_GetRuntimeVersion(_this->linux_side);
 }
 
 extern vtable_ptr winIVRSystem_IVRSystem_020_vtable;
@@ -10058,24 +6268,24 @@ void __asm_dummy_vtables(void) {
 }
 #endif
 
-struct w_steam_iface *create_winIVRSystem_IVRSystem_020(void *u_iface)
+winIVRSystem_IVRSystem_020 *create_winIVRSystem_IVRSystem_020(void *linux_side)
 {
-    struct w_steam_iface *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(*r));
+    winIVRSystem_IVRSystem_020 *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(winIVRSystem_IVRSystem_020));
     TRACE("-> %p\n", r);
     r->vtable = &winIVRSystem_IVRSystem_020_vtable;
-    r->u_iface = u_iface;
+    r->linux_side = linux_side;
     return r;
 }
 
-void destroy_winIVRSystem_IVRSystem_020(struct w_steam_iface *object)
+void destroy_winIVRSystem_IVRSystem_020(void *object)
 {
     TRACE("%p\n", object);
     HeapFree(GetProcessHeap(), 0, object);
 }
 
-struct w_steam_iface *create_winIVRSystem_IVRSystem_020_FnTable(void *u_iface)
+winIVRSystem_IVRSystem_020 *create_winIVRSystem_IVRSystem_020_FnTable(void *linux_side)
 {
-    struct w_steam_iface *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(*r));
+    winIVRSystem_IVRSystem_020 *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(winIVRSystem_IVRSystem_020));
     struct thunk *thunks = alloc_thunks(48);
     struct thunk **vtable = HeapAlloc(GetProcessHeap(), 0, 48 * sizeof(*vtable));
     int i;
@@ -10131,20 +6341,26 @@ struct w_steam_iface *create_winIVRSystem_IVRSystem_020_FnTable(void *u_iface)
     init_thunk(&thunks[47], r, winIVRSystem_IVRSystem_020_GetRuntimeVersion, 0, FALSE, FALSE);
     for (i = 0; i < 48; i++)
         vtable[i] = &thunks[i];
-    r->u_iface = u_iface;
+    r->linux_side = linux_side;
     r->vtable = (void *)vtable;
     return r;
 }
 
-void destroy_winIVRSystem_IVRSystem_020_FnTable(struct w_steam_iface *object)
+void destroy_winIVRSystem_IVRSystem_020_FnTable(void *object)
 {
-    TRACE("%p\n", object);
-    VirtualFree(object->vtable[0], 0, MEM_RELEASE);
-    HeapFree(GetProcessHeap(), 0, object->vtable);
-    HeapFree(GetProcessHeap(), 0, object);
+    winIVRSystem_IVRSystem_020 *win_object = object;
+    TRACE("%p\n", win_object);
+    VirtualFree(win_object->vtable[0], 0, MEM_RELEASE);
+    HeapFree(GetProcessHeap(), 0, win_object->vtable);
+    HeapFree(GetProcessHeap(), 0, win_object);
 }
 
 #include "cppIVRSystem_IVRSystem_021.h"
+
+typedef struct __winIVRSystem_IVRSystem_021 {
+    vtable_ptr *vtable;
+    void *linux_side;
+} winIVRSystem_IVRSystem_021;
 
 DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_021_GetRecommendedRenderTargetSize, 12)
 DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_021_GetProjectionMatrix, 20)
@@ -10194,588 +6410,292 @@ DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_021_AcknowledgeQuit_Exiting, 4)
 DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_021_GetAppContainerFilePaths, 12)
 DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_021_GetRuntimeVersion, 4)
 
-void __thiscall winIVRSystem_IVRSystem_021_GetRecommendedRenderTargetSize(struct w_steam_iface *_this, uint32_t *pnWidth, uint32_t *pnHeight)
+void __thiscall winIVRSystem_IVRSystem_021_GetRecommendedRenderTargetSize(winIVRSystem_IVRSystem_021 *_this, uint32_t *pnWidth, uint32_t *pnHeight)
 {
-    struct cppIVRSystem_IVRSystem_021_GetRecommendedRenderTargetSize_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pnWidth = pnWidth,
-        .pnHeight = pnHeight,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_021_GetRecommendedRenderTargetSize( &params );
+    cppIVRSystem_IVRSystem_021_GetRecommendedRenderTargetSize(_this->linux_side, pnWidth, pnHeight);
 }
 
-HmdMatrix44_t * __thiscall winIVRSystem_IVRSystem_021_GetProjectionMatrix(struct w_steam_iface *_this, HmdMatrix44_t *_ret, EVREye eEye, float fNearZ, float fFarZ)
+HmdMatrix44_t *__thiscall winIVRSystem_IVRSystem_021_GetProjectionMatrix(winIVRSystem_IVRSystem_021 *_this, HmdMatrix44_t *_r, EVREye eEye, float fNearZ, float fFarZ)
 {
-    struct cppIVRSystem_IVRSystem_021_GetProjectionMatrix_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .eEye = eEye,
-        .fNearZ = fNearZ,
-        .fFarZ = fFarZ,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_021_GetProjectionMatrix( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_021_GetProjectionMatrix(_this->linux_side, eEye, fNearZ, fFarZ);
+    return _r;
 }
 
-void __thiscall winIVRSystem_IVRSystem_021_GetProjectionRaw(struct w_steam_iface *_this, EVREye eEye, float *pfLeft, float *pfRight, float *pfTop, float *pfBottom)
+void __thiscall winIVRSystem_IVRSystem_021_GetProjectionRaw(winIVRSystem_IVRSystem_021 *_this, EVREye eEye, float *pfLeft, float *pfRight, float *pfTop, float *pfBottom)
 {
-    struct cppIVRSystem_IVRSystem_021_GetProjectionRaw_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eEye = eEye,
-        .pfLeft = pfLeft,
-        .pfRight = pfRight,
-        .pfTop = pfTop,
-        .pfBottom = pfBottom,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_021_GetProjectionRaw( &params );
+    cppIVRSystem_IVRSystem_021_GetProjectionRaw(_this->linux_side, eEye, pfLeft, pfRight, pfTop, pfBottom);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_021_ComputeDistortion(struct w_steam_iface *_this, EVREye eEye, float fU, float fV, DistortionCoordinates_t *pDistortionCoordinates)
+bool __thiscall winIVRSystem_IVRSystem_021_ComputeDistortion(winIVRSystem_IVRSystem_021 *_this, EVREye eEye, float fU, float fV, DistortionCoordinates_t *pDistortionCoordinates)
 {
-    struct cppIVRSystem_IVRSystem_021_ComputeDistortion_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eEye = eEye,
-        .fU = fU,
-        .fV = fV,
-        .pDistortionCoordinates = pDistortionCoordinates,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_021_ComputeDistortion( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_021_ComputeDistortion(_this->linux_side, eEye, fU, fV, pDistortionCoordinates);
 }
 
-HmdMatrix34_t * __thiscall winIVRSystem_IVRSystem_021_GetEyeToHeadTransform(struct w_steam_iface *_this, HmdMatrix34_t *_ret, EVREye eEye)
+HmdMatrix34_t *__thiscall winIVRSystem_IVRSystem_021_GetEyeToHeadTransform(winIVRSystem_IVRSystem_021 *_this, HmdMatrix34_t *_r, EVREye eEye)
 {
-    struct cppIVRSystem_IVRSystem_021_GetEyeToHeadTransform_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .eEye = eEye,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_021_GetEyeToHeadTransform( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_021_GetEyeToHeadTransform(_this->linux_side, eEye);
+    return _r;
 }
 
-bool __thiscall winIVRSystem_IVRSystem_021_GetTimeSinceLastVsync(struct w_steam_iface *_this, float *pfSecondsSinceLastVsync, uint64_t *pulFrameCounter)
+bool __thiscall winIVRSystem_IVRSystem_021_GetTimeSinceLastVsync(winIVRSystem_IVRSystem_021 *_this, float *pfSecondsSinceLastVsync, uint64_t *pulFrameCounter)
 {
-    struct cppIVRSystem_IVRSystem_021_GetTimeSinceLastVsync_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pfSecondsSinceLastVsync = pfSecondsSinceLastVsync,
-        .pulFrameCounter = pulFrameCounter,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_021_GetTimeSinceLastVsync( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_021_GetTimeSinceLastVsync(_this->linux_side, pfSecondsSinceLastVsync, pulFrameCounter);
 }
 
-int32_t __thiscall winIVRSystem_IVRSystem_021_GetD3D9AdapterIndex(struct w_steam_iface *_this)
+int32_t __thiscall winIVRSystem_IVRSystem_021_GetD3D9AdapterIndex(winIVRSystem_IVRSystem_021 *_this)
 {
-    struct cppIVRSystem_IVRSystem_021_GetD3D9AdapterIndex_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_021_GetD3D9AdapterIndex( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_021_GetD3D9AdapterIndex(_this->linux_side);
 }
 
-extern void __thiscall winIVRSystem_IVRSystem_021_GetDXGIOutputInfo(struct w_steam_iface *_this, int32_t *pnAdapterIndex);
-
-extern void __thiscall winIVRSystem_IVRSystem_021_GetOutputDevice(struct w_steam_iface *_this, uint64_t *pnDevice, ETextureType textureType, VkInstance_T *pInstance);
-
-bool __thiscall winIVRSystem_IVRSystem_021_IsDisplayOnDesktop(struct w_steam_iface *_this)
+void __thiscall winIVRSystem_IVRSystem_021_GetDXGIOutputInfo(winIVRSystem_IVRSystem_021 *_this, int32_t *pnAdapterIndex)
 {
-    struct cppIVRSystem_IVRSystem_021_IsDisplayOnDesktop_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_021_IsDisplayOnDesktop( &params );
-    return params._ret;
+    get_dxgi_output_info(cppIVRSystem_IVRSystem_021_GetDXGIOutputInfo, _this->linux_side, pnAdapterIndex, 21);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_021_SetDisplayVisibility(struct w_steam_iface *_this, bool bIsVisibleOnDesktop)
+void __thiscall winIVRSystem_IVRSystem_021_GetOutputDevice(winIVRSystem_IVRSystem_021 *_this, uint64_t *pnDevice, ETextureType textureType, VkInstance_T *pInstance)
 {
-    struct cppIVRSystem_IVRSystem_021_SetDisplayVisibility_params params =
-    {
-        .linux_side = _this->u_iface,
-        .bIsVisibleOnDesktop = bIsVisibleOnDesktop,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_021_SetDisplayVisibility( &params );
-    return params._ret;
+    ivrsystem_get_output_device(cppIVRSystem_IVRSystem_021_GetOutputDevice, _this->linux_side, pnDevice, textureType, pInstance, 21);
 }
 
-void __thiscall winIVRSystem_IVRSystem_021_GetDeviceToAbsoluteTrackingPose(struct w_steam_iface *_this, ETrackingUniverseOrigin eOrigin, float fPredictedSecondsToPhotonsFromNow, TrackedDevicePose_t *pTrackedDevicePoseArray, uint32_t unTrackedDevicePoseArrayCount)
+bool __thiscall winIVRSystem_IVRSystem_021_IsDisplayOnDesktop(winIVRSystem_IVRSystem_021 *_this)
 {
-    struct cppIVRSystem_IVRSystem_021_GetDeviceToAbsoluteTrackingPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eOrigin = eOrigin,
-        .fPredictedSecondsToPhotonsFromNow = fPredictedSecondsToPhotonsFromNow,
-        .pTrackedDevicePoseArray = pTrackedDevicePoseArray,
-        .unTrackedDevicePoseArrayCount = unTrackedDevicePoseArrayCount,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_021_GetDeviceToAbsoluteTrackingPose( &params );
+    return cppIVRSystem_IVRSystem_021_IsDisplayOnDesktop(_this->linux_side);
 }
 
-void __thiscall winIVRSystem_IVRSystem_021_ResetSeatedZeroPose(struct w_steam_iface *_this)
+bool __thiscall winIVRSystem_IVRSystem_021_SetDisplayVisibility(winIVRSystem_IVRSystem_021 *_this, bool bIsVisibleOnDesktop)
 {
-    struct cppIVRSystem_IVRSystem_021_ResetSeatedZeroPose_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_021_ResetSeatedZeroPose( &params );
+    return cppIVRSystem_IVRSystem_021_SetDisplayVisibility(_this->linux_side, bIsVisibleOnDesktop);
 }
 
-HmdMatrix34_t * __thiscall winIVRSystem_IVRSystem_021_GetSeatedZeroPoseToStandingAbsoluteTrackingPose(struct w_steam_iface *_this, HmdMatrix34_t *_ret)
+void __thiscall winIVRSystem_IVRSystem_021_GetDeviceToAbsoluteTrackingPose(winIVRSystem_IVRSystem_021 *_this, ETrackingUniverseOrigin eOrigin, float fPredictedSecondsToPhotonsFromNow, TrackedDevicePose_t *pTrackedDevicePoseArray, uint32_t unTrackedDevicePoseArrayCount)
 {
-    struct cppIVRSystem_IVRSystem_021_GetSeatedZeroPoseToStandingAbsoluteTrackingPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_021_GetSeatedZeroPoseToStandingAbsoluteTrackingPose( &params );
-    return params._ret;
+    cppIVRSystem_IVRSystem_021_GetDeviceToAbsoluteTrackingPose(_this->linux_side, eOrigin, fPredictedSecondsToPhotonsFromNow, pTrackedDevicePoseArray, unTrackedDevicePoseArrayCount);
 }
 
-HmdMatrix34_t * __thiscall winIVRSystem_IVRSystem_021_GetRawZeroPoseToStandingAbsoluteTrackingPose(struct w_steam_iface *_this, HmdMatrix34_t *_ret)
+void __thiscall winIVRSystem_IVRSystem_021_ResetSeatedZeroPose(winIVRSystem_IVRSystem_021 *_this)
 {
-    struct cppIVRSystem_IVRSystem_021_GetRawZeroPoseToStandingAbsoluteTrackingPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_021_GetRawZeroPoseToStandingAbsoluteTrackingPose( &params );
-    return params._ret;
+    cppIVRSystem_IVRSystem_021_ResetSeatedZeroPose(_this->linux_side);
 }
 
-uint32_t __thiscall winIVRSystem_IVRSystem_021_GetSortedTrackedDeviceIndicesOfClass(struct w_steam_iface *_this, ETrackedDeviceClass eTrackedDeviceClass, TrackedDeviceIndex_t *punTrackedDeviceIndexArray, uint32_t unTrackedDeviceIndexArrayCount, TrackedDeviceIndex_t unRelativeToTrackedDeviceIndex)
+HmdMatrix34_t *__thiscall winIVRSystem_IVRSystem_021_GetSeatedZeroPoseToStandingAbsoluteTrackingPose(winIVRSystem_IVRSystem_021 *_this, HmdMatrix34_t *_r)
 {
-    struct cppIVRSystem_IVRSystem_021_GetSortedTrackedDeviceIndicesOfClass_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eTrackedDeviceClass = eTrackedDeviceClass,
-        .punTrackedDeviceIndexArray = punTrackedDeviceIndexArray,
-        .unTrackedDeviceIndexArrayCount = unTrackedDeviceIndexArrayCount,
-        .unRelativeToTrackedDeviceIndex = unRelativeToTrackedDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_021_GetSortedTrackedDeviceIndicesOfClass( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_021_GetSeatedZeroPoseToStandingAbsoluteTrackingPose(_this->linux_side);
+    return _r;
 }
 
-EDeviceActivityLevel __thiscall winIVRSystem_IVRSystem_021_GetTrackedDeviceActivityLevel(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceId)
+HmdMatrix34_t *__thiscall winIVRSystem_IVRSystem_021_GetRawZeroPoseToStandingAbsoluteTrackingPose(winIVRSystem_IVRSystem_021 *_this, HmdMatrix34_t *_r)
 {
-    struct cppIVRSystem_IVRSystem_021_GetTrackedDeviceActivityLevel_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceId = unDeviceId,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_021_GetTrackedDeviceActivityLevel( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_021_GetRawZeroPoseToStandingAbsoluteTrackingPose(_this->linux_side);
+    return _r;
 }
 
-void __thiscall winIVRSystem_IVRSystem_021_ApplyTransform(struct w_steam_iface *_this, TrackedDevicePose_t *pOutputPose, const TrackedDevicePose_t *pTrackedDevicePose, const HmdMatrix34_t *pTransform)
+uint32_t __thiscall winIVRSystem_IVRSystem_021_GetSortedTrackedDeviceIndicesOfClass(winIVRSystem_IVRSystem_021 *_this, ETrackedDeviceClass eTrackedDeviceClass, TrackedDeviceIndex_t *punTrackedDeviceIndexArray, uint32_t unTrackedDeviceIndexArrayCount, TrackedDeviceIndex_t unRelativeToTrackedDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_021_ApplyTransform_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pOutputPose = pOutputPose,
-        .pTrackedDevicePose = pTrackedDevicePose,
-        .pTransform = pTransform,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_021_ApplyTransform( &params );
+    return cppIVRSystem_IVRSystem_021_GetSortedTrackedDeviceIndicesOfClass(_this->linux_side, eTrackedDeviceClass, punTrackedDeviceIndexArray, unTrackedDeviceIndexArrayCount, unRelativeToTrackedDeviceIndex);
 }
 
-TrackedDeviceIndex_t __thiscall winIVRSystem_IVRSystem_021_GetTrackedDeviceIndexForControllerRole(struct w_steam_iface *_this, ETrackedControllerRole unDeviceType)
+EDeviceActivityLevel __thiscall winIVRSystem_IVRSystem_021_GetTrackedDeviceActivityLevel(winIVRSystem_IVRSystem_021 *_this, TrackedDeviceIndex_t unDeviceId)
 {
-    struct cppIVRSystem_IVRSystem_021_GetTrackedDeviceIndexForControllerRole_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceType = unDeviceType,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_021_GetTrackedDeviceIndexForControllerRole( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_021_GetTrackedDeviceActivityLevel(_this->linux_side, unDeviceId);
 }
 
-ETrackedControllerRole __thiscall winIVRSystem_IVRSystem_021_GetControllerRoleForTrackedDeviceIndex(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex)
+void __thiscall winIVRSystem_IVRSystem_021_ApplyTransform(winIVRSystem_IVRSystem_021 *_this, TrackedDevicePose_t *pOutputPose, TrackedDevicePose_t *pTrackedDevicePose, HmdMatrix34_t *pTransform)
 {
-    struct cppIVRSystem_IVRSystem_021_GetControllerRoleForTrackedDeviceIndex_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_021_GetControllerRoleForTrackedDeviceIndex( &params );
-    return params._ret;
+    cppIVRSystem_IVRSystem_021_ApplyTransform(_this->linux_side, pOutputPose, pTrackedDevicePose, pTransform);
 }
 
-ETrackedDeviceClass __thiscall winIVRSystem_IVRSystem_021_GetTrackedDeviceClass(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex)
+TrackedDeviceIndex_t __thiscall winIVRSystem_IVRSystem_021_GetTrackedDeviceIndexForControllerRole(winIVRSystem_IVRSystem_021 *_this, ETrackedControllerRole unDeviceType)
 {
-    struct cppIVRSystem_IVRSystem_021_GetTrackedDeviceClass_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_021_GetTrackedDeviceClass( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_021_GetTrackedDeviceIndexForControllerRole(_this->linux_side, unDeviceType);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_021_IsTrackedDeviceConnected(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex)
+ETrackedControllerRole __thiscall winIVRSystem_IVRSystem_021_GetControllerRoleForTrackedDeviceIndex(winIVRSystem_IVRSystem_021 *_this, TrackedDeviceIndex_t unDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_021_IsTrackedDeviceConnected_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_021_IsTrackedDeviceConnected( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_021_GetControllerRoleForTrackedDeviceIndex(_this->linux_side, unDeviceIndex);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_021_GetBoolTrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
+ETrackedDeviceClass __thiscall winIVRSystem_IVRSystem_021_GetTrackedDeviceClass(winIVRSystem_IVRSystem_021 *_this, TrackedDeviceIndex_t unDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_021_GetBoolTrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_021_GetBoolTrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_021_GetTrackedDeviceClass(_this->linux_side, unDeviceIndex);
 }
 
-float __thiscall winIVRSystem_IVRSystem_021_GetFloatTrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
+bool __thiscall winIVRSystem_IVRSystem_021_IsTrackedDeviceConnected(winIVRSystem_IVRSystem_021 *_this, TrackedDeviceIndex_t unDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_021_GetFloatTrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_021_GetFloatTrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_021_IsTrackedDeviceConnected(_this->linux_side, unDeviceIndex);
 }
 
-int32_t __thiscall winIVRSystem_IVRSystem_021_GetInt32TrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
+bool __thiscall winIVRSystem_IVRSystem_021_GetBoolTrackedDeviceProperty(winIVRSystem_IVRSystem_021 *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_021_GetInt32TrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_021_GetInt32TrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_021_GetBoolTrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
 }
 
-uint64_t __thiscall winIVRSystem_IVRSystem_021_GetUint64TrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
+float __thiscall winIVRSystem_IVRSystem_021_GetFloatTrackedDeviceProperty(winIVRSystem_IVRSystem_021 *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_021_GetUint64TrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_021_GetUint64TrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_021_GetFloatTrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
 }
 
-HmdMatrix34_t * __thiscall winIVRSystem_IVRSystem_021_GetMatrix34TrackedDeviceProperty(struct w_steam_iface *_this, HmdMatrix34_t *_ret, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
+int32_t __thiscall winIVRSystem_IVRSystem_021_GetInt32TrackedDeviceProperty(winIVRSystem_IVRSystem_021 *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_021_GetMatrix34TrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_021_GetMatrix34TrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_021_GetInt32TrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
 }
 
-uint32_t __thiscall winIVRSystem_IVRSystem_021_GetArrayTrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, PropertyTypeTag_t propType, void *pBuffer, uint32_t unBufferSize, ETrackedPropertyError *pError)
+uint64_t __thiscall winIVRSystem_IVRSystem_021_GetUint64TrackedDeviceProperty(winIVRSystem_IVRSystem_021 *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_021_GetArrayTrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .propType = propType,
-        .pBuffer = pBuffer,
-        .unBufferSize = unBufferSize,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_021_GetArrayTrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_021_GetUint64TrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
 }
 
-uint32_t __thiscall winIVRSystem_IVRSystem_021_GetStringTrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, char *pchValue, uint32_t unBufferSize, ETrackedPropertyError *pError)
+HmdMatrix34_t *__thiscall winIVRSystem_IVRSystem_021_GetMatrix34TrackedDeviceProperty(winIVRSystem_IVRSystem_021 *_this, HmdMatrix34_t *_r, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_021_GetStringTrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pchValue = pchValue,
-        .unBufferSize = unBufferSize,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_021_GetStringTrackedDeviceProperty( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_021_GetMatrix34TrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
+    return _r;
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_021_GetPropErrorNameFromEnum(struct w_steam_iface *_this, ETrackedPropertyError error)
+uint32_t __thiscall winIVRSystem_IVRSystem_021_GetArrayTrackedDeviceProperty(winIVRSystem_IVRSystem_021 *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, PropertyTypeTag_t propType, void *pBuffer, uint32_t unBufferSize, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_021_GetPropErrorNameFromEnum_params params =
-    {
-        .linux_side = _this->u_iface,
-        .error = error,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_021_GetPropErrorNameFromEnum( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_021_GetArrayTrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, propType, pBuffer, unBufferSize, pError);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_021_PollNextEvent(struct w_steam_iface *_this, winVREvent_t_1125 *pEvent, uint32_t uncbVREvent)
+uint32_t __thiscall winIVRSystem_IVRSystem_021_GetStringTrackedDeviceProperty(winIVRSystem_IVRSystem_021 *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, char *pchValue, uint32_t unBufferSize, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_021_PollNextEvent_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pEvent = pEvent,
-        .uncbVREvent = uncbVREvent,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_021_PollNextEvent( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_021_GetStringTrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pchValue, unBufferSize, pError);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_021_PollNextEventWithPose(struct w_steam_iface *_this, ETrackingUniverseOrigin eOrigin, winVREvent_t_1125 *pEvent, uint32_t uncbVREvent, TrackedDevicePose_t *pTrackedDevicePose)
+const char * __thiscall winIVRSystem_IVRSystem_021_GetPropErrorNameFromEnum(winIVRSystem_IVRSystem_021 *_this, ETrackedPropertyError error)
 {
-    struct cppIVRSystem_IVRSystem_021_PollNextEventWithPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eOrigin = eOrigin,
-        .pEvent = pEvent,
-        .uncbVREvent = uncbVREvent,
-        .pTrackedDevicePose = pTrackedDevicePose,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_021_PollNextEventWithPose( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_021_GetPropErrorNameFromEnum(_this->linux_side, error);
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_021_GetEventTypeNameFromEnum(struct w_steam_iface *_this, EVREventType eType)
+bool __thiscall winIVRSystem_IVRSystem_021_PollNextEvent(winIVRSystem_IVRSystem_021 *_this, winVREvent_t_1125 *pEvent, uint32_t uncbVREvent)
 {
-    struct cppIVRSystem_IVRSystem_021_GetEventTypeNameFromEnum_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eType = eType,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_021_GetEventTypeNameFromEnum( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_021_PollNextEvent(_this->linux_side, pEvent, uncbVREvent);
 }
 
-HiddenAreaMesh_t * __thiscall winIVRSystem_IVRSystem_021_GetHiddenAreaMesh(struct w_steam_iface *_this, HiddenAreaMesh_t *_ret, EVREye eEye, EHiddenAreaMeshType type)
+bool __thiscall winIVRSystem_IVRSystem_021_PollNextEventWithPose(winIVRSystem_IVRSystem_021 *_this, ETrackingUniverseOrigin eOrigin, winVREvent_t_1125 *pEvent, uint32_t uncbVREvent, TrackedDevicePose_t *pTrackedDevicePose)
 {
-    struct cppIVRSystem_IVRSystem_021_GetHiddenAreaMesh_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .eEye = eEye,
-        .type = type,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_021_GetHiddenAreaMesh( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_021_PollNextEventWithPose(_this->linux_side, eOrigin, pEvent, uncbVREvent, pTrackedDevicePose);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_021_GetControllerState(struct w_steam_iface *_this, TrackedDeviceIndex_t unControllerDeviceIndex, winVRControllerState001_t_1125 *pControllerState, uint32_t unControllerStateSize)
+const char * __thiscall winIVRSystem_IVRSystem_021_GetEventTypeNameFromEnum(winIVRSystem_IVRSystem_021 *_this, EVREventType eType)
 {
-    struct cppIVRSystem_IVRSystem_021_GetControllerState_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unControllerDeviceIndex = unControllerDeviceIndex,
-        .pControllerState = pControllerState,
-        .unControllerStateSize = unControllerStateSize,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_021_GetControllerState( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_021_GetEventTypeNameFromEnum(_this->linux_side, eType);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_021_GetControllerStateWithPose(struct w_steam_iface *_this, ETrackingUniverseOrigin eOrigin, TrackedDeviceIndex_t unControllerDeviceIndex, winVRControllerState001_t_1125 *pControllerState, uint32_t unControllerStateSize, TrackedDevicePose_t *pTrackedDevicePose)
+HiddenAreaMesh_t *__thiscall winIVRSystem_IVRSystem_021_GetHiddenAreaMesh(winIVRSystem_IVRSystem_021 *_this, HiddenAreaMesh_t *_r, EVREye eEye, EHiddenAreaMeshType type)
 {
-    struct cppIVRSystem_IVRSystem_021_GetControllerStateWithPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eOrigin = eOrigin,
-        .unControllerDeviceIndex = unControllerDeviceIndex,
-        .pControllerState = pControllerState,
-        .unControllerStateSize = unControllerStateSize,
-        .pTrackedDevicePose = pTrackedDevicePose,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_021_GetControllerStateWithPose( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_021_GetHiddenAreaMesh(_this->linux_side, eEye, type);
+    return _r;
 }
 
-void __thiscall winIVRSystem_IVRSystem_021_TriggerHapticPulse(struct w_steam_iface *_this, TrackedDeviceIndex_t unControllerDeviceIndex, uint32_t unAxisId, unsigned short usDurationMicroSec)
+bool __thiscall winIVRSystem_IVRSystem_021_GetControllerState(winIVRSystem_IVRSystem_021 *_this, TrackedDeviceIndex_t unControllerDeviceIndex, winVRControllerState001_t_1125 *pControllerState, uint32_t unControllerStateSize)
 {
-    struct cppIVRSystem_IVRSystem_021_TriggerHapticPulse_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unControllerDeviceIndex = unControllerDeviceIndex,
-        .unAxisId = unAxisId,
-        .usDurationMicroSec = usDurationMicroSec,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_021_TriggerHapticPulse( &params );
+    return cppIVRSystem_IVRSystem_021_GetControllerState(_this->linux_side, unControllerDeviceIndex, pControllerState, unControllerStateSize);
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_021_GetButtonIdNameFromEnum(struct w_steam_iface *_this, EVRButtonId eButtonId)
+bool __thiscall winIVRSystem_IVRSystem_021_GetControllerStateWithPose(winIVRSystem_IVRSystem_021 *_this, ETrackingUniverseOrigin eOrigin, TrackedDeviceIndex_t unControllerDeviceIndex, winVRControllerState001_t_1125 *pControllerState, uint32_t unControllerStateSize, TrackedDevicePose_t *pTrackedDevicePose)
 {
-    struct cppIVRSystem_IVRSystem_021_GetButtonIdNameFromEnum_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eButtonId = eButtonId,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_021_GetButtonIdNameFromEnum( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_021_GetControllerStateWithPose(_this->linux_side, eOrigin, unControllerDeviceIndex, pControllerState, unControllerStateSize, pTrackedDevicePose);
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_021_GetControllerAxisTypeNameFromEnum(struct w_steam_iface *_this, EVRControllerAxisType eAxisType)
+void __thiscall winIVRSystem_IVRSystem_021_TriggerHapticPulse(winIVRSystem_IVRSystem_021 *_this, TrackedDeviceIndex_t unControllerDeviceIndex, uint32_t unAxisId, unsigned short usDurationMicroSec)
 {
-    struct cppIVRSystem_IVRSystem_021_GetControllerAxisTypeNameFromEnum_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eAxisType = eAxisType,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_021_GetControllerAxisTypeNameFromEnum( &params );
-    return params._ret;
+    cppIVRSystem_IVRSystem_021_TriggerHapticPulse(_this->linux_side, unControllerDeviceIndex, unAxisId, usDurationMicroSec);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_021_IsInputAvailable(struct w_steam_iface *_this)
+const char * __thiscall winIVRSystem_IVRSystem_021_GetButtonIdNameFromEnum(winIVRSystem_IVRSystem_021 *_this, EVRButtonId eButtonId)
 {
-    struct cppIVRSystem_IVRSystem_021_IsInputAvailable_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_021_IsInputAvailable( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_021_GetButtonIdNameFromEnum(_this->linux_side, eButtonId);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_021_IsSteamVRDrawingControllers(struct w_steam_iface *_this)
+const char * __thiscall winIVRSystem_IVRSystem_021_GetControllerAxisTypeNameFromEnum(winIVRSystem_IVRSystem_021 *_this, EVRControllerAxisType eAxisType)
 {
-    struct cppIVRSystem_IVRSystem_021_IsSteamVRDrawingControllers_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_021_IsSteamVRDrawingControllers( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_021_GetControllerAxisTypeNameFromEnum(_this->linux_side, eAxisType);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_021_ShouldApplicationPause(struct w_steam_iface *_this)
+bool __thiscall winIVRSystem_IVRSystem_021_IsInputAvailable(winIVRSystem_IVRSystem_021 *_this)
 {
-    struct cppIVRSystem_IVRSystem_021_ShouldApplicationPause_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_021_ShouldApplicationPause( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_021_IsInputAvailable(_this->linux_side);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_021_ShouldApplicationReduceRenderingWork(struct w_steam_iface *_this)
+bool __thiscall winIVRSystem_IVRSystem_021_IsSteamVRDrawingControllers(winIVRSystem_IVRSystem_021 *_this)
 {
-    struct cppIVRSystem_IVRSystem_021_ShouldApplicationReduceRenderingWork_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_021_ShouldApplicationReduceRenderingWork( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_021_IsSteamVRDrawingControllers(_this->linux_side);
 }
 
-EVRFirmwareError __thiscall winIVRSystem_IVRSystem_021_PerformFirmwareUpdate(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex)
+bool __thiscall winIVRSystem_IVRSystem_021_ShouldApplicationPause(winIVRSystem_IVRSystem_021 *_this)
 {
-    struct cppIVRSystem_IVRSystem_021_PerformFirmwareUpdate_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_021_PerformFirmwareUpdate( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_021_ShouldApplicationPause(_this->linux_side);
 }
 
-void __thiscall winIVRSystem_IVRSystem_021_AcknowledgeQuit_Exiting(struct w_steam_iface *_this)
+bool __thiscall winIVRSystem_IVRSystem_021_ShouldApplicationReduceRenderingWork(winIVRSystem_IVRSystem_021 *_this)
 {
-    struct cppIVRSystem_IVRSystem_021_AcknowledgeQuit_Exiting_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_021_AcknowledgeQuit_Exiting( &params );
+    return cppIVRSystem_IVRSystem_021_ShouldApplicationReduceRenderingWork(_this->linux_side);
 }
 
-uint32_t __thiscall winIVRSystem_IVRSystem_021_GetAppContainerFilePaths(struct w_steam_iface *_this, char *pchBuffer, uint32_t unBufferSize)
+EVRFirmwareError __thiscall winIVRSystem_IVRSystem_021_PerformFirmwareUpdate(winIVRSystem_IVRSystem_021 *_this, TrackedDeviceIndex_t unDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_021_GetAppContainerFilePaths_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pchBuffer = pchBuffer,
-        .unBufferSize = unBufferSize,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_021_GetAppContainerFilePaths( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_021_PerformFirmwareUpdate(_this->linux_side, unDeviceIndex);
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_021_GetRuntimeVersion(struct w_steam_iface *_this)
+void __thiscall winIVRSystem_IVRSystem_021_AcknowledgeQuit_Exiting(winIVRSystem_IVRSystem_021 *_this)
 {
-    struct cppIVRSystem_IVRSystem_021_GetRuntimeVersion_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_021_GetRuntimeVersion( &params );
-    return params._ret;
+    cppIVRSystem_IVRSystem_021_AcknowledgeQuit_Exiting(_this->linux_side);
+}
+
+uint32_t __thiscall winIVRSystem_IVRSystem_021_GetAppContainerFilePaths(winIVRSystem_IVRSystem_021 *_this, char *pchBuffer, uint32_t unBufferSize)
+{
+    TRACE("%p\n", _this);
+    return cppIVRSystem_IVRSystem_021_GetAppContainerFilePaths(_this->linux_side, pchBuffer, unBufferSize);
+}
+
+const char * __thiscall winIVRSystem_IVRSystem_021_GetRuntimeVersion(winIVRSystem_IVRSystem_021 *_this)
+{
+    TRACE("%p\n", _this);
+    return cppIVRSystem_IVRSystem_021_GetRuntimeVersion(_this->linux_side);
 }
 
 extern vtable_ptr winIVRSystem_IVRSystem_021_vtable;
@@ -10836,24 +6756,24 @@ void __asm_dummy_vtables(void) {
 }
 #endif
 
-struct w_steam_iface *create_winIVRSystem_IVRSystem_021(void *u_iface)
+winIVRSystem_IVRSystem_021 *create_winIVRSystem_IVRSystem_021(void *linux_side)
 {
-    struct w_steam_iface *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(*r));
+    winIVRSystem_IVRSystem_021 *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(winIVRSystem_IVRSystem_021));
     TRACE("-> %p\n", r);
     r->vtable = &winIVRSystem_IVRSystem_021_vtable;
-    r->u_iface = u_iface;
+    r->linux_side = linux_side;
     return r;
 }
 
-void destroy_winIVRSystem_IVRSystem_021(struct w_steam_iface *object)
+void destroy_winIVRSystem_IVRSystem_021(void *object)
 {
     TRACE("%p\n", object);
     HeapFree(GetProcessHeap(), 0, object);
 }
 
-struct w_steam_iface *create_winIVRSystem_IVRSystem_021_FnTable(void *u_iface)
+winIVRSystem_IVRSystem_021 *create_winIVRSystem_IVRSystem_021_FnTable(void *linux_side)
 {
-    struct w_steam_iface *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(*r));
+    winIVRSystem_IVRSystem_021 *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(winIVRSystem_IVRSystem_021));
     struct thunk *thunks = alloc_thunks(47);
     struct thunk **vtable = HeapAlloc(GetProcessHeap(), 0, 47 * sizeof(*vtable));
     int i;
@@ -10908,20 +6828,26 @@ struct w_steam_iface *create_winIVRSystem_IVRSystem_021_FnTable(void *u_iface)
     init_thunk(&thunks[46], r, winIVRSystem_IVRSystem_021_GetRuntimeVersion, 0, FALSE, FALSE);
     for (i = 0; i < 47; i++)
         vtable[i] = &thunks[i];
-    r->u_iface = u_iface;
+    r->linux_side = linux_side;
     r->vtable = (void *)vtable;
     return r;
 }
 
-void destroy_winIVRSystem_IVRSystem_021_FnTable(struct w_steam_iface *object)
+void destroy_winIVRSystem_IVRSystem_021_FnTable(void *object)
 {
-    TRACE("%p\n", object);
-    VirtualFree(object->vtable[0], 0, MEM_RELEASE);
-    HeapFree(GetProcessHeap(), 0, object->vtable);
-    HeapFree(GetProcessHeap(), 0, object);
+    winIVRSystem_IVRSystem_021 *win_object = object;
+    TRACE("%p\n", win_object);
+    VirtualFree(win_object->vtable[0], 0, MEM_RELEASE);
+    HeapFree(GetProcessHeap(), 0, win_object->vtable);
+    HeapFree(GetProcessHeap(), 0, win_object);
 }
 
 #include "cppIVRSystem_IVRSystem_022.h"
+
+typedef struct __winIVRSystem_IVRSystem_022 {
+    vtable_ptr *vtable;
+    void *linux_side;
+} winIVRSystem_IVRSystem_022;
 
 DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_022_GetRecommendedRenderTargetSize, 12)
 DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_022_GetProjectionMatrix, 20)
@@ -10970,578 +6896,286 @@ DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_022_AcknowledgeQuit_Exiting, 4)
 DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_022_GetAppContainerFilePaths, 12)
 DEFINE_THISCALL_WRAPPER(winIVRSystem_IVRSystem_022_GetRuntimeVersion, 4)
 
-void __thiscall winIVRSystem_IVRSystem_022_GetRecommendedRenderTargetSize(struct w_steam_iface *_this, uint32_t *pnWidth, uint32_t *pnHeight)
+void __thiscall winIVRSystem_IVRSystem_022_GetRecommendedRenderTargetSize(winIVRSystem_IVRSystem_022 *_this, uint32_t *pnWidth, uint32_t *pnHeight)
 {
-    struct cppIVRSystem_IVRSystem_022_GetRecommendedRenderTargetSize_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pnWidth = pnWidth,
-        .pnHeight = pnHeight,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_022_GetRecommendedRenderTargetSize( &params );
+    cppIVRSystem_IVRSystem_022_GetRecommendedRenderTargetSize(_this->linux_side, pnWidth, pnHeight);
 }
 
-HmdMatrix44_t * __thiscall winIVRSystem_IVRSystem_022_GetProjectionMatrix(struct w_steam_iface *_this, HmdMatrix44_t *_ret, EVREye eEye, float fNearZ, float fFarZ)
+HmdMatrix44_t *__thiscall winIVRSystem_IVRSystem_022_GetProjectionMatrix(winIVRSystem_IVRSystem_022 *_this, HmdMatrix44_t *_r, EVREye eEye, float fNearZ, float fFarZ)
 {
-    struct cppIVRSystem_IVRSystem_022_GetProjectionMatrix_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .eEye = eEye,
-        .fNearZ = fNearZ,
-        .fFarZ = fFarZ,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_022_GetProjectionMatrix( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_022_GetProjectionMatrix(_this->linux_side, eEye, fNearZ, fFarZ);
+    return _r;
 }
 
-void __thiscall winIVRSystem_IVRSystem_022_GetProjectionRaw(struct w_steam_iface *_this, EVREye eEye, float *pfLeft, float *pfRight, float *pfTop, float *pfBottom)
+void __thiscall winIVRSystem_IVRSystem_022_GetProjectionRaw(winIVRSystem_IVRSystem_022 *_this, EVREye eEye, float *pfLeft, float *pfRight, float *pfTop, float *pfBottom)
 {
-    struct cppIVRSystem_IVRSystem_022_GetProjectionRaw_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eEye = eEye,
-        .pfLeft = pfLeft,
-        .pfRight = pfRight,
-        .pfTop = pfTop,
-        .pfBottom = pfBottom,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_022_GetProjectionRaw( &params );
+    cppIVRSystem_IVRSystem_022_GetProjectionRaw(_this->linux_side, eEye, pfLeft, pfRight, pfTop, pfBottom);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_022_ComputeDistortion(struct w_steam_iface *_this, EVREye eEye, float fU, float fV, DistortionCoordinates_t *pDistortionCoordinates)
+bool __thiscall winIVRSystem_IVRSystem_022_ComputeDistortion(winIVRSystem_IVRSystem_022 *_this, EVREye eEye, float fU, float fV, DistortionCoordinates_t *pDistortionCoordinates)
 {
-    struct cppIVRSystem_IVRSystem_022_ComputeDistortion_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eEye = eEye,
-        .fU = fU,
-        .fV = fV,
-        .pDistortionCoordinates = pDistortionCoordinates,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_022_ComputeDistortion( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_022_ComputeDistortion(_this->linux_side, eEye, fU, fV, pDistortionCoordinates);
 }
 
-HmdMatrix34_t * __thiscall winIVRSystem_IVRSystem_022_GetEyeToHeadTransform(struct w_steam_iface *_this, HmdMatrix34_t *_ret, EVREye eEye)
+HmdMatrix34_t *__thiscall winIVRSystem_IVRSystem_022_GetEyeToHeadTransform(winIVRSystem_IVRSystem_022 *_this, HmdMatrix34_t *_r, EVREye eEye)
 {
-    struct cppIVRSystem_IVRSystem_022_GetEyeToHeadTransform_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .eEye = eEye,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_022_GetEyeToHeadTransform( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_022_GetEyeToHeadTransform(_this->linux_side, eEye);
+    return _r;
 }
 
-bool __thiscall winIVRSystem_IVRSystem_022_GetTimeSinceLastVsync(struct w_steam_iface *_this, float *pfSecondsSinceLastVsync, uint64_t *pulFrameCounter)
+bool __thiscall winIVRSystem_IVRSystem_022_GetTimeSinceLastVsync(winIVRSystem_IVRSystem_022 *_this, float *pfSecondsSinceLastVsync, uint64_t *pulFrameCounter)
 {
-    struct cppIVRSystem_IVRSystem_022_GetTimeSinceLastVsync_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pfSecondsSinceLastVsync = pfSecondsSinceLastVsync,
-        .pulFrameCounter = pulFrameCounter,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_022_GetTimeSinceLastVsync( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_022_GetTimeSinceLastVsync(_this->linux_side, pfSecondsSinceLastVsync, pulFrameCounter);
 }
 
-int32_t __thiscall winIVRSystem_IVRSystem_022_GetD3D9AdapterIndex(struct w_steam_iface *_this)
+int32_t __thiscall winIVRSystem_IVRSystem_022_GetD3D9AdapterIndex(winIVRSystem_IVRSystem_022 *_this)
 {
-    struct cppIVRSystem_IVRSystem_022_GetD3D9AdapterIndex_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_022_GetD3D9AdapterIndex( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_022_GetD3D9AdapterIndex(_this->linux_side);
 }
 
-extern void __thiscall winIVRSystem_IVRSystem_022_GetDXGIOutputInfo(struct w_steam_iface *_this, int32_t *pnAdapterIndex);
-
-extern void __thiscall winIVRSystem_IVRSystem_022_GetOutputDevice(struct w_steam_iface *_this, uint64_t *pnDevice, ETextureType textureType, VkInstance_T *pInstance);
-
-bool __thiscall winIVRSystem_IVRSystem_022_IsDisplayOnDesktop(struct w_steam_iface *_this)
+void __thiscall winIVRSystem_IVRSystem_022_GetDXGIOutputInfo(winIVRSystem_IVRSystem_022 *_this, int32_t *pnAdapterIndex)
 {
-    struct cppIVRSystem_IVRSystem_022_IsDisplayOnDesktop_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_022_IsDisplayOnDesktop( &params );
-    return params._ret;
+    get_dxgi_output_info(cppIVRSystem_IVRSystem_022_GetDXGIOutputInfo, _this->linux_side, pnAdapterIndex, 22);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_022_SetDisplayVisibility(struct w_steam_iface *_this, bool bIsVisibleOnDesktop)
+void __thiscall winIVRSystem_IVRSystem_022_GetOutputDevice(winIVRSystem_IVRSystem_022 *_this, uint64_t *pnDevice, ETextureType textureType, VkInstance_T *pInstance)
 {
-    struct cppIVRSystem_IVRSystem_022_SetDisplayVisibility_params params =
-    {
-        .linux_side = _this->u_iface,
-        .bIsVisibleOnDesktop = bIsVisibleOnDesktop,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_022_SetDisplayVisibility( &params );
-    return params._ret;
+    ivrsystem_get_output_device(cppIVRSystem_IVRSystem_022_GetOutputDevice, _this->linux_side, pnDevice, textureType, pInstance, 22);
 }
 
-void __thiscall winIVRSystem_IVRSystem_022_GetDeviceToAbsoluteTrackingPose(struct w_steam_iface *_this, ETrackingUniverseOrigin eOrigin, float fPredictedSecondsToPhotonsFromNow, TrackedDevicePose_t *pTrackedDevicePoseArray, uint32_t unTrackedDevicePoseArrayCount)
+bool __thiscall winIVRSystem_IVRSystem_022_IsDisplayOnDesktop(winIVRSystem_IVRSystem_022 *_this)
 {
-    struct cppIVRSystem_IVRSystem_022_GetDeviceToAbsoluteTrackingPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eOrigin = eOrigin,
-        .fPredictedSecondsToPhotonsFromNow = fPredictedSecondsToPhotonsFromNow,
-        .pTrackedDevicePoseArray = pTrackedDevicePoseArray,
-        .unTrackedDevicePoseArrayCount = unTrackedDevicePoseArrayCount,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_022_GetDeviceToAbsoluteTrackingPose( &params );
+    return cppIVRSystem_IVRSystem_022_IsDisplayOnDesktop(_this->linux_side);
 }
 
-HmdMatrix34_t * __thiscall winIVRSystem_IVRSystem_022_GetSeatedZeroPoseToStandingAbsoluteTrackingPose(struct w_steam_iface *_this, HmdMatrix34_t *_ret)
+bool __thiscall winIVRSystem_IVRSystem_022_SetDisplayVisibility(winIVRSystem_IVRSystem_022 *_this, bool bIsVisibleOnDesktop)
 {
-    struct cppIVRSystem_IVRSystem_022_GetSeatedZeroPoseToStandingAbsoluteTrackingPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_022_GetSeatedZeroPoseToStandingAbsoluteTrackingPose( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_022_SetDisplayVisibility(_this->linux_side, bIsVisibleOnDesktop);
 }
 
-HmdMatrix34_t * __thiscall winIVRSystem_IVRSystem_022_GetRawZeroPoseToStandingAbsoluteTrackingPose(struct w_steam_iface *_this, HmdMatrix34_t *_ret)
+void __thiscall winIVRSystem_IVRSystem_022_GetDeviceToAbsoluteTrackingPose(winIVRSystem_IVRSystem_022 *_this, ETrackingUniverseOrigin eOrigin, float fPredictedSecondsToPhotonsFromNow, TrackedDevicePose_t *pTrackedDevicePoseArray, uint32_t unTrackedDevicePoseArrayCount)
 {
-    struct cppIVRSystem_IVRSystem_022_GetRawZeroPoseToStandingAbsoluteTrackingPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_022_GetRawZeroPoseToStandingAbsoluteTrackingPose( &params );
-    return params._ret;
+    cppIVRSystem_IVRSystem_022_GetDeviceToAbsoluteTrackingPose(_this->linux_side, eOrigin, fPredictedSecondsToPhotonsFromNow, pTrackedDevicePoseArray, unTrackedDevicePoseArrayCount);
 }
 
-uint32_t __thiscall winIVRSystem_IVRSystem_022_GetSortedTrackedDeviceIndicesOfClass(struct w_steam_iface *_this, ETrackedDeviceClass eTrackedDeviceClass, TrackedDeviceIndex_t *punTrackedDeviceIndexArray, uint32_t unTrackedDeviceIndexArrayCount, TrackedDeviceIndex_t unRelativeToTrackedDeviceIndex)
+HmdMatrix34_t *__thiscall winIVRSystem_IVRSystem_022_GetSeatedZeroPoseToStandingAbsoluteTrackingPose(winIVRSystem_IVRSystem_022 *_this, HmdMatrix34_t *_r)
 {
-    struct cppIVRSystem_IVRSystem_022_GetSortedTrackedDeviceIndicesOfClass_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eTrackedDeviceClass = eTrackedDeviceClass,
-        .punTrackedDeviceIndexArray = punTrackedDeviceIndexArray,
-        .unTrackedDeviceIndexArrayCount = unTrackedDeviceIndexArrayCount,
-        .unRelativeToTrackedDeviceIndex = unRelativeToTrackedDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_022_GetSortedTrackedDeviceIndicesOfClass( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_022_GetSeatedZeroPoseToStandingAbsoluteTrackingPose(_this->linux_side);
+    return _r;
 }
 
-EDeviceActivityLevel __thiscall winIVRSystem_IVRSystem_022_GetTrackedDeviceActivityLevel(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceId)
+HmdMatrix34_t *__thiscall winIVRSystem_IVRSystem_022_GetRawZeroPoseToStandingAbsoluteTrackingPose(winIVRSystem_IVRSystem_022 *_this, HmdMatrix34_t *_r)
 {
-    struct cppIVRSystem_IVRSystem_022_GetTrackedDeviceActivityLevel_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceId = unDeviceId,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_022_GetTrackedDeviceActivityLevel( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_022_GetRawZeroPoseToStandingAbsoluteTrackingPose(_this->linux_side);
+    return _r;
 }
 
-void __thiscall winIVRSystem_IVRSystem_022_ApplyTransform(struct w_steam_iface *_this, TrackedDevicePose_t *pOutputPose, const TrackedDevicePose_t *pTrackedDevicePose, const HmdMatrix34_t *pTransform)
+uint32_t __thiscall winIVRSystem_IVRSystem_022_GetSortedTrackedDeviceIndicesOfClass(winIVRSystem_IVRSystem_022 *_this, ETrackedDeviceClass eTrackedDeviceClass, TrackedDeviceIndex_t *punTrackedDeviceIndexArray, uint32_t unTrackedDeviceIndexArrayCount, TrackedDeviceIndex_t unRelativeToTrackedDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_022_ApplyTransform_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pOutputPose = pOutputPose,
-        .pTrackedDevicePose = pTrackedDevicePose,
-        .pTransform = pTransform,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_022_ApplyTransform( &params );
+    return cppIVRSystem_IVRSystem_022_GetSortedTrackedDeviceIndicesOfClass(_this->linux_side, eTrackedDeviceClass, punTrackedDeviceIndexArray, unTrackedDeviceIndexArrayCount, unRelativeToTrackedDeviceIndex);
 }
 
-TrackedDeviceIndex_t __thiscall winIVRSystem_IVRSystem_022_GetTrackedDeviceIndexForControllerRole(struct w_steam_iface *_this, ETrackedControllerRole unDeviceType)
+EDeviceActivityLevel __thiscall winIVRSystem_IVRSystem_022_GetTrackedDeviceActivityLevel(winIVRSystem_IVRSystem_022 *_this, TrackedDeviceIndex_t unDeviceId)
 {
-    struct cppIVRSystem_IVRSystem_022_GetTrackedDeviceIndexForControllerRole_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceType = unDeviceType,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_022_GetTrackedDeviceIndexForControllerRole( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_022_GetTrackedDeviceActivityLevel(_this->linux_side, unDeviceId);
 }
 
-ETrackedControllerRole __thiscall winIVRSystem_IVRSystem_022_GetControllerRoleForTrackedDeviceIndex(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex)
+void __thiscall winIVRSystem_IVRSystem_022_ApplyTransform(winIVRSystem_IVRSystem_022 *_this, TrackedDevicePose_t *pOutputPose, TrackedDevicePose_t *pTrackedDevicePose, HmdMatrix34_t *pTransform)
 {
-    struct cppIVRSystem_IVRSystem_022_GetControllerRoleForTrackedDeviceIndex_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_022_GetControllerRoleForTrackedDeviceIndex( &params );
-    return params._ret;
+    cppIVRSystem_IVRSystem_022_ApplyTransform(_this->linux_side, pOutputPose, pTrackedDevicePose, pTransform);
 }
 
-ETrackedDeviceClass __thiscall winIVRSystem_IVRSystem_022_GetTrackedDeviceClass(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex)
+TrackedDeviceIndex_t __thiscall winIVRSystem_IVRSystem_022_GetTrackedDeviceIndexForControllerRole(winIVRSystem_IVRSystem_022 *_this, ETrackedControllerRole unDeviceType)
 {
-    struct cppIVRSystem_IVRSystem_022_GetTrackedDeviceClass_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_022_GetTrackedDeviceClass( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_022_GetTrackedDeviceIndexForControllerRole(_this->linux_side, unDeviceType);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_022_IsTrackedDeviceConnected(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex)
+ETrackedControllerRole __thiscall winIVRSystem_IVRSystem_022_GetControllerRoleForTrackedDeviceIndex(winIVRSystem_IVRSystem_022 *_this, TrackedDeviceIndex_t unDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_022_IsTrackedDeviceConnected_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_022_IsTrackedDeviceConnected( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_022_GetControllerRoleForTrackedDeviceIndex(_this->linux_side, unDeviceIndex);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_022_GetBoolTrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
+ETrackedDeviceClass __thiscall winIVRSystem_IVRSystem_022_GetTrackedDeviceClass(winIVRSystem_IVRSystem_022 *_this, TrackedDeviceIndex_t unDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_022_GetBoolTrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_022_GetBoolTrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_022_GetTrackedDeviceClass(_this->linux_side, unDeviceIndex);
 }
 
-float __thiscall winIVRSystem_IVRSystem_022_GetFloatTrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
+bool __thiscall winIVRSystem_IVRSystem_022_IsTrackedDeviceConnected(winIVRSystem_IVRSystem_022 *_this, TrackedDeviceIndex_t unDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_022_GetFloatTrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_022_GetFloatTrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_022_IsTrackedDeviceConnected(_this->linux_side, unDeviceIndex);
 }
 
-int32_t __thiscall winIVRSystem_IVRSystem_022_GetInt32TrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
+bool __thiscall winIVRSystem_IVRSystem_022_GetBoolTrackedDeviceProperty(winIVRSystem_IVRSystem_022 *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_022_GetInt32TrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_022_GetInt32TrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_022_GetBoolTrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
 }
 
-uint64_t __thiscall winIVRSystem_IVRSystem_022_GetUint64TrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
+float __thiscall winIVRSystem_IVRSystem_022_GetFloatTrackedDeviceProperty(winIVRSystem_IVRSystem_022 *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_022_GetUint64TrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_022_GetUint64TrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_022_GetFloatTrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
 }
 
-HmdMatrix34_t * __thiscall winIVRSystem_IVRSystem_022_GetMatrix34TrackedDeviceProperty(struct w_steam_iface *_this, HmdMatrix34_t *_ret, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
+int32_t __thiscall winIVRSystem_IVRSystem_022_GetInt32TrackedDeviceProperty(winIVRSystem_IVRSystem_022 *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_022_GetMatrix34TrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_022_GetMatrix34TrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_022_GetInt32TrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
 }
 
-uint32_t __thiscall winIVRSystem_IVRSystem_022_GetArrayTrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, PropertyTypeTag_t propType, void *pBuffer, uint32_t unBufferSize, ETrackedPropertyError *pError)
+uint64_t __thiscall winIVRSystem_IVRSystem_022_GetUint64TrackedDeviceProperty(winIVRSystem_IVRSystem_022 *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_022_GetArrayTrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .propType = propType,
-        .pBuffer = pBuffer,
-        .unBufferSize = unBufferSize,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_022_GetArrayTrackedDeviceProperty( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_022_GetUint64TrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
 }
 
-uint32_t __thiscall winIVRSystem_IVRSystem_022_GetStringTrackedDeviceProperty(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, char *pchValue, uint32_t unBufferSize, ETrackedPropertyError *pError)
+HmdMatrix34_t *__thiscall winIVRSystem_IVRSystem_022_GetMatrix34TrackedDeviceProperty(winIVRSystem_IVRSystem_022 *_this, HmdMatrix34_t *_r, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_022_GetStringTrackedDeviceProperty_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-        .prop = prop,
-        .pchValue = pchValue,
-        .unBufferSize = unBufferSize,
-        .pError = pError,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_022_GetStringTrackedDeviceProperty( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_022_GetMatrix34TrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pError);
+    return _r;
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_022_GetPropErrorNameFromEnum(struct w_steam_iface *_this, ETrackedPropertyError error)
+uint32_t __thiscall winIVRSystem_IVRSystem_022_GetArrayTrackedDeviceProperty(winIVRSystem_IVRSystem_022 *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, PropertyTypeTag_t propType, void *pBuffer, uint32_t unBufferSize, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_022_GetPropErrorNameFromEnum_params params =
-    {
-        .linux_side = _this->u_iface,
-        .error = error,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_022_GetPropErrorNameFromEnum( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_022_GetArrayTrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, propType, pBuffer, unBufferSize, pError);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_022_PollNextEvent(struct w_steam_iface *_this, winVREvent_t_1267 *pEvent, uint32_t uncbVREvent)
+uint32_t __thiscall winIVRSystem_IVRSystem_022_GetStringTrackedDeviceProperty(winIVRSystem_IVRSystem_022 *_this, TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, char *pchValue, uint32_t unBufferSize, ETrackedPropertyError *pError)
 {
-    struct cppIVRSystem_IVRSystem_022_PollNextEvent_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pEvent = pEvent,
-        .uncbVREvent = uncbVREvent,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_022_PollNextEvent( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_022_GetStringTrackedDeviceProperty(_this->linux_side, unDeviceIndex, prop, pchValue, unBufferSize, pError);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_022_PollNextEventWithPose(struct w_steam_iface *_this, ETrackingUniverseOrigin eOrigin, winVREvent_t_1267 *pEvent, uint32_t uncbVREvent, TrackedDevicePose_t *pTrackedDevicePose)
+const char * __thiscall winIVRSystem_IVRSystem_022_GetPropErrorNameFromEnum(winIVRSystem_IVRSystem_022 *_this, ETrackedPropertyError error)
 {
-    struct cppIVRSystem_IVRSystem_022_PollNextEventWithPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eOrigin = eOrigin,
-        .pEvent = pEvent,
-        .uncbVREvent = uncbVREvent,
-        .pTrackedDevicePose = pTrackedDevicePose,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_022_PollNextEventWithPose( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_022_GetPropErrorNameFromEnum(_this->linux_side, error);
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_022_GetEventTypeNameFromEnum(struct w_steam_iface *_this, EVREventType eType)
+bool __thiscall winIVRSystem_IVRSystem_022_PollNextEvent(winIVRSystem_IVRSystem_022 *_this, winVREvent_t_1267 *pEvent, uint32_t uncbVREvent)
 {
-    struct cppIVRSystem_IVRSystem_022_GetEventTypeNameFromEnum_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eType = eType,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_022_GetEventTypeNameFromEnum( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_022_PollNextEvent(_this->linux_side, pEvent, uncbVREvent);
 }
 
-HiddenAreaMesh_t * __thiscall winIVRSystem_IVRSystem_022_GetHiddenAreaMesh(struct w_steam_iface *_this, HiddenAreaMesh_t *_ret, EVREye eEye, EHiddenAreaMeshType type)
+bool __thiscall winIVRSystem_IVRSystem_022_PollNextEventWithPose(winIVRSystem_IVRSystem_022 *_this, ETrackingUniverseOrigin eOrigin, winVREvent_t_1267 *pEvent, uint32_t uncbVREvent, TrackedDevicePose_t *pTrackedDevicePose)
 {
-    struct cppIVRSystem_IVRSystem_022_GetHiddenAreaMesh_params params =
-    {
-        .linux_side = _this->u_iface,
-        ._ret = _ret,
-        .eEye = eEye,
-        .type = type,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_022_GetHiddenAreaMesh( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_022_PollNextEventWithPose(_this->linux_side, eOrigin, pEvent, uncbVREvent, pTrackedDevicePose);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_022_GetControllerState(struct w_steam_iface *_this, TrackedDeviceIndex_t unControllerDeviceIndex, winVRControllerState001_t_1267 *pControllerState, uint32_t unControllerStateSize)
+const char * __thiscall winIVRSystem_IVRSystem_022_GetEventTypeNameFromEnum(winIVRSystem_IVRSystem_022 *_this, EVREventType eType)
 {
-    struct cppIVRSystem_IVRSystem_022_GetControllerState_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unControllerDeviceIndex = unControllerDeviceIndex,
-        .pControllerState = pControllerState,
-        .unControllerStateSize = unControllerStateSize,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_022_GetControllerState( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_022_GetEventTypeNameFromEnum(_this->linux_side, eType);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_022_GetControllerStateWithPose(struct w_steam_iface *_this, ETrackingUniverseOrigin eOrigin, TrackedDeviceIndex_t unControllerDeviceIndex, winVRControllerState001_t_1267 *pControllerState, uint32_t unControllerStateSize, TrackedDevicePose_t *pTrackedDevicePose)
+HiddenAreaMesh_t *__thiscall winIVRSystem_IVRSystem_022_GetHiddenAreaMesh(winIVRSystem_IVRSystem_022 *_this, HiddenAreaMesh_t *_r, EVREye eEye, EHiddenAreaMeshType type)
 {
-    struct cppIVRSystem_IVRSystem_022_GetControllerStateWithPose_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eOrigin = eOrigin,
-        .unControllerDeviceIndex = unControllerDeviceIndex,
-        .pControllerState = pControllerState,
-        .unControllerStateSize = unControllerStateSize,
-        .pTrackedDevicePose = pTrackedDevicePose,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_022_GetControllerStateWithPose( &params );
-    return params._ret;
+    *_r = cppIVRSystem_IVRSystem_022_GetHiddenAreaMesh(_this->linux_side, eEye, type);
+    return _r;
 }
 
-void __thiscall winIVRSystem_IVRSystem_022_TriggerHapticPulse(struct w_steam_iface *_this, TrackedDeviceIndex_t unControllerDeviceIndex, uint32_t unAxisId, unsigned short usDurationMicroSec)
+bool __thiscall winIVRSystem_IVRSystem_022_GetControllerState(winIVRSystem_IVRSystem_022 *_this, TrackedDeviceIndex_t unControllerDeviceIndex, winVRControllerState001_t_1267 *pControllerState, uint32_t unControllerStateSize)
 {
-    struct cppIVRSystem_IVRSystem_022_TriggerHapticPulse_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unControllerDeviceIndex = unControllerDeviceIndex,
-        .unAxisId = unAxisId,
-        .usDurationMicroSec = usDurationMicroSec,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_022_TriggerHapticPulse( &params );
+    return cppIVRSystem_IVRSystem_022_GetControllerState(_this->linux_side, unControllerDeviceIndex, pControllerState, unControllerStateSize);
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_022_GetButtonIdNameFromEnum(struct w_steam_iface *_this, EVRButtonId eButtonId)
+bool __thiscall winIVRSystem_IVRSystem_022_GetControllerStateWithPose(winIVRSystem_IVRSystem_022 *_this, ETrackingUniverseOrigin eOrigin, TrackedDeviceIndex_t unControllerDeviceIndex, winVRControllerState001_t_1267 *pControllerState, uint32_t unControllerStateSize, TrackedDevicePose_t *pTrackedDevicePose)
 {
-    struct cppIVRSystem_IVRSystem_022_GetButtonIdNameFromEnum_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eButtonId = eButtonId,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_022_GetButtonIdNameFromEnum( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_022_GetControllerStateWithPose(_this->linux_side, eOrigin, unControllerDeviceIndex, pControllerState, unControllerStateSize, pTrackedDevicePose);
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_022_GetControllerAxisTypeNameFromEnum(struct w_steam_iface *_this, EVRControllerAxisType eAxisType)
+void __thiscall winIVRSystem_IVRSystem_022_TriggerHapticPulse(winIVRSystem_IVRSystem_022 *_this, TrackedDeviceIndex_t unControllerDeviceIndex, uint32_t unAxisId, unsigned short usDurationMicroSec)
 {
-    struct cppIVRSystem_IVRSystem_022_GetControllerAxisTypeNameFromEnum_params params =
-    {
-        .linux_side = _this->u_iface,
-        .eAxisType = eAxisType,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_022_GetControllerAxisTypeNameFromEnum( &params );
-    return params._ret;
+    cppIVRSystem_IVRSystem_022_TriggerHapticPulse(_this->linux_side, unControllerDeviceIndex, unAxisId, usDurationMicroSec);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_022_IsInputAvailable(struct w_steam_iface *_this)
+const char * __thiscall winIVRSystem_IVRSystem_022_GetButtonIdNameFromEnum(winIVRSystem_IVRSystem_022 *_this, EVRButtonId eButtonId)
 {
-    struct cppIVRSystem_IVRSystem_022_IsInputAvailable_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_022_IsInputAvailable( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_022_GetButtonIdNameFromEnum(_this->linux_side, eButtonId);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_022_IsSteamVRDrawingControllers(struct w_steam_iface *_this)
+const char * __thiscall winIVRSystem_IVRSystem_022_GetControllerAxisTypeNameFromEnum(winIVRSystem_IVRSystem_022 *_this, EVRControllerAxisType eAxisType)
 {
-    struct cppIVRSystem_IVRSystem_022_IsSteamVRDrawingControllers_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_022_IsSteamVRDrawingControllers( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_022_GetControllerAxisTypeNameFromEnum(_this->linux_side, eAxisType);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_022_ShouldApplicationPause(struct w_steam_iface *_this)
+bool __thiscall winIVRSystem_IVRSystem_022_IsInputAvailable(winIVRSystem_IVRSystem_022 *_this)
 {
-    struct cppIVRSystem_IVRSystem_022_ShouldApplicationPause_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_022_ShouldApplicationPause( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_022_IsInputAvailable(_this->linux_side);
 }
 
-bool __thiscall winIVRSystem_IVRSystem_022_ShouldApplicationReduceRenderingWork(struct w_steam_iface *_this)
+bool __thiscall winIVRSystem_IVRSystem_022_IsSteamVRDrawingControllers(winIVRSystem_IVRSystem_022 *_this)
 {
-    struct cppIVRSystem_IVRSystem_022_ShouldApplicationReduceRenderingWork_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_022_ShouldApplicationReduceRenderingWork( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_022_IsSteamVRDrawingControllers(_this->linux_side);
 }
 
-EVRFirmwareError __thiscall winIVRSystem_IVRSystem_022_PerformFirmwareUpdate(struct w_steam_iface *_this, TrackedDeviceIndex_t unDeviceIndex)
+bool __thiscall winIVRSystem_IVRSystem_022_ShouldApplicationPause(winIVRSystem_IVRSystem_022 *_this)
 {
-    struct cppIVRSystem_IVRSystem_022_PerformFirmwareUpdate_params params =
-    {
-        .linux_side = _this->u_iface,
-        .unDeviceIndex = unDeviceIndex,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_022_PerformFirmwareUpdate( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_022_ShouldApplicationPause(_this->linux_side);
 }
 
-void __thiscall winIVRSystem_IVRSystem_022_AcknowledgeQuit_Exiting(struct w_steam_iface *_this)
+bool __thiscall winIVRSystem_IVRSystem_022_ShouldApplicationReduceRenderingWork(winIVRSystem_IVRSystem_022 *_this)
 {
-    struct cppIVRSystem_IVRSystem_022_AcknowledgeQuit_Exiting_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_022_AcknowledgeQuit_Exiting( &params );
+    return cppIVRSystem_IVRSystem_022_ShouldApplicationReduceRenderingWork(_this->linux_side);
 }
 
-uint32_t __thiscall winIVRSystem_IVRSystem_022_GetAppContainerFilePaths(struct w_steam_iface *_this, char *pchBuffer, uint32_t unBufferSize)
+EVRFirmwareError __thiscall winIVRSystem_IVRSystem_022_PerformFirmwareUpdate(winIVRSystem_IVRSystem_022 *_this, TrackedDeviceIndex_t unDeviceIndex)
 {
-    struct cppIVRSystem_IVRSystem_022_GetAppContainerFilePaths_params params =
-    {
-        .linux_side = _this->u_iface,
-        .pchBuffer = pchBuffer,
-        .unBufferSize = unBufferSize,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_022_GetAppContainerFilePaths( &params );
-    return params._ret;
+    return cppIVRSystem_IVRSystem_022_PerformFirmwareUpdate(_this->linux_side, unDeviceIndex);
 }
 
-const char * __thiscall winIVRSystem_IVRSystem_022_GetRuntimeVersion(struct w_steam_iface *_this)
+void __thiscall winIVRSystem_IVRSystem_022_AcknowledgeQuit_Exiting(winIVRSystem_IVRSystem_022 *_this)
 {
-    struct cppIVRSystem_IVRSystem_022_GetRuntimeVersion_params params =
-    {
-        .linux_side = _this->u_iface,
-    };
     TRACE("%p\n", _this);
-    cppIVRSystem_IVRSystem_022_GetRuntimeVersion( &params );
-    return params._ret;
+    cppIVRSystem_IVRSystem_022_AcknowledgeQuit_Exiting(_this->linux_side);
+}
+
+uint32_t __thiscall winIVRSystem_IVRSystem_022_GetAppContainerFilePaths(winIVRSystem_IVRSystem_022 *_this, char *pchBuffer, uint32_t unBufferSize)
+{
+    TRACE("%p\n", _this);
+    return cppIVRSystem_IVRSystem_022_GetAppContainerFilePaths(_this->linux_side, pchBuffer, unBufferSize);
+}
+
+const char * __thiscall winIVRSystem_IVRSystem_022_GetRuntimeVersion(winIVRSystem_IVRSystem_022 *_this)
+{
+    TRACE("%p\n", _this);
+    return cppIVRSystem_IVRSystem_022_GetRuntimeVersion(_this->linux_side);
 }
 
 extern vtable_ptr winIVRSystem_IVRSystem_022_vtable;
@@ -11601,24 +7235,24 @@ void __asm_dummy_vtables(void) {
 }
 #endif
 
-struct w_steam_iface *create_winIVRSystem_IVRSystem_022(void *u_iface)
+winIVRSystem_IVRSystem_022 *create_winIVRSystem_IVRSystem_022(void *linux_side)
 {
-    struct w_steam_iface *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(*r));
+    winIVRSystem_IVRSystem_022 *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(winIVRSystem_IVRSystem_022));
     TRACE("-> %p\n", r);
     r->vtable = &winIVRSystem_IVRSystem_022_vtable;
-    r->u_iface = u_iface;
+    r->linux_side = linux_side;
     return r;
 }
 
-void destroy_winIVRSystem_IVRSystem_022(struct w_steam_iface *object)
+void destroy_winIVRSystem_IVRSystem_022(void *object)
 {
     TRACE("%p\n", object);
     HeapFree(GetProcessHeap(), 0, object);
 }
 
-struct w_steam_iface *create_winIVRSystem_IVRSystem_022_FnTable(void *u_iface)
+winIVRSystem_IVRSystem_022 *create_winIVRSystem_IVRSystem_022_FnTable(void *linux_side)
 {
-    struct w_steam_iface *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(*r));
+    winIVRSystem_IVRSystem_022 *r = HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(winIVRSystem_IVRSystem_022));
     struct thunk *thunks = alloc_thunks(46);
     struct thunk **vtable = HeapAlloc(GetProcessHeap(), 0, 46 * sizeof(*vtable));
     int i;
@@ -11672,16 +7306,17 @@ struct w_steam_iface *create_winIVRSystem_IVRSystem_022_FnTable(void *u_iface)
     init_thunk(&thunks[45], r, winIVRSystem_IVRSystem_022_GetRuntimeVersion, 0, FALSE, FALSE);
     for (i = 0; i < 46; i++)
         vtable[i] = &thunks[i];
-    r->u_iface = u_iface;
+    r->linux_side = linux_side;
     r->vtable = (void *)vtable;
     return r;
 }
 
-void destroy_winIVRSystem_IVRSystem_022_FnTable(struct w_steam_iface *object)
+void destroy_winIVRSystem_IVRSystem_022_FnTable(void *object)
 {
-    TRACE("%p\n", object);
-    VirtualFree(object->vtable[0], 0, MEM_RELEASE);
-    HeapFree(GetProcessHeap(), 0, object->vtable);
-    HeapFree(GetProcessHeap(), 0, object);
+    winIVRSystem_IVRSystem_022 *win_object = object;
+    TRACE("%p\n", win_object);
+    VirtualFree(win_object->vtable[0], 0, MEM_RELEASE);
+    HeapFree(GetProcessHeap(), 0, win_object->vtable);
+    HeapFree(GetProcessHeap(), 0, win_object);
 }
 
