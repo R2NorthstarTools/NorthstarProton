@@ -9,24 +9,24 @@ extern "C" {
 #ifdef __cplusplus
 extern "C" {
 #endif
-void cppIVRDriverManager_IVRDriverManager_001_GetDriverCount( struct cppIVRDriverManager_IVRDriverManager_001_GetDriverCount_params *params )
+uint32_t cppIVRDriverManager_IVRDriverManager_001_GetDriverCount(void *linux_side)
 {
-    params->_ret = ((IVRDriverManager*)params->linux_side)->GetDriverCount();
+    return ((IVRDriverManager*)linux_side)->GetDriverCount();
 }
 
-void cppIVRDriverManager_IVRDriverManager_001_GetDriverName( struct cppIVRDriverManager_IVRDriverManager_001_GetDriverName_params *params )
+uint32_t cppIVRDriverManager_IVRDriverManager_001_GetDriverName(void *linux_side, DriverId_t nDriver, char *pchValue, uint32_t unBufferSize)
 {
-    params->_ret = ((IVRDriverManager*)params->linux_side)->GetDriverName((vr::DriverId_t)params->nDriver, (char *)params->pchValue, (uint32_t)params->unBufferSize);
+    return ((IVRDriverManager*)linux_side)->GetDriverName((vr::DriverId_t)nDriver, (char *)pchValue, (uint32_t)unBufferSize);
 }
 
-void cppIVRDriverManager_IVRDriverManager_001_GetDriverHandle( struct cppIVRDriverManager_IVRDriverManager_001_GetDriverHandle_params *params )
+vr::DriverHandle_t cppIVRDriverManager_IVRDriverManager_001_GetDriverHandle(void *linux_side, const char *pchDriverName)
 {
-    params->_ret = ((IVRDriverManager*)params->linux_side)->GetDriverHandle((const char *)params->pchDriverName);
+    return ((IVRDriverManager*)linux_side)->GetDriverHandle((const char *)pchDriverName);
 }
 
-void cppIVRDriverManager_IVRDriverManager_001_IsEnabled( struct cppIVRDriverManager_IVRDriverManager_001_IsEnabled_params *params )
+bool cppIVRDriverManager_IVRDriverManager_001_IsEnabled(void *linux_side, DriverId_t nDriver)
 {
-    params->_ret = ((IVRDriverManager*)params->linux_side)->IsEnabled((vr::DriverId_t)params->nDriver);
+    return ((IVRDriverManager*)linux_side)->IsEnabled((vr::DriverId_t)nDriver);
 }
 
 #ifdef __cplusplus

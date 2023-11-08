@@ -9,24 +9,24 @@ extern "C" {
 #ifdef __cplusplus
 extern "C" {
 #endif
-void cppIVRRenderModels_IVRRenderModels_001_LoadRenderModel( struct cppIVRRenderModels_IVRRenderModels_001_LoadRenderModel_params *params )
+bool cppIVRRenderModels_IVRRenderModels_001_LoadRenderModel(void *linux_side, const char *pchRenderModelName, winRenderModel_t_0910 *pRenderModel)
 {
-    params->_ret = ((IVRRenderModels*)params->linux_side)->LoadRenderModel((const char *)params->pchRenderModelName, struct_RenderModel_t_0910_unwrap( params->pRenderModel ));
+    return ((IVRRenderModels*)linux_side)->LoadRenderModel((const char *)pchRenderModelName, struct_RenderModel_t_0910_unwrap(pRenderModel));
 }
 
-void cppIVRRenderModels_IVRRenderModels_001_FreeRenderModel( struct cppIVRRenderModels_IVRRenderModels_001_FreeRenderModel_params *params )
+void cppIVRRenderModels_IVRRenderModels_001_FreeRenderModel(void *linux_side, winRenderModel_t_0910 *pRenderModel)
 {
-    ((IVRRenderModels*)params->linux_side)->FreeRenderModel(struct_RenderModel_t_0910_unwrap( params->pRenderModel ));
+    ((IVRRenderModels*)linux_side)->FreeRenderModel(struct_RenderModel_t_0910_unwrap(pRenderModel));
 }
 
-void cppIVRRenderModels_IVRRenderModels_001_GetRenderModelName( struct cppIVRRenderModels_IVRRenderModels_001_GetRenderModelName_params *params )
+uint32_t cppIVRRenderModels_IVRRenderModels_001_GetRenderModelName(void *linux_side, uint32_t unRenderModelIndex, char *pchRenderModelName, uint32_t unRenderModelNameLen)
 {
-    params->_ret = ((IVRRenderModels*)params->linux_side)->GetRenderModelName((uint32_t)params->unRenderModelIndex, (char *)params->pchRenderModelName, (uint32_t)params->unRenderModelNameLen);
+    return ((IVRRenderModels*)linux_side)->GetRenderModelName((uint32_t)unRenderModelIndex, (char *)pchRenderModelName, (uint32_t)unRenderModelNameLen);
 }
 
-void cppIVRRenderModels_IVRRenderModels_001_GetRenderModelCount( struct cppIVRRenderModels_IVRRenderModels_001_GetRenderModelCount_params *params )
+uint32_t cppIVRRenderModels_IVRRenderModels_001_GetRenderModelCount(void *linux_side)
 {
-    params->_ret = ((IVRRenderModels*)params->linux_side)->GetRenderModelCount();
+    return ((IVRRenderModels*)linux_side)->GetRenderModelCount();
 }
 
 #ifdef __cplusplus
