@@ -327,6 +327,10 @@
     echo "WINE: -GAME FIXES- Fix Farlight 84 dxva crash"
     patch -Np1 < ../patches/game-patches/farlight84.patch
 
+    # https://github.com/ValveSoftware/Proton/issues/4625
+    echo "WINE: -GAME FIXES- Fix Yakuza 5 cutscenes audio"
+    patch -Np1 < ../patches/game-patches/yakuza5-cutscenes.patch
+
 ### END GAME PATCH SECTION ###
 
 ### (2-4) WINE HOTFIX/BACKPORT SECTION ###
