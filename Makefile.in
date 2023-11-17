@@ -259,6 +259,7 @@ FFMPEG_CONFIGURE_ARGS := \
 	--enable-decoder=msmpeg4v2 \
 	--enable-decoder=msmpeg4v3 \
 	--enable-decoder=vc1 \
+	--enable-decoder=vc1image \
 	--enable-decoder=wmav1 \
 	--enable-decoder=wmav2 \
 	--enable-decoder=wmapro \
