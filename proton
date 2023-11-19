@@ -40,7 +40,7 @@ from random import randrange
 #To enable debug logging, copy "user_settings.sample.py" to "user_settings.py"
 #and edit it if needed.
 
-CURRENT_PREFIX_VERSION="GE-Proton8-23"
+CURRENT_PREFIX_VERSION="GE-Proton8-24"
 
 PFX="Proton: "
 ld_path_var = "LD_LIBRARY_PATH"
@@ -1411,6 +1411,11 @@ def default_compat_config():
                 "1358700", #STRANGER OF PARADISE FINAL FANTASY ORIGIN
                 "1446780", #monster hunter rise
                 "2379390", #Rainbow Six Extraction
+                "883710", #Resident Evil 2
+                "952060", #Resident Evil 3
+                "1196590", #Resident Evil Village
+                "418370", #Resident Evil 7 Biohazard
+                "990080", #Hogwarts Legacy
                 ]:
             ret.add("enablenvapi")
 
@@ -1419,6 +1424,11 @@ def default_compat_config():
                 "1888160", #Armored Core VI
                 "814380", #Sekiro: Shadows Die Twice
                 "2379390", #Rainbow Six Extraction
+                "883710", #Resident Evil 2
+                "952060", #Resident Evil 3
+                "1196590", #Resident Evil Village
+                "418370", #Resident Evil 7 Biohazard
+                "990080", #Hogwarts Legacy
                 ]:
             ret.add("enableamdags")
 
