@@ -1,88 +1,106 @@
-#include "steam_defs.h"
-#pragma push_macro("__cdecl")
-#undef __cdecl
-#define __cdecl
-#include "steamworks_sdk_158/steam_api.h"
-#include "steamworks_sdk_158/steamnetworkingtypes.h"
-#pragma pop_macro("__cdecl")
-#include "steamclient_private.h"
-#ifdef __cplusplus
-extern "C" {
-#endif
-#define SDKVER_158
-#include "struct_converters.h"
-#include "cppISteamParties_SteamParties002.h"
-void cppISteamParties_SteamParties002_GetNumActiveBeacons( struct cppISteamParties_SteamParties002_GetNumActiveBeacons_params *params )
+/* This file is auto-generated, do not edit. */
+#include "unix_private.h"
+
+NTSTATUS ISteamParties_SteamParties002_GetNumActiveBeacons( void *args )
 {
-    params->_ret = ((ISteamParties*)params->linux_side)->GetNumActiveBeacons(  );
+    struct ISteamParties_SteamParties002_GetNumActiveBeacons_params *params = (struct ISteamParties_SteamParties002_GetNumActiveBeacons_params *)args;
+    struct u_ISteamParties_SteamParties002 *iface = (struct u_ISteamParties_SteamParties002 *)params->linux_side;
+    params->_ret = iface->GetNumActiveBeacons(  );
+    return 0;
 }
 
-void cppISteamParties_SteamParties002_GetBeaconByIndex( struct cppISteamParties_SteamParties002_GetBeaconByIndex_params *params )
+NTSTATUS ISteamParties_SteamParties002_GetBeaconByIndex( void *args )
 {
-    params->_ret = ((ISteamParties*)params->linux_side)->GetBeaconByIndex( (uint32)params->unIndex );
+    struct ISteamParties_SteamParties002_GetBeaconByIndex_params *params = (struct ISteamParties_SteamParties002_GetBeaconByIndex_params *)args;
+    struct u_ISteamParties_SteamParties002 *iface = (struct u_ISteamParties_SteamParties002 *)params->linux_side;
+    params->_ret = iface->GetBeaconByIndex( params->unIndex );
+    return 0;
 }
 
-void cppISteamParties_SteamParties002_GetBeaconDetails( struct cppISteamParties_SteamParties002_GetBeaconDetails_params *params )
+NTSTATUS ISteamParties_SteamParties002_GetBeaconDetails( void *args )
 {
-    SteamPartyBeaconLocation_t lin_pLocation;
-    win_to_lin_struct_SteamPartyBeaconLocation_t_158( params->pLocation, &lin_pLocation );
-    params->_ret = ((ISteamParties*)params->linux_side)->GetBeaconDetails( (PartyBeaconID_t)params->ulBeaconID, (CSteamID *)params->pSteamIDBeaconOwner, &lin_pLocation, (char *)params->pchMetadata, (int)params->cchMetadata );
-    lin_to_win_struct_SteamPartyBeaconLocation_t_158( &lin_pLocation, params->pLocation );
+    struct ISteamParties_SteamParties002_GetBeaconDetails_params *params = (struct ISteamParties_SteamParties002_GetBeaconDetails_params *)args;
+    struct u_ISteamParties_SteamParties002 *iface = (struct u_ISteamParties_SteamParties002 *)params->linux_side;
+    u_SteamPartyBeaconLocation_t u_pLocation = *params->pLocation;
+    params->_ret = iface->GetBeaconDetails( params->ulBeaconID, params->pSteamIDBeaconOwner, &u_pLocation, params->pchMetadata, params->cchMetadata );
+    *params->pLocation = u_pLocation;
+    return 0;
 }
 
-void cppISteamParties_SteamParties002_JoinParty( struct cppISteamParties_SteamParties002_JoinParty_params *params )
+NTSTATUS ISteamParties_SteamParties002_JoinParty( void *args )
 {
-    params->_ret = ((ISteamParties*)params->linux_side)->JoinParty( (PartyBeaconID_t)params->ulBeaconID );
+    struct ISteamParties_SteamParties002_JoinParty_params *params = (struct ISteamParties_SteamParties002_JoinParty_params *)args;
+    struct u_ISteamParties_SteamParties002 *iface = (struct u_ISteamParties_SteamParties002 *)params->linux_side;
+    params->_ret = iface->JoinParty( params->ulBeaconID );
+    return 0;
 }
 
-void cppISteamParties_SteamParties002_GetNumAvailableBeaconLocations( struct cppISteamParties_SteamParties002_GetNumAvailableBeaconLocations_params *params )
+NTSTATUS ISteamParties_SteamParties002_GetNumAvailableBeaconLocations( void *args )
 {
-    params->_ret = ((ISteamParties*)params->linux_side)->GetNumAvailableBeaconLocations( (uint32 *)params->puNumLocations );
+    struct ISteamParties_SteamParties002_GetNumAvailableBeaconLocations_params *params = (struct ISteamParties_SteamParties002_GetNumAvailableBeaconLocations_params *)args;
+    struct u_ISteamParties_SteamParties002 *iface = (struct u_ISteamParties_SteamParties002 *)params->linux_side;
+    params->_ret = iface->GetNumAvailableBeaconLocations( params->puNumLocations );
+    return 0;
 }
 
-void cppISteamParties_SteamParties002_GetAvailableBeaconLocations( struct cppISteamParties_SteamParties002_GetAvailableBeaconLocations_params *params )
+NTSTATUS ISteamParties_SteamParties002_GetAvailableBeaconLocations( void *args )
 {
-    SteamPartyBeaconLocation_t lin_pLocationList;
-    win_to_lin_struct_SteamPartyBeaconLocation_t_158( params->pLocationList, &lin_pLocationList );
-    params->_ret = ((ISteamParties*)params->linux_side)->GetAvailableBeaconLocations( &lin_pLocationList, (uint32)params->uMaxNumLocations );
-    lin_to_win_struct_SteamPartyBeaconLocation_t_158( &lin_pLocationList, params->pLocationList );
+    struct ISteamParties_SteamParties002_GetAvailableBeaconLocations_params *params = (struct ISteamParties_SteamParties002_GetAvailableBeaconLocations_params *)args;
+    struct u_ISteamParties_SteamParties002 *iface = (struct u_ISteamParties_SteamParties002 *)params->linux_side;
+    u_SteamPartyBeaconLocation_t u_pLocationList = *params->pLocationList;
+    params->_ret = iface->GetAvailableBeaconLocations( &u_pLocationList, params->uMaxNumLocations );
+    *params->pLocationList = u_pLocationList;
+    return 0;
 }
 
-void cppISteamParties_SteamParties002_CreateBeacon( struct cppISteamParties_SteamParties002_CreateBeacon_params *params )
+NTSTATUS ISteamParties_SteamParties002_CreateBeacon( void *args )
 {
-    SteamPartyBeaconLocation_t lin_pBeaconLocation;
-    win_to_lin_struct_SteamPartyBeaconLocation_t_158( params->pBeaconLocation, &lin_pBeaconLocation );
-    params->_ret = ((ISteamParties*)params->linux_side)->CreateBeacon( (uint32)params->unOpenSlots, &lin_pBeaconLocation, (const char *)params->pchConnectString, (const char *)params->pchMetadata );
-    lin_to_win_struct_SteamPartyBeaconLocation_t_158( &lin_pBeaconLocation, params->pBeaconLocation );
+    struct ISteamParties_SteamParties002_CreateBeacon_params *params = (struct ISteamParties_SteamParties002_CreateBeacon_params *)args;
+    struct u_ISteamParties_SteamParties002 *iface = (struct u_ISteamParties_SteamParties002 *)params->linux_side;
+    u_SteamPartyBeaconLocation_t u_pBeaconLocation = *params->pBeaconLocation;
+    params->_ret = iface->CreateBeacon( params->unOpenSlots, &u_pBeaconLocation, params->pchConnectString, params->pchMetadata );
+    *params->pBeaconLocation = u_pBeaconLocation;
+    return 0;
 }
 
-void cppISteamParties_SteamParties002_OnReservationCompleted( struct cppISteamParties_SteamParties002_OnReservationCompleted_params *params )
+NTSTATUS ISteamParties_SteamParties002_OnReservationCompleted( void *args )
 {
-    ((ISteamParties*)params->linux_side)->OnReservationCompleted( (PartyBeaconID_t)params->ulBeacon, (CSteamID)params->steamIDUser );
+    struct ISteamParties_SteamParties002_OnReservationCompleted_params *params = (struct ISteamParties_SteamParties002_OnReservationCompleted_params *)args;
+    struct u_ISteamParties_SteamParties002 *iface = (struct u_ISteamParties_SteamParties002 *)params->linux_side;
+    iface->OnReservationCompleted( params->ulBeacon, params->steamIDUser );
+    return 0;
 }
 
-void cppISteamParties_SteamParties002_CancelReservation( struct cppISteamParties_SteamParties002_CancelReservation_params *params )
+NTSTATUS ISteamParties_SteamParties002_CancelReservation( void *args )
 {
-    ((ISteamParties*)params->linux_side)->CancelReservation( (PartyBeaconID_t)params->ulBeacon, (CSteamID)params->steamIDUser );
+    struct ISteamParties_SteamParties002_CancelReservation_params *params = (struct ISteamParties_SteamParties002_CancelReservation_params *)args;
+    struct u_ISteamParties_SteamParties002 *iface = (struct u_ISteamParties_SteamParties002 *)params->linux_side;
+    iface->CancelReservation( params->ulBeacon, params->steamIDUser );
+    return 0;
 }
 
-void cppISteamParties_SteamParties002_ChangeNumOpenSlots( struct cppISteamParties_SteamParties002_ChangeNumOpenSlots_params *params )
+NTSTATUS ISteamParties_SteamParties002_ChangeNumOpenSlots( void *args )
 {
-    params->_ret = ((ISteamParties*)params->linux_side)->ChangeNumOpenSlots( (PartyBeaconID_t)params->ulBeacon, (uint32)params->unOpenSlots );
+    struct ISteamParties_SteamParties002_ChangeNumOpenSlots_params *params = (struct ISteamParties_SteamParties002_ChangeNumOpenSlots_params *)args;
+    struct u_ISteamParties_SteamParties002 *iface = (struct u_ISteamParties_SteamParties002 *)params->linux_side;
+    params->_ret = iface->ChangeNumOpenSlots( params->ulBeacon, params->unOpenSlots );
+    return 0;
 }
 
-void cppISteamParties_SteamParties002_DestroyBeacon( struct cppISteamParties_SteamParties002_DestroyBeacon_params *params )
+NTSTATUS ISteamParties_SteamParties002_DestroyBeacon( void *args )
 {
-    params->_ret = ((ISteamParties*)params->linux_side)->DestroyBeacon( (PartyBeaconID_t)params->ulBeacon );
+    struct ISteamParties_SteamParties002_DestroyBeacon_params *params = (struct ISteamParties_SteamParties002_DestroyBeacon_params *)args;
+    struct u_ISteamParties_SteamParties002 *iface = (struct u_ISteamParties_SteamParties002 *)params->linux_side;
+    params->_ret = iface->DestroyBeacon( params->ulBeacon );
+    return 0;
 }
 
-void cppISteamParties_SteamParties002_GetBeaconLocationData( struct cppISteamParties_SteamParties002_GetBeaconLocationData_params *params )
+NTSTATUS ISteamParties_SteamParties002_GetBeaconLocationData( void *args )
 {
-    SteamPartyBeaconLocation_t lin_BeaconLocation;
-    win_to_lin_struct_SteamPartyBeaconLocation_t_158( &params->BeaconLocation, &lin_BeaconLocation );
-    params->_ret = ((ISteamParties*)params->linux_side)->GetBeaconLocationData( lin_BeaconLocation, (ESteamPartyBeaconLocationData)params->eData, (char *)params->pchDataStringOut, (int)params->cchDataStringOut );
+    struct ISteamParties_SteamParties002_GetBeaconLocationData_params *params = (struct ISteamParties_SteamParties002_GetBeaconLocationData_params *)args;
+    struct u_ISteamParties_SteamParties002 *iface = (struct u_ISteamParties_SteamParties002 *)params->linux_side;
+    u_SteamPartyBeaconLocation_t u_BeaconLocation = params->BeaconLocation;
+    params->_ret = iface->GetBeaconLocationData( u_BeaconLocation, params->eData, params->pchDataStringOut, params->cchDataStringOut );
+    return 0;
 }
 
-#ifdef __cplusplus
-}
-#endif

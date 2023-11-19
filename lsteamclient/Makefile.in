@@ -4,9 +4,11 @@ IMPORTS   = user32
 EXTRADLLFLAGS = -mcygwin -static-libgcc -static-libstdc++ -ldl
 EXTRADEFS = -DWINE_NO_LONG_TYPES -DSTEAM_API_EXPORTS -Dprivate=public -Dprotected=public
 
-C_SRCS = \
+SOURCES = \
+	steam_input_manual.c \
+	steam_networking_manual.c \
+	steamclient_generated.c \
 	steamclient_main.c \
-	steamclient_wrappers.c \
 	winISteamAppList.c \
 	winISteamApps.c \
 	winISteamAppTicket.c \
@@ -44,8 +46,6 @@ C_SRCS = \
 	winISteamUserStats.c \
 	winISteamUtils.c \
 	winISteamVideo.c \
-
-CXX_SRCS = \
 	cppISteamAppList_STEAMAPPLIST_INTERFACE_VERSION001.cpp \
 	cppISteamApps_STEAMAPPS_INTERFACE_VERSION001.cpp \
 	cppISteamApps_STEAMAPPS_INTERFACE_VERSION002.cpp \
@@ -241,80 +241,8 @@ CXX_SRCS = \
 	cppISteamUtils_SteamUtils010.cpp \
 	cppISteamVideo_STEAMVIDEO_INTERFACE_V001.cpp \
 	cppISteamVideo_STEAMVIDEO_INTERFACE_V002.cpp \
-	steamclient_manual_099y.cpp \
-	steamclient_manual_141.cpp \
-	steamclient_manual_142.cpp \
-	steamclient_manual_144.cpp \
-	steamclient_manual_146.cpp \
-	steamclient_manual_147.cpp \
-	steamclient_manual_148a.cpp \
-	steamclient_manual_150.cpp \
-	steamclient_manual_151.cpp \
-	steamclient_manual_152.cpp \
-	steamclient_manual_153a.cpp \
-	steamclient_manual_common.cpp \
-	struct_converters_111x.cpp \
-	struct_converters_112.cpp \
-	struct_converters_112x.cpp \
-	struct_converters_113.cpp \
-	struct_converters_114.cpp \
-	struct_converters_115.cpp \
-	struct_converters_116.cpp \
-	struct_converters_116x.cpp \
-	struct_converters_117.cpp \
-	struct_converters_118.cpp \
-	struct_converters_119.cpp \
-	struct_converters_119x.cpp \
-	struct_converters_120.cpp \
-	struct_converters_121.cpp \
-	struct_converters_121x.cpp \
-	struct_converters_122.cpp \
-	struct_converters_123.cpp \
-	struct_converters_123a.cpp \
-	struct_converters_124.cpp \
-	struct_converters_125.cpp \
-	struct_converters_126.cpp \
-	struct_converters_126a.cpp \
-	struct_converters_127.cpp \
-	struct_converters_128.cpp \
-	struct_converters_128x.cpp \
-	struct_converters_129.cpp \
-	struct_converters_129a.cpp \
-	struct_converters_130.cpp \
-	struct_converters_130x.cpp \
-	struct_converters_131.cpp \
-	struct_converters_132.cpp \
-	struct_converters_132x.cpp \
-	struct_converters_133.cpp \
-	struct_converters_133a.cpp \
-	struct_converters_133b.cpp \
-	struct_converters_133x.cpp \
-	struct_converters_134.cpp \
-	struct_converters_135.cpp \
-	struct_converters_135a.cpp \
-	struct_converters_136.cpp \
-	struct_converters_137.cpp \
-	struct_converters_138.cpp \
-	struct_converters_138a.cpp \
-	struct_converters_139.cpp \
-	struct_converters_140.cpp \
-	struct_converters_141.cpp \
-	struct_converters_142.cpp \
-	struct_converters_143.cpp \
-	struct_converters_143x.cpp \
-	struct_converters_143y.cpp \
-	struct_converters_144.cpp \
-	struct_converters_145.cpp \
-	struct_converters_146.cpp \
-	struct_converters_147.cpp \
-	struct_converters_148a.cpp \
-	struct_converters_149.cpp \
-	struct_converters_150.cpp \
-	struct_converters_151.cpp \
-	struct_converters_152.cpp \
-	struct_converters_153a.cpp \
-	struct_converters_154.cpp \
-	struct_converters_155.cpp \
-	struct_converters_156.cpp \
-	struct_converters_157.cpp \
-	struct_converters_158.cpp \
+	unix_steam_input_manual.cpp \
+	unix_steam_networking_manual.cpp \
+	unix_steam_utils_manual.cpp \
+	unixlib.cpp \
+	unixlib_generated.cpp \
