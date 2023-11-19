@@ -250,11 +250,16 @@ FFMPEG_CONFIGURE_ARGS := \
 	--disable-everything \
 	--disable-programs \
 	--disable-doc \
+	--enable-decoder=indeo5 \
+	--enable-decoder=adpcm_ms \
+	--enable-decoder=mpeg1video \
+	--enable-decoder=mp2 \
 	--enable-decoder=mpeg4 \
 	--enable-decoder=msmpeg4v1 \
 	--enable-decoder=msmpeg4v2 \
 	--enable-decoder=msmpeg4v3 \
 	--enable-decoder=vc1 \
+	--enable-decoder=vc1image \
 	--enable-decoder=wmav1 \
 	--enable-decoder=wmav2 \
 	--enable-decoder=wmapro \
