@@ -1,62 +1,75 @@
-#include "steam_defs.h"
-#pragma push_macro("__cdecl")
-#undef __cdecl
-#define __cdecl
-#include "steamworks_sdk_158/steam_api.h"
-#include "steamworks_sdk_158/steamnetworkingtypes.h"
-#pragma pop_macro("__cdecl")
-#include "steamclient_private.h"
-#ifdef __cplusplus
-extern "C" {
-#endif
-#define SDKVER_158
-#include "struct_converters.h"
-#include "cppISteamMusic_STEAMMUSIC_INTERFACE_VERSION001.h"
-void cppISteamMusic_STEAMMUSIC_INTERFACE_VERSION001_BIsEnabled( struct cppISteamMusic_STEAMMUSIC_INTERFACE_VERSION001_BIsEnabled_params *params )
+/* This file is auto-generated, do not edit. */
+#include "unix_private.h"
+
+NTSTATUS ISteamMusic_STEAMMUSIC_INTERFACE_VERSION001_BIsEnabled( void *args )
 {
-    params->_ret = ((ISteamMusic*)params->linux_side)->BIsEnabled(  );
+    struct ISteamMusic_STEAMMUSIC_INTERFACE_VERSION001_BIsEnabled_params *params = (struct ISteamMusic_STEAMMUSIC_INTERFACE_VERSION001_BIsEnabled_params *)args;
+    struct u_ISteamMusic_STEAMMUSIC_INTERFACE_VERSION001 *iface = (struct u_ISteamMusic_STEAMMUSIC_INTERFACE_VERSION001 *)params->linux_side;
+    params->_ret = iface->BIsEnabled(  );
+    return 0;
 }
 
-void cppISteamMusic_STEAMMUSIC_INTERFACE_VERSION001_BIsPlaying( struct cppISteamMusic_STEAMMUSIC_INTERFACE_VERSION001_BIsPlaying_params *params )
+NTSTATUS ISteamMusic_STEAMMUSIC_INTERFACE_VERSION001_BIsPlaying( void *args )
 {
-    params->_ret = ((ISteamMusic*)params->linux_side)->BIsPlaying(  );
+    struct ISteamMusic_STEAMMUSIC_INTERFACE_VERSION001_BIsPlaying_params *params = (struct ISteamMusic_STEAMMUSIC_INTERFACE_VERSION001_BIsPlaying_params *)args;
+    struct u_ISteamMusic_STEAMMUSIC_INTERFACE_VERSION001 *iface = (struct u_ISteamMusic_STEAMMUSIC_INTERFACE_VERSION001 *)params->linux_side;
+    params->_ret = iface->BIsPlaying(  );
+    return 0;
 }
 
-void cppISteamMusic_STEAMMUSIC_INTERFACE_VERSION001_GetPlaybackStatus( struct cppISteamMusic_STEAMMUSIC_INTERFACE_VERSION001_GetPlaybackStatus_params *params )
+NTSTATUS ISteamMusic_STEAMMUSIC_INTERFACE_VERSION001_GetPlaybackStatus( void *args )
 {
-    params->_ret = ((ISteamMusic*)params->linux_side)->GetPlaybackStatus(  );
+    struct ISteamMusic_STEAMMUSIC_INTERFACE_VERSION001_GetPlaybackStatus_params *params = (struct ISteamMusic_STEAMMUSIC_INTERFACE_VERSION001_GetPlaybackStatus_params *)args;
+    struct u_ISteamMusic_STEAMMUSIC_INTERFACE_VERSION001 *iface = (struct u_ISteamMusic_STEAMMUSIC_INTERFACE_VERSION001 *)params->linux_side;
+    params->_ret = iface->GetPlaybackStatus(  );
+    return 0;
 }
 
-void cppISteamMusic_STEAMMUSIC_INTERFACE_VERSION001_Play( struct cppISteamMusic_STEAMMUSIC_INTERFACE_VERSION001_Play_params *params )
+NTSTATUS ISteamMusic_STEAMMUSIC_INTERFACE_VERSION001_Play( void *args )
 {
-    ((ISteamMusic*)params->linux_side)->Play(  );
+    struct ISteamMusic_STEAMMUSIC_INTERFACE_VERSION001_Play_params *params = (struct ISteamMusic_STEAMMUSIC_INTERFACE_VERSION001_Play_params *)args;
+    struct u_ISteamMusic_STEAMMUSIC_INTERFACE_VERSION001 *iface = (struct u_ISteamMusic_STEAMMUSIC_INTERFACE_VERSION001 *)params->linux_side;
+    iface->Play(  );
+    return 0;
 }
 
-void cppISteamMusic_STEAMMUSIC_INTERFACE_VERSION001_Pause( struct cppISteamMusic_STEAMMUSIC_INTERFACE_VERSION001_Pause_params *params )
+NTSTATUS ISteamMusic_STEAMMUSIC_INTERFACE_VERSION001_Pause( void *args )
 {
-    ((ISteamMusic*)params->linux_side)->Pause(  );
+    struct ISteamMusic_STEAMMUSIC_INTERFACE_VERSION001_Pause_params *params = (struct ISteamMusic_STEAMMUSIC_INTERFACE_VERSION001_Pause_params *)args;
+    struct u_ISteamMusic_STEAMMUSIC_INTERFACE_VERSION001 *iface = (struct u_ISteamMusic_STEAMMUSIC_INTERFACE_VERSION001 *)params->linux_side;
+    iface->Pause(  );
+    return 0;
 }
 
-void cppISteamMusic_STEAMMUSIC_INTERFACE_VERSION001_PlayPrevious( struct cppISteamMusic_STEAMMUSIC_INTERFACE_VERSION001_PlayPrevious_params *params )
+NTSTATUS ISteamMusic_STEAMMUSIC_INTERFACE_VERSION001_PlayPrevious( void *args )
 {
-    ((ISteamMusic*)params->linux_side)->PlayPrevious(  );
+    struct ISteamMusic_STEAMMUSIC_INTERFACE_VERSION001_PlayPrevious_params *params = (struct ISteamMusic_STEAMMUSIC_INTERFACE_VERSION001_PlayPrevious_params *)args;
+    struct u_ISteamMusic_STEAMMUSIC_INTERFACE_VERSION001 *iface = (struct u_ISteamMusic_STEAMMUSIC_INTERFACE_VERSION001 *)params->linux_side;
+    iface->PlayPrevious(  );
+    return 0;
 }
 
-void cppISteamMusic_STEAMMUSIC_INTERFACE_VERSION001_PlayNext( struct cppISteamMusic_STEAMMUSIC_INTERFACE_VERSION001_PlayNext_params *params )
+NTSTATUS ISteamMusic_STEAMMUSIC_INTERFACE_VERSION001_PlayNext( void *args )
 {
-    ((ISteamMusic*)params->linux_side)->PlayNext(  );
+    struct ISteamMusic_STEAMMUSIC_INTERFACE_VERSION001_PlayNext_params *params = (struct ISteamMusic_STEAMMUSIC_INTERFACE_VERSION001_PlayNext_params *)args;
+    struct u_ISteamMusic_STEAMMUSIC_INTERFACE_VERSION001 *iface = (struct u_ISteamMusic_STEAMMUSIC_INTERFACE_VERSION001 *)params->linux_side;
+    iface->PlayNext(  );
+    return 0;
 }
 
-void cppISteamMusic_STEAMMUSIC_INTERFACE_VERSION001_SetVolume( struct cppISteamMusic_STEAMMUSIC_INTERFACE_VERSION001_SetVolume_params *params )
+NTSTATUS ISteamMusic_STEAMMUSIC_INTERFACE_VERSION001_SetVolume( void *args )
 {
-    ((ISteamMusic*)params->linux_side)->SetVolume( (float)params->flVolume );
+    struct ISteamMusic_STEAMMUSIC_INTERFACE_VERSION001_SetVolume_params *params = (struct ISteamMusic_STEAMMUSIC_INTERFACE_VERSION001_SetVolume_params *)args;
+    struct u_ISteamMusic_STEAMMUSIC_INTERFACE_VERSION001 *iface = (struct u_ISteamMusic_STEAMMUSIC_INTERFACE_VERSION001 *)params->linux_side;
+    iface->SetVolume( params->flVolume );
+    return 0;
 }
 
-void cppISteamMusic_STEAMMUSIC_INTERFACE_VERSION001_GetVolume( struct cppISteamMusic_STEAMMUSIC_INTERFACE_VERSION001_GetVolume_params *params )
+NTSTATUS ISteamMusic_STEAMMUSIC_INTERFACE_VERSION001_GetVolume( void *args )
 {
-    params->_ret = ((ISteamMusic*)params->linux_side)->GetVolume(  );
+    struct ISteamMusic_STEAMMUSIC_INTERFACE_VERSION001_GetVolume_params *params = (struct ISteamMusic_STEAMMUSIC_INTERFACE_VERSION001_GetVolume_params *)args;
+    struct u_ISteamMusic_STEAMMUSIC_INTERFACE_VERSION001 *iface = (struct u_ISteamMusic_STEAMMUSIC_INTERFACE_VERSION001 *)params->linux_side;
+    params->_ret = iface->GetVolume(  );
+    return 0;
 }
 
-#ifdef __cplusplus
-}
-#endif

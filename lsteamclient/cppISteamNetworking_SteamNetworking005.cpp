@@ -1,127 +1,179 @@
-#include "steam_defs.h"
-#pragma push_macro("__cdecl")
-#undef __cdecl
-#define __cdecl
-#include "steamworks_sdk_146/steam_api.h"
-#include "steamworks_sdk_146/steamnetworkingtypes.h"
-#pragma pop_macro("__cdecl")
-#include "steamclient_private.h"
-#ifdef __cplusplus
-extern "C" {
-#endif
-#define SDKVER_146
-#include "struct_converters.h"
-#include "cppISteamNetworking_SteamNetworking005.h"
-void cppISteamNetworking_SteamNetworking005_SendP2PPacket( struct cppISteamNetworking_SteamNetworking005_SendP2PPacket_params *params )
+/* This file is auto-generated, do not edit. */
+#include "unix_private.h"
+
+NTSTATUS ISteamNetworking_SteamNetworking005_SendP2PPacket( void *args )
 {
-    params->_ret = ((ISteamNetworking*)params->linux_side)->SendP2PPacket( (CSteamID)params->steamIDRemote, (const void *)params->pubData, (uint32)params->cubData, (EP2PSend)params->eP2PSendType, (int)params->nChannel );
+    struct ISteamNetworking_SteamNetworking005_SendP2PPacket_params *params = (struct ISteamNetworking_SteamNetworking005_SendP2PPacket_params *)args;
+    struct u_ISteamNetworking_SteamNetworking005 *iface = (struct u_ISteamNetworking_SteamNetworking005 *)params->linux_side;
+    params->_ret = iface->SendP2PPacket( params->steamIDRemote, params->pubData, params->cubData, params->eP2PSendType, params->nChannel );
+    return 0;
 }
 
-void cppISteamNetworking_SteamNetworking005_IsP2PPacketAvailable( struct cppISteamNetworking_SteamNetworking005_IsP2PPacketAvailable_params *params )
+NTSTATUS ISteamNetworking_SteamNetworking005_IsP2PPacketAvailable( void *args )
 {
-    params->_ret = ((ISteamNetworking*)params->linux_side)->IsP2PPacketAvailable( (uint32 *)params->pcubMsgSize, (int)params->nChannel );
+    struct ISteamNetworking_SteamNetworking005_IsP2PPacketAvailable_params *params = (struct ISteamNetworking_SteamNetworking005_IsP2PPacketAvailable_params *)args;
+    struct u_ISteamNetworking_SteamNetworking005 *iface = (struct u_ISteamNetworking_SteamNetworking005 *)params->linux_side;
+    params->_ret = iface->IsP2PPacketAvailable( params->pcubMsgSize, params->nChannel );
+    return 0;
 }
 
-void cppISteamNetworking_SteamNetworking005_ReadP2PPacket( struct cppISteamNetworking_SteamNetworking005_ReadP2PPacket_params *params )
+NTSTATUS ISteamNetworking_SteamNetworking005_ReadP2PPacket( void *args )
 {
-    params->_ret = ((ISteamNetworking*)params->linux_side)->ReadP2PPacket( (void *)params->pubDest, (uint32)params->cubDest, (uint32 *)params->pcubMsgSize, (CSteamID *)params->psteamIDRemote, (int)params->nChannel );
+    struct ISteamNetworking_SteamNetworking005_ReadP2PPacket_params *params = (struct ISteamNetworking_SteamNetworking005_ReadP2PPacket_params *)args;
+    struct u_ISteamNetworking_SteamNetworking005 *iface = (struct u_ISteamNetworking_SteamNetworking005 *)params->linux_side;
+    params->_ret = iface->ReadP2PPacket( params->pubDest, params->cubDest, params->pcubMsgSize, params->psteamIDRemote, params->nChannel );
+    return 0;
 }
 
-void cppISteamNetworking_SteamNetworking005_AcceptP2PSessionWithUser( struct cppISteamNetworking_SteamNetworking005_AcceptP2PSessionWithUser_params *params )
+NTSTATUS ISteamNetworking_SteamNetworking005_AcceptP2PSessionWithUser( void *args )
 {
-    params->_ret = ((ISteamNetworking*)params->linux_side)->AcceptP2PSessionWithUser( (CSteamID)params->steamIDRemote );
+    struct ISteamNetworking_SteamNetworking005_AcceptP2PSessionWithUser_params *params = (struct ISteamNetworking_SteamNetworking005_AcceptP2PSessionWithUser_params *)args;
+    struct u_ISteamNetworking_SteamNetworking005 *iface = (struct u_ISteamNetworking_SteamNetworking005 *)params->linux_side;
+    params->_ret = iface->AcceptP2PSessionWithUser( params->steamIDRemote );
+    return 0;
 }
 
-void cppISteamNetworking_SteamNetworking005_CloseP2PSessionWithUser( struct cppISteamNetworking_SteamNetworking005_CloseP2PSessionWithUser_params *params )
+NTSTATUS ISteamNetworking_SteamNetworking005_CloseP2PSessionWithUser( void *args )
 {
-    params->_ret = ((ISteamNetworking*)params->linux_side)->CloseP2PSessionWithUser( (CSteamID)params->steamIDRemote );
+    struct ISteamNetworking_SteamNetworking005_CloseP2PSessionWithUser_params *params = (struct ISteamNetworking_SteamNetworking005_CloseP2PSessionWithUser_params *)args;
+    struct u_ISteamNetworking_SteamNetworking005 *iface = (struct u_ISteamNetworking_SteamNetworking005 *)params->linux_side;
+    params->_ret = iface->CloseP2PSessionWithUser( params->steamIDRemote );
+    return 0;
 }
 
-void cppISteamNetworking_SteamNetworking005_CloseP2PChannelWithUser( struct cppISteamNetworking_SteamNetworking005_CloseP2PChannelWithUser_params *params )
+NTSTATUS ISteamNetworking_SteamNetworking005_CloseP2PChannelWithUser( void *args )
 {
-    params->_ret = ((ISteamNetworking*)params->linux_side)->CloseP2PChannelWithUser( (CSteamID)params->steamIDRemote, (int)params->nChannel );
+    struct ISteamNetworking_SteamNetworking005_CloseP2PChannelWithUser_params *params = (struct ISteamNetworking_SteamNetworking005_CloseP2PChannelWithUser_params *)args;
+    struct u_ISteamNetworking_SteamNetworking005 *iface = (struct u_ISteamNetworking_SteamNetworking005 *)params->linux_side;
+    params->_ret = iface->CloseP2PChannelWithUser( params->steamIDRemote, params->nChannel );
+    return 0;
 }
 
-void cppISteamNetworking_SteamNetworking005_GetP2PSessionState( struct cppISteamNetworking_SteamNetworking005_GetP2PSessionState_params *params )
+NTSTATUS ISteamNetworking_SteamNetworking005_GetP2PSessionState( void *args )
 {
-    params->_ret = ((ISteamNetworking*)params->linux_side)->GetP2PSessionState( (CSteamID)params->steamIDRemote, (P2PSessionState_t *)params->pConnectionState );
+    struct ISteamNetworking_SteamNetworking005_GetP2PSessionState_params *params = (struct ISteamNetworking_SteamNetworking005_GetP2PSessionState_params *)args;
+    struct u_ISteamNetworking_SteamNetworking005 *iface = (struct u_ISteamNetworking_SteamNetworking005 *)params->linux_side;
+    params->_ret = iface->GetP2PSessionState( params->steamIDRemote, params->pConnectionState );
+    return 0;
 }
 
-void cppISteamNetworking_SteamNetworking005_AllowP2PPacketRelay( struct cppISteamNetworking_SteamNetworking005_AllowP2PPacketRelay_params *params )
+NTSTATUS ISteamNetworking_SteamNetworking005_AllowP2PPacketRelay( void *args )
 {
-    params->_ret = ((ISteamNetworking*)params->linux_side)->AllowP2PPacketRelay( (bool)params->bAllow );
+    struct ISteamNetworking_SteamNetworking005_AllowP2PPacketRelay_params *params = (struct ISteamNetworking_SteamNetworking005_AllowP2PPacketRelay_params *)args;
+    struct u_ISteamNetworking_SteamNetworking005 *iface = (struct u_ISteamNetworking_SteamNetworking005 *)params->linux_side;
+    params->_ret = iface->AllowP2PPacketRelay( params->bAllow );
+    return 0;
 }
 
-void cppISteamNetworking_SteamNetworking005_CreateListenSocket( struct cppISteamNetworking_SteamNetworking005_CreateListenSocket_params *params )
+NTSTATUS ISteamNetworking_SteamNetworking005_CreateListenSocket( void *args )
 {
-    params->_ret = ((ISteamNetworking*)params->linux_side)->CreateListenSocket( (int)params->nVirtualP2PPort, (uint32)params->nIP, (uint16)params->nPort, (bool)params->bAllowUseOfPacketRelay );
+    struct ISteamNetworking_SteamNetworking005_CreateListenSocket_params *params = (struct ISteamNetworking_SteamNetworking005_CreateListenSocket_params *)args;
+    struct u_ISteamNetworking_SteamNetworking005 *iface = (struct u_ISteamNetworking_SteamNetworking005 *)params->linux_side;
+    params->_ret = iface->CreateListenSocket( params->nVirtualP2PPort, params->nIP, params->nPort, params->bAllowUseOfPacketRelay );
+    return 0;
 }
 
-void cppISteamNetworking_SteamNetworking005_CreateP2PConnectionSocket( struct cppISteamNetworking_SteamNetworking005_CreateP2PConnectionSocket_params *params )
+NTSTATUS ISteamNetworking_SteamNetworking005_CreateP2PConnectionSocket( void *args )
 {
-    params->_ret = ((ISteamNetworking*)params->linux_side)->CreateP2PConnectionSocket( (CSteamID)params->steamIDTarget, (int)params->nVirtualPort, (int)params->nTimeoutSec, (bool)params->bAllowUseOfPacketRelay );
+    struct ISteamNetworking_SteamNetworking005_CreateP2PConnectionSocket_params *params = (struct ISteamNetworking_SteamNetworking005_CreateP2PConnectionSocket_params *)args;
+    struct u_ISteamNetworking_SteamNetworking005 *iface = (struct u_ISteamNetworking_SteamNetworking005 *)params->linux_side;
+    params->_ret = iface->CreateP2PConnectionSocket( params->steamIDTarget, params->nVirtualPort, params->nTimeoutSec, params->bAllowUseOfPacketRelay );
+    return 0;
 }
 
-void cppISteamNetworking_SteamNetworking005_CreateConnectionSocket( struct cppISteamNetworking_SteamNetworking005_CreateConnectionSocket_params *params )
+NTSTATUS ISteamNetworking_SteamNetworking005_CreateConnectionSocket( void *args )
 {
-    params->_ret = ((ISteamNetworking*)params->linux_side)->CreateConnectionSocket( (uint32)params->nIP, (uint16)params->nPort, (int)params->nTimeoutSec );
+    struct ISteamNetworking_SteamNetworking005_CreateConnectionSocket_params *params = (struct ISteamNetworking_SteamNetworking005_CreateConnectionSocket_params *)args;
+    struct u_ISteamNetworking_SteamNetworking005 *iface = (struct u_ISteamNetworking_SteamNetworking005 *)params->linux_side;
+    params->_ret = iface->CreateConnectionSocket( params->nIP, params->nPort, params->nTimeoutSec );
+    return 0;
 }
 
-void cppISteamNetworking_SteamNetworking005_DestroySocket( struct cppISteamNetworking_SteamNetworking005_DestroySocket_params *params )
+NTSTATUS ISteamNetworking_SteamNetworking005_DestroySocket( void *args )
 {
-    params->_ret = ((ISteamNetworking*)params->linux_side)->DestroySocket( (SNetSocket_t)params->hSocket, (bool)params->bNotifyRemoteEnd );
+    struct ISteamNetworking_SteamNetworking005_DestroySocket_params *params = (struct ISteamNetworking_SteamNetworking005_DestroySocket_params *)args;
+    struct u_ISteamNetworking_SteamNetworking005 *iface = (struct u_ISteamNetworking_SteamNetworking005 *)params->linux_side;
+    params->_ret = iface->DestroySocket( params->hSocket, params->bNotifyRemoteEnd );
+    return 0;
 }
 
-void cppISteamNetworking_SteamNetworking005_DestroyListenSocket( struct cppISteamNetworking_SteamNetworking005_DestroyListenSocket_params *params )
+NTSTATUS ISteamNetworking_SteamNetworking005_DestroyListenSocket( void *args )
 {
-    params->_ret = ((ISteamNetworking*)params->linux_side)->DestroyListenSocket( (SNetListenSocket_t)params->hSocket, (bool)params->bNotifyRemoteEnd );
+    struct ISteamNetworking_SteamNetworking005_DestroyListenSocket_params *params = (struct ISteamNetworking_SteamNetworking005_DestroyListenSocket_params *)args;
+    struct u_ISteamNetworking_SteamNetworking005 *iface = (struct u_ISteamNetworking_SteamNetworking005 *)params->linux_side;
+    params->_ret = iface->DestroyListenSocket( params->hSocket, params->bNotifyRemoteEnd );
+    return 0;
 }
 
-void cppISteamNetworking_SteamNetworking005_SendDataOnSocket( struct cppISteamNetworking_SteamNetworking005_SendDataOnSocket_params *params )
+NTSTATUS ISteamNetworking_SteamNetworking005_SendDataOnSocket( void *args )
 {
-    params->_ret = ((ISteamNetworking*)params->linux_side)->SendDataOnSocket( (SNetSocket_t)params->hSocket, (void *)params->pubData, (uint32)params->cubData, (bool)params->bReliable );
+    struct ISteamNetworking_SteamNetworking005_SendDataOnSocket_params *params = (struct ISteamNetworking_SteamNetworking005_SendDataOnSocket_params *)args;
+    struct u_ISteamNetworking_SteamNetworking005 *iface = (struct u_ISteamNetworking_SteamNetworking005 *)params->linux_side;
+    params->_ret = iface->SendDataOnSocket( params->hSocket, params->pubData, params->cubData, params->bReliable );
+    return 0;
 }
 
-void cppISteamNetworking_SteamNetworking005_IsDataAvailableOnSocket( struct cppISteamNetworking_SteamNetworking005_IsDataAvailableOnSocket_params *params )
+NTSTATUS ISteamNetworking_SteamNetworking005_IsDataAvailableOnSocket( void *args )
 {
-    params->_ret = ((ISteamNetworking*)params->linux_side)->IsDataAvailableOnSocket( (SNetSocket_t)params->hSocket, (uint32 *)params->pcubMsgSize );
+    struct ISteamNetworking_SteamNetworking005_IsDataAvailableOnSocket_params *params = (struct ISteamNetworking_SteamNetworking005_IsDataAvailableOnSocket_params *)args;
+    struct u_ISteamNetworking_SteamNetworking005 *iface = (struct u_ISteamNetworking_SteamNetworking005 *)params->linux_side;
+    params->_ret = iface->IsDataAvailableOnSocket( params->hSocket, params->pcubMsgSize );
+    return 0;
 }
 
-void cppISteamNetworking_SteamNetworking005_RetrieveDataFromSocket( struct cppISteamNetworking_SteamNetworking005_RetrieveDataFromSocket_params *params )
+NTSTATUS ISteamNetworking_SteamNetworking005_RetrieveDataFromSocket( void *args )
 {
-    params->_ret = ((ISteamNetworking*)params->linux_side)->RetrieveDataFromSocket( (SNetSocket_t)params->hSocket, (void *)params->pubDest, (uint32)params->cubDest, (uint32 *)params->pcubMsgSize );
+    struct ISteamNetworking_SteamNetworking005_RetrieveDataFromSocket_params *params = (struct ISteamNetworking_SteamNetworking005_RetrieveDataFromSocket_params *)args;
+    struct u_ISteamNetworking_SteamNetworking005 *iface = (struct u_ISteamNetworking_SteamNetworking005 *)params->linux_side;
+    params->_ret = iface->RetrieveDataFromSocket( params->hSocket, params->pubDest, params->cubDest, params->pcubMsgSize );
+    return 0;
 }
 
-void cppISteamNetworking_SteamNetworking005_IsDataAvailable( struct cppISteamNetworking_SteamNetworking005_IsDataAvailable_params *params )
+NTSTATUS ISteamNetworking_SteamNetworking005_IsDataAvailable( void *args )
 {
-    params->_ret = ((ISteamNetworking*)params->linux_side)->IsDataAvailable( (SNetListenSocket_t)params->hListenSocket, (uint32 *)params->pcubMsgSize, (SNetSocket_t *)params->phSocket );
+    struct ISteamNetworking_SteamNetworking005_IsDataAvailable_params *params = (struct ISteamNetworking_SteamNetworking005_IsDataAvailable_params *)args;
+    struct u_ISteamNetworking_SteamNetworking005 *iface = (struct u_ISteamNetworking_SteamNetworking005 *)params->linux_side;
+    params->_ret = iface->IsDataAvailable( params->hListenSocket, params->pcubMsgSize, params->phSocket );
+    return 0;
 }
 
-void cppISteamNetworking_SteamNetworking005_RetrieveData( struct cppISteamNetworking_SteamNetworking005_RetrieveData_params *params )
+NTSTATUS ISteamNetworking_SteamNetworking005_RetrieveData( void *args )
 {
-    params->_ret = ((ISteamNetworking*)params->linux_side)->RetrieveData( (SNetListenSocket_t)params->hListenSocket, (void *)params->pubDest, (uint32)params->cubDest, (uint32 *)params->pcubMsgSize, (SNetSocket_t *)params->phSocket );
+    struct ISteamNetworking_SteamNetworking005_RetrieveData_params *params = (struct ISteamNetworking_SteamNetworking005_RetrieveData_params *)args;
+    struct u_ISteamNetworking_SteamNetworking005 *iface = (struct u_ISteamNetworking_SteamNetworking005 *)params->linux_side;
+    params->_ret = iface->RetrieveData( params->hListenSocket, params->pubDest, params->cubDest, params->pcubMsgSize, params->phSocket );
+    return 0;
 }
 
-void cppISteamNetworking_SteamNetworking005_GetSocketInfo( struct cppISteamNetworking_SteamNetworking005_GetSocketInfo_params *params )
+NTSTATUS ISteamNetworking_SteamNetworking005_GetSocketInfo( void *args )
 {
-    params->_ret = ((ISteamNetworking*)params->linux_side)->GetSocketInfo( (SNetSocket_t)params->hSocket, (CSteamID *)params->pSteamIDRemote, (int *)params->peSocketStatus, (uint32 *)params->punIPRemote, (uint16 *)params->punPortRemote );
+    struct ISteamNetworking_SteamNetworking005_GetSocketInfo_params *params = (struct ISteamNetworking_SteamNetworking005_GetSocketInfo_params *)args;
+    struct u_ISteamNetworking_SteamNetworking005 *iface = (struct u_ISteamNetworking_SteamNetworking005 *)params->linux_side;
+    params->_ret = iface->GetSocketInfo( params->hSocket, params->pSteamIDRemote, params->peSocketStatus, params->punIPRemote, params->punPortRemote );
+    return 0;
 }
 
-void cppISteamNetworking_SteamNetworking005_GetListenSocketInfo( struct cppISteamNetworking_SteamNetworking005_GetListenSocketInfo_params *params )
+NTSTATUS ISteamNetworking_SteamNetworking005_GetListenSocketInfo( void *args )
 {
-    params->_ret = ((ISteamNetworking*)params->linux_side)->GetListenSocketInfo( (SNetListenSocket_t)params->hListenSocket, (uint32 *)params->pnIP, (uint16 *)params->pnPort );
+    struct ISteamNetworking_SteamNetworking005_GetListenSocketInfo_params *params = (struct ISteamNetworking_SteamNetworking005_GetListenSocketInfo_params *)args;
+    struct u_ISteamNetworking_SteamNetworking005 *iface = (struct u_ISteamNetworking_SteamNetworking005 *)params->linux_side;
+    params->_ret = iface->GetListenSocketInfo( params->hListenSocket, params->pnIP, params->pnPort );
+    return 0;
 }
 
-void cppISteamNetworking_SteamNetworking005_GetSocketConnectionType( struct cppISteamNetworking_SteamNetworking005_GetSocketConnectionType_params *params )
+NTSTATUS ISteamNetworking_SteamNetworking005_GetSocketConnectionType( void *args )
 {
-    params->_ret = ((ISteamNetworking*)params->linux_side)->GetSocketConnectionType( (SNetSocket_t)params->hSocket );
+    struct ISteamNetworking_SteamNetworking005_GetSocketConnectionType_params *params = (struct ISteamNetworking_SteamNetworking005_GetSocketConnectionType_params *)args;
+    struct u_ISteamNetworking_SteamNetworking005 *iface = (struct u_ISteamNetworking_SteamNetworking005 *)params->linux_side;
+    params->_ret = iface->GetSocketConnectionType( params->hSocket );
+    return 0;
 }
 
-void cppISteamNetworking_SteamNetworking005_GetMaxPacketSize( struct cppISteamNetworking_SteamNetworking005_GetMaxPacketSize_params *params )
+NTSTATUS ISteamNetworking_SteamNetworking005_GetMaxPacketSize( void *args )
 {
-    params->_ret = ((ISteamNetworking*)params->linux_side)->GetMaxPacketSize( (SNetSocket_t)params->hSocket );
+    struct ISteamNetworking_SteamNetworking005_GetMaxPacketSize_params *params = (struct ISteamNetworking_SteamNetworking005_GetMaxPacketSize_params *)args;
+    struct u_ISteamNetworking_SteamNetworking005 *iface = (struct u_ISteamNetworking_SteamNetworking005 *)params->linux_side;
+    params->_ret = iface->GetMaxPacketSize( params->hSocket );
+    return 0;
 }
 
-#ifdef __cplusplus
-}
-#endif

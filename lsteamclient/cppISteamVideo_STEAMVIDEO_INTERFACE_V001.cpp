@@ -1,26 +1,19 @@
-#include "steam_defs.h"
-#pragma push_macro("__cdecl")
-#undef __cdecl
-#define __cdecl
-#include "steamworks_sdk_139/steam_api.h"
-#pragma pop_macro("__cdecl")
-#include "steamclient_private.h"
-#ifdef __cplusplus
-extern "C" {
-#endif
-#define SDKVER_139
-#include "struct_converters.h"
-#include "cppISteamVideo_STEAMVIDEO_INTERFACE_V001.h"
-void cppISteamVideo_STEAMVIDEO_INTERFACE_V001_GetVideoURL( struct cppISteamVideo_STEAMVIDEO_INTERFACE_V001_GetVideoURL_params *params )
+/* This file is auto-generated, do not edit. */
+#include "unix_private.h"
+
+NTSTATUS ISteamVideo_STEAMVIDEO_INTERFACE_V001_GetVideoURL( void *args )
 {
-    ((ISteamVideo*)params->linux_side)->GetVideoURL( (AppId_t)params->unVideoAppID );
+    struct ISteamVideo_STEAMVIDEO_INTERFACE_V001_GetVideoURL_params *params = (struct ISteamVideo_STEAMVIDEO_INTERFACE_V001_GetVideoURL_params *)args;
+    struct u_ISteamVideo_STEAMVIDEO_INTERFACE_V001 *iface = (struct u_ISteamVideo_STEAMVIDEO_INTERFACE_V001 *)params->linux_side;
+    iface->GetVideoURL( params->unVideoAppID );
+    return 0;
 }
 
-void cppISteamVideo_STEAMVIDEO_INTERFACE_V001_IsBroadcasting( struct cppISteamVideo_STEAMVIDEO_INTERFACE_V001_IsBroadcasting_params *params )
+NTSTATUS ISteamVideo_STEAMVIDEO_INTERFACE_V001_IsBroadcasting( void *args )
 {
-    params->_ret = ((ISteamVideo*)params->linux_side)->IsBroadcasting( (int *)params->pnNumViewers );
+    struct ISteamVideo_STEAMVIDEO_INTERFACE_V001_IsBroadcasting_params *params = (struct ISteamVideo_STEAMVIDEO_INTERFACE_V001_IsBroadcasting_params *)args;
+    struct u_ISteamVideo_STEAMVIDEO_INTERFACE_V001 *iface = (struct u_ISteamVideo_STEAMVIDEO_INTERFACE_V001 *)params->linux_side;
+    params->_ret = iface->IsBroadcasting( params->pnNumViewers );
+    return 0;
 }
 
-#ifdef __cplusplus
-}
-#endif

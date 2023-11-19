@@ -1,174 +1,258 @@
-#include "steam_defs.h"
-#pragma push_macro("__cdecl")
-#undef __cdecl
-#define __cdecl
-#include "steamworks_sdk_132/steam_api.h"
-#pragma pop_macro("__cdecl")
-#include "steamclient_private.h"
-#ifdef __cplusplus
-extern "C" {
-#endif
-#define SDKVER_132
-#include "struct_converters.h"
-#include "cppISteamUGC_STEAMUGC_INTERFACE_VERSION003.h"
-void cppISteamUGC_STEAMUGC_INTERFACE_VERSION003_CreateQueryUserUGCRequest( struct cppISteamUGC_STEAMUGC_INTERFACE_VERSION003_CreateQueryUserUGCRequest_params *params )
+/* This file is auto-generated, do not edit. */
+#include "unix_private.h"
+
+NTSTATUS ISteamUGC_STEAMUGC_INTERFACE_VERSION003_CreateQueryUserUGCRequest( void *args )
 {
-    params->_ret = ((ISteamUGC*)params->linux_side)->CreateQueryUserUGCRequest( (AccountID_t)params->unAccountID, (EUserUGCList)params->eListType, (EUGCMatchingUGCType)params->eMatchingUGCType, (EUserUGCListSortOrder)params->eSortOrder, (AppId_t)params->nCreatorAppID, (AppId_t)params->nConsumerAppID, (uint32)params->unPage );
+    struct ISteamUGC_STEAMUGC_INTERFACE_VERSION003_CreateQueryUserUGCRequest_params *params = (struct ISteamUGC_STEAMUGC_INTERFACE_VERSION003_CreateQueryUserUGCRequest_params *)args;
+    struct u_ISteamUGC_STEAMUGC_INTERFACE_VERSION003 *iface = (struct u_ISteamUGC_STEAMUGC_INTERFACE_VERSION003 *)params->linux_side;
+    params->_ret = iface->CreateQueryUserUGCRequest( params->unAccountID, params->eListType, params->eMatchingUGCType, params->eSortOrder, params->nCreatorAppID, params->nConsumerAppID, params->unPage );
+    return 0;
 }
 
-void cppISteamUGC_STEAMUGC_INTERFACE_VERSION003_CreateQueryAllUGCRequest( struct cppISteamUGC_STEAMUGC_INTERFACE_VERSION003_CreateQueryAllUGCRequest_params *params )
+NTSTATUS ISteamUGC_STEAMUGC_INTERFACE_VERSION003_CreateQueryAllUGCRequest( void *args )
 {
-    params->_ret = ((ISteamUGC*)params->linux_side)->CreateQueryAllUGCRequest( (EUGCQuery)params->eQueryType, (EUGCMatchingUGCType)params->eMatchingeMatchingUGCTypeFileType, (AppId_t)params->nCreatorAppID, (AppId_t)params->nConsumerAppID, (uint32)params->unPage );
+    struct ISteamUGC_STEAMUGC_INTERFACE_VERSION003_CreateQueryAllUGCRequest_params *params = (struct ISteamUGC_STEAMUGC_INTERFACE_VERSION003_CreateQueryAllUGCRequest_params *)args;
+    struct u_ISteamUGC_STEAMUGC_INTERFACE_VERSION003 *iface = (struct u_ISteamUGC_STEAMUGC_INTERFACE_VERSION003 *)params->linux_side;
+    params->_ret = iface->CreateQueryAllUGCRequest( params->eQueryType, params->eMatchingeMatchingUGCTypeFileType, params->nCreatorAppID, params->nConsumerAppID, params->unPage );
+    return 0;
 }
 
-void cppISteamUGC_STEAMUGC_INTERFACE_VERSION003_SendQueryUGCRequest( struct cppISteamUGC_STEAMUGC_INTERFACE_VERSION003_SendQueryUGCRequest_params *params )
+NTSTATUS ISteamUGC_STEAMUGC_INTERFACE_VERSION003_SendQueryUGCRequest( void *args )
 {
-    params->_ret = ((ISteamUGC*)params->linux_side)->SendQueryUGCRequest( (UGCQueryHandle_t)params->handle );
+    struct ISteamUGC_STEAMUGC_INTERFACE_VERSION003_SendQueryUGCRequest_params *params = (struct ISteamUGC_STEAMUGC_INTERFACE_VERSION003_SendQueryUGCRequest_params *)args;
+    struct u_ISteamUGC_STEAMUGC_INTERFACE_VERSION003 *iface = (struct u_ISteamUGC_STEAMUGC_INTERFACE_VERSION003 *)params->linux_side;
+    params->_ret = iface->SendQueryUGCRequest( params->handle );
+    return 0;
 }
 
-void cppISteamUGC_STEAMUGC_INTERFACE_VERSION003_GetQueryUGCResult( struct cppISteamUGC_STEAMUGC_INTERFACE_VERSION003_GetQueryUGCResult_params *params )
+NTSTATUS ISteamUGC_STEAMUGC_INTERFACE_VERSION003_GetQueryUGCResult( void *args )
 {
-    SteamUGCDetails_t lin_pDetails;
-    win_to_lin_struct_SteamUGCDetails_t_132( params->pDetails, &lin_pDetails );
-    params->_ret = ((ISteamUGC*)params->linux_side)->GetQueryUGCResult( (UGCQueryHandle_t)params->handle, (uint32)params->index, &lin_pDetails );
-    lin_to_win_struct_SteamUGCDetails_t_132( &lin_pDetails, params->pDetails );
+    struct ISteamUGC_STEAMUGC_INTERFACE_VERSION003_GetQueryUGCResult_params *params = (struct ISteamUGC_STEAMUGC_INTERFACE_VERSION003_GetQueryUGCResult_params *)args;
+    struct u_ISteamUGC_STEAMUGC_INTERFACE_VERSION003 *iface = (struct u_ISteamUGC_STEAMUGC_INTERFACE_VERSION003 *)params->linux_side;
+    u_SteamUGCDetails_t_128x u_pDetails = *params->pDetails;
+    params->_ret = iface->GetQueryUGCResult( params->handle, params->index, &u_pDetails );
+    *params->pDetails = u_pDetails;
+    return 0;
 }
 
-void cppISteamUGC_STEAMUGC_INTERFACE_VERSION003_ReleaseQueryUGCRequest( struct cppISteamUGC_STEAMUGC_INTERFACE_VERSION003_ReleaseQueryUGCRequest_params *params )
+NTSTATUS ISteamUGC_STEAMUGC_INTERFACE_VERSION003_ReleaseQueryUGCRequest( void *args )
 {
-    params->_ret = ((ISteamUGC*)params->linux_side)->ReleaseQueryUGCRequest( (UGCQueryHandle_t)params->handle );
+    struct ISteamUGC_STEAMUGC_INTERFACE_VERSION003_ReleaseQueryUGCRequest_params *params = (struct ISteamUGC_STEAMUGC_INTERFACE_VERSION003_ReleaseQueryUGCRequest_params *)args;
+    struct u_ISteamUGC_STEAMUGC_INTERFACE_VERSION003 *iface = (struct u_ISteamUGC_STEAMUGC_INTERFACE_VERSION003 *)params->linux_side;
+    params->_ret = iface->ReleaseQueryUGCRequest( params->handle );
+    return 0;
 }
 
-void cppISteamUGC_STEAMUGC_INTERFACE_VERSION003_AddRequiredTag( struct cppISteamUGC_STEAMUGC_INTERFACE_VERSION003_AddRequiredTag_params *params )
+NTSTATUS ISteamUGC_STEAMUGC_INTERFACE_VERSION003_AddRequiredTag( void *args )
 {
-    params->_ret = ((ISteamUGC*)params->linux_side)->AddRequiredTag( (UGCQueryHandle_t)params->handle, (const char *)params->pTagName );
+    struct ISteamUGC_STEAMUGC_INTERFACE_VERSION003_AddRequiredTag_params *params = (struct ISteamUGC_STEAMUGC_INTERFACE_VERSION003_AddRequiredTag_params *)args;
+    struct u_ISteamUGC_STEAMUGC_INTERFACE_VERSION003 *iface = (struct u_ISteamUGC_STEAMUGC_INTERFACE_VERSION003 *)params->linux_side;
+    params->_ret = iface->AddRequiredTag( params->handle, params->pTagName );
+    return 0;
 }
 
-void cppISteamUGC_STEAMUGC_INTERFACE_VERSION003_AddExcludedTag( struct cppISteamUGC_STEAMUGC_INTERFACE_VERSION003_AddExcludedTag_params *params )
+NTSTATUS ISteamUGC_STEAMUGC_INTERFACE_VERSION003_AddExcludedTag( void *args )
 {
-    params->_ret = ((ISteamUGC*)params->linux_side)->AddExcludedTag( (UGCQueryHandle_t)params->handle, (const char *)params->pTagName );
+    struct ISteamUGC_STEAMUGC_INTERFACE_VERSION003_AddExcludedTag_params *params = (struct ISteamUGC_STEAMUGC_INTERFACE_VERSION003_AddExcludedTag_params *)args;
+    struct u_ISteamUGC_STEAMUGC_INTERFACE_VERSION003 *iface = (struct u_ISteamUGC_STEAMUGC_INTERFACE_VERSION003 *)params->linux_side;
+    params->_ret = iface->AddExcludedTag( params->handle, params->pTagName );
+    return 0;
 }
 
-void cppISteamUGC_STEAMUGC_INTERFACE_VERSION003_SetReturnLongDescription( struct cppISteamUGC_STEAMUGC_INTERFACE_VERSION003_SetReturnLongDescription_params *params )
+NTSTATUS ISteamUGC_STEAMUGC_INTERFACE_VERSION003_SetReturnLongDescription( void *args )
 {
-    params->_ret = ((ISteamUGC*)params->linux_side)->SetReturnLongDescription( (UGCQueryHandle_t)params->handle, (bool)params->bReturnLongDescription );
+    struct ISteamUGC_STEAMUGC_INTERFACE_VERSION003_SetReturnLongDescription_params *params = (struct ISteamUGC_STEAMUGC_INTERFACE_VERSION003_SetReturnLongDescription_params *)args;
+    struct u_ISteamUGC_STEAMUGC_INTERFACE_VERSION003 *iface = (struct u_ISteamUGC_STEAMUGC_INTERFACE_VERSION003 *)params->linux_side;
+    params->_ret = iface->SetReturnLongDescription( params->handle, params->bReturnLongDescription );
+    return 0;
 }
 
-void cppISteamUGC_STEAMUGC_INTERFACE_VERSION003_SetReturnTotalOnly( struct cppISteamUGC_STEAMUGC_INTERFACE_VERSION003_SetReturnTotalOnly_params *params )
+NTSTATUS ISteamUGC_STEAMUGC_INTERFACE_VERSION003_SetReturnTotalOnly( void *args )
 {
-    params->_ret = ((ISteamUGC*)params->linux_side)->SetReturnTotalOnly( (UGCQueryHandle_t)params->handle, (bool)params->bReturnTotalOnly );
+    struct ISteamUGC_STEAMUGC_INTERFACE_VERSION003_SetReturnTotalOnly_params *params = (struct ISteamUGC_STEAMUGC_INTERFACE_VERSION003_SetReturnTotalOnly_params *)args;
+    struct u_ISteamUGC_STEAMUGC_INTERFACE_VERSION003 *iface = (struct u_ISteamUGC_STEAMUGC_INTERFACE_VERSION003 *)params->linux_side;
+    params->_ret = iface->SetReturnTotalOnly( params->handle, params->bReturnTotalOnly );
+    return 0;
 }
 
-void cppISteamUGC_STEAMUGC_INTERFACE_VERSION003_SetAllowCachedResponse( struct cppISteamUGC_STEAMUGC_INTERFACE_VERSION003_SetAllowCachedResponse_params *params )
+NTSTATUS ISteamUGC_STEAMUGC_INTERFACE_VERSION003_SetAllowCachedResponse( void *args )
 {
-    params->_ret = ((ISteamUGC*)params->linux_side)->SetAllowCachedResponse( (UGCQueryHandle_t)params->handle, (uint32)params->unMaxAgeSeconds );
+    struct ISteamUGC_STEAMUGC_INTERFACE_VERSION003_SetAllowCachedResponse_params *params = (struct ISteamUGC_STEAMUGC_INTERFACE_VERSION003_SetAllowCachedResponse_params *)args;
+    struct u_ISteamUGC_STEAMUGC_INTERFACE_VERSION003 *iface = (struct u_ISteamUGC_STEAMUGC_INTERFACE_VERSION003 *)params->linux_side;
+    params->_ret = iface->SetAllowCachedResponse( params->handle, params->unMaxAgeSeconds );
+    return 0;
 }
 
-void cppISteamUGC_STEAMUGC_INTERFACE_VERSION003_SetCloudFileNameFilter( struct cppISteamUGC_STEAMUGC_INTERFACE_VERSION003_SetCloudFileNameFilter_params *params )
+NTSTATUS ISteamUGC_STEAMUGC_INTERFACE_VERSION003_SetCloudFileNameFilter( void *args )
 {
-    params->_ret = ((ISteamUGC*)params->linux_side)->SetCloudFileNameFilter( (UGCQueryHandle_t)params->handle, (const char *)params->pMatchCloudFileName );
+    struct ISteamUGC_STEAMUGC_INTERFACE_VERSION003_SetCloudFileNameFilter_params *params = (struct ISteamUGC_STEAMUGC_INTERFACE_VERSION003_SetCloudFileNameFilter_params *)args;
+    struct u_ISteamUGC_STEAMUGC_INTERFACE_VERSION003 *iface = (struct u_ISteamUGC_STEAMUGC_INTERFACE_VERSION003 *)params->linux_side;
+    params->_ret = iface->SetCloudFileNameFilter( params->handle, params->pMatchCloudFileName );
+    return 0;
 }
 
-void cppISteamUGC_STEAMUGC_INTERFACE_VERSION003_SetMatchAnyTag( struct cppISteamUGC_STEAMUGC_INTERFACE_VERSION003_SetMatchAnyTag_params *params )
+NTSTATUS ISteamUGC_STEAMUGC_INTERFACE_VERSION003_SetMatchAnyTag( void *args )
 {
-    params->_ret = ((ISteamUGC*)params->linux_side)->SetMatchAnyTag( (UGCQueryHandle_t)params->handle, (bool)params->bMatchAnyTag );
+    struct ISteamUGC_STEAMUGC_INTERFACE_VERSION003_SetMatchAnyTag_params *params = (struct ISteamUGC_STEAMUGC_INTERFACE_VERSION003_SetMatchAnyTag_params *)args;
+    struct u_ISteamUGC_STEAMUGC_INTERFACE_VERSION003 *iface = (struct u_ISteamUGC_STEAMUGC_INTERFACE_VERSION003 *)params->linux_side;
+    params->_ret = iface->SetMatchAnyTag( params->handle, params->bMatchAnyTag );
+    return 0;
 }
 
-void cppISteamUGC_STEAMUGC_INTERFACE_VERSION003_SetSearchText( struct cppISteamUGC_STEAMUGC_INTERFACE_VERSION003_SetSearchText_params *params )
+NTSTATUS ISteamUGC_STEAMUGC_INTERFACE_VERSION003_SetSearchText( void *args )
 {
-    params->_ret = ((ISteamUGC*)params->linux_side)->SetSearchText( (UGCQueryHandle_t)params->handle, (const char *)params->pSearchText );
+    struct ISteamUGC_STEAMUGC_INTERFACE_VERSION003_SetSearchText_params *params = (struct ISteamUGC_STEAMUGC_INTERFACE_VERSION003_SetSearchText_params *)args;
+    struct u_ISteamUGC_STEAMUGC_INTERFACE_VERSION003 *iface = (struct u_ISteamUGC_STEAMUGC_INTERFACE_VERSION003 *)params->linux_side;
+    params->_ret = iface->SetSearchText( params->handle, params->pSearchText );
+    return 0;
 }
 
-void cppISteamUGC_STEAMUGC_INTERFACE_VERSION003_SetRankedByTrendDays( struct cppISteamUGC_STEAMUGC_INTERFACE_VERSION003_SetRankedByTrendDays_params *params )
+NTSTATUS ISteamUGC_STEAMUGC_INTERFACE_VERSION003_SetRankedByTrendDays( void *args )
 {
-    params->_ret = ((ISteamUGC*)params->linux_side)->SetRankedByTrendDays( (UGCQueryHandle_t)params->handle, (uint32)params->unDays );
+    struct ISteamUGC_STEAMUGC_INTERFACE_VERSION003_SetRankedByTrendDays_params *params = (struct ISteamUGC_STEAMUGC_INTERFACE_VERSION003_SetRankedByTrendDays_params *)args;
+    struct u_ISteamUGC_STEAMUGC_INTERFACE_VERSION003 *iface = (struct u_ISteamUGC_STEAMUGC_INTERFACE_VERSION003 *)params->linux_side;
+    params->_ret = iface->SetRankedByTrendDays( params->handle, params->unDays );
+    return 0;
 }
 
-void cppISteamUGC_STEAMUGC_INTERFACE_VERSION003_RequestUGCDetails( struct cppISteamUGC_STEAMUGC_INTERFACE_VERSION003_RequestUGCDetails_params *params )
+NTSTATUS ISteamUGC_STEAMUGC_INTERFACE_VERSION003_RequestUGCDetails( void *args )
 {
-    params->_ret = ((ISteamUGC*)params->linux_side)->RequestUGCDetails( (PublishedFileId_t)params->nPublishedFileID, (uint32)params->unMaxAgeSeconds );
+    struct ISteamUGC_STEAMUGC_INTERFACE_VERSION003_RequestUGCDetails_params *params = (struct ISteamUGC_STEAMUGC_INTERFACE_VERSION003_RequestUGCDetails_params *)args;
+    struct u_ISteamUGC_STEAMUGC_INTERFACE_VERSION003 *iface = (struct u_ISteamUGC_STEAMUGC_INTERFACE_VERSION003 *)params->linux_side;
+    params->_ret = iface->RequestUGCDetails( params->nPublishedFileID, params->unMaxAgeSeconds );
+    return 0;
 }
 
-void cppISteamUGC_STEAMUGC_INTERFACE_VERSION003_CreateItem( struct cppISteamUGC_STEAMUGC_INTERFACE_VERSION003_CreateItem_params *params )
+NTSTATUS ISteamUGC_STEAMUGC_INTERFACE_VERSION003_CreateItem( void *args )
 {
-    params->_ret = ((ISteamUGC*)params->linux_side)->CreateItem( (AppId_t)params->nConsumerAppId, (EWorkshopFileType)params->eFileType );
+    struct ISteamUGC_STEAMUGC_INTERFACE_VERSION003_CreateItem_params *params = (struct ISteamUGC_STEAMUGC_INTERFACE_VERSION003_CreateItem_params *)args;
+    struct u_ISteamUGC_STEAMUGC_INTERFACE_VERSION003 *iface = (struct u_ISteamUGC_STEAMUGC_INTERFACE_VERSION003 *)params->linux_side;
+    params->_ret = iface->CreateItem( params->nConsumerAppId, params->eFileType );
+    return 0;
 }
 
-void cppISteamUGC_STEAMUGC_INTERFACE_VERSION003_StartItemUpdate( struct cppISteamUGC_STEAMUGC_INTERFACE_VERSION003_StartItemUpdate_params *params )
+NTSTATUS ISteamUGC_STEAMUGC_INTERFACE_VERSION003_StartItemUpdate( void *args )
 {
-    params->_ret = ((ISteamUGC*)params->linux_side)->StartItemUpdate( (AppId_t)params->nConsumerAppId, (PublishedFileId_t)params->nPublishedFileID );
+    struct ISteamUGC_STEAMUGC_INTERFACE_VERSION003_StartItemUpdate_params *params = (struct ISteamUGC_STEAMUGC_INTERFACE_VERSION003_StartItemUpdate_params *)args;
+    struct u_ISteamUGC_STEAMUGC_INTERFACE_VERSION003 *iface = (struct u_ISteamUGC_STEAMUGC_INTERFACE_VERSION003 *)params->linux_side;
+    params->_ret = iface->StartItemUpdate( params->nConsumerAppId, params->nPublishedFileID );
+    return 0;
 }
 
-void cppISteamUGC_STEAMUGC_INTERFACE_VERSION003_SetItemTitle( struct cppISteamUGC_STEAMUGC_INTERFACE_VERSION003_SetItemTitle_params *params )
+NTSTATUS ISteamUGC_STEAMUGC_INTERFACE_VERSION003_SetItemTitle( void *args )
 {
-    params->_ret = ((ISteamUGC*)params->linux_side)->SetItemTitle( (UGCUpdateHandle_t)params->handle, (const char *)params->pchTitle );
+    struct ISteamUGC_STEAMUGC_INTERFACE_VERSION003_SetItemTitle_params *params = (struct ISteamUGC_STEAMUGC_INTERFACE_VERSION003_SetItemTitle_params *)args;
+    struct u_ISteamUGC_STEAMUGC_INTERFACE_VERSION003 *iface = (struct u_ISteamUGC_STEAMUGC_INTERFACE_VERSION003 *)params->linux_side;
+    params->_ret = iface->SetItemTitle( params->handle, params->pchTitle );
+    return 0;
 }
 
-void cppISteamUGC_STEAMUGC_INTERFACE_VERSION003_SetItemDescription( struct cppISteamUGC_STEAMUGC_INTERFACE_VERSION003_SetItemDescription_params *params )
+NTSTATUS ISteamUGC_STEAMUGC_INTERFACE_VERSION003_SetItemDescription( void *args )
 {
-    params->_ret = ((ISteamUGC*)params->linux_side)->SetItemDescription( (UGCUpdateHandle_t)params->handle, (const char *)params->pchDescription );
+    struct ISteamUGC_STEAMUGC_INTERFACE_VERSION003_SetItemDescription_params *params = (struct ISteamUGC_STEAMUGC_INTERFACE_VERSION003_SetItemDescription_params *)args;
+    struct u_ISteamUGC_STEAMUGC_INTERFACE_VERSION003 *iface = (struct u_ISteamUGC_STEAMUGC_INTERFACE_VERSION003 *)params->linux_side;
+    params->_ret = iface->SetItemDescription( params->handle, params->pchDescription );
+    return 0;
 }
 
-void cppISteamUGC_STEAMUGC_INTERFACE_VERSION003_SetItemVisibility( struct cppISteamUGC_STEAMUGC_INTERFACE_VERSION003_SetItemVisibility_params *params )
+NTSTATUS ISteamUGC_STEAMUGC_INTERFACE_VERSION003_SetItemVisibility( void *args )
 {
-    params->_ret = ((ISteamUGC*)params->linux_side)->SetItemVisibility( (UGCUpdateHandle_t)params->handle, (ERemoteStoragePublishedFileVisibility)params->eVisibility );
+    struct ISteamUGC_STEAMUGC_INTERFACE_VERSION003_SetItemVisibility_params *params = (struct ISteamUGC_STEAMUGC_INTERFACE_VERSION003_SetItemVisibility_params *)args;
+    struct u_ISteamUGC_STEAMUGC_INTERFACE_VERSION003 *iface = (struct u_ISteamUGC_STEAMUGC_INTERFACE_VERSION003 *)params->linux_side;
+    params->_ret = iface->SetItemVisibility( params->handle, params->eVisibility );
+    return 0;
 }
 
-void cppISteamUGC_STEAMUGC_INTERFACE_VERSION003_SetItemTags( struct cppISteamUGC_STEAMUGC_INTERFACE_VERSION003_SetItemTags_params *params )
+NTSTATUS ISteamUGC_STEAMUGC_INTERFACE_VERSION003_SetItemTags( void *args )
 {
-    params->_ret = ((ISteamUGC*)params->linux_side)->SetItemTags( (UGCUpdateHandle_t)params->updateHandle, (const SteamParamStringArray_t *)params->pTags );
+    struct ISteamUGC_STEAMUGC_INTERFACE_VERSION003_SetItemTags_params *params = (struct ISteamUGC_STEAMUGC_INTERFACE_VERSION003_SetItemTags_params *)args;
+    struct u_ISteamUGC_STEAMUGC_INTERFACE_VERSION003 *iface = (struct u_ISteamUGC_STEAMUGC_INTERFACE_VERSION003 *)params->linux_side;
+    params->_ret = iface->SetItemTags( params->updateHandle, params->pTags );
+    return 0;
 }
 
-void cppISteamUGC_STEAMUGC_INTERFACE_VERSION003_SetItemContent( struct cppISteamUGC_STEAMUGC_INTERFACE_VERSION003_SetItemContent_params *params )
+NTSTATUS ISteamUGC_STEAMUGC_INTERFACE_VERSION003_SetItemContent( void *args )
 {
-    params->_ret = ((ISteamUGC*)params->linux_side)->SetItemContent( (UGCUpdateHandle_t)params->handle, (const char *)params->pszContentFolder );
+    struct ISteamUGC_STEAMUGC_INTERFACE_VERSION003_SetItemContent_params *params = (struct ISteamUGC_STEAMUGC_INTERFACE_VERSION003_SetItemContent_params *)args;
+    struct u_ISteamUGC_STEAMUGC_INTERFACE_VERSION003 *iface = (struct u_ISteamUGC_STEAMUGC_INTERFACE_VERSION003 *)params->linux_side;
+    char *u_pszContentFolder = steamclient_dos_to_unix_path( params->pszContentFolder, 0 );
+    params->_ret = iface->SetItemContent( params->handle, u_pszContentFolder );
+    steamclient_free_path( u_pszContentFolder );
+    return 0;
 }
 
-void cppISteamUGC_STEAMUGC_INTERFACE_VERSION003_SetItemPreview( struct cppISteamUGC_STEAMUGC_INTERFACE_VERSION003_SetItemPreview_params *params )
+NTSTATUS ISteamUGC_STEAMUGC_INTERFACE_VERSION003_SetItemPreview( void *args )
 {
-    params->_ret = ((ISteamUGC*)params->linux_side)->SetItemPreview( (UGCUpdateHandle_t)params->handle, (const char *)params->pszPreviewFile );
+    struct ISteamUGC_STEAMUGC_INTERFACE_VERSION003_SetItemPreview_params *params = (struct ISteamUGC_STEAMUGC_INTERFACE_VERSION003_SetItemPreview_params *)args;
+    struct u_ISteamUGC_STEAMUGC_INTERFACE_VERSION003 *iface = (struct u_ISteamUGC_STEAMUGC_INTERFACE_VERSION003 *)params->linux_side;
+    char *u_pszPreviewFile = steamclient_dos_to_unix_path( params->pszPreviewFile, 0 );
+    params->_ret = iface->SetItemPreview( params->handle, u_pszPreviewFile );
+    steamclient_free_path( u_pszPreviewFile );
+    return 0;
 }
 
-void cppISteamUGC_STEAMUGC_INTERFACE_VERSION003_SubmitItemUpdate( struct cppISteamUGC_STEAMUGC_INTERFACE_VERSION003_SubmitItemUpdate_params *params )
+NTSTATUS ISteamUGC_STEAMUGC_INTERFACE_VERSION003_SubmitItemUpdate( void *args )
 {
-    params->_ret = ((ISteamUGC*)params->linux_side)->SubmitItemUpdate( (UGCUpdateHandle_t)params->handle, (const char *)params->pchChangeNote );
+    struct ISteamUGC_STEAMUGC_INTERFACE_VERSION003_SubmitItemUpdate_params *params = (struct ISteamUGC_STEAMUGC_INTERFACE_VERSION003_SubmitItemUpdate_params *)args;
+    struct u_ISteamUGC_STEAMUGC_INTERFACE_VERSION003 *iface = (struct u_ISteamUGC_STEAMUGC_INTERFACE_VERSION003 *)params->linux_side;
+    params->_ret = iface->SubmitItemUpdate( params->handle, params->pchChangeNote );
+    return 0;
 }
 
-void cppISteamUGC_STEAMUGC_INTERFACE_VERSION003_GetItemUpdateProgress( struct cppISteamUGC_STEAMUGC_INTERFACE_VERSION003_GetItemUpdateProgress_params *params )
+NTSTATUS ISteamUGC_STEAMUGC_INTERFACE_VERSION003_GetItemUpdateProgress( void *args )
 {
-    params->_ret = ((ISteamUGC*)params->linux_side)->GetItemUpdateProgress( (UGCUpdateHandle_t)params->handle, (uint64 *)params->punBytesProcessed, (uint64 *)params->punBytesTotal );
+    struct ISteamUGC_STEAMUGC_INTERFACE_VERSION003_GetItemUpdateProgress_params *params = (struct ISteamUGC_STEAMUGC_INTERFACE_VERSION003_GetItemUpdateProgress_params *)args;
+    struct u_ISteamUGC_STEAMUGC_INTERFACE_VERSION003 *iface = (struct u_ISteamUGC_STEAMUGC_INTERFACE_VERSION003 *)params->linux_side;
+    params->_ret = iface->GetItemUpdateProgress( params->handle, params->punBytesProcessed, params->punBytesTotal );
+    return 0;
 }
 
-void cppISteamUGC_STEAMUGC_INTERFACE_VERSION003_SubscribeItem( struct cppISteamUGC_STEAMUGC_INTERFACE_VERSION003_SubscribeItem_params *params )
+NTSTATUS ISteamUGC_STEAMUGC_INTERFACE_VERSION003_SubscribeItem( void *args )
 {
-    params->_ret = ((ISteamUGC*)params->linux_side)->SubscribeItem( (PublishedFileId_t)params->nPublishedFileID );
+    struct ISteamUGC_STEAMUGC_INTERFACE_VERSION003_SubscribeItem_params *params = (struct ISteamUGC_STEAMUGC_INTERFACE_VERSION003_SubscribeItem_params *)args;
+    struct u_ISteamUGC_STEAMUGC_INTERFACE_VERSION003 *iface = (struct u_ISteamUGC_STEAMUGC_INTERFACE_VERSION003 *)params->linux_side;
+    params->_ret = iface->SubscribeItem( params->nPublishedFileID );
+    return 0;
 }
 
-void cppISteamUGC_STEAMUGC_INTERFACE_VERSION003_UnsubscribeItem( struct cppISteamUGC_STEAMUGC_INTERFACE_VERSION003_UnsubscribeItem_params *params )
+NTSTATUS ISteamUGC_STEAMUGC_INTERFACE_VERSION003_UnsubscribeItem( void *args )
 {
-    params->_ret = ((ISteamUGC*)params->linux_side)->UnsubscribeItem( (PublishedFileId_t)params->nPublishedFileID );
+    struct ISteamUGC_STEAMUGC_INTERFACE_VERSION003_UnsubscribeItem_params *params = (struct ISteamUGC_STEAMUGC_INTERFACE_VERSION003_UnsubscribeItem_params *)args;
+    struct u_ISteamUGC_STEAMUGC_INTERFACE_VERSION003 *iface = (struct u_ISteamUGC_STEAMUGC_INTERFACE_VERSION003 *)params->linux_side;
+    params->_ret = iface->UnsubscribeItem( params->nPublishedFileID );
+    return 0;
 }
 
-void cppISteamUGC_STEAMUGC_INTERFACE_VERSION003_GetNumSubscribedItems( struct cppISteamUGC_STEAMUGC_INTERFACE_VERSION003_GetNumSubscribedItems_params *params )
+NTSTATUS ISteamUGC_STEAMUGC_INTERFACE_VERSION003_GetNumSubscribedItems( void *args )
 {
-    params->_ret = ((ISteamUGC*)params->linux_side)->GetNumSubscribedItems(  );
+    struct ISteamUGC_STEAMUGC_INTERFACE_VERSION003_GetNumSubscribedItems_params *params = (struct ISteamUGC_STEAMUGC_INTERFACE_VERSION003_GetNumSubscribedItems_params *)args;
+    struct u_ISteamUGC_STEAMUGC_INTERFACE_VERSION003 *iface = (struct u_ISteamUGC_STEAMUGC_INTERFACE_VERSION003 *)params->linux_side;
+    params->_ret = iface->GetNumSubscribedItems(  );
+    return 0;
 }
 
-void cppISteamUGC_STEAMUGC_INTERFACE_VERSION003_GetSubscribedItems( struct cppISteamUGC_STEAMUGC_INTERFACE_VERSION003_GetSubscribedItems_params *params )
+NTSTATUS ISteamUGC_STEAMUGC_INTERFACE_VERSION003_GetSubscribedItems( void *args )
 {
-    params->_ret = ((ISteamUGC*)params->linux_side)->GetSubscribedItems( (PublishedFileId_t *)params->pvecPublishedFileID, (uint32)params->cMaxEntries );
+    struct ISteamUGC_STEAMUGC_INTERFACE_VERSION003_GetSubscribedItems_params *params = (struct ISteamUGC_STEAMUGC_INTERFACE_VERSION003_GetSubscribedItems_params *)args;
+    struct u_ISteamUGC_STEAMUGC_INTERFACE_VERSION003 *iface = (struct u_ISteamUGC_STEAMUGC_INTERFACE_VERSION003 *)params->linux_side;
+    params->_ret = iface->GetSubscribedItems( params->pvecPublishedFileID, params->cMaxEntries );
+    return 0;
 }
 
-void cppISteamUGC_STEAMUGC_INTERFACE_VERSION003_GetItemInstallInfo( struct cppISteamUGC_STEAMUGC_INTERFACE_VERSION003_GetItemInstallInfo_params *params )
+NTSTATUS ISteamUGC_STEAMUGC_INTERFACE_VERSION003_GetItemInstallInfo( void *args )
 {
-    params->_ret = ((ISteamUGC*)params->linux_side)->GetItemInstallInfo( (PublishedFileId_t)params->nPublishedFileID, (uint64 *)params->punSizeOnDisk, (char *)params->pchFolder, (uint32)params->cchFolderSize, (bool *)params->pbLegacyItem );
+    struct ISteamUGC_STEAMUGC_INTERFACE_VERSION003_GetItemInstallInfo_params *params = (struct ISteamUGC_STEAMUGC_INTERFACE_VERSION003_GetItemInstallInfo_params *)args;
+    struct u_ISteamUGC_STEAMUGC_INTERFACE_VERSION003 *iface = (struct u_ISteamUGC_STEAMUGC_INTERFACE_VERSION003 *)params->linux_side;
+    params->_ret = iface->GetItemInstallInfo( params->nPublishedFileID, params->punSizeOnDisk, params->pchFolder, params->cchFolderSize, params->pbLegacyItem );
+    steamclient_unix_path_to_dos_path( params->_ret, params->pchFolder, params->pchFolder, params->cchFolderSize, 0 );
+    return 0;
 }
 
-void cppISteamUGC_STEAMUGC_INTERFACE_VERSION003_GetItemUpdateInfo( struct cppISteamUGC_STEAMUGC_INTERFACE_VERSION003_GetItemUpdateInfo_params *params )
+NTSTATUS ISteamUGC_STEAMUGC_INTERFACE_VERSION003_GetItemUpdateInfo( void *args )
 {
-    params->_ret = ((ISteamUGC*)params->linux_side)->GetItemUpdateInfo( (PublishedFileId_t)params->nPublishedFileID, (bool *)params->pbNeedsUpdate, (bool *)params->pbIsDownloading, (uint64 *)params->punBytesDownloaded, (uint64 *)params->punBytesTotal );
+    struct ISteamUGC_STEAMUGC_INTERFACE_VERSION003_GetItemUpdateInfo_params *params = (struct ISteamUGC_STEAMUGC_INTERFACE_VERSION003_GetItemUpdateInfo_params *)args;
+    struct u_ISteamUGC_STEAMUGC_INTERFACE_VERSION003 *iface = (struct u_ISteamUGC_STEAMUGC_INTERFACE_VERSION003 *)params->linux_side;
+    params->_ret = iface->GetItemUpdateInfo( params->nPublishedFileID, params->pbNeedsUpdate, params->pbIsDownloading, params->punBytesDownloaded, params->punBytesTotal );
+    return 0;
 }
 
-#ifdef __cplusplus
-}
-#endif

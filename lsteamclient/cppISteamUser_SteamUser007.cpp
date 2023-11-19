@@ -1,81 +1,107 @@
-#include "steam_defs.h"
-#pragma push_macro("__cdecl")
-#undef __cdecl
-#define __cdecl
-#include "steamworks_sdk_099x/steam_api.h"
-#pragma pop_macro("__cdecl")
-#include "steamclient_private.h"
-#ifdef __cplusplus
-extern "C" {
-#endif
-#define SDKVER_099x
-#include "struct_converters.h"
-#include "cppISteamUser_SteamUser007.h"
-void cppISteamUser_SteamUser007_GetHSteamUser( struct cppISteamUser_SteamUser007_GetHSteamUser_params *params )
+/* This file is auto-generated, do not edit. */
+#include "unix_private.h"
+
+NTSTATUS ISteamUser_SteamUser007_GetHSteamUser( void *args )
 {
-    params->_ret = ((ISteamUser*)params->linux_side)->GetHSteamUser(  );
+    struct ISteamUser_SteamUser007_GetHSteamUser_params *params = (struct ISteamUser_SteamUser007_GetHSteamUser_params *)args;
+    struct u_ISteamUser_SteamUser007 *iface = (struct u_ISteamUser_SteamUser007 *)params->linux_side;
+    params->_ret = iface->GetHSteamUser(  );
+    return 0;
 }
 
-void cppISteamUser_SteamUser007_LogOn( struct cppISteamUser_SteamUser007_LogOn_params *params )
+NTSTATUS ISteamUser_SteamUser007_LogOn( void *args )
 {
-    ((ISteamUser*)params->linux_side)->LogOn( (CSteamID)params->steamID );
+    struct ISteamUser_SteamUser007_LogOn_params *params = (struct ISteamUser_SteamUser007_LogOn_params *)args;
+    struct u_ISteamUser_SteamUser007 *iface = (struct u_ISteamUser_SteamUser007 *)params->linux_side;
+    iface->LogOn( params->steamID );
+    return 0;
 }
 
-void cppISteamUser_SteamUser007_LogOff( struct cppISteamUser_SteamUser007_LogOff_params *params )
+NTSTATUS ISteamUser_SteamUser007_LogOff( void *args )
 {
-    ((ISteamUser*)params->linux_side)->LogOff(  );
+    struct ISteamUser_SteamUser007_LogOff_params *params = (struct ISteamUser_SteamUser007_LogOff_params *)args;
+    struct u_ISteamUser_SteamUser007 *iface = (struct u_ISteamUser_SteamUser007 *)params->linux_side;
+    iface->LogOff(  );
+    return 0;
 }
 
-void cppISteamUser_SteamUser007_BLoggedOn( struct cppISteamUser_SteamUser007_BLoggedOn_params *params )
+NTSTATUS ISteamUser_SteamUser007_BLoggedOn( void *args )
 {
-    params->_ret = ((ISteamUser*)params->linux_side)->BLoggedOn(  );
+    struct ISteamUser_SteamUser007_BLoggedOn_params *params = (struct ISteamUser_SteamUser007_BLoggedOn_params *)args;
+    struct u_ISteamUser_SteamUser007 *iface = (struct u_ISteamUser_SteamUser007 *)params->linux_side;
+    params->_ret = iface->BLoggedOn(  );
+    return 0;
 }
 
-void cppISteamUser_SteamUser007_GetSteamID( struct cppISteamUser_SteamUser007_GetSteamID_params *params )
+NTSTATUS ISteamUser_SteamUser007_GetSteamID( void *args )
 {
-    *params->_ret = ((ISteamUser*)params->linux_side)->GetSteamID(  );
+    struct ISteamUser_SteamUser007_GetSteamID_params *params = (struct ISteamUser_SteamUser007_GetSteamID_params *)args;
+    struct u_ISteamUser_SteamUser007 *iface = (struct u_ISteamUser_SteamUser007 *)params->linux_side;
+    *params->_ret = iface->GetSteamID(  );
+    return 0;
 }
 
-void cppISteamUser_SteamUser007_SetRegistryString( struct cppISteamUser_SteamUser007_SetRegistryString_params *params )
+NTSTATUS ISteamUser_SteamUser007_SetRegistryString( void *args )
 {
-    params->_ret = ((ISteamUser*)params->linux_side)->SetRegistryString( (EConfigSubTree)params->eRegistrySubTree, (const char *)params->pchKey, (const char *)params->pchValue );
+    struct ISteamUser_SteamUser007_SetRegistryString_params *params = (struct ISteamUser_SteamUser007_SetRegistryString_params *)args;
+    struct u_ISteamUser_SteamUser007 *iface = (struct u_ISteamUser_SteamUser007 *)params->linux_side;
+    params->_ret = iface->SetRegistryString( params->eRegistrySubTree, params->pchKey, params->pchValue );
+    return 0;
 }
 
-void cppISteamUser_SteamUser007_GetRegistryString( struct cppISteamUser_SteamUser007_GetRegistryString_params *params )
+NTSTATUS ISteamUser_SteamUser007_GetRegistryString( void *args )
 {
-    params->_ret = ((ISteamUser*)params->linux_side)->GetRegistryString( (EConfigSubTree)params->eRegistrySubTree, (const char *)params->pchKey, (char *)params->pchValue, (int)params->cbValue );
+    struct ISteamUser_SteamUser007_GetRegistryString_params *params = (struct ISteamUser_SteamUser007_GetRegistryString_params *)args;
+    struct u_ISteamUser_SteamUser007 *iface = (struct u_ISteamUser_SteamUser007 *)params->linux_side;
+    params->_ret = iface->GetRegistryString( params->eRegistrySubTree, params->pchKey, params->pchValue, params->cbValue );
+    return 0;
 }
 
-void cppISteamUser_SteamUser007_SetRegistryInt( struct cppISteamUser_SteamUser007_SetRegistryInt_params *params )
+NTSTATUS ISteamUser_SteamUser007_SetRegistryInt( void *args )
 {
-    params->_ret = ((ISteamUser*)params->linux_side)->SetRegistryInt( (EConfigSubTree)params->eRegistrySubTree, (const char *)params->pchKey, (int)params->iValue );
+    struct ISteamUser_SteamUser007_SetRegistryInt_params *params = (struct ISteamUser_SteamUser007_SetRegistryInt_params *)args;
+    struct u_ISteamUser_SteamUser007 *iface = (struct u_ISteamUser_SteamUser007 *)params->linux_side;
+    params->_ret = iface->SetRegistryInt( params->eRegistrySubTree, params->pchKey, params->iValue );
+    return 0;
 }
 
-void cppISteamUser_SteamUser007_GetRegistryInt( struct cppISteamUser_SteamUser007_GetRegistryInt_params *params )
+NTSTATUS ISteamUser_SteamUser007_GetRegistryInt( void *args )
 {
-    params->_ret = ((ISteamUser*)params->linux_side)->GetRegistryInt( (EConfigSubTree)params->eRegistrySubTree, (const char *)params->pchKey, (int *)params->piValue );
+    struct ISteamUser_SteamUser007_GetRegistryInt_params *params = (struct ISteamUser_SteamUser007_GetRegistryInt_params *)args;
+    struct u_ISteamUser_SteamUser007 *iface = (struct u_ISteamUser_SteamUser007 *)params->linux_side;
+    params->_ret = iface->GetRegistryInt( params->eRegistrySubTree, params->pchKey, params->piValue );
+    return 0;
 }
 
-void cppISteamUser_SteamUser007_InitiateGameConnection( struct cppISteamUser_SteamUser007_InitiateGameConnection_params *params )
+NTSTATUS ISteamUser_SteamUser007_InitiateGameConnection( void *args )
 {
-    params->_ret = ((ISteamUser*)params->linux_side)->InitiateGameConnection( (void *)params->pBlob, (int)params->cbMaxBlob, (CSteamID)params->steamID, (CGameID)params->gameID, (uint32)params->unIPServer, (uint16)params->usPortServer, (bool)params->bSecure, (void *)params->pvSteam2GetEncryptionKey, (int)params->cbSteam2GetEncryptionKey );
+    struct ISteamUser_SteamUser007_InitiateGameConnection_params *params = (struct ISteamUser_SteamUser007_InitiateGameConnection_params *)args;
+    struct u_ISteamUser_SteamUser007 *iface = (struct u_ISteamUser_SteamUser007 *)params->linux_side;
+    params->_ret = iface->InitiateGameConnection( params->pBlob, params->cbMaxBlob, params->steamID, params->gameID, params->unIPServer, params->usPortServer, params->bSecure, params->pvSteam2GetEncryptionKey, params->cbSteam2GetEncryptionKey );
+    return 0;
 }
 
-void cppISteamUser_SteamUser007_TerminateGameConnection( struct cppISteamUser_SteamUser007_TerminateGameConnection_params *params )
+NTSTATUS ISteamUser_SteamUser007_TerminateGameConnection( void *args )
 {
-    ((ISteamUser*)params->linux_side)->TerminateGameConnection( (uint32)params->unIPServer, (uint16)params->usPortServer );
+    struct ISteamUser_SteamUser007_TerminateGameConnection_params *params = (struct ISteamUser_SteamUser007_TerminateGameConnection_params *)args;
+    struct u_ISteamUser_SteamUser007 *iface = (struct u_ISteamUser_SteamUser007 *)params->linux_side;
+    iface->TerminateGameConnection( params->unIPServer, params->usPortServer );
+    return 0;
 }
 
-void cppISteamUser_SteamUser007_TrackAppUsageEvent( struct cppISteamUser_SteamUser007_TrackAppUsageEvent_params *params )
+NTSTATUS ISteamUser_SteamUser007_TrackAppUsageEvent( void *args )
 {
-    ((ISteamUser*)params->linux_side)->TrackAppUsageEvent( (CGameID)params->gameID, (int)params->eAppUsageEvent, (const char *)params->pchExtraInfo );
+    struct ISteamUser_SteamUser007_TrackAppUsageEvent_params *params = (struct ISteamUser_SteamUser007_TrackAppUsageEvent_params *)args;
+    struct u_ISteamUser_SteamUser007 *iface = (struct u_ISteamUser_SteamUser007 *)params->linux_side;
+    iface->TrackAppUsageEvent( params->gameID, params->eAppUsageEvent, params->pchExtraInfo );
+    return 0;
 }
 
-void cppISteamUser_SteamUser007_RefreshSteam2Login( struct cppISteamUser_SteamUser007_RefreshSteam2Login_params *params )
+NTSTATUS ISteamUser_SteamUser007_RefreshSteam2Login( void *args )
 {
-    ((ISteamUser*)params->linux_side)->RefreshSteam2Login(  );
+    struct ISteamUser_SteamUser007_RefreshSteam2Login_params *params = (struct ISteamUser_SteamUser007_RefreshSteam2Login_params *)args;
+    struct u_ISteamUser_SteamUser007 *iface = (struct u_ISteamUser_SteamUser007 *)params->linux_side;
+    iface->RefreshSteam2Login(  );
+    return 0;
 }
 
-#ifdef __cplusplus
-}
-#endif
