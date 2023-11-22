@@ -396,6 +396,22 @@
     #echo "WINE: -FSR- enable FSR flag by default (fixes broken fs hack scaling in some games like Apex and FFXIV)"
     #patch -Np1 < ../patches/proton/71-invert-fsr-logic.patch
 
+    cd ..
+
+    echo "DXVK: -Nvidia Reflex- Add NV low latency support"
+    pushd dxvk; patch -Np1 < ../patches/proton/80-nv_low_latency_dxvk.patch; popd
+
+    echo "VKD3D-PROTON: -Nvidia Reflex- Add NV low latency support"
+    pushd vkd3d-proton; patch -Np1 < ../patches/proton/81-nv_low_latency_vkd3d_proton.patch; popd
+
+    echo "DXVK-NVAPI: -Nvidia Reflex- Add support for Reflex"
+    pushd dxvk-nvapi; patch -Np1 < ../patches/proton/82-nv_low_latency_dxvk_nvapi.patch; popd
+
+    echo "WINE: -Nvidia Reflex- Support VK_NV_low_latency2"
+    pushd wine; patch -Np1 < ../patches/proton/83-nv_low_latency_wine.patch; popd
+
+    git submodule update --recursive
+
 ### END PROTON-GE ADDITIONAL CUSTOM PATCHES ###
 ### END WINE PATCHING ###
 
