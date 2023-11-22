@@ -1,24 +1,7 @@
-From e6e806dcce98b22f90a8859162cadd74669af4d6 Mon Sep 17 00:00:00 2001
-From: Eric Sullivan <esullivan@nvidia.com>
-Date: Sun, 8 Oct 2023 23:54:00 -0700
-Subject: [PATCH 1/2] Update Vulkan headers.
-
----
- include/vulkan | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/include/vulkan b/include/vulkan
-index 85c2334e92e..bbe0f575ebd 160000
---- a/include/vulkan
-+++ b/include/vulkan
-@@ -1 +1 @@
--Subproject commit 85c2334e92e215cce34e8e0ed8b2dce4700f4a50
-+Subproject commit bbe0f575ebd6098369f0ac6c6a43532732ed0ba6
-
 From 2518e1c71e64679be3f38c622f8294e9354e44a0 Mon Sep 17 00:00:00 2001
 From: Eric Sullivan <esullivan@nvidia.com>
 Date: Mon, 9 Oct 2023 01:51:16 -0700
-Subject: [PATCH 2/2] Add VK_NV_low_latency2 support
+Subject: [PATCH] Add VK_NV_low_latency2 support
 
 This commit add support for the VK_NV_low_latency2 extension, and
 implements the ID3DLowLatencyDevice interface.

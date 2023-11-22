@@ -399,18 +399,26 @@
     cd ..
 
     echo "DXVK: -Nvidia Reflex- Add NV low latency support"
-    pushd dxvk; patch -Np1 < ../patches/proton/80-nv_low_latency_dxvk.patch; popd
+    pushd dxvk
+    pushd include/vulkan; git checkout bbe0f575ebd6098369f0ac6c6a43532732ed0ba6; popd
+    patch -Np1 < ../patches/proton/80-nv_low_latency_dxvk.patch
+    popd
 
     echo "VKD3D-PROTON: -Nvidia Reflex- Add NV low latency support"
-    pushd vkd3d-proton; patch -Np1 < ../patches/proton/81-nv_low_latency_vkd3d_proton.patch; popd
+    pushd vkd3d-proton
+    pushd khronos/Vulkan-Headers; git checkout bbe0f575ebd6098369f0ac6c6a43532732ed0ba6; popd
+    patch -Np1 < ../patches/proton/81-nv_low_latency_vkd3d_proton.patch
+    popd
 
     echo "DXVK-NVAPI: -Nvidia Reflex- Add support for Reflex"
-    pushd dxvk-nvapi; patch -Np1 < ../patches/proton/82-nv_low_latency_dxvk_nvapi.patch; popd
+    pushd dxvk-nvapi
+    patch -Np1 < ../patches/proton/82-nv_low_latency_dxvk_nvapi.patch
+    popd
 
     echo "WINE: -Nvidia Reflex- Support VK_NV_low_latency2"
-    pushd wine; patch -Np1 < ../patches/proton/83-nv_low_latency_wine.patch; popd
-
-    git submodule update --recursive
+    pushd wine
+    patch -Np1 < ../patches/proton/83-nv_low_latency_wine.patch
+    popd
 
 ### END PROTON-GE ADDITIONAL CUSTOM PATCHES ###
 ### END WINE PATCHING ###

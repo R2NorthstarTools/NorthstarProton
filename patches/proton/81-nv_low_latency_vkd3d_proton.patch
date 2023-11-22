@@ -1,24 +1,7 @@
-From 56565ab8587c5785e63bd4cf4eb9e905d4affcf4 Mon Sep 17 00:00:00 2001
-From: Eric Sullivan <esullivan@nvidia.com>
-Date: Sun, 8 Oct 2023 22:46:03 -0700
-Subject: [PATCH 1/2] khronos: Update Vulkan headers
-
----
- subprojects/Vulkan-Headers | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/subprojects/Vulkan-Headers b/subprojects/Vulkan-Headers
-index a0c76b4ef7..bbe0f575eb 160000
---- a/subprojects/Vulkan-Headers
-+++ b/subprojects/Vulkan-Headers
-@@ -1 +1 @@
--Subproject commit a0c76b4ef76e219483755ff61dce6b67ff79f24b
-+Subproject commit bbe0f575ebd6098369f0ac6c6a43532732ed0ba6
-
 From dd574726b5c94824c7f0ee847aaf677f04892503 Mon Sep 17 00:00:00 2001
 From: Eric Sullivan <esullivan@nvidia.com>
 Date: Thu, 7 Sep 2023 09:27:14 -0700
-Subject: [PATCH 2/2] vkd3d: Add support for VK_NV_low_latency2
+Subject: [PATCH] vkd3d: Add support for VK_NV_low_latency2
 
 This commit add support for the VK_NV_low_latency2 extension, and
 implements the ID3DLowLatencyDevice, and ID3D12CommandQueueExt
