@@ -1,75 +1,75 @@
 [submodule "wine"]
 	path = wine
-	url = https://github.com/ValveSoftware/wine/
+	url = https://github.com/ValveSoftware/wine
 [submodule "wine-staging"]
 	path = wine-staging
-	url = https://github.com/wine-staging/wine-staging/
+	url = https://github.com/wine-staging/wine-staging
 [submodule "dxvk"]
 	path = dxvk
-	url = https://github.com/doitsujin/dxvk/
-[submodule "FFmpeg"]
-	path = FFmpeg
-	url = https://github.com/ffmpeg/FFmpeg/
+	url = https://github.com/doitsujin/dxvk.git
 [submodule "openvr"]
 	path = openvr
-	url = https://github.com/ValveSoftware/openvr/
+	url = https://github.com/ValveSoftware/openvr
 [submodule "fonts/liberation-fonts"]
 	path = fonts/liberation-fonts
-	url = https://github.com/liberationfonts/liberation-fonts/
+	url = https://github.com/liberationfonts/liberation-fonts
 [submodule "FAudio"]
 	path = FAudio
-	url = https://github.com/FNA-XNA/FAudio/
+	url = https://github.com/FNA-XNA/FAudio
 [submodule "protonfixes"]
-        path = protonfixes
-	url = https://github.com/gloriouseggroll/protonfixes/
-[submodule "vkd3d-proton"]
-	path = vkd3d-proton
-	url = https://github.com/HansKristian-Work/vkd3d-proton/
+	path = protonfixes
+	url = https://github.com/gloriouseggroll/protonfixes
 [submodule "gstreamer"]
 	path = gstreamer
-	url = https://github.com/GStreamer/gstreamer/
+	url = https://github.com/GStreamer/gstreamer.git
 [submodule "gst-plugins-base"]
 	path = gst-plugins-base
-	url = https://github.com/GStreamer/gst-plugins-base/
+	url = https://github.com/GStreamer/gst-plugins-base.git
 [submodule "gst-plugins-good"]
 	path = gst-plugins-good
-	url = https://github.com/GStreamer/gst-plugins-good/
+	url = https://github.com/GStreamer/gst-plugins-good.git
 [submodule "gst-plugins-bad"]
-        path = gst-plugins-bad
-	url = https://github.com/GStreamer/gst-plugins-bad/
+	path = gst-plugins-bad
+	url = https://github.com/GStreamer/gst-plugins-bad.git
 [submodule "gst-plugins-ugly"]
-        path = gst-plugins-ugly
-        url = https://github.com/GStreamer/gst-plugins-ugly/
-[submodule "gst-libav"]
-        path = gst-libav
-	url = https://github.com/GStreamer/gst-libav/
+	path = gst-plugins-ugly
+	url = https://github.com/GStreamer/gst-plugins-ugly.git
 [submodule "gst-orc"]
-        path = gst-orc
-	url = https://github.com/GStreamer/orc/
+	path = gst-orc
+	url = https://github.com/GStreamer/orc.git
+[submodule "vkd3d-proton"]
+	path = vkd3d-proton
+	url = https://github.com/HansKristian-Work/vkd3d-proton
 [submodule "OpenXR-SDK"]
 	path = OpenXR-SDK
 	url = https://github.com/KhronosGroup/OpenXR-SDK
 [submodule "dxvk-nvapi"]
 	path = dxvk-nvapi
 	url = https://github.com/jp7677/dxvk-nvapi
-[submodule "SPIRV-Headers"]
-        path = SPIRV-Headers
-	url = https://github.com/KhronosGroup/SPIRV-Headers
-[submodule "Vulkan-Headers"]
-        path = Vulkan-Headers
-	url = https://github.com/KhronosGroup/Vulkan-Headers
-[submodule "Vulkan-Loader"]
-        path = Vulkan-Loader
-        url = https://github.com/KhronosGroup/Vulkan-Loader
 [submodule "vkd3d"]
 	path = vkd3d
-	url = https://github.com/ValveSoftware/vkd3d.git
+	url = https://github.com/ValveSoftware/vkd3d
+[submodule "Vulkan-Headers"]
+	path = Vulkan-Headers
+	url = https://github.com/KhronosGroup/Vulkan-Headers
+[submodule "SPIRV-Headers"]
+	path = SPIRV-Headers
+	url = https://github.com/KhronosGroup/SPIRV-Headers
+[submodule "Vulkan-Loader"]
+	path = Vulkan-Loader
+	url = https://github.com/KhronosGroup/Vulkan-Loader
+[submodule "gst-libav"]
+	path = gst-libav
+	url = https://github.com/GStreamer/gst-libav
+[submodule "ffmpeg"]
+	path = ffmpeg
+	url = https://github.com/FFmpeg/FFmpeg
 [submodule "dav1d"]
 	path = dav1d
 	url = https://github.com/videolan/dav1d.git
 [submodule "gst-plugins-rs"]
 	path = gst-plugins-rs
-	url = https://gitlab.freedesktop.org/gstreamer/gst-plugins-rs.git
+	url = https://github.com/sdroege/gst-plugin-rs
 [submodule "graphene"]
 	path = graphene
 	url = https://github.com/ebassi/graphene
@@ -86,3 +86,6 @@
 [submodule "vosk-api"]
 	path = vosk-api
 	url = https://github.com/alphacep/vosk-api
+[submodule "d8vk"]
+	path = d8vk
+	url = https://github.com/AlpyneDreams/d8vk

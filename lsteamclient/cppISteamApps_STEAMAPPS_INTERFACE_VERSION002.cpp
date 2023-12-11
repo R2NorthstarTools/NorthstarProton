@@ -1,51 +1,59 @@
-#include "steam_defs.h"
-#pragma push_macro("__cdecl")
-#undef __cdecl
-#define __cdecl
-#include "steamworks_sdk_103/steam_api.h"
-#pragma pop_macro("__cdecl")
-#include "steamclient_private.h"
-#ifdef __cplusplus
-extern "C" {
-#endif
-#define SDKVER_103
-#include "struct_converters.h"
-#include "cppISteamApps_STEAMAPPS_INTERFACE_VERSION002.h"
-void cppISteamApps_STEAMAPPS_INTERFACE_VERSION002_BIsSubscribed( struct cppISteamApps_STEAMAPPS_INTERFACE_VERSION002_BIsSubscribed_params *params )
+/* This file is auto-generated, do not edit. */
+#include "unix_private.h"
+
+NTSTATUS ISteamApps_STEAMAPPS_INTERFACE_VERSION002_BIsSubscribed( void *args )
 {
-    params->_ret = ((ISteamApps*)params->linux_side)->BIsSubscribed(  );
+    struct ISteamApps_STEAMAPPS_INTERFACE_VERSION002_BIsSubscribed_params *params = (struct ISteamApps_STEAMAPPS_INTERFACE_VERSION002_BIsSubscribed_params *)args;
+    struct u_ISteamApps_STEAMAPPS_INTERFACE_VERSION002 *iface = (struct u_ISteamApps_STEAMAPPS_INTERFACE_VERSION002 *)params->linux_side;
+    params->_ret = iface->BIsSubscribed(  );
+    return 0;
 }
 
-void cppISteamApps_STEAMAPPS_INTERFACE_VERSION002_BIsLowViolence( struct cppISteamApps_STEAMAPPS_INTERFACE_VERSION002_BIsLowViolence_params *params )
+NTSTATUS ISteamApps_STEAMAPPS_INTERFACE_VERSION002_BIsLowViolence( void *args )
 {
-    params->_ret = ((ISteamApps*)params->linux_side)->BIsLowViolence(  );
+    struct ISteamApps_STEAMAPPS_INTERFACE_VERSION002_BIsLowViolence_params *params = (struct ISteamApps_STEAMAPPS_INTERFACE_VERSION002_BIsLowViolence_params *)args;
+    struct u_ISteamApps_STEAMAPPS_INTERFACE_VERSION002 *iface = (struct u_ISteamApps_STEAMAPPS_INTERFACE_VERSION002 *)params->linux_side;
+    params->_ret = iface->BIsLowViolence(  );
+    return 0;
 }
 
-void cppISteamApps_STEAMAPPS_INTERFACE_VERSION002_BIsCybercafe( struct cppISteamApps_STEAMAPPS_INTERFACE_VERSION002_BIsCybercafe_params *params )
+NTSTATUS ISteamApps_STEAMAPPS_INTERFACE_VERSION002_BIsCybercafe( void *args )
 {
-    params->_ret = ((ISteamApps*)params->linux_side)->BIsCybercafe(  );
+    struct ISteamApps_STEAMAPPS_INTERFACE_VERSION002_BIsCybercafe_params *params = (struct ISteamApps_STEAMAPPS_INTERFACE_VERSION002_BIsCybercafe_params *)args;
+    struct u_ISteamApps_STEAMAPPS_INTERFACE_VERSION002 *iface = (struct u_ISteamApps_STEAMAPPS_INTERFACE_VERSION002 *)params->linux_side;
+    params->_ret = iface->BIsCybercafe(  );
+    return 0;
 }
 
-void cppISteamApps_STEAMAPPS_INTERFACE_VERSION002_BIsVACBanned( struct cppISteamApps_STEAMAPPS_INTERFACE_VERSION002_BIsVACBanned_params *params )
+NTSTATUS ISteamApps_STEAMAPPS_INTERFACE_VERSION002_BIsVACBanned( void *args )
 {
-    params->_ret = ((ISteamApps*)params->linux_side)->BIsVACBanned(  );
+    struct ISteamApps_STEAMAPPS_INTERFACE_VERSION002_BIsVACBanned_params *params = (struct ISteamApps_STEAMAPPS_INTERFACE_VERSION002_BIsVACBanned_params *)args;
+    struct u_ISteamApps_STEAMAPPS_INTERFACE_VERSION002 *iface = (struct u_ISteamApps_STEAMAPPS_INTERFACE_VERSION002 *)params->linux_side;
+    params->_ret = iface->BIsVACBanned(  );
+    return 0;
 }
 
-void cppISteamApps_STEAMAPPS_INTERFACE_VERSION002_GetCurrentGameLanguage( struct cppISteamApps_STEAMAPPS_INTERFACE_VERSION002_GetCurrentGameLanguage_params *params )
+NTSTATUS ISteamApps_STEAMAPPS_INTERFACE_VERSION002_GetCurrentGameLanguage( void *args )
 {
-    params->_ret = ((ISteamApps*)params->linux_side)->GetCurrentGameLanguage(  );
+    struct ISteamApps_STEAMAPPS_INTERFACE_VERSION002_GetCurrentGameLanguage_params *params = (struct ISteamApps_STEAMAPPS_INTERFACE_VERSION002_GetCurrentGameLanguage_params *)args;
+    struct u_ISteamApps_STEAMAPPS_INTERFACE_VERSION002 *iface = (struct u_ISteamApps_STEAMAPPS_INTERFACE_VERSION002 *)params->linux_side;
+    params->_ret = iface->GetCurrentGameLanguage(  );
+    return 0;
 }
 
-void cppISteamApps_STEAMAPPS_INTERFACE_VERSION002_GetAvailableGameLanguages( struct cppISteamApps_STEAMAPPS_INTERFACE_VERSION002_GetAvailableGameLanguages_params *params )
+NTSTATUS ISteamApps_STEAMAPPS_INTERFACE_VERSION002_GetAvailableGameLanguages( void *args )
 {
-    params->_ret = ((ISteamApps*)params->linux_side)->GetAvailableGameLanguages(  );
+    struct ISteamApps_STEAMAPPS_INTERFACE_VERSION002_GetAvailableGameLanguages_params *params = (struct ISteamApps_STEAMAPPS_INTERFACE_VERSION002_GetAvailableGameLanguages_params *)args;
+    struct u_ISteamApps_STEAMAPPS_INTERFACE_VERSION002 *iface = (struct u_ISteamApps_STEAMAPPS_INTERFACE_VERSION002 *)params->linux_side;
+    params->_ret = iface->GetAvailableGameLanguages(  );
+    return 0;
 }
 
-void cppISteamApps_STEAMAPPS_INTERFACE_VERSION002_BIsSubscribedApp( struct cppISteamApps_STEAMAPPS_INTERFACE_VERSION002_BIsSubscribedApp_params *params )
+NTSTATUS ISteamApps_STEAMAPPS_INTERFACE_VERSION002_BIsSubscribedApp( void *args )
 {
-    params->_ret = ((ISteamApps*)params->linux_side)->BIsSubscribedApp( (AppId_t)params->appID );
+    struct ISteamApps_STEAMAPPS_INTERFACE_VERSION002_BIsSubscribedApp_params *params = (struct ISteamApps_STEAMAPPS_INTERFACE_VERSION002_BIsSubscribedApp_params *)args;
+    struct u_ISteamApps_STEAMAPPS_INTERFACE_VERSION002 *iface = (struct u_ISteamApps_STEAMAPPS_INTERFACE_VERSION002 *)params->linux_side;
+    params->_ret = iface->BIsSubscribedApp( params->appID );
+    return 0;
 }
 
-#ifdef __cplusplus
-}
-#endif

@@ -40,7 +40,7 @@ from random import randrange
 #To enable debug logging, copy "user_settings.sample.py" to "user_settings.py"
 #and edit it if needed.
 
-CURRENT_PREFIX_VERSION="GE-Proton8-20"
+CURRENT_PREFIX_VERSION="GE-Proton8-24"
 
 PFX="Proton: "
 ld_path_var = "LD_LIBRARY_PATH"
@@ -1086,19 +1086,26 @@ class CompatData:
                 try_copy(g_proton.lib_dir + "vkd3d/libvkd3d-shader-1.dll", "drive_c/windows/syswow64",
                         prefix=self.prefix_dir, track_file=tracked_files, link_debug=True)
 
+                enable_d8vk = "enabled8vk" in g_session.compat_config
+
                 if use_wined3d:
                     dxvkfiles = []
+                    d8vkfiles = []
                     vkd3d_protonfiles = []
-                    wined3dfiles = ["d3d12", "d3d11", "d3d10", "d3d10core", "d3d10_1", "d3d9"]
+                    wined3dfiles = ["d3d12", "d3d11", "d3d10", "d3d10core", "d3d10_1", "d3d9", "d3d8"]
                 else:
                     dxvkfiles = ["d3d11", "d3d10core", "d3d9"]
+                    d8vkfiles = ["d3d8", "d3d9"] if enable_d8vk else []
                     vkd3d_protonfiles = ["d3d12", "d3d12core"]
-                    wined3dfiles = []
+                    wined3dfiles = [] if enable_d8vk else ["d3d8"]
 
                 if use_dxvk_dxgi:
                     dxvkfiles.append("dxgi")
                 else:
                     wined3dfiles.append("dxgi")
+
+                if dxvkfiles and enable_d8vk:
+                    dxvkfiles.remove("d3d9")
 
                 for f in wined3dfiles:
                     try_copy(g_proton.default_pfx_dir + "drive_c/windows/system32/" + f + ".dll", "drive_c/windows/system32",
@@ -1110,6 +1117,13 @@ class CompatData:
                     try_copy(g_proton.lib64_dir + "wine/dxvk/" + f + ".dll", "drive_c/windows/system32",
                             prefix=self.prefix_dir, track_file=tracked_files, link_debug=True)
                     try_copy(g_proton.lib_dir + "wine/dxvk/" + f + ".dll", "drive_c/windows/syswow64",
+                            prefix=self.prefix_dir, track_file=tracked_files, link_debug=True)
+                    g_session.dlloverrides[f] = "n"
+
+                for f in d8vkfiles:
+                    try_copy(g_proton.lib64_dir + "wine/d8vk/" + f + ".dll", "drive_c/windows/system32",
+                            prefix=self.prefix_dir, track_file=tracked_files, link_debug=True)
+                    try_copy(g_proton.lib_dir + "wine/d8vk/" + f + ".dll", "drive_c/windows/syswow64",
                             prefix=self.prefix_dir, track_file=tracked_files, link_debug=True)
                     g_session.dlloverrides[f] = "n"
 
@@ -1225,7 +1239,10 @@ def default_compat_config():
                 ]:
             ret.add("noopwr")
 
-        if appid == "1621680":
+        if appid in [
+                "1621680",
+                "359870",
+                ]:
             ret.add("noforcelgadd")
 
         if appid in [
@@ -1394,6 +1411,11 @@ def default_compat_config():
                 "1358700", #STRANGER OF PARADISE FINAL FANTASY ORIGIN
                 "1446780", #monster hunter rise
                 "2379390", #Rainbow Six Extraction
+                "883710", #Resident Evil 2
+                "952060", #Resident Evil 3
+                "1196590", #Resident Evil Village
+                "418370", #Resident Evil 7 Biohazard
+                "990080", #Hogwarts Legacy
                 ]:
             ret.add("enablenvapi")
 
@@ -1402,6 +1424,11 @@ def default_compat_config():
                 "1888160", #Armored Core VI
                 "814380", #Sekiro: Shadows Die Twice
                 "2379390", #Rainbow Six Extraction
+                "883710", #Resident Evil 2
+                "952060", #Resident Evil 3
+                "1196590", #Resident Evil Village
+                "418370", #Resident Evil 7 Biohazard
+                "990080", #Hogwarts Legacy
                 ]:
             ret.add("enableamdags")
 
@@ -1579,6 +1606,7 @@ class Session:
         self.check_environment("PROTON_HEAP_DELAY_FREE", "heapdelayfree")
         self.check_environment("PROTON_ENABLE_NVAPI", "enablenvapi")
         self.check_environment("PROTON_ENABLE_AMD_AGS", "enableamdags")
+        self.check_environment("PROTON_ENABLE_D8VK", "enabled8vk")
 
         if "noesync" in self.compat_config:
             self.env.pop("WINEESYNC", "")
@@ -1604,6 +1632,9 @@ class Session:
 
         if "forcelgadd" in self.compat_config:
             self.env["WINE_LARGE_ADDRESS_AWARE"] = "1"
+        else:
+            if "noforcelgadd" in self.compat_config:
+                self.env["WINE_LARGE_ADDRESS_AWARE"] = "0"
 
         if "heapdelayfree" in self.compat_config:
             self.env["WINE_HEAP_DELAY_FREE"] = "1"

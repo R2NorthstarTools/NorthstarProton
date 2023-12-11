@@ -1,156 +1,227 @@
-#include "steam_defs.h"
-#pragma push_macro("__cdecl")
-#undef __cdecl
-#define __cdecl
-#include "steamworks_sdk_101x/steam_api.h"
-#pragma pop_macro("__cdecl")
-#include "steamclient_private.h"
-#ifdef __cplusplus
-extern "C" {
-#endif
-#define SDKVER_101x
-#include "struct_converters.h"
-#include "cppISteamMatchmaking_SteamMatchMaking003.h"
-void cppISteamMatchmaking_SteamMatchMaking003_GetFavoriteGameCount( struct cppISteamMatchmaking_SteamMatchMaking003_GetFavoriteGameCount_params *params )
+/* This file is auto-generated, do not edit. */
+#include "unix_private.h"
+
+NTSTATUS ISteamMatchmaking_SteamMatchMaking003_GetFavoriteGameCount( void *args )
 {
-    params->_ret = ((ISteamMatchmaking*)params->linux_side)->GetFavoriteGameCount(  );
+    struct ISteamMatchmaking_SteamMatchMaking003_GetFavoriteGameCount_params *params = (struct ISteamMatchmaking_SteamMatchMaking003_GetFavoriteGameCount_params *)args;
+    struct u_ISteamMatchmaking_SteamMatchMaking003 *iface = (struct u_ISteamMatchmaking_SteamMatchMaking003 *)params->linux_side;
+    params->_ret = iface->GetFavoriteGameCount(  );
+    return 0;
 }
 
-void cppISteamMatchmaking_SteamMatchMaking003_GetFavoriteGame( struct cppISteamMatchmaking_SteamMatchMaking003_GetFavoriteGame_params *params )
+NTSTATUS ISteamMatchmaking_SteamMatchMaking003_GetFavoriteGame( void *args )
 {
-    params->_ret = ((ISteamMatchmaking*)params->linux_side)->GetFavoriteGame( (int)params->iGame, (AppId_t *)params->pnAppID, (uint32 *)params->pnIP, (uint16 *)params->pnConnPort, (uint16 *)params->pnQueryPort, (uint32 *)params->punFlags, (uint32 *)params->pRTime32LastPlayedOnServer );
+    struct ISteamMatchmaking_SteamMatchMaking003_GetFavoriteGame_params *params = (struct ISteamMatchmaking_SteamMatchMaking003_GetFavoriteGame_params *)args;
+    struct u_ISteamMatchmaking_SteamMatchMaking003 *iface = (struct u_ISteamMatchmaking_SteamMatchMaking003 *)params->linux_side;
+    params->_ret = iface->GetFavoriteGame( params->iGame, params->pnAppID, params->pnIP, params->pnConnPort, params->pnQueryPort, params->punFlags, params->pRTime32LastPlayedOnServer );
+    return 0;
 }
 
-void cppISteamMatchmaking_SteamMatchMaking003_AddFavoriteGame( struct cppISteamMatchmaking_SteamMatchMaking003_AddFavoriteGame_params *params )
+NTSTATUS ISteamMatchmaking_SteamMatchMaking003_AddFavoriteGame( void *args )
 {
-    params->_ret = ((ISteamMatchmaking*)params->linux_side)->AddFavoriteGame( (AppId_t)params->nAppID, (uint32)params->nIP, (uint16)params->nConnPort, (uint16)params->nQueryPort, (uint32)params->unFlags, (uint32)params->rTime32LastPlayedOnServer );
+    struct ISteamMatchmaking_SteamMatchMaking003_AddFavoriteGame_params *params = (struct ISteamMatchmaking_SteamMatchMaking003_AddFavoriteGame_params *)args;
+    struct u_ISteamMatchmaking_SteamMatchMaking003 *iface = (struct u_ISteamMatchmaking_SteamMatchMaking003 *)params->linux_side;
+    params->_ret = iface->AddFavoriteGame( params->nAppID, params->nIP, params->nConnPort, params->nQueryPort, params->unFlags, params->rTime32LastPlayedOnServer );
+    return 0;
 }
 
-void cppISteamMatchmaking_SteamMatchMaking003_RemoveFavoriteGame( struct cppISteamMatchmaking_SteamMatchMaking003_RemoveFavoriteGame_params *params )
+NTSTATUS ISteamMatchmaking_SteamMatchMaking003_RemoveFavoriteGame( void *args )
 {
-    params->_ret = ((ISteamMatchmaking*)params->linux_side)->RemoveFavoriteGame( (AppId_t)params->nAppID, (uint32)params->nIP, (uint16)params->nConnPort, (uint16)params->nQueryPort, (uint32)params->unFlags );
+    struct ISteamMatchmaking_SteamMatchMaking003_RemoveFavoriteGame_params *params = (struct ISteamMatchmaking_SteamMatchMaking003_RemoveFavoriteGame_params *)args;
+    struct u_ISteamMatchmaking_SteamMatchMaking003 *iface = (struct u_ISteamMatchmaking_SteamMatchMaking003 *)params->linux_side;
+    params->_ret = iface->RemoveFavoriteGame( params->nAppID, params->nIP, params->nConnPort, params->nQueryPort, params->unFlags );
+    return 0;
 }
 
-void cppISteamMatchmaking_SteamMatchMaking003_RequestLobbyList( struct cppISteamMatchmaking_SteamMatchMaking003_RequestLobbyList_params *params )
+NTSTATUS ISteamMatchmaking_SteamMatchMaking003_RequestLobbyList( void *args )
 {
-    ((ISteamMatchmaking*)params->linux_side)->RequestLobbyList(  );
+    struct ISteamMatchmaking_SteamMatchMaking003_RequestLobbyList_params *params = (struct ISteamMatchmaking_SteamMatchMaking003_RequestLobbyList_params *)args;
+    struct u_ISteamMatchmaking_SteamMatchMaking003 *iface = (struct u_ISteamMatchmaking_SteamMatchMaking003 *)params->linux_side;
+    iface->RequestLobbyList(  );
+    return 0;
 }
 
-void cppISteamMatchmaking_SteamMatchMaking003_AddRequestLobbyListFilter( struct cppISteamMatchmaking_SteamMatchMaking003_AddRequestLobbyListFilter_params *params )
+NTSTATUS ISteamMatchmaking_SteamMatchMaking003_AddRequestLobbyListFilter( void *args )
 {
-    ((ISteamMatchmaking*)params->linux_side)->AddRequestLobbyListFilter( (const char *)params->pchKeyToMatch, (const char *)params->pchValueToMatch );
+    struct ISteamMatchmaking_SteamMatchMaking003_AddRequestLobbyListFilter_params *params = (struct ISteamMatchmaking_SteamMatchMaking003_AddRequestLobbyListFilter_params *)args;
+    struct u_ISteamMatchmaking_SteamMatchMaking003 *iface = (struct u_ISteamMatchmaking_SteamMatchMaking003 *)params->linux_side;
+    iface->AddRequestLobbyListFilter( params->pchKeyToMatch, params->pchValueToMatch );
+    return 0;
 }
 
-void cppISteamMatchmaking_SteamMatchMaking003_AddRequestLobbyListNumericalFilter( struct cppISteamMatchmaking_SteamMatchMaking003_AddRequestLobbyListNumericalFilter_params *params )
+NTSTATUS ISteamMatchmaking_SteamMatchMaking003_AddRequestLobbyListNumericalFilter( void *args )
 {
-    ((ISteamMatchmaking*)params->linux_side)->AddRequestLobbyListNumericalFilter( (const char *)params->pchKeyToMatch, (int)params->nValueToMatch, (int)params->nComparisonType );
+    struct ISteamMatchmaking_SteamMatchMaking003_AddRequestLobbyListNumericalFilter_params *params = (struct ISteamMatchmaking_SteamMatchMaking003_AddRequestLobbyListNumericalFilter_params *)args;
+    struct u_ISteamMatchmaking_SteamMatchMaking003 *iface = (struct u_ISteamMatchmaking_SteamMatchMaking003 *)params->linux_side;
+    iface->AddRequestLobbyListNumericalFilter( params->pchKeyToMatch, params->nValueToMatch, params->nComparisonType );
+    return 0;
 }
 
-void cppISteamMatchmaking_SteamMatchMaking003_AddRequestLobbyListSlotsAvailableFilter( struct cppISteamMatchmaking_SteamMatchMaking003_AddRequestLobbyListSlotsAvailableFilter_params *params )
+NTSTATUS ISteamMatchmaking_SteamMatchMaking003_AddRequestLobbyListSlotsAvailableFilter( void *args )
 {
-    ((ISteamMatchmaking*)params->linux_side)->AddRequestLobbyListSlotsAvailableFilter(  );
+    struct ISteamMatchmaking_SteamMatchMaking003_AddRequestLobbyListSlotsAvailableFilter_params *params = (struct ISteamMatchmaking_SteamMatchMaking003_AddRequestLobbyListSlotsAvailableFilter_params *)args;
+    struct u_ISteamMatchmaking_SteamMatchMaking003 *iface = (struct u_ISteamMatchmaking_SteamMatchMaking003 *)params->linux_side;
+    iface->AddRequestLobbyListSlotsAvailableFilter(  );
+    return 0;
 }
 
-void cppISteamMatchmaking_SteamMatchMaking003_GetLobbyByIndex( struct cppISteamMatchmaking_SteamMatchMaking003_GetLobbyByIndex_params *params )
+NTSTATUS ISteamMatchmaking_SteamMatchMaking003_GetLobbyByIndex( void *args )
 {
-    *params->_ret = ((ISteamMatchmaking*)params->linux_side)->GetLobbyByIndex( (int)params->iLobby );
+    struct ISteamMatchmaking_SteamMatchMaking003_GetLobbyByIndex_params *params = (struct ISteamMatchmaking_SteamMatchMaking003_GetLobbyByIndex_params *)args;
+    struct u_ISteamMatchmaking_SteamMatchMaking003 *iface = (struct u_ISteamMatchmaking_SteamMatchMaking003 *)params->linux_side;
+    *params->_ret = iface->GetLobbyByIndex( params->iLobby );
+    return 0;
 }
 
-void cppISteamMatchmaking_SteamMatchMaking003_CreateLobby( struct cppISteamMatchmaking_SteamMatchMaking003_CreateLobby_params *params )
+NTSTATUS ISteamMatchmaking_SteamMatchMaking003_CreateLobby( void *args )
 {
-    ((ISteamMatchmaking*)params->linux_side)->CreateLobby( (bool)params->bPrivate );
+    struct ISteamMatchmaking_SteamMatchMaking003_CreateLobby_params *params = (struct ISteamMatchmaking_SteamMatchMaking003_CreateLobby_params *)args;
+    struct u_ISteamMatchmaking_SteamMatchMaking003 *iface = (struct u_ISteamMatchmaking_SteamMatchMaking003 *)params->linux_side;
+    iface->CreateLobby( params->bPrivate );
+    return 0;
 }
 
-void cppISteamMatchmaking_SteamMatchMaking003_JoinLobby( struct cppISteamMatchmaking_SteamMatchMaking003_JoinLobby_params *params )
+NTSTATUS ISteamMatchmaking_SteamMatchMaking003_JoinLobby( void *args )
 {
-    ((ISteamMatchmaking*)params->linux_side)->JoinLobby( (CSteamID)params->steamIDLobby );
+    struct ISteamMatchmaking_SteamMatchMaking003_JoinLobby_params *params = (struct ISteamMatchmaking_SteamMatchMaking003_JoinLobby_params *)args;
+    struct u_ISteamMatchmaking_SteamMatchMaking003 *iface = (struct u_ISteamMatchmaking_SteamMatchMaking003 *)params->linux_side;
+    iface->JoinLobby( params->steamIDLobby );
+    return 0;
 }
 
-void cppISteamMatchmaking_SteamMatchMaking003_LeaveLobby( struct cppISteamMatchmaking_SteamMatchMaking003_LeaveLobby_params *params )
+NTSTATUS ISteamMatchmaking_SteamMatchMaking003_LeaveLobby( void *args )
 {
-    ((ISteamMatchmaking*)params->linux_side)->LeaveLobby( (CSteamID)params->steamIDLobby );
+    struct ISteamMatchmaking_SteamMatchMaking003_LeaveLobby_params *params = (struct ISteamMatchmaking_SteamMatchMaking003_LeaveLobby_params *)args;
+    struct u_ISteamMatchmaking_SteamMatchMaking003 *iface = (struct u_ISteamMatchmaking_SteamMatchMaking003 *)params->linux_side;
+    iface->LeaveLobby( params->steamIDLobby );
+    return 0;
 }
 
-void cppISteamMatchmaking_SteamMatchMaking003_InviteUserToLobby( struct cppISteamMatchmaking_SteamMatchMaking003_InviteUserToLobby_params *params )
+NTSTATUS ISteamMatchmaking_SteamMatchMaking003_InviteUserToLobby( void *args )
 {
-    params->_ret = ((ISteamMatchmaking*)params->linux_side)->InviteUserToLobby( (CSteamID)params->steamIDLobby, (CSteamID)params->steamIDInvitee );
+    struct ISteamMatchmaking_SteamMatchMaking003_InviteUserToLobby_params *params = (struct ISteamMatchmaking_SteamMatchMaking003_InviteUserToLobby_params *)args;
+    struct u_ISteamMatchmaking_SteamMatchMaking003 *iface = (struct u_ISteamMatchmaking_SteamMatchMaking003 *)params->linux_side;
+    params->_ret = iface->InviteUserToLobby( params->steamIDLobby, params->steamIDInvitee );
+    return 0;
 }
 
-void cppISteamMatchmaking_SteamMatchMaking003_GetNumLobbyMembers( struct cppISteamMatchmaking_SteamMatchMaking003_GetNumLobbyMembers_params *params )
+NTSTATUS ISteamMatchmaking_SteamMatchMaking003_GetNumLobbyMembers( void *args )
 {
-    params->_ret = ((ISteamMatchmaking*)params->linux_side)->GetNumLobbyMembers( (CSteamID)params->steamIDLobby );
+    struct ISteamMatchmaking_SteamMatchMaking003_GetNumLobbyMembers_params *params = (struct ISteamMatchmaking_SteamMatchMaking003_GetNumLobbyMembers_params *)args;
+    struct u_ISteamMatchmaking_SteamMatchMaking003 *iface = (struct u_ISteamMatchmaking_SteamMatchMaking003 *)params->linux_side;
+    params->_ret = iface->GetNumLobbyMembers( params->steamIDLobby );
+    return 0;
 }
 
-void cppISteamMatchmaking_SteamMatchMaking003_GetLobbyMemberByIndex( struct cppISteamMatchmaking_SteamMatchMaking003_GetLobbyMemberByIndex_params *params )
+NTSTATUS ISteamMatchmaking_SteamMatchMaking003_GetLobbyMemberByIndex( void *args )
 {
-    *params->_ret = ((ISteamMatchmaking*)params->linux_side)->GetLobbyMemberByIndex( (CSteamID)params->steamIDLobby, (int)params->iMember );
+    struct ISteamMatchmaking_SteamMatchMaking003_GetLobbyMemberByIndex_params *params = (struct ISteamMatchmaking_SteamMatchMaking003_GetLobbyMemberByIndex_params *)args;
+    struct u_ISteamMatchmaking_SteamMatchMaking003 *iface = (struct u_ISteamMatchmaking_SteamMatchMaking003 *)params->linux_side;
+    *params->_ret = iface->GetLobbyMemberByIndex( params->steamIDLobby, params->iMember );
+    return 0;
 }
 
-void cppISteamMatchmaking_SteamMatchMaking003_GetLobbyData( struct cppISteamMatchmaking_SteamMatchMaking003_GetLobbyData_params *params )
+NTSTATUS ISteamMatchmaking_SteamMatchMaking003_GetLobbyData( void *args )
 {
-    params->_ret = ((ISteamMatchmaking*)params->linux_side)->GetLobbyData( (CSteamID)params->steamIDLobby, (const char *)params->pchKey );
+    struct ISteamMatchmaking_SteamMatchMaking003_GetLobbyData_params *params = (struct ISteamMatchmaking_SteamMatchMaking003_GetLobbyData_params *)args;
+    struct u_ISteamMatchmaking_SteamMatchMaking003 *iface = (struct u_ISteamMatchmaking_SteamMatchMaking003 *)params->linux_side;
+    params->_ret = iface->GetLobbyData( params->steamIDLobby, params->pchKey );
+    return 0;
 }
 
-void cppISteamMatchmaking_SteamMatchMaking003_SetLobbyData( struct cppISteamMatchmaking_SteamMatchMaking003_SetLobbyData_params *params )
+NTSTATUS ISteamMatchmaking_SteamMatchMaking003_SetLobbyData( void *args )
 {
-    params->_ret = ((ISteamMatchmaking*)params->linux_side)->SetLobbyData( (CSteamID)params->steamIDLobby, (const char *)params->pchKey, (const char *)params->pchValue );
+    struct ISteamMatchmaking_SteamMatchMaking003_SetLobbyData_params *params = (struct ISteamMatchmaking_SteamMatchMaking003_SetLobbyData_params *)args;
+    struct u_ISteamMatchmaking_SteamMatchMaking003 *iface = (struct u_ISteamMatchmaking_SteamMatchMaking003 *)params->linux_side;
+    params->_ret = iface->SetLobbyData( params->steamIDLobby, params->pchKey, params->pchValue );
+    return 0;
 }
 
-void cppISteamMatchmaking_SteamMatchMaking003_GetLobbyMemberData( struct cppISteamMatchmaking_SteamMatchMaking003_GetLobbyMemberData_params *params )
+NTSTATUS ISteamMatchmaking_SteamMatchMaking003_GetLobbyMemberData( void *args )
 {
-    params->_ret = ((ISteamMatchmaking*)params->linux_side)->GetLobbyMemberData( (CSteamID)params->steamIDLobby, (CSteamID)params->steamIDUser, (const char *)params->pchKey );
+    struct ISteamMatchmaking_SteamMatchMaking003_GetLobbyMemberData_params *params = (struct ISteamMatchmaking_SteamMatchMaking003_GetLobbyMemberData_params *)args;
+    struct u_ISteamMatchmaking_SteamMatchMaking003 *iface = (struct u_ISteamMatchmaking_SteamMatchMaking003 *)params->linux_side;
+    params->_ret = iface->GetLobbyMemberData( params->steamIDLobby, params->steamIDUser, params->pchKey );
+    return 0;
 }
 
-void cppISteamMatchmaking_SteamMatchMaking003_SetLobbyMemberData( struct cppISteamMatchmaking_SteamMatchMaking003_SetLobbyMemberData_params *params )
+NTSTATUS ISteamMatchmaking_SteamMatchMaking003_SetLobbyMemberData( void *args )
 {
-    ((ISteamMatchmaking*)params->linux_side)->SetLobbyMemberData( (CSteamID)params->steamIDLobby, (const char *)params->pchKey, (const char *)params->pchValue );
+    struct ISteamMatchmaking_SteamMatchMaking003_SetLobbyMemberData_params *params = (struct ISteamMatchmaking_SteamMatchMaking003_SetLobbyMemberData_params *)args;
+    struct u_ISteamMatchmaking_SteamMatchMaking003 *iface = (struct u_ISteamMatchmaking_SteamMatchMaking003 *)params->linux_side;
+    iface->SetLobbyMemberData( params->steamIDLobby, params->pchKey, params->pchValue );
+    return 0;
 }
 
-void cppISteamMatchmaking_SteamMatchMaking003_SendLobbyChatMsg( struct cppISteamMatchmaking_SteamMatchMaking003_SendLobbyChatMsg_params *params )
+NTSTATUS ISteamMatchmaking_SteamMatchMaking003_SendLobbyChatMsg( void *args )
 {
-    params->_ret = ((ISteamMatchmaking*)params->linux_side)->SendLobbyChatMsg( (CSteamID)params->steamIDLobby, (const void *)params->pvMsgBody, (int)params->cubMsgBody );
+    struct ISteamMatchmaking_SteamMatchMaking003_SendLobbyChatMsg_params *params = (struct ISteamMatchmaking_SteamMatchMaking003_SendLobbyChatMsg_params *)args;
+    struct u_ISteamMatchmaking_SteamMatchMaking003 *iface = (struct u_ISteamMatchmaking_SteamMatchMaking003 *)params->linux_side;
+    params->_ret = iface->SendLobbyChatMsg( params->steamIDLobby, params->pvMsgBody, params->cubMsgBody );
+    return 0;
 }
 
-void cppISteamMatchmaking_SteamMatchMaking003_GetLobbyChatEntry( struct cppISteamMatchmaking_SteamMatchMaking003_GetLobbyChatEntry_params *params )
+NTSTATUS ISteamMatchmaking_SteamMatchMaking003_GetLobbyChatEntry( void *args )
 {
-    params->_ret = ((ISteamMatchmaking*)params->linux_side)->GetLobbyChatEntry( (CSteamID)params->steamIDLobby, (int)params->iChatID, (CSteamID *)params->pSteamIDUser, (void *)params->pvData, (int)params->cubData, (EChatEntryType *)params->peChatEntryType );
+    struct ISteamMatchmaking_SteamMatchMaking003_GetLobbyChatEntry_params *params = (struct ISteamMatchmaking_SteamMatchMaking003_GetLobbyChatEntry_params *)args;
+    struct u_ISteamMatchmaking_SteamMatchMaking003 *iface = (struct u_ISteamMatchmaking_SteamMatchMaking003 *)params->linux_side;
+    params->_ret = iface->GetLobbyChatEntry( params->steamIDLobby, params->iChatID, params->pSteamIDUser, params->pvData, params->cubData, params->peChatEntryType );
+    return 0;
 }
 
-void cppISteamMatchmaking_SteamMatchMaking003_RequestLobbyData( struct cppISteamMatchmaking_SteamMatchMaking003_RequestLobbyData_params *params )
+NTSTATUS ISteamMatchmaking_SteamMatchMaking003_RequestLobbyData( void *args )
 {
-    params->_ret = ((ISteamMatchmaking*)params->linux_side)->RequestLobbyData( (CSteamID)params->steamIDLobby );
+    struct ISteamMatchmaking_SteamMatchMaking003_RequestLobbyData_params *params = (struct ISteamMatchmaking_SteamMatchMaking003_RequestLobbyData_params *)args;
+    struct u_ISteamMatchmaking_SteamMatchMaking003 *iface = (struct u_ISteamMatchmaking_SteamMatchMaking003 *)params->linux_side;
+    params->_ret = iface->RequestLobbyData( params->steamIDLobby );
+    return 0;
 }
 
-void cppISteamMatchmaking_SteamMatchMaking003_SetLobbyGameServer( struct cppISteamMatchmaking_SteamMatchMaking003_SetLobbyGameServer_params *params )
+NTSTATUS ISteamMatchmaking_SteamMatchMaking003_SetLobbyGameServer( void *args )
 {
-    ((ISteamMatchmaking*)params->linux_side)->SetLobbyGameServer( (CSteamID)params->steamIDLobby, (uint32)params->unGameServerIP, (uint16)params->unGameServerPort, (CSteamID)params->steamIDGameServer );
+    struct ISteamMatchmaking_SteamMatchMaking003_SetLobbyGameServer_params *params = (struct ISteamMatchmaking_SteamMatchMaking003_SetLobbyGameServer_params *)args;
+    struct u_ISteamMatchmaking_SteamMatchMaking003 *iface = (struct u_ISteamMatchmaking_SteamMatchMaking003 *)params->linux_side;
+    iface->SetLobbyGameServer( params->steamIDLobby, params->unGameServerIP, params->unGameServerPort, params->steamIDGameServer );
+    return 0;
 }
 
-void cppISteamMatchmaking_SteamMatchMaking003_GetLobbyGameServer( struct cppISteamMatchmaking_SteamMatchMaking003_GetLobbyGameServer_params *params )
+NTSTATUS ISteamMatchmaking_SteamMatchMaking003_GetLobbyGameServer( void *args )
 {
-    params->_ret = ((ISteamMatchmaking*)params->linux_side)->GetLobbyGameServer( (CSteamID)params->steamIDLobby, (uint32 *)params->punGameServerIP, (uint16 *)params->punGameServerPort, (CSteamID *)params->psteamIDGameServer );
+    struct ISteamMatchmaking_SteamMatchMaking003_GetLobbyGameServer_params *params = (struct ISteamMatchmaking_SteamMatchMaking003_GetLobbyGameServer_params *)args;
+    struct u_ISteamMatchmaking_SteamMatchMaking003 *iface = (struct u_ISteamMatchmaking_SteamMatchMaking003 *)params->linux_side;
+    params->_ret = iface->GetLobbyGameServer( params->steamIDLobby, params->punGameServerIP, params->punGameServerPort, params->psteamIDGameServer );
+    return 0;
 }
 
-void cppISteamMatchmaking_SteamMatchMaking003_SetLobbyMemberLimit( struct cppISteamMatchmaking_SteamMatchMaking003_SetLobbyMemberLimit_params *params )
+NTSTATUS ISteamMatchmaking_SteamMatchMaking003_SetLobbyMemberLimit( void *args )
 {
-    params->_ret = ((ISteamMatchmaking*)params->linux_side)->SetLobbyMemberLimit( (CSteamID)params->steamIDLobby, (int)params->cMaxMembers );
+    struct ISteamMatchmaking_SteamMatchMaking003_SetLobbyMemberLimit_params *params = (struct ISteamMatchmaking_SteamMatchMaking003_SetLobbyMemberLimit_params *)args;
+    struct u_ISteamMatchmaking_SteamMatchMaking003 *iface = (struct u_ISteamMatchmaking_SteamMatchMaking003 *)params->linux_side;
+    params->_ret = iface->SetLobbyMemberLimit( params->steamIDLobby, params->cMaxMembers );
+    return 0;
 }
 
-void cppISteamMatchmaking_SteamMatchMaking003_GetLobbyMemberLimit( struct cppISteamMatchmaking_SteamMatchMaking003_GetLobbyMemberLimit_params *params )
+NTSTATUS ISteamMatchmaking_SteamMatchMaking003_GetLobbyMemberLimit( void *args )
 {
-    params->_ret = ((ISteamMatchmaking*)params->linux_side)->GetLobbyMemberLimit( (CSteamID)params->steamIDLobby );
+    struct ISteamMatchmaking_SteamMatchMaking003_GetLobbyMemberLimit_params *params = (struct ISteamMatchmaking_SteamMatchMaking003_GetLobbyMemberLimit_params *)args;
+    struct u_ISteamMatchmaking_SteamMatchMaking003 *iface = (struct u_ISteamMatchmaking_SteamMatchMaking003 *)params->linux_side;
+    params->_ret = iface->GetLobbyMemberLimit( params->steamIDLobby );
+    return 0;
 }
 
-void cppISteamMatchmaking_SteamMatchMaking003_SetLobbyVoiceEnabled( struct cppISteamMatchmaking_SteamMatchMaking003_SetLobbyVoiceEnabled_params *params )
+NTSTATUS ISteamMatchmaking_SteamMatchMaking003_SetLobbyVoiceEnabled( void *args )
 {
-    ((ISteamMatchmaking*)params->linux_side)->SetLobbyVoiceEnabled( (CSteamID)params->steamIDLobby, (bool)params->bVoiceEnabled );
+    struct ISteamMatchmaking_SteamMatchMaking003_SetLobbyVoiceEnabled_params *params = (struct ISteamMatchmaking_SteamMatchMaking003_SetLobbyVoiceEnabled_params *)args;
+    struct u_ISteamMatchmaking_SteamMatchMaking003 *iface = (struct u_ISteamMatchmaking_SteamMatchMaking003 *)params->linux_side;
+    iface->SetLobbyVoiceEnabled( params->steamIDLobby, params->bVoiceEnabled );
+    return 0;
 }
 
-void cppISteamMatchmaking_SteamMatchMaking003_RequestFriendsLobbies( struct cppISteamMatchmaking_SteamMatchMaking003_RequestFriendsLobbies_params *params )
+NTSTATUS ISteamMatchmaking_SteamMatchMaking003_RequestFriendsLobbies( void *args )
 {
-    params->_ret = ((ISteamMatchmaking*)params->linux_side)->RequestFriendsLobbies(  );
+    struct ISteamMatchmaking_SteamMatchMaking003_RequestFriendsLobbies_params *params = (struct ISteamMatchmaking_SteamMatchMaking003_RequestFriendsLobbies_params *)args;
+    struct u_ISteamMatchmaking_SteamMatchMaking003 *iface = (struct u_ISteamMatchmaking_SteamMatchMaking003 *)params->linux_side;
+    params->_ret = iface->RequestFriendsLobbies(  );
+    return 0;
 }
 
-#ifdef __cplusplus
-}
-#endif

@@ -324,12 +324,13 @@
     patch -Np1 < ../patches/game-patches/ffxiv_hydaelyn_intro_playback_fix.patch
     
     # https://github.com/ValveSoftware/Proton/issues/6717
-    echo "WINE: -GAME FIXES- Fix Farlight 84 dxva crash"
-    patch -Np1 < ../patches/game-patches/farlight84.patch
+    # https://gitlab.winehq.org/wine/wine/-/merge_requests/4428
+    echo "WINE: -GAME FIXES- Fix Farlight 84 crash"
+    patch -Np1 < ../patches/wine-hotfixes/pending/4428.patch
 
-    # https://github.com/ValveSoftware/Proton/issues/333#issuecomment-1763560466
-    echo "WINE: -GAME FIXES- Fix World of Warships login hang"
-    patch -Np1 < ../patches/game-patches/world-of-warships-login-hang-fix.patch
+    # https://github.com/ValveSoftware/Proton/issues/4625
+    echo "WINE: -GAME FIXES- Fix Yakuza 5 cutscenes audio"
+    patch -Np1 < ../patches/game-patches/yakuza5-cutscenes.patch
 
 ### END GAME PATCH SECTION ###
 
@@ -338,6 +339,10 @@
     # https://gitlab.winehq.org/wine/wine/-/merge_requests/3777
     echo "WINE: -BACKPORT- R6 Siege backport"
     patch -Np1 < ../patches/wine-hotfixes/upstream/3777.patch
+    
+    # https://gitlab.winehq.org/wine/wine/-/merge_requests/2403
+    echo "WINE: -BACKPORT- LibreVR Revive backport"
+    patch -Np1 < ../patches/wine-hotfixes/upstream/2403.patch
 
 ### END WINE HOTFIX/BACKPORT SECTION ###
 
@@ -357,11 +362,16 @@
 ### (2-6) PROTON-GE ADDITIONAL CUSTOM PATCHES ###
 
     echo "WINE: -FSR- fullscreen hack fsr patch"
-    patch -Np1 < ../patches/proton/48-proton-fshack_amd_fsr.patch
-    
-    echo "WINE: -FSR- fullscreen hack resolution calculation fixup"
-    patch -Np1 < ../patches/proton/49-fsr-width-using-height-and-aspect-ratio.patch
-    
+    patch -Np1 < ../patches/proton/47-proton-fshack-AMD-FSR-complete.patch
+
+    #echo "WINE: -FSR- fullscreen hack fsr patch"
+    #patch -Np1 < ../patches/proton/48-proton-fshack_amd_fsr.patch
+
+    #echo "WINE: -FSR- fullscreen hack resolution calculation fixup"
+    #patch -Np1 < ../patches/proton/49-fsr-width-using-height-and-aspect-ratio.patch
+    #echo "WINE: -FSR- fullscreen hack fix washed colors when FSR disabled"
+    #patch -Np1 < ../patches/proton/50-fsr-fix-washed-colors-when-disabled.patch
+
     #echo "WINE: -FSR- enable FSR flag by default (fixes broken fs hack scaling in some games like Apex and FFXIV)"
     #patch -Np1 < ../patches/proton/71-invert-fsr-logic.patch
 

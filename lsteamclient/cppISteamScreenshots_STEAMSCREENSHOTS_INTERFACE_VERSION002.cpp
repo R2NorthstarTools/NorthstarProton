@@ -1,51 +1,63 @@
-#include "steam_defs.h"
-#pragma push_macro("__cdecl")
-#undef __cdecl
-#define __cdecl
-#include "steamworks_sdk_137/steam_api.h"
-#pragma pop_macro("__cdecl")
-#include "steamclient_private.h"
-#ifdef __cplusplus
-extern "C" {
-#endif
-#define SDKVER_137
-#include "struct_converters.h"
-#include "cppISteamScreenshots_STEAMSCREENSHOTS_INTERFACE_VERSION002.h"
-void cppISteamScreenshots_STEAMSCREENSHOTS_INTERFACE_VERSION002_WriteScreenshot( struct cppISteamScreenshots_STEAMSCREENSHOTS_INTERFACE_VERSION002_WriteScreenshot_params *params )
+/* This file is auto-generated, do not edit. */
+#include "unix_private.h"
+
+NTSTATUS ISteamScreenshots_STEAMSCREENSHOTS_INTERFACE_VERSION002_WriteScreenshot( void *args )
 {
-    params->_ret = ((ISteamScreenshots*)params->linux_side)->WriteScreenshot( (void *)params->pubRGB, (uint32)params->cubRGB, (int)params->nWidth, (int)params->nHeight );
+    struct ISteamScreenshots_STEAMSCREENSHOTS_INTERFACE_VERSION002_WriteScreenshot_params *params = (struct ISteamScreenshots_STEAMSCREENSHOTS_INTERFACE_VERSION002_WriteScreenshot_params *)args;
+    struct u_ISteamScreenshots_STEAMSCREENSHOTS_INTERFACE_VERSION002 *iface = (struct u_ISteamScreenshots_STEAMSCREENSHOTS_INTERFACE_VERSION002 *)params->linux_side;
+    params->_ret = iface->WriteScreenshot( params->pubRGB, params->cubRGB, params->nWidth, params->nHeight );
+    return 0;
 }
 
-void cppISteamScreenshots_STEAMSCREENSHOTS_INTERFACE_VERSION002_AddScreenshotToLibrary( struct cppISteamScreenshots_STEAMSCREENSHOTS_INTERFACE_VERSION002_AddScreenshotToLibrary_params *params )
+NTSTATUS ISteamScreenshots_STEAMSCREENSHOTS_INTERFACE_VERSION002_AddScreenshotToLibrary( void *args )
 {
-    params->_ret = ((ISteamScreenshots*)params->linux_side)->AddScreenshotToLibrary( (const char *)params->pchFilename, (const char *)params->pchThumbnailFilename, (int)params->nWidth, (int)params->nHeight );
+    struct ISteamScreenshots_STEAMSCREENSHOTS_INTERFACE_VERSION002_AddScreenshotToLibrary_params *params = (struct ISteamScreenshots_STEAMSCREENSHOTS_INTERFACE_VERSION002_AddScreenshotToLibrary_params *)args;
+    struct u_ISteamScreenshots_STEAMSCREENSHOTS_INTERFACE_VERSION002 *iface = (struct u_ISteamScreenshots_STEAMSCREENSHOTS_INTERFACE_VERSION002 *)params->linux_side;
+    char *u_pchFilename = steamclient_dos_to_unix_path( params->pchFilename, 0 );
+    char *u_pchThumbnailFilename = steamclient_dos_to_unix_path( params->pchThumbnailFilename, 0 );
+    params->_ret = iface->AddScreenshotToLibrary( u_pchFilename, u_pchThumbnailFilename, params->nWidth, params->nHeight );
+    steamclient_free_path( u_pchFilename );
+    steamclient_free_path( u_pchThumbnailFilename );
+    return 0;
 }
 
-void cppISteamScreenshots_STEAMSCREENSHOTS_INTERFACE_VERSION002_TriggerScreenshot( struct cppISteamScreenshots_STEAMSCREENSHOTS_INTERFACE_VERSION002_TriggerScreenshot_params *params )
+NTSTATUS ISteamScreenshots_STEAMSCREENSHOTS_INTERFACE_VERSION002_TriggerScreenshot( void *args )
 {
-    ((ISteamScreenshots*)params->linux_side)->TriggerScreenshot(  );
+    struct ISteamScreenshots_STEAMSCREENSHOTS_INTERFACE_VERSION002_TriggerScreenshot_params *params = (struct ISteamScreenshots_STEAMSCREENSHOTS_INTERFACE_VERSION002_TriggerScreenshot_params *)args;
+    struct u_ISteamScreenshots_STEAMSCREENSHOTS_INTERFACE_VERSION002 *iface = (struct u_ISteamScreenshots_STEAMSCREENSHOTS_INTERFACE_VERSION002 *)params->linux_side;
+    iface->TriggerScreenshot(  );
+    return 0;
 }
 
-void cppISteamScreenshots_STEAMSCREENSHOTS_INTERFACE_VERSION002_HookScreenshots( struct cppISteamScreenshots_STEAMSCREENSHOTS_INTERFACE_VERSION002_HookScreenshots_params *params )
+NTSTATUS ISteamScreenshots_STEAMSCREENSHOTS_INTERFACE_VERSION002_HookScreenshots( void *args )
 {
-    ((ISteamScreenshots*)params->linux_side)->HookScreenshots( (bool)params->bHook );
+    struct ISteamScreenshots_STEAMSCREENSHOTS_INTERFACE_VERSION002_HookScreenshots_params *params = (struct ISteamScreenshots_STEAMSCREENSHOTS_INTERFACE_VERSION002_HookScreenshots_params *)args;
+    struct u_ISteamScreenshots_STEAMSCREENSHOTS_INTERFACE_VERSION002 *iface = (struct u_ISteamScreenshots_STEAMSCREENSHOTS_INTERFACE_VERSION002 *)params->linux_side;
+    iface->HookScreenshots( params->bHook );
+    return 0;
 }
 
-void cppISteamScreenshots_STEAMSCREENSHOTS_INTERFACE_VERSION002_SetLocation( struct cppISteamScreenshots_STEAMSCREENSHOTS_INTERFACE_VERSION002_SetLocation_params *params )
+NTSTATUS ISteamScreenshots_STEAMSCREENSHOTS_INTERFACE_VERSION002_SetLocation( void *args )
 {
-    params->_ret = ((ISteamScreenshots*)params->linux_side)->SetLocation( (ScreenshotHandle)params->hScreenshot, (const char *)params->pchLocation );
+    struct ISteamScreenshots_STEAMSCREENSHOTS_INTERFACE_VERSION002_SetLocation_params *params = (struct ISteamScreenshots_STEAMSCREENSHOTS_INTERFACE_VERSION002_SetLocation_params *)args;
+    struct u_ISteamScreenshots_STEAMSCREENSHOTS_INTERFACE_VERSION002 *iface = (struct u_ISteamScreenshots_STEAMSCREENSHOTS_INTERFACE_VERSION002 *)params->linux_side;
+    params->_ret = iface->SetLocation( params->hScreenshot, params->pchLocation );
+    return 0;
 }
 
-void cppISteamScreenshots_STEAMSCREENSHOTS_INTERFACE_VERSION002_TagUser( struct cppISteamScreenshots_STEAMSCREENSHOTS_INTERFACE_VERSION002_TagUser_params *params )
+NTSTATUS ISteamScreenshots_STEAMSCREENSHOTS_INTERFACE_VERSION002_TagUser( void *args )
 {
-    params->_ret = ((ISteamScreenshots*)params->linux_side)->TagUser( (ScreenshotHandle)params->hScreenshot, (CSteamID)params->steamID );
+    struct ISteamScreenshots_STEAMSCREENSHOTS_INTERFACE_VERSION002_TagUser_params *params = (struct ISteamScreenshots_STEAMSCREENSHOTS_INTERFACE_VERSION002_TagUser_params *)args;
+    struct u_ISteamScreenshots_STEAMSCREENSHOTS_INTERFACE_VERSION002 *iface = (struct u_ISteamScreenshots_STEAMSCREENSHOTS_INTERFACE_VERSION002 *)params->linux_side;
+    params->_ret = iface->TagUser( params->hScreenshot, params->steamID );
+    return 0;
 }
 
-void cppISteamScreenshots_STEAMSCREENSHOTS_INTERFACE_VERSION002_TagPublishedFile( struct cppISteamScreenshots_STEAMSCREENSHOTS_INTERFACE_VERSION002_TagPublishedFile_params *params )
+NTSTATUS ISteamScreenshots_STEAMSCREENSHOTS_INTERFACE_VERSION002_TagPublishedFile( void *args )
 {
-    params->_ret = ((ISteamScreenshots*)params->linux_side)->TagPublishedFile( (ScreenshotHandle)params->hScreenshot, (PublishedFileId_t)params->unPublishedFileID );
+    struct ISteamScreenshots_STEAMSCREENSHOTS_INTERFACE_VERSION002_TagPublishedFile_params *params = (struct ISteamScreenshots_STEAMSCREENSHOTS_INTERFACE_VERSION002_TagPublishedFile_params *)args;
+    struct u_ISteamScreenshots_STEAMSCREENSHOTS_INTERFACE_VERSION002 *iface = (struct u_ISteamScreenshots_STEAMSCREENSHOTS_INTERFACE_VERSION002 *)params->linux_side;
+    params->_ret = iface->TagPublishedFile( params->hScreenshot, params->unPublishedFileID );
+    return 0;
 }
 
-#ifdef __cplusplus
-}
-#endif
