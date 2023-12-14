@@ -1,0 +1,40 @@
+From 6a23ad6238d95525492fe8c895c55a8131c0ee77 Mon Sep 17 00:00:00 2001
+From: Thomas Crider <gloriouseggroll@gmail.com>
+Date: Thu, 14 Dec 2023 17:09:37 -0500
+Subject: [PATCH] ntdll: Force gstreamer to only use x11 for GST_GL_WINDOW
+
+Proton only uses x11, however users using it outside of the
+steamos/steamdeck environment (such as on wayland desktops
+or with other applications such as Lutris, Heroic, Bottles,
+and so on) tend to hit a bug with gstreamer:
+
+"GStreamer with OpenGL creates an empty "OpenGL Renderer" window on Wayland"
+https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/2997
+
+There is an upstream merged MR in gstreamer that adds
+support for EGL_MESA_platform_surfaceless:
+
+https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/5511
+
+However this is not necessary if we instead force GST_GL_WINDOW=x11 even
+on wayland, it avoids the empty "OpenGL Renderer" windows on wayland.
+---
+ dlls/ntdll/unix/loader.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/dlls/ntdll/unix/loader.c b/dlls/ntdll/unix/loader.c
+index 33c92878fd3..9ac768a2a8a 100644
+--- a/dlls/ntdll/unix/loader.c
++++ b/dlls/ntdll/unix/loader.c
+@@ -2298,6 +2298,8 @@ static void hacks_init(void)
+     static const char upc_exe[] = "Ubisoft Game Launcher\\upc.exe";
+     const char *env_str, *sgi;
+ 
++    setenv("GST_GL_WINDOW", "x11", 0);
++
+     if ((env_str = getenv("WINE_RAM_REPORTING_BIAS")))
+     {
+         ram_reporting_bias = atoll(env_str) * 1024 * 1024;
+-- 
+2.43.0
+
