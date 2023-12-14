@@ -16,8 +16,14 @@
     cd steam_helper
     git checkout steam.cpp
     cd ..
-    patch -Np1 < ./patches/steam_helper/6555.patch
+    patch -Np1 < ../patches/steam_helper/6555.patch
 
+    cd gstreamer
+    git reset --hard HEAD
+    git clean -xdf
+    patch -Np1 < ../patches/gstreamer/5509.patch
+    patch -Np1 < ../patches/gstreamer/5511.patch
+    cd ..
 
 ### END PREP SECTION ###
 
