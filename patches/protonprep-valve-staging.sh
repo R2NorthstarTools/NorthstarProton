@@ -228,6 +228,16 @@
     # ntdll-Serial_Port_Detection
     patch -Np1 < ../patches/wine-hotfixes/staging/ntdll-Serial_Port_Detection/0001-ntdll-Do-a-device-check-before-returning-a-default-s.patch
 
+    # ntdll-WRITECOPY
+    patch -Np1 < ../patches/wine-hotfixes/staging/ntdll-WRITECOPY/0001-ntdll-Trigger-write-watches-before-passing-userdata-.patch
+    patch -Np1 < ../patches/wine-hotfixes/staging/ntdll-WRITECOPY/0003-ntdll-Setup-a-temporary-signal-handler-during-proces.patch
+    patch -Np1 < ../patches/wine-hotfixes/staging/ntdll-WRITECOPY/0004-ntdll-Properly-handle-PAGE_WRITECOPY-protection.-try.patch
+    patch -Np1 < ../patches/wine-hotfixes/staging/ntdll-WRITECOPY/0005-ntdll-Track-if-a-WRITECOPY-page-has-been-modified.patch
+    patch -Np1 < ../patches/wine-hotfixes/staging/ntdll-WRITECOPY/0006-ntdll-Support-WRITECOPY-on-x64.patch
+    patch -Np1 < ../patches/wine-hotfixes/staging/ntdll-WRITECOPY/0007-ntdll-Report-unmodified-WRITECOPY-pages-as-shared.patch
+    patch -Np1 < ../patches/wine-hotfixes/staging/ntdll-WRITECOPY/0008-ntdll-Fallback-to-copy-pages-for-WRITECOPY.patch
+    patch -Np1 < ../patches/wine-hotfixes/staging/ntdll-WRITECOPY/0009-kernel32-tests-psapi-tests-Update-tests.patch
+
     # mouse rawinput
     # per discussion with remi:
     #---
@@ -361,6 +371,10 @@
     # https://bugs.winehq.org/show_bug.cgi?id=51683
     echo "WINE: -PENDING- Guild Wars 2 patch"
     patch -Np1 < ../patches/wine-hotfixes/pending/hotfix-guild_wars_2.patch
+
+    # https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/2997
+    echo "WINE: -PENDING- Fix empty 'OpenGL Renderer' windows created by gstreamer"
+    patch -Np1 < ../patches/wine-hotfixes/pending/0001-ntdll-Force-gstreamer-to-only-use-x11-for-GST_GL_WIN.patch
 
 ### END WINE PENDING UPSTREAM SECTION ###
 
