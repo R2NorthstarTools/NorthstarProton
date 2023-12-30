@@ -1,0 +1,30 @@
+From 477fb8c55078dd48a88f881d92352b32e1567ff0 Mon Sep 17 00:00:00 2001
+From: gamingdoom <37276884+gamingdoom@users.noreply.github.com>
+Date: Sat, 30 Dec 2023 14:06:37 -0800
+Subject: [PATCH] Fix BeamNG.Drive VR
+
+---
+ openxr.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/openxr.c b/openxr.c
+index 0a4b9c18..0264a7eb 100644
+--- a/openxr.c
++++ b/openxr.c
+@@ -1599,6 +1599,13 @@ XrResult WINAPI wine_xrGetVulkanDeviceExtensionsKHR(XrInstance instance, XrSyste
+     char *buf;
+ 
+     WINE_TRACE("%p, 0x%s, %u, %p, %p\n", instance, wine_dbgstr_longlong(systemId), bufferCapacityInput, bufferCountOutput, buffer);
++    
++    const char *sgi = getenv("SteamGameId");
++
++    if (sgi && strcmp(sgi, "284160") == 0) {
++        *bufferCountOutput = 0;
++        return XR_SUCCESS;
++    }
+ 
+     if(bufferCapacityInput == 0){
+         *bufferCountOutput = sizeof(WINE_VULKAN_DEVICE_EXTENSION_NAME);
+-- 
+2.43.0
+
