@@ -25,6 +25,12 @@
     patch -Np1 < ../patches/gstreamer/5511.patch
     cd ..
 
+    cd wineopenxr
+    git checkout openxr.c
+    echo "WINEOPENXR: -GAME FIXES- BeamNG.Drive VR Fix"
+    patch -Np1 < ../patches/game-patches/beamng-vr-fix.patch
+    cd ..
+
 ### END PREP SECTION ###
 
 ### (2) WINE PATCHING ###
@@ -396,22 +402,5 @@
     #patch -Np1 < ../patches/proton/71-invert-fsr-logic.patch
 
 ### END PROTON-GE ADDITIONAL CUSTOM PATCHES ###
-
-    cd ..
-
 ### END WINE PATCHING ###
 
-### (3) WINEOPENXR PATCHING ###
-
-     cd wineopenxr
-
-### (3-1) GAME PATCH SECTION ###
-
-     echo "WINEOPENXR: -GAME FIXES- BeamNG.Drive VR Fix"
-     patch -Np1 < ../patches/game-patches/beamng-vr-fix.patch
-
-### END GAME PATCH SECTION ###
-
-     cd ..
-
-### END WINEOPENXR PATCHING ###
