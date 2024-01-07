@@ -1,0 +1,38 @@
+From bdb1a3307977dd67aa871c9f1a7bea24a0b21099 Mon Sep 17 00:00:00 2001
+From: Thomas Crider <gloriouseggroll@gmail.com>
+Date: Thu, 14 Dec 2023 17:09:37 -0500
+Subject: [PATCH 1/1] ntdll: Force gstreamer to only use x11 for
+ GST_GL_WINDOW
+
+Proton only uses x11, however users using it outside of the
+steamos/steamdeck environment (such as on wayland desktops
+or with other applications such as Lutris, Heroic, Bottles,
+and so on) tend to hit a bug with gstreamer:
+
+"GStreamer with OpenGL creates an empty "OpenGL Renderer" window on Wayland"
+https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/2997
+
+There is an upstream merged MR in gstreamer that adds
+support for EGL_MESA_platform_surfaceless:
+
+https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/5511
+
+However this is not necessary if we instead force GST_GL_WINDOW=x11 even
+on wayland, it avoids the empty "OpenGL Renderer" windows on wayland.
+---
+ dlls/winegstreamer/unixlib.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/dlls/winegstreamer/unixlib.c b/dlls/winegstreamer/unixlib.c
+index 346adec81f8..708197f76fe 100644
+--- a/dlls/winegstreamer/unixlib.c
++++ b/dlls/winegstreamer/unixlib.c
+@@ -353,6 +353,8 @@ NTSTATUS wg_init_gstreamer(void *arg)
+     GST_INFO("GStreamer library version %s; wine built with %d.%d.%d.",
+             gst_version_string(), GST_VERSION_MAJOR, GST_VERSION_MINOR, GST_VERSION_MICRO);
+
++    setenv("GST_GL_WINDOW", "x11", 0);
++
+     if (!(gl_display = gst_gl_display_new()))
+         GST_ERROR("Failed to create OpenGL display");
+     else

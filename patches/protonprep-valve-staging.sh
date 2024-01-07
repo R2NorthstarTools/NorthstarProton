@@ -12,13 +12,6 @@
     git clean -xdf
     cd ..
 
-    cd gstreamer
-    git reset --hard HEAD
-    git clean -xdf
-    patch -Np1 < ../patches/gstreamer/5509.patch
-    patch -Np1 < ../patches/gstreamer/5511.patch
-    cd ..
-
     cd wineopenxr
     git checkout openxr.c
     echo "WINEOPENXR: -GAME FIXES- BeamNG.Drive VR Fix"
@@ -120,7 +113,9 @@
     -W wined3d-SWVP-shaders \
     -W wined3d-Indexed_Vertex_Blending \
     -W shell32-registry-lookup-app \
-    -W winepulse-PulseAudio_Support
+    -W winepulse-PulseAudio_Support \
+    -W d3dx9_36-D3DXStubs \
+    -W ntdll-ext4-case-folder
 
     # NOTE: Some patches are applied manually because they -do- apply, just not cleanly, ie with patch fuzz.
     # A detailed list of why the above patches are disabled is listed below:
@@ -198,6 +193,8 @@
     # ** winex11-XEMBED - applied manually
     # ** shell32-registry-lookup-app - applied manually
     # ** winepulse-PulseAudio_Support - applied manually
+    # d3dx9_36-D3DXStubs - already applied
+    # ** ntdll-ext4-case-folder - applied manually
     #
     # Paul Gofman — Yesterday at 3:49 PM
     # that’s only for desktop integration, spamming native menu’s with wine apps which won’t probably start from there anyway
@@ -319,6 +316,9 @@
     # winepulse-PulseAudio_Support
     patch -Np1 < ../patches/wine-hotfixes/staging/winepulse-PulseAudio_Support/0001-winepulse.drv-Use-a-separate-mainloop-and-ctx-for-pu.patch
 
+    # ntdll-ext4-case-folder
+    patch -Np1 < ../patches/wine-hotfixes/staging/ntdll-ext4-case-folder/0002-ntdll-server-Mark-drive_c-as-case-insensitive-when-c.patch
+
 ### END WINE STAGING APPLY SECTION ###
 
 ### (2-3) GAME PATCH SECTION ###
@@ -375,6 +375,10 @@
     # https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/2997
     echo "WINE: -PENDING- Fix empty 'OpenGL Renderer' windows created by gstreamer"
     patch -Np1 < ../patches/wine-hotfixes/pending/0001-ntdll-Force-gstreamer-to-only-use-x11-for-GST_GL_WIN.patch
+
+    # https://github.com/ValveSoftware/wine/pull/210
+    echo "WINE: -PENDING- Fix transparent gl windows being created by gstreamer"
+    patch -Np1 < ../patches/wine-hotfixes/pending/210.patch
 
 ### END WINE PENDING UPSTREAM SECTION ###
 
