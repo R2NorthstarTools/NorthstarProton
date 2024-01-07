@@ -877,7 +877,7 @@ class CompatData:
                     "vulkan-1.dll," +
 
                     #let the games install native
-                    "ir50_32.dll" +
+                    "ir50_32.dll," +
 
                     #wmp9
                     "dispex.dll," +
