@@ -132,7 +132,7 @@ NTSTATUS steamclient_networking_messages_receive_147( void *args )
     return 0;
 }
 
-static void U_STDCALL u_SteamNetworkingMessage_t_147_FreeData( u_SteamNetworkingMessage_t_147 *msg )
+static void U_CDECL u_SteamNetworkingMessage_t_147_FreeData( u_SteamNetworkingMessage_t_147 *msg )
 {
     free( msg->m_pData );
     msg->m_pData = NULL;
@@ -348,7 +348,8 @@ NTSTATUS ISteamNetworkingUtils_SteamNetworkingUtils003_SetConfigValue( void *arg
         params->_ret = iface->SetConfigValue( params->eValue, params->eScopeType,                  \
                                               params->scopeObj, params->eDataType, &u_fn );        \
         if (params->_ret) w_##y = *(decltype(w_##y) *)params->pArg;                                \
-    }
+    }                                                                                              \
+    break;
 
     case 201 /*ConnectionStatusChanged*/: CASE( SteamNetConnectionStatusChanged )
     case 202 /*AuthStatusChanged*/: CASE( SteamNetAuthenticationStatusChanged )
@@ -410,7 +411,7 @@ NTSTATUS steamclient_networking_messages_receive_153a( void *args )
     return 0;
 }
 
-static void U_STDCALL u_SteamNetworkingMessage_t_153a_FreeData( u_SteamNetworkingMessage_t_153a *msg )
+static void U_CDECL u_SteamNetworkingMessage_t_153a_FreeData( u_SteamNetworkingMessage_t_153a *msg )
 {
     free( msg->m_pData );
     msg->m_pData = NULL;
@@ -571,7 +572,8 @@ NTSTATUS ISteamNetworkingUtils_SteamNetworkingUtils004_SetConfigValue( void *arg
         params->_ret = iface->SetConfigValue( params->eValue, params->eScopeType,                  \
                                               params->scopeObj, params->eDataType, &u_fn );        \
         if (params->_ret) w_##y = *(decltype(w_##y) *)params->pArg;                                \
-    }
+    }                                                                                              \
+    break;
 
     case 201 /*ConnectionStatusChanged*/: CASE( SteamNetConnectionStatusChanged_153a )
     case 202 /*AuthStatusChanged*/: CASE( SteamNetAuthenticationStatusChanged )
