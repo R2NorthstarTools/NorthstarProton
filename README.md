@@ -96,7 +96,7 @@ versions by removing and updating to newer versions also becomes easier.
 To install by it first [install `asdf`](https://asdf-vm.com/guide/getting-started.html),
 and then proceed to add the ProtonGE plugin and install the version you want.
 ``` bash
-asfd plugin add protonge
+asdf plugin add protonge
 
 # Or install a version from a tag (Eg.: GE-Proton8-25)
 asdf install protonge latest
