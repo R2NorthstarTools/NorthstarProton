@@ -2,38 +2,38 @@
 
 ### (1) PREP SECTION ###
 
-    cd dxvk
+    pushd dxvk
     git reset --hard HEAD
     git clean -xdf
     echo "DXVK: -Nvidia Reflex- Add NV low latency support"
-    cd include/vulkan; git pull; git checkout bbe0f575ebd6098369f0ac6c6a43532732ed0ba6; cd ../../
+    pushd include/vulkan; git pull; git checkout bbe0f575ebd6098369f0ac6c6a43532732ed0ba6; popd
     patch -Np1 < ../patches/proton/80-nv_low_latency_dxvk.patch
-    cd ..
+    popd
 
-    cd vkd3d-proton
+    pushd vkd3d-proton
     git reset --hard HEAD
     git clean -xdf
     echo "VKD3D-PROTON: -Nvidia Reflex- Add NV low latency support"
-    cd khronos/Vulkan-Headers; git pull; git checkout bbe0f575ebd6098369f0ac6c6a43532732ed0ba6; cd ../../
+    pushd khronos/Vulkan-Headers; git pull; git checkout bbe0f575ebd6098369f0ac6c6a43532732ed0ba6; popd
     patch -Np1 < ../patches/proton/81-nv_low_latency_vkd3d_proton.patch
-    cd ..
+    popd
 
+    pushd dxvk-nvapi
     echo "DXVK-NVAPI: -Nvidia Reflex- Add support for Reflex"
-    cd dxvk-nvapi
     patch -Np1 < ../patches/proton/82-nv_low_latency_dxvk_nvapi.patch
-    cd ..
+    popd
 
-    cd wineopenxr
+    pushd wineopenxr
     git checkout openxr.c
     echo "WINEOPENXR: -GAME FIXES- BeamNG.Drive VR Fix"
     patch -Np1 < ../patches/game-patches/beamng-vr-fix.patch
-    cd ..
+    popd
 
 ### END PREP SECTION ###
 
 ### (2) WINE PATCHING ###
 
-    cd wine
+    pushd wine
     git reset --hard HEAD
     git clean -xdf
 
@@ -410,7 +410,7 @@
     echo "WINE: -Nvidia Reflex- Support VK_NV_low_latency2"
     patch -Np1 < ../patches/proton/83-nv_low_latency_wine.patch
 
-    cd ..
+    popd
 
 ### END PROTON-GE ADDITIONAL CUSTOM PATCHES ###
 ### END WINE PATCHING ###
