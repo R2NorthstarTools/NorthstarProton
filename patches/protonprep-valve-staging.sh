@@ -373,12 +373,9 @@
     patch -Np1 < ../patches/wine-hotfixes/pending/hotfix-guild_wars_2.patch
 
     # https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/2997
+    # https://github.com/ValveSoftware/wine/pull/210
     echo "WINE: -PENDING- Fix empty 'OpenGL Renderer' windows created by gstreamer"
     patch -Np1 < ../patches/wine-hotfixes/pending/0001-ntdll-Force-gstreamer-to-only-use-x11-for-GST_GL_WIN.patch
-
-    # https://github.com/ValveSoftware/wine/pull/210
-    echo "WINE: -PENDING- Fix transparent gl windows being created by gstreamer"
-    patch -Np1 < ../patches/wine-hotfixes/pending/210.patch
 
 ### END WINE PENDING UPSTREAM SECTION ###
 
