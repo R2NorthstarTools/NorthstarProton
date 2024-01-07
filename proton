@@ -40,7 +40,7 @@ from random import randrange
 #To enable debug logging, copy "user_settings.sample.py" to "user_settings.py"
 #and edit it if needed.
 
-CURRENT_PREFIX_VERSION="GE-Proton8-24"
+CURRENT_PREFIX_VERSION="GE-Proton8-26"
 
 PFX="Proton: "
 ld_path_var = "LD_LIBRARY_PATH"
@@ -803,7 +803,7 @@ class CompatData:
             use_wined3d = "wined3d" in g_session.compat_config
             use_dxvk_dxgi = not use_wined3d and \
                     not ("WINEDLLOVERRIDES" in g_session.env and "dxgi=b" in g_session.env["WINEDLLOVERRIDES"])
-            use_nvapi = 'enablenvapi' in g_session.compat_config
+            use_nvapi = 'enablenvapi' in g_session.compat_config or 'forcenvapi' in g_session.compat_config
 
             builtin_dll_copy = os.environ.get("PROTON_DLL_COPY",
                     #dxsetup redist
@@ -875,6 +875,9 @@ class CompatData:
 
                     #some games require official vulkan loader
                     "vulkan-1.dll," +
+
+                    #let the games install native
+                    "ir50_32.dll" +
 
                     #wmp9
                     "dispex.dll," +
@@ -1239,11 +1242,13 @@ def default_compat_config():
                 ]:
             ret.add("noopwr")
 
-        if appid in [
-                "1621680",
-                "359870",
-                ]:
+        if appid == "1621680":
             ret.add("noforcelgadd")
+
+        if appid in [
+                "257420", #Serious Sam 4
+                ]:
+            ret.add("hidevggpu")
 
         if appid in [
                 "1341820", #As Dusk falls
@@ -1255,6 +1260,7 @@ def default_compat_config():
                 "4000", #Garry's Mod
                 "383120", #Empyrion - Galactic Survival
                 "2371630", #Sword Art Online: Integral Factor
+                "460790", #Bayonetta
                 ]:
             ret.add("gamedrive")
 
@@ -1263,11 +1269,13 @@ def default_compat_config():
                 "212910", #Call of Duty: Black Ops II - Zombies
                 "499100", #Dark Parables: The Exiled Prince Collector's Edition (499100)
                 "1404090", #Trivia Tricks
+                "2052410", #WITCH ON THE HOLY NIGHT
                 ]:
             ret.add("heapdelayfree")
 
         if appid in [
                 "2630", #Call of Duty 2
+                "1060210", #Disaster Report 4: Summer Memories
                 ]:
             ret.add("nofsync")
             ret.add("noesync")
@@ -1416,12 +1424,14 @@ def default_compat_config():
                 "1196590", #Resident Evil Village
                 "418370", #Resident Evil 7 Biohazard
                 "990080", #Hogwarts Legacy
+                "526870", #Satisfactory
                 ]:
             ret.add("enablenvapi")
 
         if appid in [
                 "1245620", #Elden Ring
                 "1888160", #Armored Core VI
+                "1888930", #the last of us part 1
                 "814380", #Sekiro: Shadows Die Twice
                 "2379390", #Rainbow Six Extraction
                 "883710", #Resident Evil 2
@@ -1429,8 +1439,20 @@ def default_compat_config():
                 "1196590", #Resident Evil Village
                 "418370", #Resident Evil 7 Biohazard
                 "990080", #Hogwarts Legacy
+                "1328670", #Mass Effect Legendary Edition
+                "627270", #Injustice 2
+                "530940", #BIOHAZARD 7 resident evil
+                "895950", #BIOHAZARD RE:2 Z Version
+                "1100830", #BIOHAZARD RE:3 Z Version
+                "1196600", #BIOHAZARD VILLAGE Z Version
+                "601150", #Devil May Cry 5
                 ]:
             ret.add("enableamdags")
+
+        if appid in [
+                "2395210" #Tony Hawk's Pro Skater 1 + 2
+                ]:
+            ret.add("forcenvapi")
 
     return ret
 
@@ -1600,11 +1622,13 @@ class Session:
         self.check_environment("PROTON_OLD_GL_STRING", "oldglstr")
         self.check_environment("PROTON_NO_WRITE_WATCH", "nowritewatch")
         self.check_environment("PROTON_HIDE_NVIDIA_GPU", "hidenvgpu")
+        self.check_environment("PROTON_HIDE_VANGOGH_GPU", "hidevggpu")
         self.check_environment("PROTON_SET_GAME_DRIVE", "gamedrive")
         self.check_environment("PROTON_SET_STEAM_DRIVE", "steamdrive")
         self.check_environment("PROTON_NO_XIM", "noxim")
         self.check_environment("PROTON_HEAP_DELAY_FREE", "heapdelayfree")
         self.check_environment("PROTON_ENABLE_NVAPI", "enablenvapi")
+        self.check_environment("PROTON_FORCE_NVAPI", "forcenvapi")
         self.check_environment("PROTON_ENABLE_AMD_AGS", "enableamdags")
         self.check_environment("PROTON_ENABLE_D8VK", "enabled8vk")
 
@@ -1649,8 +1673,11 @@ class Session:
             if not "VKD3D_FEATURE_LEVEL" in self.env:
                 self.env["VKD3D_FEATURE_LEVEL"] = "12_0"
 
+        if "hidevggpu" in self.compat_config:
+            self.env["WINE_HIDE_VANGOGH_GPU"] = "1"
+
         # enablenvapi beats hidenvgpu
-        if "hidenvgpu" in self.compat_config and "enablenvapi" not in self.compat_config:
+        if "hidenvgpu" in self.compat_config and "enablenvapi" not in self.compat_config and "forcenvapi" not in self.compat_config:
             self.env["WINE_HIDE_NVIDIA_GPU"] = "1"
 
         if "usenativexinput13" in self.compat_config:
@@ -1738,8 +1765,13 @@ class Session:
         if "wined3d9" in self.compat_config:
             self.dlloverrides["d3d9"] = "b"
 
-        if "enablenvapi" in self.compat_config:
+        if "enablenvapi" in self.compat_config or "forcenvapi" in self.compat_config:
             self.env["DXVK_ENABLE_NVAPI"] = "1"
+
+        if "forcenvapi" in self.compat_config:
+            self.env["DXVK_NVAPI_ALLOW_OTHER_DRIVERS"] = "1"
+            self.env["DXVK_NVAPI_DRIVER_VERSION"] = "99999"
+            self.env["WINE_HIDE_AMD_GPU"] = "1"
 
         if "enableamdags" in self.compat_config:
             self.dlloverrides["amd_ags_x64"] = "b"
