@@ -4,7 +4,7 @@ WINE_DEFAULT_DEBUG_CHANNEL(vrclient);
 
 #ifndef __x86_64__
 static uint32_t ivrinput_get_digital_action_data( uint64_t action_handle, void *action_data, uint32_t action_data_size,
-                                                  uint32_t restrict_to_device, unsigned int version )
+                                                  uint64_t restrict_to_device, unsigned int version )
 {
     /* Digital action state change fixup hack. */
     w_InputDigitalActionData_t *data = action_data;
@@ -67,20 +67,24 @@ static uint32_t ivrinput_get_digital_action_data( uint64_t action_handle, void *
 
 uint32_t __thiscall winIVRInput_IVRInput_004_GetDigitalActionData( struct w_steam_iface *_this, uint64_t action,
                                                                    w_InputDigitalActionData_t *pActionData,
-                                                                   uint32_t unActionDataSize, uint32_t ulRestrictToDevice )
+                                                                   uint32_t unActionDataSize, uint64_t ulRestrictToDevice )
 {
+    w_InputDigitalActionData_t w_pActionData;
     struct IVRInput_IVRInput_004_GetDigitalActionData_params params =
     {
         .linux_side = _this->u_iface,
         .action = action,
-        .pActionData = pActionData,
+        .pActionData = pActionData ? &w_pActionData : NULL,
         .unActionDataSize = unActionDataSize,
         .ulRestrictToDevice = ulRestrictToDevice,
     };
 
     TRACE( "%p\n", _this );
 
+    unActionDataSize = min( unActionDataSize, sizeof(w_pActionData) );
+    if (pActionData) memcpy( &w_pActionData, pActionData, unActionDataSize );
     VRCLIENT_CALL( IVRInput_IVRInput_004_GetDigitalActionData, &params );
+    if (pActionData) memcpy( pActionData, &w_pActionData, unActionDataSize );
 #ifdef __x86_64__
     return params._ret;
 #else
@@ -91,20 +95,24 @@ uint32_t __thiscall winIVRInput_IVRInput_004_GetDigitalActionData( struct w_stea
 
 uint32_t __thiscall winIVRInput_IVRInput_005_GetDigitalActionData( struct w_steam_iface *_this, uint64_t action,
                                                                    w_InputDigitalActionData_t *pActionData,
-                                                                   uint32_t unActionDataSize, uint32_t ulRestrictToDevice )
+                                                                   uint32_t unActionDataSize, uint64_t ulRestrictToDevice )
 {
+    w_InputDigitalActionData_t w_pActionData;
     struct IVRInput_IVRInput_005_GetDigitalActionData_params params =
     {
         .linux_side = _this->u_iface,
         .action = action,
-        .pActionData = pActionData,
+        .pActionData = pActionData ? &w_pActionData : NULL,
         .unActionDataSize = unActionDataSize,
         .ulRestrictToDevice = ulRestrictToDevice,
     };
 
     TRACE( "%p\n", _this );
 
+    unActionDataSize = min( unActionDataSize, sizeof(w_pActionData) );
+    if (pActionData) memcpy( &w_pActionData, pActionData, unActionDataSize );
     VRCLIENT_CALL( IVRInput_IVRInput_005_GetDigitalActionData, &params );
+    if (pActionData) memcpy( pActionData, &w_pActionData, unActionDataSize );
 #ifdef __x86_64__
     return params._ret;
 #else
@@ -115,20 +123,24 @@ uint32_t __thiscall winIVRInput_IVRInput_005_GetDigitalActionData( struct w_stea
 
 uint32_t __thiscall winIVRInput_IVRInput_006_GetDigitalActionData( struct w_steam_iface *_this, uint64_t action,
                                                                    w_InputDigitalActionData_t *pActionData,
-                                                                   uint32_t unActionDataSize, uint32_t ulRestrictToDevice )
+                                                                   uint32_t unActionDataSize, uint64_t ulRestrictToDevice )
 {
+    w_InputDigitalActionData_t w_pActionData;
     struct IVRInput_IVRInput_006_GetDigitalActionData_params params =
     {
         .linux_side = _this->u_iface,
         .action = action,
-        .pActionData = pActionData,
+        .pActionData = pActionData ? &w_pActionData : NULL,
         .unActionDataSize = unActionDataSize,
         .ulRestrictToDevice = ulRestrictToDevice,
     };
 
     TRACE( "%p\n", _this );
 
+    unActionDataSize = min( unActionDataSize, sizeof(w_pActionData) );
+    if (pActionData) memcpy( &w_pActionData, pActionData, unActionDataSize );
     VRCLIENT_CALL( IVRInput_IVRInput_006_GetDigitalActionData, &params );
+    if (pActionData) memcpy( pActionData, &w_pActionData, unActionDataSize );
 #ifdef __x86_64__
     return params._ret;
 #else
@@ -139,20 +151,24 @@ uint32_t __thiscall winIVRInput_IVRInput_006_GetDigitalActionData( struct w_stea
 
 uint32_t __thiscall winIVRInput_IVRInput_007_GetDigitalActionData( struct w_steam_iface *_this, uint64_t action,
                                                                    w_InputDigitalActionData_t *pActionData,
-                                                                   uint32_t unActionDataSize, uint32_t ulRestrictToDevice )
+                                                                   uint32_t unActionDataSize, uint64_t ulRestrictToDevice )
 {
+    w_InputDigitalActionData_t w_pActionData;
     struct IVRInput_IVRInput_007_GetDigitalActionData_params params =
     {
         .linux_side = _this->u_iface,
         .action = action,
-        .pActionData = pActionData,
+        .pActionData = pActionData ? &w_pActionData : NULL,
         .unActionDataSize = unActionDataSize,
         .ulRestrictToDevice = ulRestrictToDevice,
     };
 
     TRACE( "%p\n", _this );
 
+    unActionDataSize = min( unActionDataSize, sizeof(w_pActionData) );
+    if (pActionData) memcpy( &w_pActionData, pActionData, unActionDataSize );
     VRCLIENT_CALL( IVRInput_IVRInput_007_GetDigitalActionData, &params );
+    if (pActionData) memcpy( pActionData, &w_pActionData, unActionDataSize );
 #ifdef __x86_64__
     return params._ret;
 #else
@@ -163,20 +179,24 @@ uint32_t __thiscall winIVRInput_IVRInput_007_GetDigitalActionData( struct w_stea
 
 uint32_t __thiscall winIVRInput_IVRInput_010_GetDigitalActionData( struct w_steam_iface *_this, uint64_t action,
                                                                    w_InputDigitalActionData_t *pActionData,
-                                                                   uint32_t unActionDataSize, uint32_t ulRestrictToDevice )
+                                                                   uint32_t unActionDataSize, uint64_t ulRestrictToDevice )
 {
+    w_InputDigitalActionData_t w_pActionData;
     struct IVRInput_IVRInput_010_GetDigitalActionData_params params =
     {
         .linux_side = _this->u_iface,
         .action = action,
-        .pActionData = pActionData,
+        .pActionData = pActionData ? &w_pActionData : NULL,
         .unActionDataSize = unActionDataSize,
         .ulRestrictToDevice = ulRestrictToDevice,
     };
 
     TRACE( "%p\n", _this );
 
+    unActionDataSize = min( unActionDataSize, sizeof(w_pActionData) );
+    if (pActionData) memcpy( &w_pActionData, pActionData, unActionDataSize );
     VRCLIENT_CALL( IVRInput_IVRInput_010_GetDigitalActionData, &params );
+    if (pActionData) memcpy( pActionData, &w_pActionData, unActionDataSize );
 #ifdef __x86_64__
     return params._ret;
 #else

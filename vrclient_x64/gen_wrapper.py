@@ -158,6 +158,10 @@ STRUCTS_NEXT_IS_SIZE = [
     "InputBindingInfo_t",
 ]
 
+STRUCTS_IS_INPUT_ARRAY = [
+    "VRActiveActionSet_t",
+]
+
 STRUCTS_NEXT_IS_SIZE_UNHANDLED = [
     "VROverlayIntersectionMaskPrimitive_t" # not next, but next-next uint32 is the size
 ]
@@ -628,7 +632,7 @@ def callconv(cursor, prefix):
     tokens = cursor.get_tokens()
     while next(tokens).spelling != '(': pass
     token = next(tokens).spelling.strip('_')
-    token = token.replace('*', 'stdcall')
+    token = token.replace('*', 'cdecl')
     token = token.replace('S_CALLTYPE', 'cdecl')
     return f'{prefix[0].upper()}_{token.upper()} '
 
@@ -768,11 +772,6 @@ def handle_method_cpp(method, classname, out):
         next_name, next_param = params[i + 1]
         if not next_param or next_param.type.spelling != "uint32_t":
             size_param[name] = ', -1'
-        elif struct_needs_size_adjustment(real_type.get_canonical()):
-            real_name = real_type.spelling
-            out(f'    uint32_t u_{next_name} = std::min( params->{next_name}, (uint32_t)sizeof({real_name}) );\n')
-            size_param[name] = f', params->{next_name}'
-            size_fixup[next_name] = True
         elif name in need_convert:
             assert name not in STRUCTS_NEXT_IS_SIZE_UNHANDLED
             out(f'    uint32_t u_{next_name} = params->{next_name} ? sizeof(u_{name}) : 0;\n')
@@ -839,6 +838,9 @@ def handle_method_c(klass, method, winclassname, out):
              for i, p in enumerate(method.get_arguments())]
     params = [declspec(p, names[i], "w_") for i, p in enumerate(method.get_arguments())]
 
+    need_convert = {n: p for n, p in zip(names, method.get_arguments())
+                    if param_needs_conversion(p)}
+
     if returns_record:
         params = [f'{declspec(method.result_type, "*_ret", "w_")}'] + params
         names = ['_ret'] + names
@@ -853,11 +855,35 @@ def handle_method_c(klass, method, winclassname, out):
     out(f'{ret}__thiscall {winclassname}_{method.name}({", ".join(params)})\n')
     out(u'{\n')
 
+    names = names[2:] if returns_record else names[1:]
+    params = list(zip(names, method.get_arguments()))
+    params += [(None, None)]
+    param_sizes = {}
+
+    for i, (name, param) in enumerate(params[:-1]):
+        if name not in need_convert:
+            continue
+        real_type = underlying_type(param)
+        if strip_ns(real_type.spelling) not in STRUCTS_NEXT_IS_SIZE:
+            continue
+        assert name not in STRUCTS_IS_INPUT_ARRAY
+        assert name not in STRUCTS_NEXT_IS_SIZE_UNHANDLED
+
+        next_name, next_param = params[i + 1]
+        if next_param and next_param.type.spelling == "uint32_t":
+            out(f'    {declspec(param.type.get_pointee(), f"w_{name}", "w_")};\n')
+            param_sizes[name] = next_name
+
     out(f'    struct {method.full_name}_params params =\n')
     out(u'    {\n')
     out(u'        .linux_side = _this->u_iface,\n')
-    for name in names[1:]:
-        out(f'        .{name} = {name},\n')
+    if returns_record:
+        out(u'        ._ret = _ret,\n')
+    for name, param in params[:-1]:
+        if name in param_sizes:
+            out(f'        .{name} = {name} ? &w_{name} : NULL,\n')
+        else:
+            out(f'        .{name} = {name},\n')
     out(u'    };\n')
 
     out(u'    TRACE("%p\\n", _this);\n')
@@ -865,7 +891,12 @@ def handle_method_c(klass, method, winclassname, out):
     if 'eTextureType' in names:
         out(u'    if (eTextureType == TextureType_DirectX) FIXME( "Not implemented Direct3D API!\\n" );\n')
 
+    for name, size in param_sizes.items():
+        out(f'    {size} = min( {size}, sizeof(w_{name}) );\n')
+        out(f'    if ({name}) memcpy( &w_{name}, {name}, {size} );\n')
     out(f'    VRCLIENT_CALL( {method.full_name}, &params );\n')
+    for name, size in param_sizes.items():
+        out(f'    if ({name}) memcpy( {name}, &w_{name}, {size} );\n')
 
     if not returns_void:
         out(u'    return params._ret;\n')
@@ -1009,29 +1040,6 @@ def struct_needs_conversion(struct):
     assert abis['u64'].size <= abis['w64'].size
     if abis['u64'].size < abis['w64'].size:
         return False
-
-    return False
-
-
-def struct_needs_size_adjustment(struct):
-    name = canonical_typename(struct)
-    if name in EXEMPT_STRUCTS:
-        return False
-
-    abis = find_struct_abis(name)
-    if abis is None:
-        return False
-    if abis['w32'].needs_conversion(abis['u32']):
-        return False
-    if abis['w64'].needs_conversion(abis['u64']):
-        return False
-
-    assert abis['u32'].size <= abis['w32'].size
-    if abis['u32'].size < abis['w32'].size:
-        return True
-    assert abis['u64'].size <= abis['w64'].size
-    if abis['u64'].size < abis['w64'].size:
-        return True
 
     return False
 
