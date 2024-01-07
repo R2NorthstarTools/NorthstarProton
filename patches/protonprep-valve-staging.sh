@@ -5,11 +5,22 @@
     cd dxvk
     git reset --hard HEAD
     git clean -xdf
+    echo "DXVK: -Nvidia Reflex- Add NV low latency support"
+    cd include/vulkan; git pull; git checkout bbe0f575ebd6098369f0ac6c6a43532732ed0ba6; cd ../../
+    patch -Np1 < ../patches/proton/80-nv_low_latency_dxvk.patch
     cd ..
 
     cd vkd3d-proton
     git reset --hard HEAD
     git clean -xdf
+    echo "VKD3D-PROTON: -Nvidia Reflex- Add NV low latency support"
+    cd khronos/Vulkan-Headers; git pull; git checkout bbe0f575ebd6098369f0ac6c6a43532732ed0ba6; cd ../../
+    patch -Np1 < ../patches/proton/81-nv_low_latency_vkd3d_proton.patch
+    cd ..
+
+    echo "DXVK-NVAPI: -Nvidia Reflex- Add support for Reflex"
+    cd dxvk-nvapi
+    patch -Np1 < ../patches/proton/82-nv_low_latency_dxvk_nvapi.patch
     cd ..
 
     cd wineopenxr
@@ -303,10 +314,10 @@
 
     # shell32-NewMenu_Interface
     patch -Np1 < ../patches/wine-hotfixes/staging/shell32-NewMenu_Interface/0001-shell32-Implement-NewMenu-with-new-folder-item.patch
-    
+
     # user32-FlashWindowEx
     patch -Np1 < ../patches/wine-hotfixes/staging/user32-FlashWindowEx/0001-user32-Improve-FlashWindowEx-message-and-return-valu.patch
-    
+
     # kernel32-Debugger
     patch -Np1 < ../wine-staging/patches/kernel32-Debugger/0001-kernel32-Always-start-debugger-on-WinSta0.patch
 
@@ -334,11 +345,11 @@
 
     echo "WINE: -GAME FIXES- Add Star Citizen EAC patch and wrap it around SteamGameId=starcitizen envvar"
     patch -Np1 < ../patches/game-patches/star-citizen-eac.patch
-    
+
     # https://github.com/ValveSoftware/Proton/issues/580#issuecomment-1588435182
     echo "WINE: -GAME FIXES- Fix FFXIV not playing Hydaelyn intro video on new install"
     patch -Np1 < ../patches/game-patches/ffxiv_hydaelyn_intro_playback_fix.patch
-    
+
     # https://github.com/ValveSoftware/Proton/issues/6717
     # https://gitlab.winehq.org/wine/wine/-/merge_requests/4428
     echo "WINE: -GAME FIXES- Fix Farlight 84 crash"
@@ -355,7 +366,7 @@
     # https://gitlab.winehq.org/wine/wine/-/merge_requests/3777
     echo "WINE: -BACKPORT- R6 Siege backport"
     patch -Np1 < ../patches/wine-hotfixes/upstream/3777.patch
-    
+
     # https://gitlab.winehq.org/wine/wine/-/merge_requests/2403
     echo "WINE: -BACKPORT- LibreVR Revive backport"
     patch -Np1 < ../patches/wine-hotfixes/upstream/2403.patch
@@ -367,7 +378,7 @@
     # https://github.com/Frogging-Family/wine-tkg-git/commit/ca0daac62037be72ae5dd7bf87c705c989eba2cb
     echo "WINE: -PENDING- unity crash hotfix"
     patch -Np1 < ../patches/wine-hotfixes/pending/unity_crash_hotfix.patch
-    
+
     # https://bugs.winehq.org/show_bug.cgi?id=51683
     echo "WINE: -PENDING- Guild Wars 2 patch"
     patch -Np1 < ../patches/wine-hotfixes/pending/hotfix-guild_wars_2.patch
@@ -396,29 +407,10 @@
     #echo "WINE: -FSR- enable FSR flag by default (fixes broken fs hack scaling in some games like Apex and FFXIV)"
     #patch -Np1 < ../patches/proton/71-invert-fsr-logic.patch
 
-    cd ..
-
-    echo "DXVK: -Nvidia Reflex- Add NV low latency support"
-    pushd dxvk
-    pushd include/vulkan; git checkout bbe0f575ebd6098369f0ac6c6a43532732ed0ba6; popd
-    patch -Np1 < ../patches/proton/80-nv_low_latency_dxvk.patch
-    popd
-
-    echo "VKD3D-PROTON: -Nvidia Reflex- Add NV low latency support"
-    pushd vkd3d-proton
-    pushd khronos/Vulkan-Headers; git checkout bbe0f575ebd6098369f0ac6c6a43532732ed0ba6; popd
-    patch -Np1 < ../patches/proton/81-nv_low_latency_vkd3d_proton.patch
-    popd
-
-    echo "DXVK-NVAPI: -Nvidia Reflex- Add support for Reflex"
-    pushd dxvk-nvapi
-    patch -Np1 < ../patches/proton/82-nv_low_latency_dxvk_nvapi.patch
-    popd
-
     echo "WINE: -Nvidia Reflex- Support VK_NV_low_latency2"
-    pushd wine
     patch -Np1 < ../patches/proton/83-nv_low_latency_wine.patch
-    popd
+
+    cd ..
 
 ### END PROTON-GE ADDITIONAL CUSTOM PATCHES ###
 ### END WINE PATCHING ###
