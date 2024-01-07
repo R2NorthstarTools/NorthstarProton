@@ -16,15 +16,6 @@ diff --git a/dlls/ntdll/unix/virtual.c b/dlls/ntdll/unix/virtual.c
 index 6c530304442..05d4d517aeb 100644
 --- a/dlls/ntdll/unix/virtual.c
 +++ b/dlls/ntdll/unix/virtual.c
-@@ -2441,6 +2441,8 @@ static NTSTATUS map_image_into_view( struct file_view *view, const WCHAR *filena
-                            ptr + sec->VirtualAddress + file_size,
-                            ptr + sec->VirtualAddress + end );
-             memset( ptr + sec->VirtualAddress + file_size, 0, end - file_size );
-+            /* clear WRITTEN mark so QueryVirtualMemory returns correct values */
-+            set_page_vprot_bits( ptr + sec->VirtualAddress + file_size, 1, 0, VPROT_COPIED );
-         }
-     }
- 
 @@ -4420,7 +4422,7 @@ static NTSTATUS get_working_set_ex( HANDLE process, LPCVOID addr,
              }
  
