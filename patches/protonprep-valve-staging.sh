@@ -378,10 +378,11 @@
     echo "WINE: -PENDING- Guild Wars 2 patch"
     patch -Np1 < ../patches/wine-hotfixes/pending/hotfix-guild_wars_2.patch
 
+    # This breaks gstreamer inside proton environment, only use it for WINE builds outside proton
     # https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/2997
     # https://github.com/ValveSoftware/wine/pull/210
-    echo "WINE: -PENDING- Fix empty 'OpenGL Renderer' windows created by gstreamer"
-    patch -Np1 < ../patches/wine-hotfixes/pending/0001-ntdll-Force-gstreamer-to-only-use-x11-for-GST_GL_WIN.patch
+    #echo "WINE: -PENDING- Fix empty 'OpenGL Renderer' windows created by gstreamer"
+    #patch -Np1 < ../patches/wine-hotfixes/pending/0001-ntdll-Force-gstreamer-to-only-use-x11-for-GST_GL_WIN.patch
 
 ### END WINE PENDING UPSTREAM SECTION ###
 
