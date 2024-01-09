@@ -2,27 +2,31 @@
 
 ### (1) PREP SECTION ###
 
+# NOTE: Nvidia reflex patches are disabled now as they are currently not ready/problematic/known to cause stutters
+# I was pinged about it from DXVK dev discord.
+# https://github.com/doitsujin/dxvk/pull/3690#discussion_r1405306492
+
     pushd dxvk
     git reset --hard HEAD
     git clean -xdf
-    echo "DXVK: -Nvidia Reflex- Add NV low latency support"
-    pushd include/vulkan; git pull; git checkout bbe0f575ebd6098369f0ac6c6a43532732ed0ba6; popd
-    patch -Np1 < ../patches/proton/80-nv_low_latency_dxvk.patch
+    #echo "DXVK: -Nvidia Reflex- Add NV low latency support"
+    #pushd include/vulkan; git pull; git checkout bbe0f575ebd6098369f0ac6c6a43532732ed0ba6; popd
+    #patch -Np1 < ../patches/proton/80-nv_low_latency_dxvk.patch
     popd
 
     pushd vkd3d-proton
     git reset --hard HEAD
     git clean -xdf
-    echo "VKD3D-PROTON: -Nvidia Reflex- Add NV low latency support"
-    pushd khronos/Vulkan-Headers; git pull; git checkout bbe0f575ebd6098369f0ac6c6a43532732ed0ba6; popd
-    patch -Np1 < ../patches/proton/81-nv_low_latency_vkd3d_proton.patch
+    #echo "VKD3D-PROTON: -Nvidia Reflex- Add NV low latency support"
+    #pushd khronos/Vulkan-Headers; git pull; git checkout bbe0f575ebd6098369f0ac6c6a43532732ed0ba6; popd
+    #patch -Np1 < ../patches/proton/81-nv_low_latency_vkd3d_proton.patch
     popd
 
     pushd dxvk-nvapi
     git reset --hard HEAD
     git clean -xdf
-    echo "DXVK-NVAPI: -Nvidia Reflex- Add support for Reflex"
-    patch -Np1 < ../patches/proton/82-nv_low_latency_dxvk_nvapi.patch
+    #echo "DXVK-NVAPI: -Nvidia Reflex- Add support for Reflex"
+    #patch -Np1 < ../patches/proton/82-nv_low_latency_dxvk_nvapi.patch
     popd
 
     pushd wineopenxr
@@ -366,6 +370,10 @@
     echo "WINE: -BACKPORT- LibreVR Revive backport"
     patch -Np1 < ../patches/wine-hotfixes/upstream/2403.patch
 
+    # https://bugs.winehq.org/show_bug.cgi?id=55660
+    echo "WINE: -BACKPORT- HID with more than 8 axis overwrites inputs after it"
+    patch -Np1 < ../patches/wine-hotfixes/upstream/55660.patch
+
 ### END WINE HOTFIX/BACKPORT SECTION ###
 
 ### (2-5) WINE PENDING UPSTREAM SECTION ###
@@ -403,8 +411,8 @@
     #echo "WINE: -FSR- enable FSR flag by default (fixes broken fs hack scaling in some games like Apex and FFXIV)"
     #patch -Np1 < ../patches/proton/71-invert-fsr-logic.patch
 
-    echo "WINE: -Nvidia Reflex- Support VK_NV_low_latency2"
-    patch -Np1 < ../patches/proton/83-nv_low_latency_wine.patch
+    #echo "WINE: -Nvidia Reflex- Support VK_NV_low_latency2"
+    #patch -Np1 < ../patches/proton/83-nv_low_latency_wine.patch
 
     popd
 
