@@ -148,7 +148,7 @@ diff --git a/dlls/xinput1_3/main.c b/dlls/xinput1_3/main.c
 index e69553fba16..c4b2d5e871b 100644
 --- a/dlls/xinput1_3/main.c
 +++ b/dlls/xinput1_3/main.c
-@@ -1129,3 +1129,35 @@ DWORD WINAPI DECLSPEC_HOTPATCH XInputGetBatteryInformation(DWORD index, BYTE typ
+@@ -1159,3 +1151,37 @@ DWORD WINAPI DECLSPEC_HOTPATCH XInputGetBatteryInformation(DWORD index, BYTE typ
 
      return ERROR_NOT_SUPPORTED;
  }
@@ -181,6 +181,8 @@ index e69553fba16..c4b2d5e871b 100644
 +    caps->VendorId = attr.VendorID;
 +    caps->ProductId = attr.ProductID;
 +    caps->VersionNumber = attr.VersionNumber;
++
++    controller_unlock(&controllers[index]);
 +
 +    return ERROR_SUCCESS;
 +}
