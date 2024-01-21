@@ -1,0 +1,56 @@
+From 51931dcb59457d8898bda39028e181e878650268 Mon Sep 17 00:00:00 2001
+From: Etaash Mathamsetty
+ <45927311+Etaash-mathamsetty@users.noreply.github.com>
+Date: Sat, 20 Jan 2024 18:47:09 -0500
+Subject: [PATCH] winex11: fix missing null check in glxdrv_wglSwapBuffers.
+
+---
+ dlls/winex11.drv/opengl.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/dlls/winex11.drv/opengl.c b/dlls/winex11.drv/opengl.c
+index 4455f9464e9..5d978a118e0 100644
+--- a/dlls/winex11.drv/opengl.c
++++ b/dlls/winex11.drv/opengl.c
+@@ -4926,7 +4926,7 @@ static BOOL glxdrv_wglSwapBuffers( HDC hdc )
+     update_window_surface( gl, hwnd );
+     release_gl_drawable( gl );
+
+-    if (escape.drawable) NtGdiExtEscape( ctx->hdc, NULL, 0, X11DRV_ESCAPE, sizeof(escape), (LPSTR)&escape, 0, NULL );
++    if (escape.drawable && ctx) NtGdiExtEscape( ctx->hdc, NULL, 0, X11DRV_ESCAPE, sizeof(escape), (LPSTR)&escape, 0, NULL );
+     return TRUE;
+ }
+
+--
+GitLab
+
+From 08d8187c2acb0e43b5ca505a95a819cc3fdb55d7 Mon Sep 17 00:00:00 2001
+From: Etaash Mathamsetty
+ <45927311+Etaash-mathamsetty@users.noreply.github.com>
+Date: Sat, 20 Jan 2024 22:30:53 -0500
+Subject: [PATCH] winex11: fail wglMakeCurrent with NULL hdc.
+
+---
+ dlls/winex11.drv/opengl.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/dlls/winex11.drv/opengl.c b/dlls/winex11.drv/opengl.c
+index f2ffb4be4e7..753f5e44da9 100644
+--- a/dlls/winex11.drv/opengl.c
++++ b/dlls/winex11.drv/opengl.c
+@@ -1843,6 +1843,12 @@ static BOOL glxdrv_wglMakeCurrent(HDC hdc, struct wgl_context *ctx)
+ 
+     TRACE("(%p,%p)\n", hdc, ctx);
+ 
++    if (!hdc)
++    {
++        RtlSetLastWin32Error( ERROR_INVALID_HANDLE );
++        return FALSE;
++    }
++
+     if (!ctx)
+     {
+         pglXMakeCurrent(gdi_display, None, NULL);
+-- 
+GitLab
+
