@@ -40,7 +40,7 @@ from random import randrange
 #To enable debug logging, copy "user_settings.sample.py" to "user_settings.py"
 #and edit it if needed.
 
-CURRENT_PREFIX_VERSION="GE-Proton8-26"
+CURRENT_PREFIX_VERSION="GE-Proton8-28"
 
 PFX="Proton: "
 ld_path_var = "LD_LIBRARY_PATH"
@@ -1590,6 +1590,7 @@ class Session:
         if "PROTON_LOG" in self.env and nonzero(self.env["PROTON_LOG"]):
             self.env.setdefault("WINEDEBUG", "+timestamp,+pid,+tid,+seh,+unwind,+threadname,+debugstr,+loaddll,+mscoree")
             self.env.setdefault("DXVK_LOG_LEVEL", "info")
+            self.env.setdefault("DXVK_NVAPI_LOG_LEVEL", "info")
             self.env.setdefault("VKD3D_DEBUG", "warn")
             self.env.setdefault("VKD3D_SHADER_DEBUG", "fixme")
             self.env.setdefault("WINE_MONO_TRACE", "E:System.NotImplementedException")
@@ -1948,6 +1949,9 @@ if __name__ == "__main__":
     if not "STEAM_COMPAT_DATA_PATH" in os.environ:
         log("No compat data path?")
         sys.exit(1)
+
+    # CW-Bug-Id: #23185 Avoid triggering new SDL 2.30 behavior.
+    os.environ.pop('SteamVirtualGamepadInfo', None)
 
     g_proton = Proton(os.path.dirname(sys.argv[0]))
 
