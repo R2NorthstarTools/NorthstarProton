@@ -370,10 +370,6 @@
     echo "WINE: -BACKPORT- LibreVR Revive backport"
     patch -Np1 < ../patches/wine-hotfixes/upstream/2403.patch
 
-    # https://bugs.winehq.org/show_bug.cgi?id=55660
-    echo "WINE: -BACKPORT- HID with more than 8 axis overwrites inputs after it"
-    patch -Np1 < ../patches/wine-hotfixes/upstream/55660.patch
-
 ### END WINE HOTFIX/BACKPORT SECTION ###
 
 ### (2-5) WINE PENDING UPSTREAM SECTION ###
@@ -386,11 +382,10 @@
     echo "WINE: -PENDING- Guild Wars 2 patch"
     patch -Np1 < ../patches/wine-hotfixes/pending/hotfix-guild_wars_2.patch
 
-    # This breaks gstreamer inside proton environment, only use it for WINE builds outside proton
-    # https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/2997
-    # https://github.com/ValveSoftware/wine/pull/210
-    #echo "WINE: -PENDING- Fix empty 'OpenGL Renderer' windows created by gstreamer"
-    #patch -Np1 < ../patches/wine-hotfixes/pending/0001-ntdll-Force-gstreamer-to-only-use-x11-for-GST_GL_WIN.patch
+    # https://github.com/ValveSoftware/wine/pull/217
+    # https://gitlab.winehq.org/etaash.mathamsetty/wine/-/commit/08d8187c2acb0e43b5ca505a95a819cc3fdb55d7
+    echo "WINE: -PENDING- Black Desert Online launcher fix"
+    patch -Np1 < ../patches/wine-hotfixes/pending/bdo-launcher-fix.patch
 
 ### END WINE PENDING UPSTREAM SECTION ###
 
