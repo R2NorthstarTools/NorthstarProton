@@ -230,6 +230,7 @@ MANUAL_METHODS = {
 
     "ISteamMatchmakingServers_PingServer": lambda ver, abi: abi == 'u',
     "ISteamMatchmakingServers_PlayerDetails": lambda ver, abi: abi == 'u',
+    "ISteamMatchmakingServers_ReleaseRequest": lambda ver, abi: abi == 'w',
     "ISteamMatchmakingServers_RequestFavoritesServerList": lambda ver, abi: abi == 'u',
     "ISteamMatchmakingServers_RequestFriendsServerList": lambda ver, abi: abi == 'u',
     "ISteamMatchmakingServers_RequestHistoryServerList": lambda ver, abi: abi == 'u',
@@ -1657,6 +1658,7 @@ with open('unixlib_generated.cpp', 'w') as file:
     out(u'    }\n')
     out(u'#undef MAKE_CASE\n')
     out(u'\n')
+    out(u'    w_msg->m_hSteamUser = u_msg->m_hSteamUser;\n')
     out(u'    w_msg->m_iCallback = u_msg->m_iCallback;\n')
     out(u'    w_msg->m_cubParam = len;\n')
     out(u'}\n')
