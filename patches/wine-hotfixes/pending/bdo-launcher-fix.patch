@@ -1,56 +1,59 @@
-From 51931dcb59457d8898bda39028e181e878650268 Mon Sep 17 00:00:00 2001
-From: Etaash Mathamsetty
- <45927311+Etaash-mathamsetty@users.noreply.github.com>
-Date: Sat, 20 Jan 2024 18:47:09 -0500
-Subject: [PATCH] winex11: fix missing null check in glxdrv_wglSwapBuffers.
+From 59f7f8bef824d7fd0af614a5cdd19d87ecf5cf70 Mon Sep 17 00:00:00 2001
+From: Paul Gofman <pgofman@codeweavers.com>
+Date: Mon, 22 Jan 2024 16:28:32 -0600
+Subject: [PATCH] winex11.drv: Fix wglSwapBuffers() with NULL current context
+ with child window rendering.
 
 ---
- dlls/winex11.drv/opengl.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ dlls/winex11.drv/opengl.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/dlls/winex11.drv/opengl.c b/dlls/winex11.drv/opengl.c
-index 4455f9464e9..5d978a118e0 100644
+index bb8f13f78b9..d70f1928655 100644
 --- a/dlls/winex11.drv/opengl.c
 +++ b/dlls/winex11.drv/opengl.c
-@@ -4926,7 +4926,7 @@ static BOOL glxdrv_wglSwapBuffers( HDC hdc )
-     update_window_surface( gl, hwnd );
+@@ -3378,7 +3378,7 @@ static BOOL glxdrv_wglSwapBuffers( HDC hdc )
+     case DC_GL_PIXMAP_WIN:
+         if (ctx) sync_context( ctx );
+         escape.gl_drawable = gl->pixmap;
+-        if (pglXCopySubBufferMESA) {
++        if (ctx && pglXCopySubBufferMESA) {
+             /* (glX)SwapBuffers has an implicit glFlush effect, however
+              * GLX_MESA_copy_sub_buffer doesn't. Make sure GL is flushed before
+              * copying */
+@@ -3387,7 +3387,7 @@ static BOOL glxdrv_wglSwapBuffers( HDC hdc )
+                                    gl->pixmap_size.cx, gl->pixmap_size.cy );
+             break;
+         }
+-        if (pglXSwapBuffersMscOML)
++        if (ctx && pglXSwapBuffersMscOML)
+         {
+             pglFlush();
+             target_sbc = pglXSwapBuffersMscOML( gdi_display, gl->drawable, 0, 0, 0 );
+@@ -3401,7 +3401,7 @@ static BOOL glxdrv_wglSwapBuffers( HDC hdc )
+         if (gl->type == DC_GL_CHILD_WIN) escape.gl_drawable = gl->window;
+         /* fall through */
+     default:
+-        if (escape.gl_drawable && pglXSwapBuffersMscOML)
++        if (ctx && escape.gl_drawable && pglXSwapBuffersMscOML)
+         {
+             pglFlush();
+             target_sbc = pglXSwapBuffersMscOML( gdi_display, gl->drawable, 0, 0, 0 );
+@@ -3411,13 +3411,13 @@ static BOOL glxdrv_wglSwapBuffers( HDC hdc )
+         break;
+     }
+
+-    if (escape.gl_drawable && pglXWaitForSbcOML)
++    if (ctx && escape.gl_drawable && pglXWaitForSbcOML)
+         pglXWaitForSbcOML( gdi_display, gl->drawable, target_sbc, &ust, &msc, &sbc );
+
      release_gl_drawable( gl );
 
--    if (escape.drawable) NtGdiExtEscape( ctx->hdc, NULL, 0, X11DRV_ESCAPE, sizeof(escape), (LPSTR)&escape, 0, NULL );
-+    if (escape.drawable && ctx) NtGdiExtEscape( ctx->hdc, NULL, 0, X11DRV_ESCAPE, sizeof(escape), (LPSTR)&escape, 0, NULL );
+     if (escape.gl_drawable)
+-        NtGdiExtEscape( ctx->hdc, NULL, 0, X11DRV_ESCAPE, sizeof(escape), (LPSTR)&escape, 0, NULL );
++        NtGdiExtEscape( ctx ? ctx->hdc : hdc, NULL, 0, X11DRV_ESCAPE, sizeof(escape), (LPSTR)&escape, 0, NULL );
      return TRUE;
  }
 
 --
 GitLab
-
-From 08d8187c2acb0e43b5ca505a95a819cc3fdb55d7 Mon Sep 17 00:00:00 2001
-From: Etaash Mathamsetty
- <45927311+Etaash-mathamsetty@users.noreply.github.com>
-Date: Sat, 20 Jan 2024 22:30:53 -0500
-Subject: [PATCH] winex11: fail wglMakeCurrent with NULL hdc.
-
----
- dlls/winex11.drv/opengl.c | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/dlls/winex11.drv/opengl.c b/dlls/winex11.drv/opengl.c
-index f2ffb4be4e7..753f5e44da9 100644
---- a/dlls/winex11.drv/opengl.c
-+++ b/dlls/winex11.drv/opengl.c
-@@ -1843,6 +1843,12 @@ static BOOL glxdrv_wglMakeCurrent(HDC hdc, struct wgl_context *ctx)
- 
-     TRACE("(%p,%p)\n", hdc, ctx);
- 
-+    if (!hdc)
-+    {
-+        RtlSetLastWin32Error( ERROR_INVALID_HANDLE );
-+        return FALSE;
-+    }
-+
-     if (!ctx)
-     {
-         pglXMakeCurrent(gdi_display, None, NULL);
--- 
-GitLab
-
