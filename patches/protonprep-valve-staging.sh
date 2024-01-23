@@ -382,11 +382,6 @@
     echo "WINE: -PENDING- Guild Wars 2 patch"
     patch -Np1 < ../patches/wine-hotfixes/pending/hotfix-guild_wars_2.patch
 
-    # https://github.com/ValveSoftware/wine/pull/217
-    # https://gitlab.winehq.org/etaash.mathamsetty/wine/-/commit/08d8187c2acb0e43b5ca505a95a819cc3fdb55d7
-    echo "WINE: -PENDING- Black Desert Online launcher fix"
-    patch -Np1 < ../patches/wine-hotfixes/pending/bdo-launcher-fix.patch
-
 ### END WINE PENDING UPSTREAM SECTION ###
 
 
