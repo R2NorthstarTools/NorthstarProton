@@ -1306,6 +1306,12 @@ class Session:
         if os.environ.get("SteamGameId", 0) == "352130":
             del self.dlloverrides["steam.exe"]
 
+        # Prevent this warning for non-steam games:
+        # [S_API FAIL] SteamAPI_Init() failed; no appID found.
+        # Either launch the game from Steam, or put the file steam_appid.txt containing the correct appID in your game folder.
+        if os.environ.get("SteamGameId", 0) == "0":
+            self.dlloverrides["steam.exe"] = "d"
+
         self.compat_config = default_compat_config()
         self.cmdlineappend = []
 
