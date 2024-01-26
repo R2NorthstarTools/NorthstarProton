@@ -1769,6 +1769,9 @@ class Session:
         # CoD: Black Ops 3 workaround
         if os.environ.get("SteamGameId", 0) == "311210":
             argv = [g_proton.wine_bin, "c:\\Program Files (x86)\\Steam\\steam.exe"]
+        # Don't use steam if it's not a steam game
+        elif os.environ.get("SteamGameId", 0) == "0":
+            argv = [g_proton.wine64_bin]
         else:
             argv = [g_proton.wine64_bin, "c:\\windows\\system32\\steam.exe"]
 
