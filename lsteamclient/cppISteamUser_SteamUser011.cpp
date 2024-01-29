@@ -1,71 +1,92 @@
-#include "steam_defs.h"
-#pragma push_macro("__cdecl")
-#undef __cdecl
-#define __cdecl
-#include "steamworks_sdk_103/steam_api.h"
-#pragma pop_macro("__cdecl")
-#include "steamclient_private.h"
-#ifdef __cplusplus
-extern "C" {
-#endif
-#define SDKVER_103
-#include "struct_converters.h"
-#include "cppISteamUser_SteamUser011.h"
-void cppISteamUser_SteamUser011_GetHSteamUser( struct cppISteamUser_SteamUser011_GetHSteamUser_params *params )
+/* This file is auto-generated, do not edit. */
+#include "unix_private.h"
+
+NTSTATUS ISteamUser_SteamUser011_GetHSteamUser( void *args )
 {
-    params->_ret = ((ISteamUser*)params->linux_side)->GetHSteamUser(  );
+    struct ISteamUser_SteamUser011_GetHSteamUser_params *params = (struct ISteamUser_SteamUser011_GetHSteamUser_params *)args;
+    struct u_ISteamUser_SteamUser011 *iface = (struct u_ISteamUser_SteamUser011 *)params->linux_side;
+    params->_ret = iface->GetHSteamUser(  );
+    return 0;
 }
 
-void cppISteamUser_SteamUser011_BLoggedOn( struct cppISteamUser_SteamUser011_BLoggedOn_params *params )
+NTSTATUS ISteamUser_SteamUser011_BLoggedOn( void *args )
 {
-    params->_ret = ((ISteamUser*)params->linux_side)->BLoggedOn(  );
+    struct ISteamUser_SteamUser011_BLoggedOn_params *params = (struct ISteamUser_SteamUser011_BLoggedOn_params *)args;
+    struct u_ISteamUser_SteamUser011 *iface = (struct u_ISteamUser_SteamUser011 *)params->linux_side;
+    params->_ret = iface->BLoggedOn(  );
+    return 0;
 }
 
-void cppISteamUser_SteamUser011_GetSteamID( struct cppISteamUser_SteamUser011_GetSteamID_params *params )
+NTSTATUS ISteamUser_SteamUser011_GetSteamID( void *args )
 {
-    *params->_ret = ((ISteamUser*)params->linux_side)->GetSteamID(  );
+    struct ISteamUser_SteamUser011_GetSteamID_params *params = (struct ISteamUser_SteamUser011_GetSteamID_params *)args;
+    struct u_ISteamUser_SteamUser011 *iface = (struct u_ISteamUser_SteamUser011 *)params->linux_side;
+    *params->_ret = iface->GetSteamID(  );
+    return 0;
 }
 
-void cppISteamUser_SteamUser011_InitiateGameConnection( struct cppISteamUser_SteamUser011_InitiateGameConnection_params *params )
+NTSTATUS ISteamUser_SteamUser011_InitiateGameConnection( void *args )
 {
-    params->_ret = ((ISteamUser*)params->linux_side)->InitiateGameConnection( (void *)params->pAuthBlob, (int)params->cbMaxAuthBlob, (CSteamID)params->steamIDGameServer, (uint32)params->unIPServer, (uint16)params->usPortServer, (bool)params->bSecure );
+    struct ISteamUser_SteamUser011_InitiateGameConnection_params *params = (struct ISteamUser_SteamUser011_InitiateGameConnection_params *)args;
+    struct u_ISteamUser_SteamUser011 *iface = (struct u_ISteamUser_SteamUser011 *)params->linux_side;
+    params->_ret = iface->InitiateGameConnection( params->pAuthBlob, params->cbMaxAuthBlob, params->steamIDGameServer, params->unIPServer, params->usPortServer, params->bSecure );
+    return 0;
 }
 
-void cppISteamUser_SteamUser011_TerminateGameConnection( struct cppISteamUser_SteamUser011_TerminateGameConnection_params *params )
+NTSTATUS ISteamUser_SteamUser011_TerminateGameConnection( void *args )
 {
-    ((ISteamUser*)params->linux_side)->TerminateGameConnection( (uint32)params->unIPServer, (uint16)params->usPortServer );
+    struct ISteamUser_SteamUser011_TerminateGameConnection_params *params = (struct ISteamUser_SteamUser011_TerminateGameConnection_params *)args;
+    struct u_ISteamUser_SteamUser011 *iface = (struct u_ISteamUser_SteamUser011 *)params->linux_side;
+    iface->TerminateGameConnection( params->unIPServer, params->usPortServer );
+    return 0;
 }
 
-void cppISteamUser_SteamUser011_TrackAppUsageEvent( struct cppISteamUser_SteamUser011_TrackAppUsageEvent_params *params )
+NTSTATUS ISteamUser_SteamUser011_TrackAppUsageEvent( void *args )
 {
-    ((ISteamUser*)params->linux_side)->TrackAppUsageEvent( (CGameID)params->gameID, (int)params->eAppUsageEvent, (const char *)params->pchExtraInfo );
+    struct ISteamUser_SteamUser011_TrackAppUsageEvent_params *params = (struct ISteamUser_SteamUser011_TrackAppUsageEvent_params *)args;
+    struct u_ISteamUser_SteamUser011 *iface = (struct u_ISteamUser_SteamUser011 *)params->linux_side;
+    iface->TrackAppUsageEvent( params->gameID, params->eAppUsageEvent, params->pchExtraInfo );
+    return 0;
 }
 
-void cppISteamUser_SteamUser011_GetUserDataFolder( struct cppISteamUser_SteamUser011_GetUserDataFolder_params *params )
+NTSTATUS ISteamUser_SteamUser011_GetUserDataFolder( void *args )
 {
-    params->_ret = ((ISteamUser*)params->linux_side)->GetUserDataFolder( (char *)params->pchBuffer, (int)params->cubBuffer );
+    struct ISteamUser_SteamUser011_GetUserDataFolder_params *params = (struct ISteamUser_SteamUser011_GetUserDataFolder_params *)args;
+    struct u_ISteamUser_SteamUser011 *iface = (struct u_ISteamUser_SteamUser011 *)params->linux_side;
+    params->_ret = iface->GetUserDataFolder( params->pchBuffer, params->cubBuffer );
+    steamclient_unix_path_to_dos_path( params->_ret, params->pchBuffer, params->pchBuffer, params->cubBuffer, 0 );
+    return 0;
 }
 
-void cppISteamUser_SteamUser011_StartVoiceRecording( struct cppISteamUser_SteamUser011_StartVoiceRecording_params *params )
+NTSTATUS ISteamUser_SteamUser011_StartVoiceRecording( void *args )
 {
-    ((ISteamUser*)params->linux_side)->StartVoiceRecording(  );
+    struct ISteamUser_SteamUser011_StartVoiceRecording_params *params = (struct ISteamUser_SteamUser011_StartVoiceRecording_params *)args;
+    struct u_ISteamUser_SteamUser011 *iface = (struct u_ISteamUser_SteamUser011 *)params->linux_side;
+    iface->StartVoiceRecording(  );
+    return 0;
 }
 
-void cppISteamUser_SteamUser011_StopVoiceRecording( struct cppISteamUser_SteamUser011_StopVoiceRecording_params *params )
+NTSTATUS ISteamUser_SteamUser011_StopVoiceRecording( void *args )
 {
-    ((ISteamUser*)params->linux_side)->StopVoiceRecording(  );
+    struct ISteamUser_SteamUser011_StopVoiceRecording_params *params = (struct ISteamUser_SteamUser011_StopVoiceRecording_params *)args;
+    struct u_ISteamUser_SteamUser011 *iface = (struct u_ISteamUser_SteamUser011 *)params->linux_side;
+    iface->StopVoiceRecording(  );
+    return 0;
 }
 
-void cppISteamUser_SteamUser011_GetCompressedVoice( struct cppISteamUser_SteamUser011_GetCompressedVoice_params *params )
+NTSTATUS ISteamUser_SteamUser011_GetCompressedVoice( void *args )
 {
-    params->_ret = ((ISteamUser*)params->linux_side)->GetCompressedVoice( (void *)params->pDestBuffer, (uint32)params->cbDestBufferSize, (uint32 *)params->nBytesWritten );
+    struct ISteamUser_SteamUser011_GetCompressedVoice_params *params = (struct ISteamUser_SteamUser011_GetCompressedVoice_params *)args;
+    struct u_ISteamUser_SteamUser011 *iface = (struct u_ISteamUser_SteamUser011 *)params->linux_side;
+    params->_ret = iface->GetCompressedVoice( params->pDestBuffer, params->cbDestBufferSize, params->nBytesWritten );
+    return 0;
 }
 
-void cppISteamUser_SteamUser011_DecompressVoice( struct cppISteamUser_SteamUser011_DecompressVoice_params *params )
+NTSTATUS ISteamUser_SteamUser011_DecompressVoice( void *args )
 {
-    params->_ret = ((ISteamUser*)params->linux_side)->DecompressVoice( (void *)params->pCompressed, (uint32)params->cbCompressed, (void *)params->pDestBuffer, (uint32)params->cbDestBufferSize, (uint32 *)params->nBytesWritten );
+    struct ISteamUser_SteamUser011_DecompressVoice_params *params = (struct ISteamUser_SteamUser011_DecompressVoice_params *)args;
+    struct u_ISteamUser_SteamUser011 *iface = (struct u_ISteamUser_SteamUser011 *)params->linux_side;
+    params->_ret = iface->DecompressVoice( params->pCompressed, params->cbCompressed, params->pDestBuffer, params->cbDestBufferSize, params->nBytesWritten );
+    return 0;
 }
 
-#ifdef __cplusplus
-}
-#endif

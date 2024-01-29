@@ -2,28 +2,38 @@
 
 ### (1) PREP SECTION ###
 
-    cd dxvk
+# NOTE: Nvidia reflex patches are disabled now as they are currently not ready/problematic/known to cause stutters
+# I was pinged about it from DXVK dev discord.
+# https://github.com/doitsujin/dxvk/pull/3690#discussion_r1405306492
+
+    pushd dxvk
     git reset --hard HEAD
     git clean -xdf
-    cd ..
+    #echo "DXVK: -Nvidia Reflex- Add NV low latency support"
+    #pushd include/vulkan; git pull; git checkout bbe0f575ebd6098369f0ac6c6a43532732ed0ba6; popd
+    #patch -Np1 < ../patches/proton/80-nv_low_latency_dxvk.patch
+    popd
 
-    cd vkd3d-proton
+    pushd vkd3d-proton
     git reset --hard HEAD
     git clean -xdf
-    cd ..
+    #echo "VKD3D-PROTON: -Nvidia Reflex- Add NV low latency support"
+    #pushd khronos/Vulkan-Headers; git pull; git checkout bbe0f575ebd6098369f0ac6c6a43532732ed0ba6; popd
+    #patch -Np1 < ../patches/proton/81-nv_low_latency_vkd3d_proton.patch
+    popd
 
-    # https://github.com/ValveSoftware/Proton/pull/6555
-    cd steam_helper
-    git checkout steam.cpp
-    cd ..
-    patch -Np1 < ./patches/steam_helper/6555.patch
-
+    pushd dxvk-nvapi
+    git reset --hard HEAD
+    git clean -xdf
+    #echo "DXVK-NVAPI: -Nvidia Reflex- Add support for Reflex"
+    #patch -Np1 < ../patches/proton/82-nv_low_latency_dxvk_nvapi.patch
+    popd
 
 ### END PREP SECTION ###
 
 ### (2) WINE PATCHING ###
 
-    cd wine
+    pushd wine
     git reset --hard HEAD
     git clean -xdf
 
@@ -114,7 +124,9 @@
     -W wined3d-SWVP-shaders \
     -W wined3d-Indexed_Vertex_Blending \
     -W shell32-registry-lookup-app \
-    -W winepulse-PulseAudio_Support
+    -W winepulse-PulseAudio_Support \
+    -W d3dx9_36-D3DXStubs \
+    -W ntdll-ext4-case-folder
 
     # NOTE: Some patches are applied manually because they -do- apply, just not cleanly, ie with patch fuzz.
     # A detailed list of why the above patches are disabled is listed below:
@@ -192,6 +204,8 @@
     # ** winex11-XEMBED - applied manually
     # ** shell32-registry-lookup-app - applied manually
     # ** winepulse-PulseAudio_Support - applied manually
+    # d3dx9_36-D3DXStubs - already applied
+    # ** ntdll-ext4-case-folder - applied manually
     #
     # Paul Gofman — Yesterday at 3:49 PM
     # that’s only for desktop integration, spamming native menu’s with wine apps which won’t probably start from there anyway
@@ -221,6 +235,9 @@
 
     # ntdll-Serial_Port_Detection
     patch -Np1 < ../patches/wine-hotfixes/staging/ntdll-Serial_Port_Detection/0001-ntdll-Do-a-device-check-before-returning-a-default-s.patch
+
+    # ntdll-WRITECOPY
+    patch -Np1 < ../patches/wine-hotfixes/staging/ntdll-WRITECOPY/0007-ntdll-Report-unmodified-WRITECOPY-pages-as-shared.patch
 
     # mouse rawinput
     # per discussion with remi:
@@ -290,10 +307,10 @@
 
     # shell32-NewMenu_Interface
     patch -Np1 < ../patches/wine-hotfixes/staging/shell32-NewMenu_Interface/0001-shell32-Implement-NewMenu-with-new-folder-item.patch
-    
+
     # user32-FlashWindowEx
     patch -Np1 < ../patches/wine-hotfixes/staging/user32-FlashWindowEx/0001-user32-Improve-FlashWindowEx-message-and-return-valu.patch
-    
+
     # kernel32-Debugger
     patch -Np1 < ../wine-staging/patches/kernel32-Debugger/0001-kernel32-Always-start-debugger-on-WinSta0.patch
 
@@ -302,6 +319,9 @@
 
     # winepulse-PulseAudio_Support
     patch -Np1 < ../patches/wine-hotfixes/staging/winepulse-PulseAudio_Support/0001-winepulse.drv-Use-a-separate-mainloop-and-ctx-for-pu.patch
+
+    # ntdll-ext4-case-folder
+    patch -Np1 < ../patches/wine-hotfixes/staging/ntdll-ext4-case-folder/0002-ntdll-server-Mark-drive_c-as-case-insensitive-when-c.patch
 
 ### END WINE STAGING APPLY SECTION ###
 
@@ -318,18 +338,19 @@
 
     echo "WINE: -GAME FIXES- Add Star Citizen EAC patch and wrap it around SteamGameId=starcitizen envvar"
     patch -Np1 < ../patches/game-patches/star-citizen-eac.patch
-    
+
     # https://github.com/ValveSoftware/Proton/issues/580#issuecomment-1588435182
     echo "WINE: -GAME FIXES- Fix FFXIV not playing Hydaelyn intro video on new install"
     patch -Np1 < ../patches/game-patches/ffxiv_hydaelyn_intro_playback_fix.patch
-    
-    # https://github.com/ValveSoftware/Proton/issues/6717
-    echo "WINE: -GAME FIXES- Fix Farlight 84 dxva crash"
-    patch -Np1 < ../patches/game-patches/farlight84.patch
 
-    # https://github.com/ValveSoftware/Proton/issues/333#issuecomment-1763560466
-    echo "WINE: -GAME FIXES- Fix World of Warships login hang"
-    patch -Np1 < ../patches/game-patches/world-of-warships-login-hang-fix.patch
+    # https://github.com/ValveSoftware/Proton/issues/6717
+    # https://gitlab.winehq.org/wine/wine/-/merge_requests/4428
+    echo "WINE: -GAME FIXES- Fix Farlight 84 crash"
+    patch -Np1 < ../patches/wine-hotfixes/pending/4428.patch
+
+    # https://github.com/ValveSoftware/Proton/issues/4625
+    echo "WINE: -GAME FIXES- Fix Yakuza 5 cutscenes audio"
+    patch -Np1 < ../patches/game-patches/yakuza5-cutscenes.patch
 
 ### END GAME PATCH SECTION ###
 
@@ -339,6 +360,10 @@
     echo "WINE: -BACKPORT- R6 Siege backport"
     patch -Np1 < ../patches/wine-hotfixes/upstream/3777.patch
 
+    # https://gitlab.winehq.org/wine/wine/-/merge_requests/2403
+    echo "WINE: -BACKPORT- LibreVR Revive backport"
+    patch -Np1 < ../patches/wine-hotfixes/upstream/2403.patch
+
 ### END WINE HOTFIX/BACKPORT SECTION ###
 
 ### (2-5) WINE PENDING UPSTREAM SECTION ###
@@ -346,7 +371,7 @@
     # https://github.com/Frogging-Family/wine-tkg-git/commit/ca0daac62037be72ae5dd7bf87c705c989eba2cb
     echo "WINE: -PENDING- unity crash hotfix"
     patch -Np1 < ../patches/wine-hotfixes/pending/unity_crash_hotfix.patch
-    
+
     # https://bugs.winehq.org/show_bug.cgi?id=51683
     echo "WINE: -PENDING- Guild Wars 2 patch"
     patch -Np1 < ../patches/wine-hotfixes/pending/hotfix-guild_wars_2.patch
@@ -357,13 +382,24 @@
 ### (2-6) PROTON-GE ADDITIONAL CUSTOM PATCHES ###
 
     echo "WINE: -FSR- fullscreen hack fsr patch"
-    patch -Np1 < ../patches/proton/48-proton-fshack_amd_fsr.patch
-    
-    echo "WINE: -FSR- fullscreen hack resolution calculation fixup"
-    patch -Np1 < ../patches/proton/49-fsr-width-using-height-and-aspect-ratio.patch
-    
+    patch -Np1 < ../patches/proton/47-proton-fshack-AMD-FSR-complete.patch
+
+    #echo "WINE: -FSR- fullscreen hack fsr patch"
+    #patch -Np1 < ../patches/proton/48-proton-fshack_amd_fsr.patch
+
+    #echo "WINE: -FSR- fullscreen hack resolution calculation fixup"
+    #patch -Np1 < ../patches/proton/49-fsr-width-using-height-and-aspect-ratio.patch
+    #echo "WINE: -FSR- fullscreen hack fix washed colors when FSR disabled"
+    #patch -Np1 < ../patches/proton/50-fsr-fix-washed-colors-when-disabled.patch
+
     #echo "WINE: -FSR- enable FSR flag by default (fixes broken fs hack scaling in some games like Apex and FFXIV)"
     #patch -Np1 < ../patches/proton/71-invert-fsr-logic.patch
 
+    #echo "WINE: -Nvidia Reflex- Support VK_NV_low_latency2"
+    #patch -Np1 < ../patches/proton/83-nv_low_latency_wine.patch
+
+    popd
+
 ### END PROTON-GE ADDITIONAL CUSTOM PATCHES ###
 ### END WINE PATCHING ###
+

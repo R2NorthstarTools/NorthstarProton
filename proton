@@ -40,7 +40,7 @@ from random import randrange
 #To enable debug logging, copy "user_settings.sample.py" to "user_settings.py"
 #and edit it if needed.
 
-CURRENT_PREFIX_VERSION="GE-Proton8-20"
+CURRENT_PREFIX_VERSION="GE-Proton8-28"
 
 PFX="Proton: "
 ld_path_var = "LD_LIBRARY_PATH"
@@ -803,7 +803,7 @@ class CompatData:
             use_wined3d = "wined3d" in g_session.compat_config
             use_dxvk_dxgi = not use_wined3d and \
                     not ("WINEDLLOVERRIDES" in g_session.env and "dxgi=b" in g_session.env["WINEDLLOVERRIDES"])
-            use_nvapi = 'enablenvapi' in g_session.compat_config
+            use_nvapi = 'enablenvapi' in g_session.compat_config or 'forcenvapi' in g_session.compat_config
 
             builtin_dll_copy = os.environ.get("PROTON_DLL_COPY",
                     #dxsetup redist
@@ -816,42 +816,6 @@ class CompatData:
                     "xapofx*.dll," +
                     "xaudio*.dll," +
                     "xinput*.dll," +
-                    "devenum.dll," +
-
-                    #directshow
-                    "amstream.dll," +
-                    "qasf.dll," +
-                    "qcap.dll," +
-                    "qdvd.dll," +
-                    "qedit.dll," +
-                    "quartz.dll," +
-
-                    #directplay
-                    "dplay.dll," +
-                    "dplaysvr.exe," +
-                    "dplayx.dll," +
-                    "dpmodemx.dll," +
-                    "dpnaddr.dll," +
-                    "dpnet.dll," +
-                    "dpnlobby.dll," +
-                    "dpnhpast.dll," +
-                    "dpnhupnp.dll," +
-                    "dpnsvr.exe," +
-                    "dpwsockx.dll," +
-                    "dpvoice.dll," +
-
-                    #directmusic
-                    "dmband.dll," +
-                    "dmcompos.dll," +
-                    "dmime.dll," +
-                    "dmloader.dll," +
-                    "dmscript.dll," +
-                    "dmstyle.dll," +
-                    "dmsynth.dll," +
-                    "dmusic.dll," +
-                    "dmusic32.dll," +
-                    "dsound.dll," +
-                    "dswave.dll," +
 
                     #vcruntime redist
                     "atl1*.dll," +
@@ -862,13 +826,6 @@ class CompatData:
                     "vcomp1*.dll," +
                     "vccorlib1*.dll," +
                     "vcruntime1*.dll," +
-                    "api-ms-win-crt-conio-l1-1-0.dll," +
-                    "api-ms-win-crt-heap-l1-1-0.dll," +
-                    "api-ms-win-crt-locale-l1-1-0.dll," +
-                    "api-ms-win-crt-math-l1-1-0.dll," +
-                    "api-ms-win-crt-runtime-l1-1-0.dll," +
-                    "api-ms-win-crt-stdio-l1-1-0.dll," +
-                    "ucrtbase.dll," +
 
                     #some games balk at ntdll symlink(?)
                     "ntdll.dll," +
@@ -876,128 +833,8 @@ class CompatData:
                     #some games require official vulkan loader
                     "vulkan-1.dll," +
 
-                    #wmp9
-                    "dispex.dll," +
-                    "jscript.dll," +
-                    "scrobj.dll," +
-                    "scrrun.dll," +
-                    "vbscript.dll," +
-                    "cscript.exe," +
-                    "wscript.exe," +
-                    "wshom.ocx," +
-                    "9SeriesDefault.wmz," +
-                    "9SeriesDefault_.wmz," +
-                    "9xmigrat.dll," +
-                    "advpack.dll," +
-                    "asferror.dll," +
-                    "blackbox.dll," +
-                    "CEWMDM.dll," +
-                    "Compact.wmz," +
-                    "control.xml," +
-                    "custsat.dll," +
-                    "drm.cat," +
-                    "drm.inf," +
-                    "DRMClien.dll," +
-                    "DrmStor.dll," +
-                    "drmv2clt.dll," +
-                    "dw15.exe," +
-                    "dwintl.dll," +
-                    "engsetup.exe," +
-                    "eula.txt," +
-                    "fhg.inf," +
-                    "iexpress.inf," +
-                    "l3codeca.acm," +
-                    "LAPRXY.DLL," +
-                    "logagent.exe," +
-                    "migrate.dll," +
-                    "migrate.exe," +
-                    "MP43DMOD.DLL," +
-                    "MP4SDMOD.DLL," +
-                    "MPG4DMOD.DLL," +
-                    "mpvis.DLL," +
-                    "msdmo.dll," +
-                    "msnetobj.dll," +
-                    "msoobci.dll," +
-                    "MsPMSNSv.dll," +
-                    "MsPMSP.dll," +
-                    "MSSCP.dll," +
-                    "MSWMDM.dll," +
-                    "mymusic.inf," +
-                    "npdrmv2.dll," +
-                    "npdrmv2.zip," +
-                    "NPWMSDrm.dll," +
-                    "PidGen.dll," +
-                    "Plylst1.wpl," +
-                    "Plylst10.wpl," +
-                    "Plylst11.wpl," +
-                    "Plylst12.wpl," +
-                    "Plylst13.wpl," +
-                    "Plylst14.wpl," +
-                    "Plylst15.wpl," +
-                    "Plylst2.wpl," +
-                    "Plylst3.wpl," +
-                    "Plylst4.wpl," +
-                    "Plylst5.wpl," +
-                    "Plylst6.wpl," +
-                    "Plylst7.wpl," +
-                    "Plylst8.wpl," +
-                    "Plylst9.wpl," +
-                    "plyr_err.chm," +
-                    "qasf.dll," +
-                    "QuickSilver.wmz," +
-                    "Revert.wmz," +
-                    "roxio.inf," +
-                    "rsl.dll," +
-                    "setup_wm.cat," +
-                    "setup_wm.exe," +
-                    "setup_wm.inf," +
-                    "skins.inf," +
-                    "skinsmui.inf," +
-                    "unicows.dll," +
-                    "unregmp2.exe," +
-                    "w95inf16.dll," +
-                    "w95inf32.dll," +
-                    "wm1033.lng," +
-                    "WMADMOD.DLL," +
-                    "WMADMOE.DLL," +
-                    "WMASF.DLL," +
-                    "wmburn.exe," +
-                    "wmburn.rxc," +
-                    "wmdm.cat," +
-                    "wmdm.inf," +
-                    "WMDMLOG.dll," +
-                    "WMDMPS.dll," +
-                    "wmerror.dll," +
-                    "wmexpack.cat," +
-                    "wmexpack.inf," +
-                    "WMFSDK.cat," +
-                    "WMFSDK.inf," +
-                    "wmidx.dll," +
-                    "WMNetMgr.dll," +
-                    "wmp.cat," +
-                    "wmp.dll," +
-                    "wmp.inf," +
-                    "wmp.ocx," +
-                    "wmpasf.dll," +
-                    "wmpband.dll," +
-                    "wmpcd.dll," +
-                    "wmpcore.dll," +
-                    "wmpdxm.dll," +
-                    "wmplayer.adm," +
-                    "wmplayer.chm," +
-                    "wmplayer.exe," +
-                    "wmploc.DLL," +
-                    "WMPNS.dll," +
-                    "wmpns.jar," +
-                    "wmpshell.dll," +
-                    "wmpui.dll," +
-                    "WMSDMOD.DLL," +
-                    "WMSDMOE2.DLL," +
-                    "WMSPDMOD.DLL," +
-                    "WMSPDMOE.DLL," +
-                    "WMVCORE.DLL," +
-                    "WMVDMOD.DLL," +
-                    "WMVDMOE2.DLL"
+                    #let the games install native
+                    "ir50_32.dll"
                     )
 
             # If any of this info changes, we must rerun the tasks below
@@ -1086,19 +923,26 @@ class CompatData:
                 try_copy(g_proton.lib_dir + "vkd3d/libvkd3d-shader-1.dll", "drive_c/windows/syswow64",
                         prefix=self.prefix_dir, track_file=tracked_files, link_debug=True)
 
+                enable_d8vk = "enabled8vk" in g_session.compat_config
+
                 if use_wined3d:
                     dxvkfiles = []
+                    d8vkfiles = []
                     vkd3d_protonfiles = []
-                    wined3dfiles = ["d3d12", "d3d11", "d3d10", "d3d10core", "d3d10_1", "d3d9"]
+                    wined3dfiles = ["d3d12", "d3d11", "d3d10", "d3d10core", "d3d10_1", "d3d9", "d3d8"]
                 else:
                     dxvkfiles = ["d3d11", "d3d10core", "d3d9"]
+                    d8vkfiles = ["d3d8", "d3d9"] if enable_d8vk else []
                     vkd3d_protonfiles = ["d3d12", "d3d12core"]
-                    wined3dfiles = []
+                    wined3dfiles = [] if enable_d8vk else ["d3d8"]
 
                 if use_dxvk_dxgi:
                     dxvkfiles.append("dxgi")
                 else:
                     wined3dfiles.append("dxgi")
+
+                if dxvkfiles and enable_d8vk:
+                    dxvkfiles.remove("d3d9")
 
                 for f in wined3dfiles:
                     try_copy(g_proton.default_pfx_dir + "drive_c/windows/system32/" + f + ".dll", "drive_c/windows/system32",
@@ -1110,6 +954,13 @@ class CompatData:
                     try_copy(g_proton.lib64_dir + "wine/dxvk/" + f + ".dll", "drive_c/windows/system32",
                             prefix=self.prefix_dir, track_file=tracked_files, link_debug=True)
                     try_copy(g_proton.lib_dir + "wine/dxvk/" + f + ".dll", "drive_c/windows/syswow64",
+                            prefix=self.prefix_dir, track_file=tracked_files, link_debug=True)
+                    g_session.dlloverrides[f] = "n"
+
+                for f in d8vkfiles:
+                    try_copy(g_proton.lib64_dir + "wine/d8vk/" + f + ".dll", "drive_c/windows/system32",
+                            prefix=self.prefix_dir, track_file=tracked_files, link_debug=True)
+                    try_copy(g_proton.lib_dir + "wine/d8vk/" + f + ".dll", "drive_c/windows/syswow64",
                             prefix=self.prefix_dir, track_file=tracked_files, link_debug=True)
                     g_session.dlloverrides[f] = "n"
 
@@ -1229,6 +1080,11 @@ def default_compat_config():
             ret.add("noforcelgadd")
 
         if appid in [
+                "257420", #Serious Sam 4
+                ]:
+            ret.add("hidevggpu")
+
+        if appid in [
                 "1341820", #As Dusk falls
                 "280790", #Creativerse
                 "306130", #The Elder Scrolls Online
@@ -1238,6 +1094,7 @@ def default_compat_config():
                 "4000", #Garry's Mod
                 "383120", #Empyrion - Galactic Survival
                 "2371630", #Sword Art Online: Integral Factor
+                "460790", #Bayonetta
                 ]:
             ret.add("gamedrive")
 
@@ -1246,11 +1103,13 @@ def default_compat_config():
                 "212910", #Call of Duty: Black Ops II - Zombies
                 "499100", #Dark Parables: The Exiled Prince Collector's Edition (499100)
                 "1404090", #Trivia Tricks
+                "2052410", #WITCH ON THE HOLY NIGHT
                 ]:
             ret.add("heapdelayfree")
 
         if appid in [
                 "2630", #Call of Duty 2
+                "1060210", #Disaster Report 4: Summer Memories
                 ]:
             ret.add("nofsync")
             ret.add("noesync")
@@ -1394,16 +1253,40 @@ def default_compat_config():
                 "1358700", #STRANGER OF PARADISE FINAL FANTASY ORIGIN
                 "1446780", #monster hunter rise
                 "2379390", #Rainbow Six Extraction
+                "883710", #Resident Evil 2
+                "952060", #Resident Evil 3
+                "1196590", #Resident Evil Village
+                "418370", #Resident Evil 7 Biohazard
+                "990080", #Hogwarts Legacy
+                "526870", #Satisfactory
                 ]:
             ret.add("enablenvapi")
 
         if appid in [
                 "1245620", #Elden Ring
                 "1888160", #Armored Core VI
+                "1888930", #the last of us part 1
                 "814380", #Sekiro: Shadows Die Twice
                 "2379390", #Rainbow Six Extraction
+                "883710", #Resident Evil 2
+                "952060", #Resident Evil 3
+                "1196590", #Resident Evil Village
+                "418370", #Resident Evil 7 Biohazard
+                "990080", #Hogwarts Legacy
+                "1328670", #Mass Effect Legendary Edition
+                "627270", #Injustice 2
+                "530940", #BIOHAZARD 7 resident evil
+                "895950", #BIOHAZARD RE:2 Z Version
+                "1100830", #BIOHAZARD RE:3 Z Version
+                "1196600", #BIOHAZARD VILLAGE Z Version
+                "601150", #Devil May Cry 5
                 ]:
             ret.add("enableamdags")
+
+        if appid in [
+                "2395210" #Tony Hawk's Pro Skater 1 + 2
+                ]:
+            ret.add("forcenvapi")
 
     return ret
 
@@ -1452,6 +1335,10 @@ class Session:
             self.env["LC_ALL"] = self.env["HOST_LC_ALL"]
         else:
             self.env.pop("LC_ALL", "")
+
+        # CW-Bug-Id: #23185 Enable the new SDL 2.30 Steam Input integration.
+        if "SteamVirtualGamepadInfo_Proton" in self.env and "SteamVirtualGamepadInfo" not in self.env:
+            self.env["SteamVirtualGamepadInfo"] = self.env["SteamVirtualGamepadInfo_Proton"]
 
         self.env.pop("WINEARCH", "")
 
@@ -1541,6 +1428,7 @@ class Session:
         if "PROTON_LOG" in self.env and nonzero(self.env["PROTON_LOG"]):
             self.env.setdefault("WINEDEBUG", "+timestamp,+pid,+tid,+seh,+unwind,+threadname,+debugstr,+loaddll,+mscoree")
             self.env.setdefault("DXVK_LOG_LEVEL", "info")
+            self.env.setdefault("DXVK_NVAPI_LOG_LEVEL", "info")
             self.env.setdefault("VKD3D_DEBUG", "warn")
             self.env.setdefault("VKD3D_SHADER_DEBUG", "fixme")
             self.env.setdefault("WINE_MONO_TRACE", "E:System.NotImplementedException")
@@ -1573,12 +1461,15 @@ class Session:
         self.check_environment("PROTON_OLD_GL_STRING", "oldglstr")
         self.check_environment("PROTON_NO_WRITE_WATCH", "nowritewatch")
         self.check_environment("PROTON_HIDE_NVIDIA_GPU", "hidenvgpu")
+        self.check_environment("PROTON_HIDE_VANGOGH_GPU", "hidevggpu")
         self.check_environment("PROTON_SET_GAME_DRIVE", "gamedrive")
         self.check_environment("PROTON_SET_STEAM_DRIVE", "steamdrive")
         self.check_environment("PROTON_NO_XIM", "noxim")
         self.check_environment("PROTON_HEAP_DELAY_FREE", "heapdelayfree")
         self.check_environment("PROTON_ENABLE_NVAPI", "enablenvapi")
+        self.check_environment("PROTON_FORCE_NVAPI", "forcenvapi")
         self.check_environment("PROTON_ENABLE_AMD_AGS", "enableamdags")
+        self.check_environment("PROTON_ENABLE_D8VK", "enabled8vk")
 
         if "noesync" in self.compat_config:
             self.env.pop("WINEESYNC", "")
@@ -1604,6 +1495,9 @@ class Session:
 
         if "forcelgadd" in self.compat_config:
             self.env["WINE_LARGE_ADDRESS_AWARE"] = "1"
+        else:
+            if "noforcelgadd" in self.compat_config:
+                self.env["WINE_LARGE_ADDRESS_AWARE"] = "0"
 
         if "heapdelayfree" in self.compat_config:
             self.env["WINE_HEAP_DELAY_FREE"] = "1"
@@ -1618,8 +1512,11 @@ class Session:
             if not "VKD3D_FEATURE_LEVEL" in self.env:
                 self.env["VKD3D_FEATURE_LEVEL"] = "12_0"
 
+        if "hidevggpu" in self.compat_config:
+            self.env["WINE_HIDE_VANGOGH_GPU"] = "1"
+
         # enablenvapi beats hidenvgpu
-        if "hidenvgpu" in self.compat_config and "enablenvapi" not in self.compat_config:
+        if "hidenvgpu" in self.compat_config and "enablenvapi" not in self.compat_config and "forcenvapi" not in self.compat_config:
             self.env["WINE_HIDE_NVIDIA_GPU"] = "1"
 
         if "usenativexinput13" in self.compat_config:
@@ -1707,8 +1604,13 @@ class Session:
         if "wined3d9" in self.compat_config:
             self.dlloverrides["d3d9"] = "b"
 
-        if "enablenvapi" in self.compat_config:
+        if "enablenvapi" in self.compat_config or "forcenvapi" in self.compat_config:
             self.env["DXVK_ENABLE_NVAPI"] = "1"
+
+        if "forcenvapi" in self.compat_config:
+            self.env["DXVK_NVAPI_ALLOW_OTHER_DRIVERS"] = "1"
+            self.env["DXVK_NVAPI_DRIVER_VERSION"] = "99999"
+            self.env["WINE_HIDE_AMD_GPU"] = "1"
 
         if "enableamdags" in self.compat_config:
             self.dlloverrides["amd_ags_x64"] = "b"
@@ -1865,6 +1767,12 @@ class Session:
         # CoD: Black Ops 3 workaround
         if os.environ.get("SteamGameId", 0) == "311210":
             argv = [g_proton.wine_bin, "c:\\Program Files (x86)\\Steam\\steam.exe"]
+        # Don't use steam if it's not a steam game
+        # Prevent this warning for non-steam games:
+        # [S_API FAIL] SteamAPI_Init() failed; no appID found.
+        # Either launch the game from Steam, or put the file steam_appid.txt containing the correct appID in your game folder.
+        elif os.environ.get("SteamGameId", 0) == "0":
+            argv = [g_proton.wine64_bin]
         else:
             argv = [g_proton.wine64_bin, "c:\\windows\\system32\\steam.exe"]
 
@@ -1896,6 +1804,9 @@ if __name__ == "__main__":
     g_session = Session()
 
     g_session.init_wine()
+
+    # This is needed for protonfixes
+    os.environ["PROTON_DLL_COPY"] = "*"
 
     if g_proton.missing_default_prefix():
         g_proton.make_default_prefix()

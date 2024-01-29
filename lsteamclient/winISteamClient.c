@@ -1,19 +1,7 @@
 /* This file is auto-generated, do not edit. */
-#include <stdarg.h>
-
-#include "windef.h"
-#include "winbase.h"
-#include "wine/debug.h"
-
-#include "steam_defs.h"
-
 #include "steamclient_private.h"
 
-#include "struct_converters.h"
-
 WINE_DEFAULT_DEBUG_CHANNEL(steamclient);
-
-#include "cppISteamClient_SteamClient006.h"
 
 DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient006_CreateSteamPipe, 4)
 DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient006_BReleaseSteamPipe, 8)
@@ -37,80 +25,80 @@ DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient006_GetISteamMatchmakingServe
 DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient006_RunFrame, 4)
 DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient006_GetIPCCallCount, 4)
 
-HSteamPipe __thiscall winISteamClient_SteamClient006_CreateSteamPipe(struct w_steam_iface *_this)
+int32_t __thiscall winISteamClient_SteamClient006_CreateSteamPipe(struct w_steam_iface *_this)
 {
-    struct cppISteamClient_SteamClient006_CreateSteamPipe_params params =
+    struct ISteamClient_SteamClient006_CreateSteamPipe_params params =
     {
         .linux_side = _this->u_iface,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient006_CreateSteamPipe( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient006_CreateSteamPipe, &params );
     return params._ret;
 }
 
-bool __thiscall winISteamClient_SteamClient006_BReleaseSteamPipe(struct w_steam_iface *_this, HSteamPipe hSteamPipe)
+int8_t __thiscall winISteamClient_SteamClient006_BReleaseSteamPipe(struct w_steam_iface *_this, int32_t hSteamPipe)
 {
-    struct cppISteamClient_SteamClient006_BReleaseSteamPipe_params params =
-    {
-        .linux_side = _this->u_iface,
-        .hSteamPipe = hSteamPipe,
-    };
-    TRACE("%p\n", _this);
-    cppISteamClient_SteamClient006_BReleaseSteamPipe( &params );
-    return params._ret;
-}
-
-HSteamUser __thiscall winISteamClient_SteamClient006_CreateGlobalUser(struct w_steam_iface *_this, HSteamPipe *phSteamPipe)
-{
-    struct cppISteamClient_SteamClient006_CreateGlobalUser_params params =
-    {
-        .linux_side = _this->u_iface,
-        .phSteamPipe = phSteamPipe,
-    };
-    TRACE("%p\n", _this);
-    cppISteamClient_SteamClient006_CreateGlobalUser( &params );
-    return params._ret;
-}
-
-HSteamUser __thiscall winISteamClient_SteamClient006_ConnectToGlobalUser(struct w_steam_iface *_this, HSteamPipe hSteamPipe)
-{
-    struct cppISteamClient_SteamClient006_ConnectToGlobalUser_params params =
+    struct ISteamClient_SteamClient006_BReleaseSteamPipe_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamPipe = hSteamPipe,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient006_ConnectToGlobalUser( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient006_BReleaseSteamPipe, &params );
     return params._ret;
 }
 
-HSteamUser __thiscall winISteamClient_SteamClient006_CreateLocalUser(struct w_steam_iface *_this, HSteamPipe *phSteamPipe)
+int32_t __thiscall winISteamClient_SteamClient006_CreateGlobalUser(struct w_steam_iface *_this, int32_t *phSteamPipe)
 {
-    struct cppISteamClient_SteamClient006_CreateLocalUser_params params =
+    struct ISteamClient_SteamClient006_CreateGlobalUser_params params =
     {
         .linux_side = _this->u_iface,
         .phSteamPipe = phSteamPipe,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient006_CreateLocalUser( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient006_CreateGlobalUser, &params );
     return params._ret;
 }
 
-void __thiscall winISteamClient_SteamClient006_ReleaseUser(struct w_steam_iface *_this, HSteamPipe hSteamPipe, HSteamUser hUser)
+int32_t __thiscall winISteamClient_SteamClient006_ConnectToGlobalUser(struct w_steam_iface *_this, int32_t hSteamPipe)
 {
-    struct cppISteamClient_SteamClient006_ReleaseUser_params params =
+    struct ISteamClient_SteamClient006_ConnectToGlobalUser_params params =
+    {
+        .linux_side = _this->u_iface,
+        .hSteamPipe = hSteamPipe,
+    };
+    TRACE("%p\n", _this);
+    STEAMCLIENT_CALL( ISteamClient_SteamClient006_ConnectToGlobalUser, &params );
+    return params._ret;
+}
+
+int32_t __thiscall winISteamClient_SteamClient006_CreateLocalUser(struct w_steam_iface *_this, int32_t *phSteamPipe)
+{
+    struct ISteamClient_SteamClient006_CreateLocalUser_params params =
+    {
+        .linux_side = _this->u_iface,
+        .phSteamPipe = phSteamPipe,
+    };
+    TRACE("%p\n", _this);
+    STEAMCLIENT_CALL( ISteamClient_SteamClient006_CreateLocalUser, &params );
+    return params._ret;
+}
+
+void __thiscall winISteamClient_SteamClient006_ReleaseUser(struct w_steam_iface *_this, int32_t hSteamPipe, int32_t hUser)
+{
+    struct ISteamClient_SteamClient006_ReleaseUser_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamPipe = hSteamPipe,
         .hUser = hUser,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient006_ReleaseUser( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient006_ReleaseUser, &params );
 }
 
-void /*ISteamUser*/ * __thiscall winISteamClient_SteamClient006_GetISteamUser(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamUser*/ * __thiscall winISteamClient_SteamClient006_GetISteamUser(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient006_GetISteamUser_params params =
+    struct ISteamClient_SteamClient006_GetISteamUser_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -118,26 +106,26 @@ void /*ISteamUser*/ * __thiscall winISteamClient_SteamClient006_GetISteamUser(st
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient006_GetISteamUser( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient006_GetISteamUser, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void * __thiscall winISteamClient_SteamClient006_GetIVAC(struct w_steam_iface *_this, HSteamUser hSteamUser)
+void * __thiscall winISteamClient_SteamClient006_GetIVAC(struct w_steam_iface *_this, int32_t hSteamUser)
 {
-    struct cppISteamClient_SteamClient006_GetIVAC_params params =
+    struct ISteamClient_SteamClient006_GetIVAC_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient006_GetIVAC( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient006_GetIVAC, &params );
     return params._ret;
 }
 
-void /*ISteamGameServer*/ * __thiscall winISteamClient_SteamClient006_GetISteamGameServer(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamGameServer*/ * __thiscall winISteamClient_SteamClient006_GetISteamGameServer(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient006_GetISteamGameServer_params params =
+    struct ISteamClient_SteamClient006_GetISteamGameServer_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -145,38 +133,38 @@ void /*ISteamGameServer*/ * __thiscall winISteamClient_SteamClient006_GetISteamG
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient006_GetISteamGameServer( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient006_GetISteamGameServer, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void __thiscall winISteamClient_SteamClient006_SetLocalIPBinding(struct w_steam_iface *_this, uint32 unIP, uint16 usPort)
+void __thiscall winISteamClient_SteamClient006_SetLocalIPBinding(struct w_steam_iface *_this, uint32_t unIP, uint16_t usPort)
 {
-    struct cppISteamClient_SteamClient006_SetLocalIPBinding_params params =
+    struct ISteamClient_SteamClient006_SetLocalIPBinding_params params =
     {
         .linux_side = _this->u_iface,
         .unIP = unIP,
         .usPort = usPort,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient006_SetLocalIPBinding( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient006_SetLocalIPBinding, &params );
 }
 
-const char * __thiscall winISteamClient_SteamClient006_GetUniverseName(struct w_steam_iface *_this, EUniverse eUniverse)
+const char * __thiscall winISteamClient_SteamClient006_GetUniverseName(struct w_steam_iface *_this, uint32_t eUniverse)
 {
-    struct cppISteamClient_SteamClient006_GetUniverseName_params params =
+    struct ISteamClient_SteamClient006_GetUniverseName_params params =
     {
         .linux_side = _this->u_iface,
         .eUniverse = eUniverse,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient006_GetUniverseName( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient006_GetUniverseName, &params );
     return params._ret;
 }
 
-void /*ISteamFriends*/ * __thiscall winISteamClient_SteamClient006_GetISteamFriends(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamFriends*/ * __thiscall winISteamClient_SteamClient006_GetISteamFriends(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient006_GetISteamFriends_params params =
+    struct ISteamClient_SteamClient006_GetISteamFriends_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -184,28 +172,28 @@ void /*ISteamFriends*/ * __thiscall winISteamClient_SteamClient006_GetISteamFrie
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient006_GetISteamFriends( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient006_GetISteamFriends, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamUtils*/ * __thiscall winISteamClient_SteamClient006_GetISteamUtils(struct w_steam_iface *_this, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamUtils*/ * __thiscall winISteamClient_SteamClient006_GetISteamUtils(struct w_steam_iface *_this, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient006_GetISteamUtils_params params =
+    struct ISteamClient_SteamClient006_GetISteamUtils_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamPipe = hSteamPipe,
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient006_GetISteamUtils( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient006_GetISteamUtils, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void * __thiscall winISteamClient_SteamClient006_GetISteamBilling(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void * __thiscall winISteamClient_SteamClient006_GetISteamBilling(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient006_GetISteamBilling_params params =
+    struct ISteamClient_SteamClient006_GetISteamBilling_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -213,13 +201,13 @@ void * __thiscall winISteamClient_SteamClient006_GetISteamBilling(struct w_steam
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient006_GetISteamBilling( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient006_GetISteamBilling, &params );
     return params._ret;
 }
 
-void /*ISteamMatchmaking*/ * __thiscall winISteamClient_SteamClient006_GetISteamMatchmaking(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamMatchmaking*/ * __thiscall winISteamClient_SteamClient006_GetISteamMatchmaking(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient006_GetISteamMatchmaking_params params =
+    struct ISteamClient_SteamClient006_GetISteamMatchmaking_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -227,14 +215,14 @@ void /*ISteamMatchmaking*/ * __thiscall winISteamClient_SteamClient006_GetISteam
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient006_GetISteamMatchmaking( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient006_GetISteamMatchmaking, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamApps*/ * __thiscall winISteamClient_SteamClient006_GetISteamApps(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamApps*/ * __thiscall winISteamClient_SteamClient006_GetISteamApps(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient006_GetISteamApps_params params =
+    struct ISteamClient_SteamClient006_GetISteamApps_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -242,14 +230,14 @@ void /*ISteamApps*/ * __thiscall winISteamClient_SteamClient006_GetISteamApps(st
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient006_GetISteamApps( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient006_GetISteamApps, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamContentServer*/ * __thiscall winISteamClient_SteamClient006_GetISteamContentServer(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamContentServer*/ * __thiscall winISteamClient_SteamClient006_GetISteamContentServer(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient006_GetISteamContentServer_params params =
+    struct ISteamClient_SteamClient006_GetISteamContentServer_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -257,14 +245,14 @@ void /*ISteamContentServer*/ * __thiscall winISteamClient_SteamClient006_GetISte
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient006_GetISteamContentServer( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient006_GetISteamContentServer, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamMasterServerUpdater*/ * __thiscall winISteamClient_SteamClient006_GetISteamMasterServerUpdater(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamMasterServerUpdater*/ * __thiscall winISteamClient_SteamClient006_GetISteamMasterServerUpdater(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient006_GetISteamMasterServerUpdater_params params =
+    struct ISteamClient_SteamClient006_GetISteamMasterServerUpdater_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -272,14 +260,14 @@ void /*ISteamMasterServerUpdater*/ * __thiscall winISteamClient_SteamClient006_G
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient006_GetISteamMasterServerUpdater( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient006_GetISteamMasterServerUpdater, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamMatchmakingServers*/ * __thiscall winISteamClient_SteamClient006_GetISteamMatchmakingServers(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamMatchmakingServers*/ * __thiscall winISteamClient_SteamClient006_GetISteamMatchmakingServers(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient006_GetISteamMatchmakingServers_params params =
+    struct ISteamClient_SteamClient006_GetISteamMatchmakingServers_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -287,37 +275,37 @@ void /*ISteamMatchmakingServers*/ * __thiscall winISteamClient_SteamClient006_Ge
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient006_GetISteamMatchmakingServers( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient006_GetISteamMatchmakingServers, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
 void __thiscall winISteamClient_SteamClient006_RunFrame(struct w_steam_iface *_this)
 {
-    struct cppISteamClient_SteamClient006_RunFrame_params params =
+    struct ISteamClient_SteamClient006_RunFrame_params params =
     {
         .linux_side = _this->u_iface,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient006_RunFrame( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient006_RunFrame, &params );
 }
 
-uint32 __thiscall winISteamClient_SteamClient006_GetIPCCallCount(struct w_steam_iface *_this)
+uint32_t __thiscall winISteamClient_SteamClient006_GetIPCCallCount(struct w_steam_iface *_this)
 {
-    struct cppISteamClient_SteamClient006_GetIPCCallCount_params params =
+    struct ISteamClient_SteamClient006_GetIPCCallCount_params params =
     {
         .linux_side = _this->u_iface,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient006_GetIPCCallCount( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient006_GetIPCCallCount, &params );
     return params._ret;
 }
 
 extern vtable_ptr winISteamClient_SteamClient006_vtable;
 
-#ifndef __GNUC__
-void __asm_dummy_vtables(void) {
-#endif
+DEFINE_RTTI_DATA0(winISteamClient_SteamClient006, 0, ".?AVISteamClient@@")
+
+__ASM_BLOCK_BEGIN(winISteamClient_SteamClient006_vtables)
     __ASM_VTABLE(winISteamClient_SteamClient006,
         VTABLE_ADD_FUNC(winISteamClient_SteamClient006_CreateSteamPipe)
         VTABLE_ADD_FUNC(winISteamClient_SteamClient006_BReleaseSteamPipe)
@@ -341,9 +329,7 @@ void __asm_dummy_vtables(void) {
         VTABLE_ADD_FUNC(winISteamClient_SteamClient006_RunFrame)
         VTABLE_ADD_FUNC(winISteamClient_SteamClient006_GetIPCCallCount)
     );
-#ifndef __GNUC__
-}
-#endif
+__ASM_BLOCK_END
 
 struct w_steam_iface *create_winISteamClient_SteamClient006(void *u_iface)
 {
@@ -353,8 +339,6 @@ struct w_steam_iface *create_winISteamClient_SteamClient006(void *u_iface)
     r->u_iface = u_iface;
     return r;
 }
-
-#include "cppISteamClient_SteamClient007.h"
 
 DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient007_CreateSteamPipe, 4)
 DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient007_BReleaseSteamPipe, 8)
@@ -379,68 +363,68 @@ DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient007_GetISteamNetworking, 16)
 DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient007_SetWarningMessageHook, 8)
 DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient007_GetISteamRemoteStorage, 16)
 
-HSteamPipe __thiscall winISteamClient_SteamClient007_CreateSteamPipe(struct w_steam_iface *_this)
+int32_t __thiscall winISteamClient_SteamClient007_CreateSteamPipe(struct w_steam_iface *_this)
 {
-    struct cppISteamClient_SteamClient007_CreateSteamPipe_params params =
+    struct ISteamClient_SteamClient007_CreateSteamPipe_params params =
     {
         .linux_side = _this->u_iface,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient007_CreateSteamPipe( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient007_CreateSteamPipe, &params );
     return params._ret;
 }
 
-bool __thiscall winISteamClient_SteamClient007_BReleaseSteamPipe(struct w_steam_iface *_this, HSteamPipe hSteamPipe)
+int8_t __thiscall winISteamClient_SteamClient007_BReleaseSteamPipe(struct w_steam_iface *_this, int32_t hSteamPipe)
 {
-    struct cppISteamClient_SteamClient007_BReleaseSteamPipe_params params =
-    {
-        .linux_side = _this->u_iface,
-        .hSteamPipe = hSteamPipe,
-    };
-    TRACE("%p\n", _this);
-    cppISteamClient_SteamClient007_BReleaseSteamPipe( &params );
-    return params._ret;
-}
-
-HSteamUser __thiscall winISteamClient_SteamClient007_ConnectToGlobalUser(struct w_steam_iface *_this, HSteamPipe hSteamPipe)
-{
-    struct cppISteamClient_SteamClient007_ConnectToGlobalUser_params params =
+    struct ISteamClient_SteamClient007_BReleaseSteamPipe_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamPipe = hSteamPipe,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient007_ConnectToGlobalUser( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient007_BReleaseSteamPipe, &params );
     return params._ret;
 }
 
-HSteamUser __thiscall winISteamClient_SteamClient007_CreateLocalUser(struct w_steam_iface *_this, HSteamPipe *phSteamPipe)
+int32_t __thiscall winISteamClient_SteamClient007_ConnectToGlobalUser(struct w_steam_iface *_this, int32_t hSteamPipe)
 {
-    struct cppISteamClient_SteamClient007_CreateLocalUser_params params =
+    struct ISteamClient_SteamClient007_ConnectToGlobalUser_params params =
+    {
+        .linux_side = _this->u_iface,
+        .hSteamPipe = hSteamPipe,
+    };
+    TRACE("%p\n", _this);
+    STEAMCLIENT_CALL( ISteamClient_SteamClient007_ConnectToGlobalUser, &params );
+    return params._ret;
+}
+
+int32_t __thiscall winISteamClient_SteamClient007_CreateLocalUser(struct w_steam_iface *_this, int32_t *phSteamPipe)
+{
+    struct ISteamClient_SteamClient007_CreateLocalUser_params params =
     {
         .linux_side = _this->u_iface,
         .phSteamPipe = phSteamPipe,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient007_CreateLocalUser( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient007_CreateLocalUser, &params );
     return params._ret;
 }
 
-void __thiscall winISteamClient_SteamClient007_ReleaseUser(struct w_steam_iface *_this, HSteamPipe hSteamPipe, HSteamUser hUser)
+void __thiscall winISteamClient_SteamClient007_ReleaseUser(struct w_steam_iface *_this, int32_t hSteamPipe, int32_t hUser)
 {
-    struct cppISteamClient_SteamClient007_ReleaseUser_params params =
+    struct ISteamClient_SteamClient007_ReleaseUser_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamPipe = hSteamPipe,
         .hUser = hUser,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient007_ReleaseUser( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient007_ReleaseUser, &params );
 }
 
-void /*ISteamUser*/ * __thiscall winISteamClient_SteamClient007_GetISteamUser(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamUser*/ * __thiscall winISteamClient_SteamClient007_GetISteamUser(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient007_GetISteamUser_params params =
+    struct ISteamClient_SteamClient007_GetISteamUser_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -448,14 +432,14 @@ void /*ISteamUser*/ * __thiscall winISteamClient_SteamClient007_GetISteamUser(st
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient007_GetISteamUser( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient007_GetISteamUser, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamGameServer*/ * __thiscall winISteamClient_SteamClient007_GetISteamGameServer(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamGameServer*/ * __thiscall winISteamClient_SteamClient007_GetISteamGameServer(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient007_GetISteamGameServer_params params =
+    struct ISteamClient_SteamClient007_GetISteamGameServer_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -463,26 +447,26 @@ void /*ISteamGameServer*/ * __thiscall winISteamClient_SteamClient007_GetISteamG
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient007_GetISteamGameServer( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient007_GetISteamGameServer, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void __thiscall winISteamClient_SteamClient007_SetLocalIPBinding(struct w_steam_iface *_this, uint32 unIP, uint16 usPort)
+void __thiscall winISteamClient_SteamClient007_SetLocalIPBinding(struct w_steam_iface *_this, uint32_t unIP, uint16_t usPort)
 {
-    struct cppISteamClient_SteamClient007_SetLocalIPBinding_params params =
+    struct ISteamClient_SteamClient007_SetLocalIPBinding_params params =
     {
         .linux_side = _this->u_iface,
         .unIP = unIP,
         .usPort = usPort,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient007_SetLocalIPBinding( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient007_SetLocalIPBinding, &params );
 }
 
-void /*ISteamFriends*/ * __thiscall winISteamClient_SteamClient007_GetISteamFriends(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamFriends*/ * __thiscall winISteamClient_SteamClient007_GetISteamFriends(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient007_GetISteamFriends_params params =
+    struct ISteamClient_SteamClient007_GetISteamFriends_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -490,43 +474,28 @@ void /*ISteamFriends*/ * __thiscall winISteamClient_SteamClient007_GetISteamFrie
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient007_GetISteamFriends( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient007_GetISteamFriends, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamUtils*/ * __thiscall winISteamClient_SteamClient007_GetISteamUtils(struct w_steam_iface *_this, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamUtils*/ * __thiscall winISteamClient_SteamClient007_GetISteamUtils(struct w_steam_iface *_this, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient007_GetISteamUtils_params params =
+    struct ISteamClient_SteamClient007_GetISteamUtils_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamPipe = hSteamPipe,
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient007_GetISteamUtils( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient007_GetISteamUtils, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamMatchmaking*/ * __thiscall winISteamClient_SteamClient007_GetISteamMatchmaking(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamMatchmaking*/ * __thiscall winISteamClient_SteamClient007_GetISteamMatchmaking(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient007_GetISteamMatchmaking_params params =
-    {
-        .linux_side = _this->u_iface,
-        .hSteamUser = hSteamUser,
-        .hSteamPipe = hSteamPipe,
-        .pchVersion = pchVersion,
-    };
-    TRACE("%p\n", _this);
-    cppISteamClient_SteamClient007_GetISteamMatchmaking( &params );
-    params._ret = create_win_interface( pchVersion, params._ret );
-    return params._ret;
-}
-
-void /*ISteamContentServer*/ * __thiscall winISteamClient_SteamClient007_GetISteamContentServer(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
-{
-    struct cppISteamClient_SteamClient007_GetISteamContentServer_params params =
+    struct ISteamClient_SteamClient007_GetISteamMatchmaking_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -534,14 +503,14 @@ void /*ISteamContentServer*/ * __thiscall winISteamClient_SteamClient007_GetISte
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient007_GetISteamContentServer( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient007_GetISteamMatchmaking, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamMasterServerUpdater*/ * __thiscall winISteamClient_SteamClient007_GetISteamMasterServerUpdater(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamContentServer*/ * __thiscall winISteamClient_SteamClient007_GetISteamContentServer(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient007_GetISteamMasterServerUpdater_params params =
+    struct ISteamClient_SteamClient007_GetISteamContentServer_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -549,14 +518,14 @@ void /*ISteamMasterServerUpdater*/ * __thiscall winISteamClient_SteamClient007_G
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient007_GetISteamMasterServerUpdater( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient007_GetISteamContentServer, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamMatchmakingServers*/ * __thiscall winISteamClient_SteamClient007_GetISteamMatchmakingServers(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamMasterServerUpdater*/ * __thiscall winISteamClient_SteamClient007_GetISteamMasterServerUpdater(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient007_GetISteamMatchmakingServers_params params =
+    struct ISteamClient_SteamClient007_GetISteamMasterServerUpdater_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -564,14 +533,14 @@ void /*ISteamMatchmakingServers*/ * __thiscall winISteamClient_SteamClient007_Ge
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient007_GetISteamMatchmakingServers( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient007_GetISteamMasterServerUpdater, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void * __thiscall winISteamClient_SteamClient007_GetISteamGenericInterface(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamMatchmakingServers*/ * __thiscall winISteamClient_SteamClient007_GetISteamMatchmakingServers(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient007_GetISteamGenericInterface_params params =
+    struct ISteamClient_SteamClient007_GetISteamMatchmakingServers_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -579,35 +548,50 @@ void * __thiscall winISteamClient_SteamClient007_GetISteamGenericInterface(struc
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient007_GetISteamGenericInterface( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient007_GetISteamMatchmakingServers, &params );
+    params._ret = create_win_interface( pchVersion, params._ret );
+    return params._ret;
+}
+
+void * __thiscall winISteamClient_SteamClient007_GetISteamGenericInterface(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
+{
+    struct ISteamClient_SteamClient007_GetISteamGenericInterface_params params =
+    {
+        .linux_side = _this->u_iface,
+        .hSteamUser = hSteamUser,
+        .hSteamPipe = hSteamPipe,
+        .pchVersion = pchVersion,
+    };
+    TRACE("%p\n", _this);
+    STEAMCLIENT_CALL( ISteamClient_SteamClient007_GetISteamGenericInterface, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
 void __thiscall winISteamClient_SteamClient007_RunFrame(struct w_steam_iface *_this)
 {
-    struct cppISteamClient_SteamClient007_RunFrame_params params =
+    struct ISteamClient_SteamClient007_RunFrame_params params =
     {
         .linux_side = _this->u_iface,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient007_RunFrame( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient007_RunFrame, &params );
 }
 
-uint32 __thiscall winISteamClient_SteamClient007_GetIPCCallCount(struct w_steam_iface *_this)
+uint32_t __thiscall winISteamClient_SteamClient007_GetIPCCallCount(struct w_steam_iface *_this)
 {
-    struct cppISteamClient_SteamClient007_GetIPCCallCount_params params =
+    struct ISteamClient_SteamClient007_GetIPCCallCount_params params =
     {
         .linux_side = _this->u_iface,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient007_GetIPCCallCount( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient007_GetIPCCallCount, &params );
     return params._ret;
 }
 
-void /*ISteamUserStats*/ * __thiscall winISteamClient_SteamClient007_GetISteamUserStats(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamUserStats*/ * __thiscall winISteamClient_SteamClient007_GetISteamUserStats(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient007_GetISteamUserStats_params params =
+    struct ISteamClient_SteamClient007_GetISteamUserStats_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -615,14 +599,14 @@ void /*ISteamUserStats*/ * __thiscall winISteamClient_SteamClient007_GetISteamUs
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient007_GetISteamUserStats( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient007_GetISteamUserStats, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamApps*/ * __thiscall winISteamClient_SteamClient007_GetISteamApps(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamApps*/ * __thiscall winISteamClient_SteamClient007_GetISteamApps(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient007_GetISteamApps_params params =
+    struct ISteamClient_SteamClient007_GetISteamApps_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -630,14 +614,14 @@ void /*ISteamApps*/ * __thiscall winISteamClient_SteamClient007_GetISteamApps(st
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient007_GetISteamApps( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient007_GetISteamApps, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamNetworking*/ * __thiscall winISteamClient_SteamClient007_GetISteamNetworking(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamNetworking*/ * __thiscall winISteamClient_SteamClient007_GetISteamNetworking(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient007_GetISteamNetworking_params params =
+    struct ISteamClient_SteamClient007_GetISteamNetworking_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -645,25 +629,25 @@ void /*ISteamNetworking*/ * __thiscall winISteamClient_SteamClient007_GetISteamN
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient007_GetISteamNetworking( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient007_GetISteamNetworking, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void __thiscall winISteamClient_SteamClient007_SetWarningMessageHook(struct w_steam_iface *_this, SteamAPIWarningMessageHook_t pFunction)
+void __thiscall winISteamClient_SteamClient007_SetWarningMessageHook(struct w_steam_iface *_this, void (*W_CDECL pFunction)(int32_t, const char *))
 {
-    struct cppISteamClient_SteamClient007_SetWarningMessageHook_params params =
+    struct ISteamClient_SteamClient007_SetWarningMessageHook_params params =
     {
         .linux_side = _this->u_iface,
         .pFunction = pFunction,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient007_SetWarningMessageHook( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient007_SetWarningMessageHook, &params );
 }
 
-void /*ISteamRemoteStorage*/ * __thiscall winISteamClient_SteamClient007_GetISteamRemoteStorage(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamRemoteStorage*/ * __thiscall winISteamClient_SteamClient007_GetISteamRemoteStorage(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient007_GetISteamRemoteStorage_params params =
+    struct ISteamClient_SteamClient007_GetISteamRemoteStorage_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -671,16 +655,16 @@ void /*ISteamRemoteStorage*/ * __thiscall winISteamClient_SteamClient007_GetISte
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient007_GetISteamRemoteStorage( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient007_GetISteamRemoteStorage, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
 extern vtable_ptr winISteamClient_SteamClient007_vtable;
 
-#ifndef __GNUC__
-void __asm_dummy_vtables(void) {
-#endif
+DEFINE_RTTI_DATA0(winISteamClient_SteamClient007, 0, ".?AVISteamClient@@")
+
+__ASM_BLOCK_BEGIN(winISteamClient_SteamClient007_vtables)
     __ASM_VTABLE(winISteamClient_SteamClient007,
         VTABLE_ADD_FUNC(winISteamClient_SteamClient007_CreateSteamPipe)
         VTABLE_ADD_FUNC(winISteamClient_SteamClient007_BReleaseSteamPipe)
@@ -705,9 +689,7 @@ void __asm_dummy_vtables(void) {
         VTABLE_ADD_FUNC(winISteamClient_SteamClient007_SetWarningMessageHook)
         VTABLE_ADD_FUNC(winISteamClient_SteamClient007_GetISteamRemoteStorage)
     );
-#ifndef __GNUC__
-}
-#endif
+__ASM_BLOCK_END
 
 struct w_steam_iface *create_winISteamClient_SteamClient007(void *u_iface)
 {
@@ -717,8 +699,6 @@ struct w_steam_iface *create_winISteamClient_SteamClient007(void *u_iface)
     r->u_iface = u_iface;
     return r;
 }
-
-#include "cppISteamClient_SteamClient008.h"
 
 DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient008_CreateSteamPipe, 4)
 DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient008_BReleaseSteamPipe, 8)
@@ -742,69 +722,69 @@ DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient008_RunFrame, 4)
 DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient008_GetIPCCallCount, 4)
 DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient008_SetWarningMessageHook, 8)
 
-HSteamPipe __thiscall winISteamClient_SteamClient008_CreateSteamPipe(struct w_steam_iface *_this)
+int32_t __thiscall winISteamClient_SteamClient008_CreateSteamPipe(struct w_steam_iface *_this)
 {
-    struct cppISteamClient_SteamClient008_CreateSteamPipe_params params =
+    struct ISteamClient_SteamClient008_CreateSteamPipe_params params =
     {
         .linux_side = _this->u_iface,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient008_CreateSteamPipe( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient008_CreateSteamPipe, &params );
     return params._ret;
 }
 
-bool __thiscall winISteamClient_SteamClient008_BReleaseSteamPipe(struct w_steam_iface *_this, HSteamPipe hSteamPipe)
+int8_t __thiscall winISteamClient_SteamClient008_BReleaseSteamPipe(struct w_steam_iface *_this, int32_t hSteamPipe)
 {
-    struct cppISteamClient_SteamClient008_BReleaseSteamPipe_params params =
-    {
-        .linux_side = _this->u_iface,
-        .hSteamPipe = hSteamPipe,
-    };
-    TRACE("%p\n", _this);
-    cppISteamClient_SteamClient008_BReleaseSteamPipe( &params );
-    return params._ret;
-}
-
-HSteamUser __thiscall winISteamClient_SteamClient008_ConnectToGlobalUser(struct w_steam_iface *_this, HSteamPipe hSteamPipe)
-{
-    struct cppISteamClient_SteamClient008_ConnectToGlobalUser_params params =
+    struct ISteamClient_SteamClient008_BReleaseSteamPipe_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamPipe = hSteamPipe,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient008_ConnectToGlobalUser( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient008_BReleaseSteamPipe, &params );
     return params._ret;
 }
 
-HSteamUser __thiscall winISteamClient_SteamClient008_CreateLocalUser(struct w_steam_iface *_this, HSteamPipe *phSteamPipe, EAccountType eAccountType)
+int32_t __thiscall winISteamClient_SteamClient008_ConnectToGlobalUser(struct w_steam_iface *_this, int32_t hSteamPipe)
 {
-    struct cppISteamClient_SteamClient008_CreateLocalUser_params params =
+    struct ISteamClient_SteamClient008_ConnectToGlobalUser_params params =
+    {
+        .linux_side = _this->u_iface,
+        .hSteamPipe = hSteamPipe,
+    };
+    TRACE("%p\n", _this);
+    STEAMCLIENT_CALL( ISteamClient_SteamClient008_ConnectToGlobalUser, &params );
+    return params._ret;
+}
+
+int32_t __thiscall winISteamClient_SteamClient008_CreateLocalUser(struct w_steam_iface *_this, int32_t *phSteamPipe, uint32_t eAccountType)
+{
+    struct ISteamClient_SteamClient008_CreateLocalUser_params params =
     {
         .linux_side = _this->u_iface,
         .phSteamPipe = phSteamPipe,
         .eAccountType = eAccountType,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient008_CreateLocalUser( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient008_CreateLocalUser, &params );
     return params._ret;
 }
 
-void __thiscall winISteamClient_SteamClient008_ReleaseUser(struct w_steam_iface *_this, HSteamPipe hSteamPipe, HSteamUser hUser)
+void __thiscall winISteamClient_SteamClient008_ReleaseUser(struct w_steam_iface *_this, int32_t hSteamPipe, int32_t hUser)
 {
-    struct cppISteamClient_SteamClient008_ReleaseUser_params params =
+    struct ISteamClient_SteamClient008_ReleaseUser_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamPipe = hSteamPipe,
         .hUser = hUser,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient008_ReleaseUser( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient008_ReleaseUser, &params );
 }
 
-void /*ISteamUser*/ * __thiscall winISteamClient_SteamClient008_GetISteamUser(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamUser*/ * __thiscall winISteamClient_SteamClient008_GetISteamUser(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient008_GetISteamUser_params params =
+    struct ISteamClient_SteamClient008_GetISteamUser_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -812,14 +792,14 @@ void /*ISteamUser*/ * __thiscall winISteamClient_SteamClient008_GetISteamUser(st
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient008_GetISteamUser( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient008_GetISteamUser, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamGameServer*/ * __thiscall winISteamClient_SteamClient008_GetISteamGameServer(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamGameServer*/ * __thiscall winISteamClient_SteamClient008_GetISteamGameServer(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient008_GetISteamGameServer_params params =
+    struct ISteamClient_SteamClient008_GetISteamGameServer_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -827,26 +807,26 @@ void /*ISteamGameServer*/ * __thiscall winISteamClient_SteamClient008_GetISteamG
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient008_GetISteamGameServer( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient008_GetISteamGameServer, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void __thiscall winISteamClient_SteamClient008_SetLocalIPBinding(struct w_steam_iface *_this, uint32 unIP, uint16 usPort)
+void __thiscall winISteamClient_SteamClient008_SetLocalIPBinding(struct w_steam_iface *_this, uint32_t unIP, uint16_t usPort)
 {
-    struct cppISteamClient_SteamClient008_SetLocalIPBinding_params params =
+    struct ISteamClient_SteamClient008_SetLocalIPBinding_params params =
     {
         .linux_side = _this->u_iface,
         .unIP = unIP,
         .usPort = usPort,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient008_SetLocalIPBinding( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient008_SetLocalIPBinding, &params );
 }
 
-void /*ISteamFriends*/ * __thiscall winISteamClient_SteamClient008_GetISteamFriends(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamFriends*/ * __thiscall winISteamClient_SteamClient008_GetISteamFriends(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient008_GetISteamFriends_params params =
+    struct ISteamClient_SteamClient008_GetISteamFriends_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -854,43 +834,28 @@ void /*ISteamFriends*/ * __thiscall winISteamClient_SteamClient008_GetISteamFrie
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient008_GetISteamFriends( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient008_GetISteamFriends, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamUtils*/ * __thiscall winISteamClient_SteamClient008_GetISteamUtils(struct w_steam_iface *_this, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamUtils*/ * __thiscall winISteamClient_SteamClient008_GetISteamUtils(struct w_steam_iface *_this, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient008_GetISteamUtils_params params =
+    struct ISteamClient_SteamClient008_GetISteamUtils_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamPipe = hSteamPipe,
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient008_GetISteamUtils( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient008_GetISteamUtils, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamMatchmaking*/ * __thiscall winISteamClient_SteamClient008_GetISteamMatchmaking(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamMatchmaking*/ * __thiscall winISteamClient_SteamClient008_GetISteamMatchmaking(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient008_GetISteamMatchmaking_params params =
-    {
-        .linux_side = _this->u_iface,
-        .hSteamUser = hSteamUser,
-        .hSteamPipe = hSteamPipe,
-        .pchVersion = pchVersion,
-    };
-    TRACE("%p\n", _this);
-    cppISteamClient_SteamClient008_GetISteamMatchmaking( &params );
-    params._ret = create_win_interface( pchVersion, params._ret );
-    return params._ret;
-}
-
-void /*ISteamMasterServerUpdater*/ * __thiscall winISteamClient_SteamClient008_GetISteamMasterServerUpdater(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
-{
-    struct cppISteamClient_SteamClient008_GetISteamMasterServerUpdater_params params =
+    struct ISteamClient_SteamClient008_GetISteamMatchmaking_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -898,14 +863,14 @@ void /*ISteamMasterServerUpdater*/ * __thiscall winISteamClient_SteamClient008_G
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient008_GetISteamMasterServerUpdater( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient008_GetISteamMatchmaking, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamMatchmakingServers*/ * __thiscall winISteamClient_SteamClient008_GetISteamMatchmakingServers(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamMasterServerUpdater*/ * __thiscall winISteamClient_SteamClient008_GetISteamMasterServerUpdater(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient008_GetISteamMatchmakingServers_params params =
+    struct ISteamClient_SteamClient008_GetISteamMasterServerUpdater_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -913,14 +878,14 @@ void /*ISteamMatchmakingServers*/ * __thiscall winISteamClient_SteamClient008_Ge
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient008_GetISteamMatchmakingServers( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient008_GetISteamMasterServerUpdater, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void * __thiscall winISteamClient_SteamClient008_GetISteamGenericInterface(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamMatchmakingServers*/ * __thiscall winISteamClient_SteamClient008_GetISteamMatchmakingServers(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient008_GetISteamGenericInterface_params params =
+    struct ISteamClient_SteamClient008_GetISteamMatchmakingServers_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -928,14 +893,14 @@ void * __thiscall winISteamClient_SteamClient008_GetISteamGenericInterface(struc
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient008_GetISteamGenericInterface( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient008_GetISteamMatchmakingServers, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamUserStats*/ * __thiscall winISteamClient_SteamClient008_GetISteamUserStats(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void * __thiscall winISteamClient_SteamClient008_GetISteamGenericInterface(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient008_GetISteamUserStats_params params =
+    struct ISteamClient_SteamClient008_GetISteamGenericInterface_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -943,14 +908,14 @@ void /*ISteamUserStats*/ * __thiscall winISteamClient_SteamClient008_GetISteamUs
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient008_GetISteamUserStats( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient008_GetISteamGenericInterface, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamApps*/ * __thiscall winISteamClient_SteamClient008_GetISteamApps(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamUserStats*/ * __thiscall winISteamClient_SteamClient008_GetISteamUserStats(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient008_GetISteamApps_params params =
+    struct ISteamClient_SteamClient008_GetISteamUserStats_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -958,14 +923,14 @@ void /*ISteamApps*/ * __thiscall winISteamClient_SteamClient008_GetISteamApps(st
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient008_GetISteamApps( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient008_GetISteamUserStats, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamNetworking*/ * __thiscall winISteamClient_SteamClient008_GetISteamNetworking(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamApps*/ * __thiscall winISteamClient_SteamClient008_GetISteamApps(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient008_GetISteamNetworking_params params =
+    struct ISteamClient_SteamClient008_GetISteamApps_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -973,14 +938,29 @@ void /*ISteamNetworking*/ * __thiscall winISteamClient_SteamClient008_GetISteamN
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient008_GetISteamNetworking( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient008_GetISteamApps, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamRemoteStorage*/ * __thiscall winISteamClient_SteamClient008_GetISteamRemoteStorage(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamNetworking*/ * __thiscall winISteamClient_SteamClient008_GetISteamNetworking(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient008_GetISteamRemoteStorage_params params =
+    struct ISteamClient_SteamClient008_GetISteamNetworking_params params =
+    {
+        .linux_side = _this->u_iface,
+        .hSteamUser = hSteamUser,
+        .hSteamPipe = hSteamPipe,
+        .pchVersion = pchVersion,
+    };
+    TRACE("%p\n", _this);
+    STEAMCLIENT_CALL( ISteamClient_SteamClient008_GetISteamNetworking, &params );
+    params._ret = create_win_interface( pchVersion, params._ret );
+    return params._ret;
+}
+
+void /*ISteamRemoteStorage*/ * __thiscall winISteamClient_SteamClient008_GetISteamRemoteStorage(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
+{
+    struct ISteamClient_SteamClient008_GetISteamRemoteStorage_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -988,48 +968,48 @@ void /*ISteamRemoteStorage*/ * __thiscall winISteamClient_SteamClient008_GetISte
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient008_GetISteamRemoteStorage( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient008_GetISteamRemoteStorage, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
 void __thiscall winISteamClient_SteamClient008_RunFrame(struct w_steam_iface *_this)
 {
-    struct cppISteamClient_SteamClient008_RunFrame_params params =
+    struct ISteamClient_SteamClient008_RunFrame_params params =
     {
         .linux_side = _this->u_iface,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient008_RunFrame( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient008_RunFrame, &params );
 }
 
-uint32 __thiscall winISteamClient_SteamClient008_GetIPCCallCount(struct w_steam_iface *_this)
+uint32_t __thiscall winISteamClient_SteamClient008_GetIPCCallCount(struct w_steam_iface *_this)
 {
-    struct cppISteamClient_SteamClient008_GetIPCCallCount_params params =
+    struct ISteamClient_SteamClient008_GetIPCCallCount_params params =
     {
         .linux_side = _this->u_iface,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient008_GetIPCCallCount( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient008_GetIPCCallCount, &params );
     return params._ret;
 }
 
-void __thiscall winISteamClient_SteamClient008_SetWarningMessageHook(struct w_steam_iface *_this, SteamAPIWarningMessageHook_t pFunction)
+void __thiscall winISteamClient_SteamClient008_SetWarningMessageHook(struct w_steam_iface *_this, void (*W_CDECL pFunction)(int32_t, const char *))
 {
-    struct cppISteamClient_SteamClient008_SetWarningMessageHook_params params =
+    struct ISteamClient_SteamClient008_SetWarningMessageHook_params params =
     {
         .linux_side = _this->u_iface,
         .pFunction = pFunction,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient008_SetWarningMessageHook( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient008_SetWarningMessageHook, &params );
 }
 
 extern vtable_ptr winISteamClient_SteamClient008_vtable;
 
-#ifndef __GNUC__
-void __asm_dummy_vtables(void) {
-#endif
+DEFINE_RTTI_DATA0(winISteamClient_SteamClient008, 0, ".?AVISteamClient@@")
+
+__ASM_BLOCK_BEGIN(winISteamClient_SteamClient008_vtables)
     __ASM_VTABLE(winISteamClient_SteamClient008,
         VTABLE_ADD_FUNC(winISteamClient_SteamClient008_CreateSteamPipe)
         VTABLE_ADD_FUNC(winISteamClient_SteamClient008_BReleaseSteamPipe)
@@ -1053,9 +1033,7 @@ void __asm_dummy_vtables(void) {
         VTABLE_ADD_FUNC(winISteamClient_SteamClient008_GetIPCCallCount)
         VTABLE_ADD_FUNC(winISteamClient_SteamClient008_SetWarningMessageHook)
     );
-#ifndef __GNUC__
-}
-#endif
+__ASM_BLOCK_END
 
 struct w_steam_iface *create_winISteamClient_SteamClient008(void *u_iface)
 {
@@ -1065,8 +1043,6 @@ struct w_steam_iface *create_winISteamClient_SteamClient008(void *u_iface)
     r->u_iface = u_iface;
     return r;
 }
-
-#include "cppISteamClient_SteamClient009.h"
 
 DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient009_CreateSteamPipe, 4)
 DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient009_BReleaseSteamPipe, 8)
@@ -1091,69 +1067,69 @@ DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient009_RunFrame, 4)
 DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient009_GetIPCCallCount, 4)
 DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient009_SetWarningMessageHook, 8)
 
-HSteamPipe __thiscall winISteamClient_SteamClient009_CreateSteamPipe(struct w_steam_iface *_this)
+int32_t __thiscall winISteamClient_SteamClient009_CreateSteamPipe(struct w_steam_iface *_this)
 {
-    struct cppISteamClient_SteamClient009_CreateSteamPipe_params params =
+    struct ISteamClient_SteamClient009_CreateSteamPipe_params params =
     {
         .linux_side = _this->u_iface,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient009_CreateSteamPipe( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient009_CreateSteamPipe, &params );
     return params._ret;
 }
 
-bool __thiscall winISteamClient_SteamClient009_BReleaseSteamPipe(struct w_steam_iface *_this, HSteamPipe hSteamPipe)
+int8_t __thiscall winISteamClient_SteamClient009_BReleaseSteamPipe(struct w_steam_iface *_this, int32_t hSteamPipe)
 {
-    struct cppISteamClient_SteamClient009_BReleaseSteamPipe_params params =
-    {
-        .linux_side = _this->u_iface,
-        .hSteamPipe = hSteamPipe,
-    };
-    TRACE("%p\n", _this);
-    cppISteamClient_SteamClient009_BReleaseSteamPipe( &params );
-    return params._ret;
-}
-
-HSteamUser __thiscall winISteamClient_SteamClient009_ConnectToGlobalUser(struct w_steam_iface *_this, HSteamPipe hSteamPipe)
-{
-    struct cppISteamClient_SteamClient009_ConnectToGlobalUser_params params =
+    struct ISteamClient_SteamClient009_BReleaseSteamPipe_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamPipe = hSteamPipe,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient009_ConnectToGlobalUser( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient009_BReleaseSteamPipe, &params );
     return params._ret;
 }
 
-HSteamUser __thiscall winISteamClient_SteamClient009_CreateLocalUser(struct w_steam_iface *_this, HSteamPipe *phSteamPipe, EAccountType eAccountType)
+int32_t __thiscall winISteamClient_SteamClient009_ConnectToGlobalUser(struct w_steam_iface *_this, int32_t hSteamPipe)
 {
-    struct cppISteamClient_SteamClient009_CreateLocalUser_params params =
+    struct ISteamClient_SteamClient009_ConnectToGlobalUser_params params =
+    {
+        .linux_side = _this->u_iface,
+        .hSteamPipe = hSteamPipe,
+    };
+    TRACE("%p\n", _this);
+    STEAMCLIENT_CALL( ISteamClient_SteamClient009_ConnectToGlobalUser, &params );
+    return params._ret;
+}
+
+int32_t __thiscall winISteamClient_SteamClient009_CreateLocalUser(struct w_steam_iface *_this, int32_t *phSteamPipe, uint32_t eAccountType)
+{
+    struct ISteamClient_SteamClient009_CreateLocalUser_params params =
     {
         .linux_side = _this->u_iface,
         .phSteamPipe = phSteamPipe,
         .eAccountType = eAccountType,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient009_CreateLocalUser( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient009_CreateLocalUser, &params );
     return params._ret;
 }
 
-void __thiscall winISteamClient_SteamClient009_ReleaseUser(struct w_steam_iface *_this, HSteamPipe hSteamPipe, HSteamUser hUser)
+void __thiscall winISteamClient_SteamClient009_ReleaseUser(struct w_steam_iface *_this, int32_t hSteamPipe, int32_t hUser)
 {
-    struct cppISteamClient_SteamClient009_ReleaseUser_params params =
+    struct ISteamClient_SteamClient009_ReleaseUser_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamPipe = hSteamPipe,
         .hUser = hUser,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient009_ReleaseUser( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient009_ReleaseUser, &params );
 }
 
-void /*ISteamUser*/ * __thiscall winISteamClient_SteamClient009_GetISteamUser(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamUser*/ * __thiscall winISteamClient_SteamClient009_GetISteamUser(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient009_GetISteamUser_params params =
+    struct ISteamClient_SteamClient009_GetISteamUser_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -1161,14 +1137,14 @@ void /*ISteamUser*/ * __thiscall winISteamClient_SteamClient009_GetISteamUser(st
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient009_GetISteamUser( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient009_GetISteamUser, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamGameServer*/ * __thiscall winISteamClient_SteamClient009_GetISteamGameServer(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamGameServer*/ * __thiscall winISteamClient_SteamClient009_GetISteamGameServer(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient009_GetISteamGameServer_params params =
+    struct ISteamClient_SteamClient009_GetISteamGameServer_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -1176,26 +1152,26 @@ void /*ISteamGameServer*/ * __thiscall winISteamClient_SteamClient009_GetISteamG
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient009_GetISteamGameServer( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient009_GetISteamGameServer, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void __thiscall winISteamClient_SteamClient009_SetLocalIPBinding(struct w_steam_iface *_this, uint32 unIP, uint16 usPort)
+void __thiscall winISteamClient_SteamClient009_SetLocalIPBinding(struct w_steam_iface *_this, uint32_t unIP, uint16_t usPort)
 {
-    struct cppISteamClient_SteamClient009_SetLocalIPBinding_params params =
+    struct ISteamClient_SteamClient009_SetLocalIPBinding_params params =
     {
         .linux_side = _this->u_iface,
         .unIP = unIP,
         .usPort = usPort,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient009_SetLocalIPBinding( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient009_SetLocalIPBinding, &params );
 }
 
-void /*ISteamFriends*/ * __thiscall winISteamClient_SteamClient009_GetISteamFriends(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamFriends*/ * __thiscall winISteamClient_SteamClient009_GetISteamFriends(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient009_GetISteamFriends_params params =
+    struct ISteamClient_SteamClient009_GetISteamFriends_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -1203,43 +1179,28 @@ void /*ISteamFriends*/ * __thiscall winISteamClient_SteamClient009_GetISteamFrie
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient009_GetISteamFriends( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient009_GetISteamFriends, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamUtils*/ * __thiscall winISteamClient_SteamClient009_GetISteamUtils(struct w_steam_iface *_this, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamUtils*/ * __thiscall winISteamClient_SteamClient009_GetISteamUtils(struct w_steam_iface *_this, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient009_GetISteamUtils_params params =
+    struct ISteamClient_SteamClient009_GetISteamUtils_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamPipe = hSteamPipe,
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient009_GetISteamUtils( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient009_GetISteamUtils, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamMatchmaking*/ * __thiscall winISteamClient_SteamClient009_GetISteamMatchmaking(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamMatchmaking*/ * __thiscall winISteamClient_SteamClient009_GetISteamMatchmaking(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient009_GetISteamMatchmaking_params params =
-    {
-        .linux_side = _this->u_iface,
-        .hSteamUser = hSteamUser,
-        .hSteamPipe = hSteamPipe,
-        .pchVersion = pchVersion,
-    };
-    TRACE("%p\n", _this);
-    cppISteamClient_SteamClient009_GetISteamMatchmaking( &params );
-    params._ret = create_win_interface( pchVersion, params._ret );
-    return params._ret;
-}
-
-void /*ISteamMasterServerUpdater*/ * __thiscall winISteamClient_SteamClient009_GetISteamMasterServerUpdater(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
-{
-    struct cppISteamClient_SteamClient009_GetISteamMasterServerUpdater_params params =
+    struct ISteamClient_SteamClient009_GetISteamMatchmaking_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -1247,14 +1208,14 @@ void /*ISteamMasterServerUpdater*/ * __thiscall winISteamClient_SteamClient009_G
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient009_GetISteamMasterServerUpdater( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient009_GetISteamMatchmaking, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamMatchmakingServers*/ * __thiscall winISteamClient_SteamClient009_GetISteamMatchmakingServers(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamMasterServerUpdater*/ * __thiscall winISteamClient_SteamClient009_GetISteamMasterServerUpdater(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient009_GetISteamMatchmakingServers_params params =
+    struct ISteamClient_SteamClient009_GetISteamMasterServerUpdater_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -1262,14 +1223,14 @@ void /*ISteamMatchmakingServers*/ * __thiscall winISteamClient_SteamClient009_Ge
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient009_GetISteamMatchmakingServers( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient009_GetISteamMasterServerUpdater, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void * __thiscall winISteamClient_SteamClient009_GetISteamGenericInterface(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamMatchmakingServers*/ * __thiscall winISteamClient_SteamClient009_GetISteamMatchmakingServers(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient009_GetISteamGenericInterface_params params =
+    struct ISteamClient_SteamClient009_GetISteamMatchmakingServers_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -1277,14 +1238,14 @@ void * __thiscall winISteamClient_SteamClient009_GetISteamGenericInterface(struc
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient009_GetISteamGenericInterface( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient009_GetISteamMatchmakingServers, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamUserStats*/ * __thiscall winISteamClient_SteamClient009_GetISteamUserStats(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void * __thiscall winISteamClient_SteamClient009_GetISteamGenericInterface(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient009_GetISteamUserStats_params params =
+    struct ISteamClient_SteamClient009_GetISteamGenericInterface_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -1292,14 +1253,29 @@ void /*ISteamUserStats*/ * __thiscall winISteamClient_SteamClient009_GetISteamUs
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient009_GetISteamUserStats( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient009_GetISteamGenericInterface, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamGameServerStats*/ * __thiscall winISteamClient_SteamClient009_GetISteamGameServerStats(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamUserStats*/ * __thiscall winISteamClient_SteamClient009_GetISteamUserStats(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient009_GetISteamGameServerStats_params params =
+    struct ISteamClient_SteamClient009_GetISteamUserStats_params params =
+    {
+        .linux_side = _this->u_iface,
+        .hSteamUser = hSteamUser,
+        .hSteamPipe = hSteamPipe,
+        .pchVersion = pchVersion,
+    };
+    TRACE("%p\n", _this);
+    STEAMCLIENT_CALL( ISteamClient_SteamClient009_GetISteamUserStats, &params );
+    params._ret = create_win_interface( pchVersion, params._ret );
+    return params._ret;
+}
+
+void /*ISteamGameServerStats*/ * __thiscall winISteamClient_SteamClient009_GetISteamGameServerStats(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
+{
+    struct ISteamClient_SteamClient009_GetISteamGameServerStats_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -1307,14 +1283,14 @@ void /*ISteamGameServerStats*/ * __thiscall winISteamClient_SteamClient009_GetIS
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient009_GetISteamGameServerStats( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient009_GetISteamGameServerStats, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamApps*/ * __thiscall winISteamClient_SteamClient009_GetISteamApps(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamApps*/ * __thiscall winISteamClient_SteamClient009_GetISteamApps(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient009_GetISteamApps_params params =
+    struct ISteamClient_SteamClient009_GetISteamApps_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -1322,14 +1298,14 @@ void /*ISteamApps*/ * __thiscall winISteamClient_SteamClient009_GetISteamApps(st
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient009_GetISteamApps( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient009_GetISteamApps, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamNetworking*/ * __thiscall winISteamClient_SteamClient009_GetISteamNetworking(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamNetworking*/ * __thiscall winISteamClient_SteamClient009_GetISteamNetworking(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient009_GetISteamNetworking_params params =
+    struct ISteamClient_SteamClient009_GetISteamNetworking_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -1337,14 +1313,14 @@ void /*ISteamNetworking*/ * __thiscall winISteamClient_SteamClient009_GetISteamN
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient009_GetISteamNetworking( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient009_GetISteamNetworking, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamRemoteStorage*/ * __thiscall winISteamClient_SteamClient009_GetISteamRemoteStorage(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamRemoteStorage*/ * __thiscall winISteamClient_SteamClient009_GetISteamRemoteStorage(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient009_GetISteamRemoteStorage_params params =
+    struct ISteamClient_SteamClient009_GetISteamRemoteStorage_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -1352,48 +1328,48 @@ void /*ISteamRemoteStorage*/ * __thiscall winISteamClient_SteamClient009_GetISte
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient009_GetISteamRemoteStorage( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient009_GetISteamRemoteStorage, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
 void __thiscall winISteamClient_SteamClient009_RunFrame(struct w_steam_iface *_this)
 {
-    struct cppISteamClient_SteamClient009_RunFrame_params params =
+    struct ISteamClient_SteamClient009_RunFrame_params params =
     {
         .linux_side = _this->u_iface,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient009_RunFrame( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient009_RunFrame, &params );
 }
 
-uint32 __thiscall winISteamClient_SteamClient009_GetIPCCallCount(struct w_steam_iface *_this)
+uint32_t __thiscall winISteamClient_SteamClient009_GetIPCCallCount(struct w_steam_iface *_this)
 {
-    struct cppISteamClient_SteamClient009_GetIPCCallCount_params params =
+    struct ISteamClient_SteamClient009_GetIPCCallCount_params params =
     {
         .linux_side = _this->u_iface,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient009_GetIPCCallCount( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient009_GetIPCCallCount, &params );
     return params._ret;
 }
 
-void __thiscall winISteamClient_SteamClient009_SetWarningMessageHook(struct w_steam_iface *_this, SteamAPIWarningMessageHook_t pFunction)
+void __thiscall winISteamClient_SteamClient009_SetWarningMessageHook(struct w_steam_iface *_this, void (*W_CDECL pFunction)(int32_t, const char *))
 {
-    struct cppISteamClient_SteamClient009_SetWarningMessageHook_params params =
+    struct ISteamClient_SteamClient009_SetWarningMessageHook_params params =
     {
         .linux_side = _this->u_iface,
         .pFunction = pFunction,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient009_SetWarningMessageHook( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient009_SetWarningMessageHook, &params );
 }
 
 extern vtable_ptr winISteamClient_SteamClient009_vtable;
 
-#ifndef __GNUC__
-void __asm_dummy_vtables(void) {
-#endif
+DEFINE_RTTI_DATA0(winISteamClient_SteamClient009, 0, ".?AVISteamClient@@")
+
+__ASM_BLOCK_BEGIN(winISteamClient_SteamClient009_vtables)
     __ASM_VTABLE(winISteamClient_SteamClient009,
         VTABLE_ADD_FUNC(winISteamClient_SteamClient009_CreateSteamPipe)
         VTABLE_ADD_FUNC(winISteamClient_SteamClient009_BReleaseSteamPipe)
@@ -1418,9 +1394,7 @@ void __asm_dummy_vtables(void) {
         VTABLE_ADD_FUNC(winISteamClient_SteamClient009_GetIPCCallCount)
         VTABLE_ADD_FUNC(winISteamClient_SteamClient009_SetWarningMessageHook)
     );
-#ifndef __GNUC__
-}
-#endif
+__ASM_BLOCK_END
 
 struct w_steam_iface *create_winISteamClient_SteamClient009(void *u_iface)
 {
@@ -1430,8 +1404,6 @@ struct w_steam_iface *create_winISteamClient_SteamClient009(void *u_iface)
     r->u_iface = u_iface;
     return r;
 }
-
-#include "cppISteamClient_SteamClient010.h"
 
 DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient010_CreateSteamPipe, 4)
 DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient010_BReleaseSteamPipe, 8)
@@ -1458,69 +1430,69 @@ DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient010_SetWarningMessageHook, 8)
 DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient010_BShutdownIfAllPipesClosed, 4)
 DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient010_GetISteamHTTP, 16)
 
-HSteamPipe __thiscall winISteamClient_SteamClient010_CreateSteamPipe(struct w_steam_iface *_this)
+int32_t __thiscall winISteamClient_SteamClient010_CreateSteamPipe(struct w_steam_iface *_this)
 {
-    struct cppISteamClient_SteamClient010_CreateSteamPipe_params params =
+    struct ISteamClient_SteamClient010_CreateSteamPipe_params params =
     {
         .linux_side = _this->u_iface,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient010_CreateSteamPipe( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient010_CreateSteamPipe, &params );
     return params._ret;
 }
 
-bool __thiscall winISteamClient_SteamClient010_BReleaseSteamPipe(struct w_steam_iface *_this, HSteamPipe hSteamPipe)
+int8_t __thiscall winISteamClient_SteamClient010_BReleaseSteamPipe(struct w_steam_iface *_this, int32_t hSteamPipe)
 {
-    struct cppISteamClient_SteamClient010_BReleaseSteamPipe_params params =
-    {
-        .linux_side = _this->u_iface,
-        .hSteamPipe = hSteamPipe,
-    };
-    TRACE("%p\n", _this);
-    cppISteamClient_SteamClient010_BReleaseSteamPipe( &params );
-    return params._ret;
-}
-
-HSteamUser __thiscall winISteamClient_SteamClient010_ConnectToGlobalUser(struct w_steam_iface *_this, HSteamPipe hSteamPipe)
-{
-    struct cppISteamClient_SteamClient010_ConnectToGlobalUser_params params =
+    struct ISteamClient_SteamClient010_BReleaseSteamPipe_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamPipe = hSteamPipe,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient010_ConnectToGlobalUser( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient010_BReleaseSteamPipe, &params );
     return params._ret;
 }
 
-HSteamUser __thiscall winISteamClient_SteamClient010_CreateLocalUser(struct w_steam_iface *_this, HSteamPipe *phSteamPipe, EAccountType eAccountType)
+int32_t __thiscall winISteamClient_SteamClient010_ConnectToGlobalUser(struct w_steam_iface *_this, int32_t hSteamPipe)
 {
-    struct cppISteamClient_SteamClient010_CreateLocalUser_params params =
+    struct ISteamClient_SteamClient010_ConnectToGlobalUser_params params =
+    {
+        .linux_side = _this->u_iface,
+        .hSteamPipe = hSteamPipe,
+    };
+    TRACE("%p\n", _this);
+    STEAMCLIENT_CALL( ISteamClient_SteamClient010_ConnectToGlobalUser, &params );
+    return params._ret;
+}
+
+int32_t __thiscall winISteamClient_SteamClient010_CreateLocalUser(struct w_steam_iface *_this, int32_t *phSteamPipe, uint32_t eAccountType)
+{
+    struct ISteamClient_SteamClient010_CreateLocalUser_params params =
     {
         .linux_side = _this->u_iface,
         .phSteamPipe = phSteamPipe,
         .eAccountType = eAccountType,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient010_CreateLocalUser( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient010_CreateLocalUser, &params );
     return params._ret;
 }
 
-void __thiscall winISteamClient_SteamClient010_ReleaseUser(struct w_steam_iface *_this, HSteamPipe hSteamPipe, HSteamUser hUser)
+void __thiscall winISteamClient_SteamClient010_ReleaseUser(struct w_steam_iface *_this, int32_t hSteamPipe, int32_t hUser)
 {
-    struct cppISteamClient_SteamClient010_ReleaseUser_params params =
+    struct ISteamClient_SteamClient010_ReleaseUser_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamPipe = hSteamPipe,
         .hUser = hUser,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient010_ReleaseUser( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient010_ReleaseUser, &params );
 }
 
-void /*ISteamUser*/ * __thiscall winISteamClient_SteamClient010_GetISteamUser(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamUser*/ * __thiscall winISteamClient_SteamClient010_GetISteamUser(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient010_GetISteamUser_params params =
+    struct ISteamClient_SteamClient010_GetISteamUser_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -1528,14 +1500,14 @@ void /*ISteamUser*/ * __thiscall winISteamClient_SteamClient010_GetISteamUser(st
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient010_GetISteamUser( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient010_GetISteamUser, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamGameServer*/ * __thiscall winISteamClient_SteamClient010_GetISteamGameServer(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamGameServer*/ * __thiscall winISteamClient_SteamClient010_GetISteamGameServer(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient010_GetISteamGameServer_params params =
+    struct ISteamClient_SteamClient010_GetISteamGameServer_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -1543,26 +1515,26 @@ void /*ISteamGameServer*/ * __thiscall winISteamClient_SteamClient010_GetISteamG
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient010_GetISteamGameServer( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient010_GetISteamGameServer, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void __thiscall winISteamClient_SteamClient010_SetLocalIPBinding(struct w_steam_iface *_this, uint32 unIP, uint16 usPort)
+void __thiscall winISteamClient_SteamClient010_SetLocalIPBinding(struct w_steam_iface *_this, uint32_t unIP, uint16_t usPort)
 {
-    struct cppISteamClient_SteamClient010_SetLocalIPBinding_params params =
+    struct ISteamClient_SteamClient010_SetLocalIPBinding_params params =
     {
         .linux_side = _this->u_iface,
         .unIP = unIP,
         .usPort = usPort,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient010_SetLocalIPBinding( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient010_SetLocalIPBinding, &params );
 }
 
-void /*ISteamFriends*/ * __thiscall winISteamClient_SteamClient010_GetISteamFriends(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamFriends*/ * __thiscall winISteamClient_SteamClient010_GetISteamFriends(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient010_GetISteamFriends_params params =
+    struct ISteamClient_SteamClient010_GetISteamFriends_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -1570,43 +1542,28 @@ void /*ISteamFriends*/ * __thiscall winISteamClient_SteamClient010_GetISteamFrie
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient010_GetISteamFriends( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient010_GetISteamFriends, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamUtils*/ * __thiscall winISteamClient_SteamClient010_GetISteamUtils(struct w_steam_iface *_this, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamUtils*/ * __thiscall winISteamClient_SteamClient010_GetISteamUtils(struct w_steam_iface *_this, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient010_GetISteamUtils_params params =
+    struct ISteamClient_SteamClient010_GetISteamUtils_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamPipe = hSteamPipe,
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient010_GetISteamUtils( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient010_GetISteamUtils, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamMatchmaking*/ * __thiscall winISteamClient_SteamClient010_GetISteamMatchmaking(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamMatchmaking*/ * __thiscall winISteamClient_SteamClient010_GetISteamMatchmaking(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient010_GetISteamMatchmaking_params params =
-    {
-        .linux_side = _this->u_iface,
-        .hSteamUser = hSteamUser,
-        .hSteamPipe = hSteamPipe,
-        .pchVersion = pchVersion,
-    };
-    TRACE("%p\n", _this);
-    cppISteamClient_SteamClient010_GetISteamMatchmaking( &params );
-    params._ret = create_win_interface( pchVersion, params._ret );
-    return params._ret;
-}
-
-void /*ISteamMasterServerUpdater*/ * __thiscall winISteamClient_SteamClient010_GetISteamMasterServerUpdater(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
-{
-    struct cppISteamClient_SteamClient010_GetISteamMasterServerUpdater_params params =
+    struct ISteamClient_SteamClient010_GetISteamMatchmaking_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -1614,14 +1571,14 @@ void /*ISteamMasterServerUpdater*/ * __thiscall winISteamClient_SteamClient010_G
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient010_GetISteamMasterServerUpdater( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient010_GetISteamMatchmaking, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamMatchmakingServers*/ * __thiscall winISteamClient_SteamClient010_GetISteamMatchmakingServers(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamMasterServerUpdater*/ * __thiscall winISteamClient_SteamClient010_GetISteamMasterServerUpdater(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient010_GetISteamMatchmakingServers_params params =
+    struct ISteamClient_SteamClient010_GetISteamMasterServerUpdater_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -1629,14 +1586,14 @@ void /*ISteamMatchmakingServers*/ * __thiscall winISteamClient_SteamClient010_Ge
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient010_GetISteamMatchmakingServers( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient010_GetISteamMasterServerUpdater, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void * __thiscall winISteamClient_SteamClient010_GetISteamGenericInterface(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamMatchmakingServers*/ * __thiscall winISteamClient_SteamClient010_GetISteamMatchmakingServers(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient010_GetISteamGenericInterface_params params =
+    struct ISteamClient_SteamClient010_GetISteamMatchmakingServers_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -1644,14 +1601,14 @@ void * __thiscall winISteamClient_SteamClient010_GetISteamGenericInterface(struc
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient010_GetISteamGenericInterface( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient010_GetISteamMatchmakingServers, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamUserStats*/ * __thiscall winISteamClient_SteamClient010_GetISteamUserStats(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void * __thiscall winISteamClient_SteamClient010_GetISteamGenericInterface(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient010_GetISteamUserStats_params params =
+    struct ISteamClient_SteamClient010_GetISteamGenericInterface_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -1659,14 +1616,29 @@ void /*ISteamUserStats*/ * __thiscall winISteamClient_SteamClient010_GetISteamUs
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient010_GetISteamUserStats( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient010_GetISteamGenericInterface, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamGameServerStats*/ * __thiscall winISteamClient_SteamClient010_GetISteamGameServerStats(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamUserStats*/ * __thiscall winISteamClient_SteamClient010_GetISteamUserStats(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient010_GetISteamGameServerStats_params params =
+    struct ISteamClient_SteamClient010_GetISteamUserStats_params params =
+    {
+        .linux_side = _this->u_iface,
+        .hSteamUser = hSteamUser,
+        .hSteamPipe = hSteamPipe,
+        .pchVersion = pchVersion,
+    };
+    TRACE("%p\n", _this);
+    STEAMCLIENT_CALL( ISteamClient_SteamClient010_GetISteamUserStats, &params );
+    params._ret = create_win_interface( pchVersion, params._ret );
+    return params._ret;
+}
+
+void /*ISteamGameServerStats*/ * __thiscall winISteamClient_SteamClient010_GetISteamGameServerStats(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
+{
+    struct ISteamClient_SteamClient010_GetISteamGameServerStats_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -1674,14 +1646,14 @@ void /*ISteamGameServerStats*/ * __thiscall winISteamClient_SteamClient010_GetIS
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient010_GetISteamGameServerStats( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient010_GetISteamGameServerStats, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamApps*/ * __thiscall winISteamClient_SteamClient010_GetISteamApps(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamApps*/ * __thiscall winISteamClient_SteamClient010_GetISteamApps(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient010_GetISteamApps_params params =
+    struct ISteamClient_SteamClient010_GetISteamApps_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -1689,14 +1661,14 @@ void /*ISteamApps*/ * __thiscall winISteamClient_SteamClient010_GetISteamApps(st
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient010_GetISteamApps( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient010_GetISteamApps, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamNetworking*/ * __thiscall winISteamClient_SteamClient010_GetISteamNetworking(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamNetworking*/ * __thiscall winISteamClient_SteamClient010_GetISteamNetworking(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient010_GetISteamNetworking_params params =
+    struct ISteamClient_SteamClient010_GetISteamNetworking_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -1704,14 +1676,14 @@ void /*ISteamNetworking*/ * __thiscall winISteamClient_SteamClient010_GetISteamN
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient010_GetISteamNetworking( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient010_GetISteamNetworking, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamRemoteStorage*/ * __thiscall winISteamClient_SteamClient010_GetISteamRemoteStorage(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamRemoteStorage*/ * __thiscall winISteamClient_SteamClient010_GetISteamRemoteStorage(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient010_GetISteamRemoteStorage_params params =
+    struct ISteamClient_SteamClient010_GetISteamRemoteStorage_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -1719,57 +1691,57 @@ void /*ISteamRemoteStorage*/ * __thiscall winISteamClient_SteamClient010_GetISte
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient010_GetISteamRemoteStorage( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient010_GetISteamRemoteStorage, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
 void __thiscall winISteamClient_SteamClient010_RunFrame(struct w_steam_iface *_this)
 {
-    struct cppISteamClient_SteamClient010_RunFrame_params params =
+    struct ISteamClient_SteamClient010_RunFrame_params params =
     {
         .linux_side = _this->u_iface,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient010_RunFrame( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient010_RunFrame, &params );
 }
 
-uint32 __thiscall winISteamClient_SteamClient010_GetIPCCallCount(struct w_steam_iface *_this)
+uint32_t __thiscall winISteamClient_SteamClient010_GetIPCCallCount(struct w_steam_iface *_this)
 {
-    struct cppISteamClient_SteamClient010_GetIPCCallCount_params params =
+    struct ISteamClient_SteamClient010_GetIPCCallCount_params params =
     {
         .linux_side = _this->u_iface,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient010_GetIPCCallCount( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient010_GetIPCCallCount, &params );
     return params._ret;
 }
 
-void __thiscall winISteamClient_SteamClient010_SetWarningMessageHook(struct w_steam_iface *_this, SteamAPIWarningMessageHook_t pFunction)
+void __thiscall winISteamClient_SteamClient010_SetWarningMessageHook(struct w_steam_iface *_this, void (*W_CDECL pFunction)(int32_t, const char *))
 {
-    struct cppISteamClient_SteamClient010_SetWarningMessageHook_params params =
+    struct ISteamClient_SteamClient010_SetWarningMessageHook_params params =
     {
         .linux_side = _this->u_iface,
         .pFunction = pFunction,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient010_SetWarningMessageHook( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient010_SetWarningMessageHook, &params );
 }
 
-bool __thiscall winISteamClient_SteamClient010_BShutdownIfAllPipesClosed(struct w_steam_iface *_this)
+int8_t __thiscall winISteamClient_SteamClient010_BShutdownIfAllPipesClosed(struct w_steam_iface *_this)
 {
-    struct cppISteamClient_SteamClient010_BShutdownIfAllPipesClosed_params params =
+    struct ISteamClient_SteamClient010_BShutdownIfAllPipesClosed_params params =
     {
         .linux_side = _this->u_iface,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient010_BShutdownIfAllPipesClosed( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient010_BShutdownIfAllPipesClosed, &params );
     return params._ret;
 }
 
-void /*ISteamHTTP*/ * __thiscall winISteamClient_SteamClient010_GetISteamHTTP(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamHTTP*/ * __thiscall winISteamClient_SteamClient010_GetISteamHTTP(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient010_GetISteamHTTP_params params =
+    struct ISteamClient_SteamClient010_GetISteamHTTP_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -1777,16 +1749,16 @@ void /*ISteamHTTP*/ * __thiscall winISteamClient_SteamClient010_GetISteamHTTP(st
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient010_GetISteamHTTP( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient010_GetISteamHTTP, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
 extern vtable_ptr winISteamClient_SteamClient010_vtable;
 
-#ifndef __GNUC__
-void __asm_dummy_vtables(void) {
-#endif
+DEFINE_RTTI_DATA0(winISteamClient_SteamClient010, 0, ".?AVISteamClient@@")
+
+__ASM_BLOCK_BEGIN(winISteamClient_SteamClient010_vtables)
     __ASM_VTABLE(winISteamClient_SteamClient010,
         VTABLE_ADD_FUNC(winISteamClient_SteamClient010_CreateSteamPipe)
         VTABLE_ADD_FUNC(winISteamClient_SteamClient010_BReleaseSteamPipe)
@@ -1813,9 +1785,7 @@ void __asm_dummy_vtables(void) {
         VTABLE_ADD_FUNC(winISteamClient_SteamClient010_BShutdownIfAllPipesClosed)
         VTABLE_ADD_FUNC(winISteamClient_SteamClient010_GetISteamHTTP)
     );
-#ifndef __GNUC__
-}
-#endif
+__ASM_BLOCK_END
 
 struct w_steam_iface *create_winISteamClient_SteamClient010(void *u_iface)
 {
@@ -1825,8 +1795,6 @@ struct w_steam_iface *create_winISteamClient_SteamClient010(void *u_iface)
     r->u_iface = u_iface;
     return r;
 }
-
-#include "cppISteamClient_SteamClient011.h"
 
 DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient011_CreateSteamPipe, 4)
 DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient011_BReleaseSteamPipe, 8)
@@ -1854,69 +1822,69 @@ DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient011_SetWarningMessageHook, 8)
 DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient011_BShutdownIfAllPipesClosed, 4)
 DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient011_GetISteamHTTP, 16)
 
-HSteamPipe __thiscall winISteamClient_SteamClient011_CreateSteamPipe(struct w_steam_iface *_this)
+int32_t __thiscall winISteamClient_SteamClient011_CreateSteamPipe(struct w_steam_iface *_this)
 {
-    struct cppISteamClient_SteamClient011_CreateSteamPipe_params params =
+    struct ISteamClient_SteamClient011_CreateSteamPipe_params params =
     {
         .linux_side = _this->u_iface,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient011_CreateSteamPipe( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient011_CreateSteamPipe, &params );
     return params._ret;
 }
 
-bool __thiscall winISteamClient_SteamClient011_BReleaseSteamPipe(struct w_steam_iface *_this, HSteamPipe hSteamPipe)
+int8_t __thiscall winISteamClient_SteamClient011_BReleaseSteamPipe(struct w_steam_iface *_this, int32_t hSteamPipe)
 {
-    struct cppISteamClient_SteamClient011_BReleaseSteamPipe_params params =
-    {
-        .linux_side = _this->u_iface,
-        .hSteamPipe = hSteamPipe,
-    };
-    TRACE("%p\n", _this);
-    cppISteamClient_SteamClient011_BReleaseSteamPipe( &params );
-    return params._ret;
-}
-
-HSteamUser __thiscall winISteamClient_SteamClient011_ConnectToGlobalUser(struct w_steam_iface *_this, HSteamPipe hSteamPipe)
-{
-    struct cppISteamClient_SteamClient011_ConnectToGlobalUser_params params =
+    struct ISteamClient_SteamClient011_BReleaseSteamPipe_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamPipe = hSteamPipe,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient011_ConnectToGlobalUser( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient011_BReleaseSteamPipe, &params );
     return params._ret;
 }
 
-HSteamUser __thiscall winISteamClient_SteamClient011_CreateLocalUser(struct w_steam_iface *_this, HSteamPipe *phSteamPipe, EAccountType eAccountType)
+int32_t __thiscall winISteamClient_SteamClient011_ConnectToGlobalUser(struct w_steam_iface *_this, int32_t hSteamPipe)
 {
-    struct cppISteamClient_SteamClient011_CreateLocalUser_params params =
+    struct ISteamClient_SteamClient011_ConnectToGlobalUser_params params =
+    {
+        .linux_side = _this->u_iface,
+        .hSteamPipe = hSteamPipe,
+    };
+    TRACE("%p\n", _this);
+    STEAMCLIENT_CALL( ISteamClient_SteamClient011_ConnectToGlobalUser, &params );
+    return params._ret;
+}
+
+int32_t __thiscall winISteamClient_SteamClient011_CreateLocalUser(struct w_steam_iface *_this, int32_t *phSteamPipe, uint32_t eAccountType)
+{
+    struct ISteamClient_SteamClient011_CreateLocalUser_params params =
     {
         .linux_side = _this->u_iface,
         .phSteamPipe = phSteamPipe,
         .eAccountType = eAccountType,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient011_CreateLocalUser( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient011_CreateLocalUser, &params );
     return params._ret;
 }
 
-void __thiscall winISteamClient_SteamClient011_ReleaseUser(struct w_steam_iface *_this, HSteamPipe hSteamPipe, HSteamUser hUser)
+void __thiscall winISteamClient_SteamClient011_ReleaseUser(struct w_steam_iface *_this, int32_t hSteamPipe, int32_t hUser)
 {
-    struct cppISteamClient_SteamClient011_ReleaseUser_params params =
+    struct ISteamClient_SteamClient011_ReleaseUser_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamPipe = hSteamPipe,
         .hUser = hUser,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient011_ReleaseUser( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient011_ReleaseUser, &params );
 }
 
-void /*ISteamUser*/ * __thiscall winISteamClient_SteamClient011_GetISteamUser(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamUser*/ * __thiscall winISteamClient_SteamClient011_GetISteamUser(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient011_GetISteamUser_params params =
+    struct ISteamClient_SteamClient011_GetISteamUser_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -1924,14 +1892,14 @@ void /*ISteamUser*/ * __thiscall winISteamClient_SteamClient011_GetISteamUser(st
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient011_GetISteamUser( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient011_GetISteamUser, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamGameServer*/ * __thiscall winISteamClient_SteamClient011_GetISteamGameServer(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamGameServer*/ * __thiscall winISteamClient_SteamClient011_GetISteamGameServer(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient011_GetISteamGameServer_params params =
+    struct ISteamClient_SteamClient011_GetISteamGameServer_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -1939,26 +1907,26 @@ void /*ISteamGameServer*/ * __thiscall winISteamClient_SteamClient011_GetISteamG
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient011_GetISteamGameServer( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient011_GetISteamGameServer, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void __thiscall winISteamClient_SteamClient011_SetLocalIPBinding(struct w_steam_iface *_this, uint32 unIP, uint16 usPort)
+void __thiscall winISteamClient_SteamClient011_SetLocalIPBinding(struct w_steam_iface *_this, uint32_t unIP, uint16_t usPort)
 {
-    struct cppISteamClient_SteamClient011_SetLocalIPBinding_params params =
+    struct ISteamClient_SteamClient011_SetLocalIPBinding_params params =
     {
         .linux_side = _this->u_iface,
         .unIP = unIP,
         .usPort = usPort,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient011_SetLocalIPBinding( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient011_SetLocalIPBinding, &params );
 }
 
-void /*ISteamFriends*/ * __thiscall winISteamClient_SteamClient011_GetISteamFriends(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamFriends*/ * __thiscall winISteamClient_SteamClient011_GetISteamFriends(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient011_GetISteamFriends_params params =
+    struct ISteamClient_SteamClient011_GetISteamFriends_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -1966,43 +1934,28 @@ void /*ISteamFriends*/ * __thiscall winISteamClient_SteamClient011_GetISteamFrie
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient011_GetISteamFriends( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient011_GetISteamFriends, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamUtils*/ * __thiscall winISteamClient_SteamClient011_GetISteamUtils(struct w_steam_iface *_this, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamUtils*/ * __thiscall winISteamClient_SteamClient011_GetISteamUtils(struct w_steam_iface *_this, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient011_GetISteamUtils_params params =
+    struct ISteamClient_SteamClient011_GetISteamUtils_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamPipe = hSteamPipe,
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient011_GetISteamUtils( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient011_GetISteamUtils, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamMatchmaking*/ * __thiscall winISteamClient_SteamClient011_GetISteamMatchmaking(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamMatchmaking*/ * __thiscall winISteamClient_SteamClient011_GetISteamMatchmaking(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient011_GetISteamMatchmaking_params params =
-    {
-        .linux_side = _this->u_iface,
-        .hSteamUser = hSteamUser,
-        .hSteamPipe = hSteamPipe,
-        .pchVersion = pchVersion,
-    };
-    TRACE("%p\n", _this);
-    cppISteamClient_SteamClient011_GetISteamMatchmaking( &params );
-    params._ret = create_win_interface( pchVersion, params._ret );
-    return params._ret;
-}
-
-void /*ISteamMasterServerUpdater*/ * __thiscall winISteamClient_SteamClient011_GetISteamMasterServerUpdater(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
-{
-    struct cppISteamClient_SteamClient011_GetISteamMasterServerUpdater_params params =
+    struct ISteamClient_SteamClient011_GetISteamMatchmaking_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -2010,14 +1963,14 @@ void /*ISteamMasterServerUpdater*/ * __thiscall winISteamClient_SteamClient011_G
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient011_GetISteamMasterServerUpdater( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient011_GetISteamMatchmaking, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamMatchmakingServers*/ * __thiscall winISteamClient_SteamClient011_GetISteamMatchmakingServers(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamMasterServerUpdater*/ * __thiscall winISteamClient_SteamClient011_GetISteamMasterServerUpdater(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient011_GetISteamMatchmakingServers_params params =
+    struct ISteamClient_SteamClient011_GetISteamMasterServerUpdater_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -2025,14 +1978,14 @@ void /*ISteamMatchmakingServers*/ * __thiscall winISteamClient_SteamClient011_Ge
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient011_GetISteamMatchmakingServers( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient011_GetISteamMasterServerUpdater, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void * __thiscall winISteamClient_SteamClient011_GetISteamGenericInterface(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamMatchmakingServers*/ * __thiscall winISteamClient_SteamClient011_GetISteamMatchmakingServers(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient011_GetISteamGenericInterface_params params =
+    struct ISteamClient_SteamClient011_GetISteamMatchmakingServers_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -2040,14 +1993,14 @@ void * __thiscall winISteamClient_SteamClient011_GetISteamGenericInterface(struc
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient011_GetISteamGenericInterface( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient011_GetISteamMatchmakingServers, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamUserStats*/ * __thiscall winISteamClient_SteamClient011_GetISteamUserStats(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void * __thiscall winISteamClient_SteamClient011_GetISteamGenericInterface(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient011_GetISteamUserStats_params params =
+    struct ISteamClient_SteamClient011_GetISteamGenericInterface_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -2055,14 +2008,29 @@ void /*ISteamUserStats*/ * __thiscall winISteamClient_SteamClient011_GetISteamUs
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient011_GetISteamUserStats( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient011_GetISteamGenericInterface, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamGameServerStats*/ * __thiscall winISteamClient_SteamClient011_GetISteamGameServerStats(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamUserStats*/ * __thiscall winISteamClient_SteamClient011_GetISteamUserStats(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient011_GetISteamGameServerStats_params params =
+    struct ISteamClient_SteamClient011_GetISteamUserStats_params params =
+    {
+        .linux_side = _this->u_iface,
+        .hSteamUser = hSteamUser,
+        .hSteamPipe = hSteamPipe,
+        .pchVersion = pchVersion,
+    };
+    TRACE("%p\n", _this);
+    STEAMCLIENT_CALL( ISteamClient_SteamClient011_GetISteamUserStats, &params );
+    params._ret = create_win_interface( pchVersion, params._ret );
+    return params._ret;
+}
+
+void /*ISteamGameServerStats*/ * __thiscall winISteamClient_SteamClient011_GetISteamGameServerStats(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
+{
+    struct ISteamClient_SteamClient011_GetISteamGameServerStats_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -2070,14 +2038,14 @@ void /*ISteamGameServerStats*/ * __thiscall winISteamClient_SteamClient011_GetIS
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient011_GetISteamGameServerStats( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient011_GetISteamGameServerStats, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamApps*/ * __thiscall winISteamClient_SteamClient011_GetISteamApps(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamApps*/ * __thiscall winISteamClient_SteamClient011_GetISteamApps(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient011_GetISteamApps_params params =
+    struct ISteamClient_SteamClient011_GetISteamApps_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -2085,14 +2053,14 @@ void /*ISteamApps*/ * __thiscall winISteamClient_SteamClient011_GetISteamApps(st
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient011_GetISteamApps( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient011_GetISteamApps, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamNetworking*/ * __thiscall winISteamClient_SteamClient011_GetISteamNetworking(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamNetworking*/ * __thiscall winISteamClient_SteamClient011_GetISteamNetworking(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient011_GetISteamNetworking_params params =
+    struct ISteamClient_SteamClient011_GetISteamNetworking_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -2100,14 +2068,14 @@ void /*ISteamNetworking*/ * __thiscall winISteamClient_SteamClient011_GetISteamN
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient011_GetISteamNetworking( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient011_GetISteamNetworking, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamRemoteStorage*/ * __thiscall winISteamClient_SteamClient011_GetISteamRemoteStorage(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamRemoteStorage*/ * __thiscall winISteamClient_SteamClient011_GetISteamRemoteStorage(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient011_GetISteamRemoteStorage_params params =
+    struct ISteamClient_SteamClient011_GetISteamRemoteStorage_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -2115,14 +2083,14 @@ void /*ISteamRemoteStorage*/ * __thiscall winISteamClient_SteamClient011_GetISte
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient011_GetISteamRemoteStorage( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient011_GetISteamRemoteStorage, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamScreenshots*/ * __thiscall winISteamClient_SteamClient011_GetISteamScreenshots(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamScreenshots*/ * __thiscall winISteamClient_SteamClient011_GetISteamScreenshots(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient011_GetISteamScreenshots_params params =
+    struct ISteamClient_SteamClient011_GetISteamScreenshots_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -2130,57 +2098,57 @@ void /*ISteamScreenshots*/ * __thiscall winISteamClient_SteamClient011_GetISteam
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient011_GetISteamScreenshots( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient011_GetISteamScreenshots, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
 void __thiscall winISteamClient_SteamClient011_RunFrame(struct w_steam_iface *_this)
 {
-    struct cppISteamClient_SteamClient011_RunFrame_params params =
+    struct ISteamClient_SteamClient011_RunFrame_params params =
     {
         .linux_side = _this->u_iface,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient011_RunFrame( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient011_RunFrame, &params );
 }
 
-uint32 __thiscall winISteamClient_SteamClient011_GetIPCCallCount(struct w_steam_iface *_this)
+uint32_t __thiscall winISteamClient_SteamClient011_GetIPCCallCount(struct w_steam_iface *_this)
 {
-    struct cppISteamClient_SteamClient011_GetIPCCallCount_params params =
+    struct ISteamClient_SteamClient011_GetIPCCallCount_params params =
     {
         .linux_side = _this->u_iface,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient011_GetIPCCallCount( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient011_GetIPCCallCount, &params );
     return params._ret;
 }
 
-void __thiscall winISteamClient_SteamClient011_SetWarningMessageHook(struct w_steam_iface *_this, SteamAPIWarningMessageHook_t pFunction)
+void __thiscall winISteamClient_SteamClient011_SetWarningMessageHook(struct w_steam_iface *_this, void (*W_CDECL pFunction)(int32_t, const char *))
 {
-    struct cppISteamClient_SteamClient011_SetWarningMessageHook_params params =
+    struct ISteamClient_SteamClient011_SetWarningMessageHook_params params =
     {
         .linux_side = _this->u_iface,
         .pFunction = pFunction,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient011_SetWarningMessageHook( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient011_SetWarningMessageHook, &params );
 }
 
-bool __thiscall winISteamClient_SteamClient011_BShutdownIfAllPipesClosed(struct w_steam_iface *_this)
+int8_t __thiscall winISteamClient_SteamClient011_BShutdownIfAllPipesClosed(struct w_steam_iface *_this)
 {
-    struct cppISteamClient_SteamClient011_BShutdownIfAllPipesClosed_params params =
+    struct ISteamClient_SteamClient011_BShutdownIfAllPipesClosed_params params =
     {
         .linux_side = _this->u_iface,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient011_BShutdownIfAllPipesClosed( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient011_BShutdownIfAllPipesClosed, &params );
     return params._ret;
 }
 
-void /*ISteamHTTP*/ * __thiscall winISteamClient_SteamClient011_GetISteamHTTP(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamHTTP*/ * __thiscall winISteamClient_SteamClient011_GetISteamHTTP(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient011_GetISteamHTTP_params params =
+    struct ISteamClient_SteamClient011_GetISteamHTTP_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -2188,16 +2156,16 @@ void /*ISteamHTTP*/ * __thiscall winISteamClient_SteamClient011_GetISteamHTTP(st
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient011_GetISteamHTTP( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient011_GetISteamHTTP, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
 extern vtable_ptr winISteamClient_SteamClient011_vtable;
 
-#ifndef __GNUC__
-void __asm_dummy_vtables(void) {
-#endif
+DEFINE_RTTI_DATA0(winISteamClient_SteamClient011, 0, ".?AVISteamClient@@")
+
+__ASM_BLOCK_BEGIN(winISteamClient_SteamClient011_vtables)
     __ASM_VTABLE(winISteamClient_SteamClient011,
         VTABLE_ADD_FUNC(winISteamClient_SteamClient011_CreateSteamPipe)
         VTABLE_ADD_FUNC(winISteamClient_SteamClient011_BReleaseSteamPipe)
@@ -2225,9 +2193,7 @@ void __asm_dummy_vtables(void) {
         VTABLE_ADD_FUNC(winISteamClient_SteamClient011_BShutdownIfAllPipesClosed)
         VTABLE_ADD_FUNC(winISteamClient_SteamClient011_GetISteamHTTP)
     );
-#ifndef __GNUC__
-}
-#endif
+__ASM_BLOCK_END
 
 struct w_steam_iface *create_winISteamClient_SteamClient011(void *u_iface)
 {
@@ -2237,8 +2203,6 @@ struct w_steam_iface *create_winISteamClient_SteamClient011(void *u_iface)
     r->u_iface = u_iface;
     return r;
 }
-
-#include "cppISteamClient_SteamClient012.h"
 
 DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient012_CreateSteamPipe, 4)
 DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient012_BReleaseSteamPipe, 8)
@@ -2268,69 +2232,69 @@ DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient012_GetISteamUnifiedMessages,
 DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient012_GetISteamController, 16)
 DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient012_GetISteamUGC, 16)
 
-HSteamPipe __thiscall winISteamClient_SteamClient012_CreateSteamPipe(struct w_steam_iface *_this)
+int32_t __thiscall winISteamClient_SteamClient012_CreateSteamPipe(struct w_steam_iface *_this)
 {
-    struct cppISteamClient_SteamClient012_CreateSteamPipe_params params =
+    struct ISteamClient_SteamClient012_CreateSteamPipe_params params =
     {
         .linux_side = _this->u_iface,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient012_CreateSteamPipe( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient012_CreateSteamPipe, &params );
     return params._ret;
 }
 
-bool __thiscall winISteamClient_SteamClient012_BReleaseSteamPipe(struct w_steam_iface *_this, HSteamPipe hSteamPipe)
+int8_t __thiscall winISteamClient_SteamClient012_BReleaseSteamPipe(struct w_steam_iface *_this, int32_t hSteamPipe)
 {
-    struct cppISteamClient_SteamClient012_BReleaseSteamPipe_params params =
-    {
-        .linux_side = _this->u_iface,
-        .hSteamPipe = hSteamPipe,
-    };
-    TRACE("%p\n", _this);
-    cppISteamClient_SteamClient012_BReleaseSteamPipe( &params );
-    return params._ret;
-}
-
-HSteamUser __thiscall winISteamClient_SteamClient012_ConnectToGlobalUser(struct w_steam_iface *_this, HSteamPipe hSteamPipe)
-{
-    struct cppISteamClient_SteamClient012_ConnectToGlobalUser_params params =
+    struct ISteamClient_SteamClient012_BReleaseSteamPipe_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamPipe = hSteamPipe,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient012_ConnectToGlobalUser( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient012_BReleaseSteamPipe, &params );
     return params._ret;
 }
 
-HSteamUser __thiscall winISteamClient_SteamClient012_CreateLocalUser(struct w_steam_iface *_this, HSteamPipe *phSteamPipe, EAccountType eAccountType)
+int32_t __thiscall winISteamClient_SteamClient012_ConnectToGlobalUser(struct w_steam_iface *_this, int32_t hSteamPipe)
 {
-    struct cppISteamClient_SteamClient012_CreateLocalUser_params params =
+    struct ISteamClient_SteamClient012_ConnectToGlobalUser_params params =
+    {
+        .linux_side = _this->u_iface,
+        .hSteamPipe = hSteamPipe,
+    };
+    TRACE("%p\n", _this);
+    STEAMCLIENT_CALL( ISteamClient_SteamClient012_ConnectToGlobalUser, &params );
+    return params._ret;
+}
+
+int32_t __thiscall winISteamClient_SteamClient012_CreateLocalUser(struct w_steam_iface *_this, int32_t *phSteamPipe, uint32_t eAccountType)
+{
+    struct ISteamClient_SteamClient012_CreateLocalUser_params params =
     {
         .linux_side = _this->u_iface,
         .phSteamPipe = phSteamPipe,
         .eAccountType = eAccountType,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient012_CreateLocalUser( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient012_CreateLocalUser, &params );
     return params._ret;
 }
 
-void __thiscall winISteamClient_SteamClient012_ReleaseUser(struct w_steam_iface *_this, HSteamPipe hSteamPipe, HSteamUser hUser)
+void __thiscall winISteamClient_SteamClient012_ReleaseUser(struct w_steam_iface *_this, int32_t hSteamPipe, int32_t hUser)
 {
-    struct cppISteamClient_SteamClient012_ReleaseUser_params params =
+    struct ISteamClient_SteamClient012_ReleaseUser_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamPipe = hSteamPipe,
         .hUser = hUser,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient012_ReleaseUser( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient012_ReleaseUser, &params );
 }
 
-void /*ISteamUser*/ * __thiscall winISteamClient_SteamClient012_GetISteamUser(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamUser*/ * __thiscall winISteamClient_SteamClient012_GetISteamUser(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient012_GetISteamUser_params params =
+    struct ISteamClient_SteamClient012_GetISteamUser_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -2338,14 +2302,14 @@ void /*ISteamUser*/ * __thiscall winISteamClient_SteamClient012_GetISteamUser(st
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient012_GetISteamUser( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient012_GetISteamUser, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamGameServer*/ * __thiscall winISteamClient_SteamClient012_GetISteamGameServer(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamGameServer*/ * __thiscall winISteamClient_SteamClient012_GetISteamGameServer(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient012_GetISteamGameServer_params params =
+    struct ISteamClient_SteamClient012_GetISteamGameServer_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -2353,26 +2317,26 @@ void /*ISteamGameServer*/ * __thiscall winISteamClient_SteamClient012_GetISteamG
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient012_GetISteamGameServer( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient012_GetISteamGameServer, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void __thiscall winISteamClient_SteamClient012_SetLocalIPBinding(struct w_steam_iface *_this, uint32 unIP, uint16 usPort)
+void __thiscall winISteamClient_SteamClient012_SetLocalIPBinding(struct w_steam_iface *_this, uint32_t unIP, uint16_t usPort)
 {
-    struct cppISteamClient_SteamClient012_SetLocalIPBinding_params params =
+    struct ISteamClient_SteamClient012_SetLocalIPBinding_params params =
     {
         .linux_side = _this->u_iface,
         .unIP = unIP,
         .usPort = usPort,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient012_SetLocalIPBinding( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient012_SetLocalIPBinding, &params );
 }
 
-void /*ISteamFriends*/ * __thiscall winISteamClient_SteamClient012_GetISteamFriends(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamFriends*/ * __thiscall winISteamClient_SteamClient012_GetISteamFriends(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient012_GetISteamFriends_params params =
+    struct ISteamClient_SteamClient012_GetISteamFriends_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -2380,43 +2344,28 @@ void /*ISteamFriends*/ * __thiscall winISteamClient_SteamClient012_GetISteamFrie
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient012_GetISteamFriends( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient012_GetISteamFriends, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamUtils*/ * __thiscall winISteamClient_SteamClient012_GetISteamUtils(struct w_steam_iface *_this, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamUtils*/ * __thiscall winISteamClient_SteamClient012_GetISteamUtils(struct w_steam_iface *_this, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient012_GetISteamUtils_params params =
+    struct ISteamClient_SteamClient012_GetISteamUtils_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamPipe = hSteamPipe,
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient012_GetISteamUtils( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient012_GetISteamUtils, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamMatchmaking*/ * __thiscall winISteamClient_SteamClient012_GetISteamMatchmaking(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamMatchmaking*/ * __thiscall winISteamClient_SteamClient012_GetISteamMatchmaking(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient012_GetISteamMatchmaking_params params =
-    {
-        .linux_side = _this->u_iface,
-        .hSteamUser = hSteamUser,
-        .hSteamPipe = hSteamPipe,
-        .pchVersion = pchVersion,
-    };
-    TRACE("%p\n", _this);
-    cppISteamClient_SteamClient012_GetISteamMatchmaking( &params );
-    params._ret = create_win_interface( pchVersion, params._ret );
-    return params._ret;
-}
-
-void /*ISteamMatchmakingServers*/ * __thiscall winISteamClient_SteamClient012_GetISteamMatchmakingServers(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
-{
-    struct cppISteamClient_SteamClient012_GetISteamMatchmakingServers_params params =
+    struct ISteamClient_SteamClient012_GetISteamMatchmaking_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -2424,14 +2373,14 @@ void /*ISteamMatchmakingServers*/ * __thiscall winISteamClient_SteamClient012_Ge
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient012_GetISteamMatchmakingServers( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient012_GetISteamMatchmaking, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void * __thiscall winISteamClient_SteamClient012_GetISteamGenericInterface(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamMatchmakingServers*/ * __thiscall winISteamClient_SteamClient012_GetISteamMatchmakingServers(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient012_GetISteamGenericInterface_params params =
+    struct ISteamClient_SteamClient012_GetISteamMatchmakingServers_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -2439,14 +2388,14 @@ void * __thiscall winISteamClient_SteamClient012_GetISteamGenericInterface(struc
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient012_GetISteamGenericInterface( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient012_GetISteamMatchmakingServers, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamUserStats*/ * __thiscall winISteamClient_SteamClient012_GetISteamUserStats(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void * __thiscall winISteamClient_SteamClient012_GetISteamGenericInterface(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient012_GetISteamUserStats_params params =
+    struct ISteamClient_SteamClient012_GetISteamGenericInterface_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -2454,14 +2403,29 @@ void /*ISteamUserStats*/ * __thiscall winISteamClient_SteamClient012_GetISteamUs
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient012_GetISteamUserStats( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient012_GetISteamGenericInterface, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamGameServerStats*/ * __thiscall winISteamClient_SteamClient012_GetISteamGameServerStats(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamUserStats*/ * __thiscall winISteamClient_SteamClient012_GetISteamUserStats(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient012_GetISteamGameServerStats_params params =
+    struct ISteamClient_SteamClient012_GetISteamUserStats_params params =
+    {
+        .linux_side = _this->u_iface,
+        .hSteamUser = hSteamUser,
+        .hSteamPipe = hSteamPipe,
+        .pchVersion = pchVersion,
+    };
+    TRACE("%p\n", _this);
+    STEAMCLIENT_CALL( ISteamClient_SteamClient012_GetISteamUserStats, &params );
+    params._ret = create_win_interface( pchVersion, params._ret );
+    return params._ret;
+}
+
+void /*ISteamGameServerStats*/ * __thiscall winISteamClient_SteamClient012_GetISteamGameServerStats(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
+{
+    struct ISteamClient_SteamClient012_GetISteamGameServerStats_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -2469,14 +2433,14 @@ void /*ISteamGameServerStats*/ * __thiscall winISteamClient_SteamClient012_GetIS
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient012_GetISteamGameServerStats( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient012_GetISteamGameServerStats, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamApps*/ * __thiscall winISteamClient_SteamClient012_GetISteamApps(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamApps*/ * __thiscall winISteamClient_SteamClient012_GetISteamApps(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient012_GetISteamApps_params params =
+    struct ISteamClient_SteamClient012_GetISteamApps_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -2484,14 +2448,14 @@ void /*ISteamApps*/ * __thiscall winISteamClient_SteamClient012_GetISteamApps(st
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient012_GetISteamApps( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient012_GetISteamApps, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamNetworking*/ * __thiscall winISteamClient_SteamClient012_GetISteamNetworking(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamNetworking*/ * __thiscall winISteamClient_SteamClient012_GetISteamNetworking(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient012_GetISteamNetworking_params params =
+    struct ISteamClient_SteamClient012_GetISteamNetworking_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -2499,14 +2463,14 @@ void /*ISteamNetworking*/ * __thiscall winISteamClient_SteamClient012_GetISteamN
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient012_GetISteamNetworking( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient012_GetISteamNetworking, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamRemoteStorage*/ * __thiscall winISteamClient_SteamClient012_GetISteamRemoteStorage(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamRemoteStorage*/ * __thiscall winISteamClient_SteamClient012_GetISteamRemoteStorage(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient012_GetISteamRemoteStorage_params params =
+    struct ISteamClient_SteamClient012_GetISteamRemoteStorage_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -2514,14 +2478,14 @@ void /*ISteamRemoteStorage*/ * __thiscall winISteamClient_SteamClient012_GetISte
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient012_GetISteamRemoteStorage( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient012_GetISteamRemoteStorage, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamScreenshots*/ * __thiscall winISteamClient_SteamClient012_GetISteamScreenshots(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamScreenshots*/ * __thiscall winISteamClient_SteamClient012_GetISteamScreenshots(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient012_GetISteamScreenshots_params params =
+    struct ISteamClient_SteamClient012_GetISteamScreenshots_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -2529,57 +2493,57 @@ void /*ISteamScreenshots*/ * __thiscall winISteamClient_SteamClient012_GetISteam
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient012_GetISteamScreenshots( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient012_GetISteamScreenshots, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
 void __thiscall winISteamClient_SteamClient012_RunFrame(struct w_steam_iface *_this)
 {
-    struct cppISteamClient_SteamClient012_RunFrame_params params =
+    struct ISteamClient_SteamClient012_RunFrame_params params =
     {
         .linux_side = _this->u_iface,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient012_RunFrame( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient012_RunFrame, &params );
 }
 
-uint32 __thiscall winISteamClient_SteamClient012_GetIPCCallCount(struct w_steam_iface *_this)
+uint32_t __thiscall winISteamClient_SteamClient012_GetIPCCallCount(struct w_steam_iface *_this)
 {
-    struct cppISteamClient_SteamClient012_GetIPCCallCount_params params =
+    struct ISteamClient_SteamClient012_GetIPCCallCount_params params =
     {
         .linux_side = _this->u_iface,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient012_GetIPCCallCount( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient012_GetIPCCallCount, &params );
     return params._ret;
 }
 
-void __thiscall winISteamClient_SteamClient012_SetWarningMessageHook(struct w_steam_iface *_this, SteamAPIWarningMessageHook_t pFunction)
+void __thiscall winISteamClient_SteamClient012_SetWarningMessageHook(struct w_steam_iface *_this, void (*W_CDECL pFunction)(int32_t, const char *))
 {
-    struct cppISteamClient_SteamClient012_SetWarningMessageHook_params params =
+    struct ISteamClient_SteamClient012_SetWarningMessageHook_params params =
     {
         .linux_side = _this->u_iface,
         .pFunction = pFunction,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient012_SetWarningMessageHook( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient012_SetWarningMessageHook, &params );
 }
 
-bool __thiscall winISteamClient_SteamClient012_BShutdownIfAllPipesClosed(struct w_steam_iface *_this)
+int8_t __thiscall winISteamClient_SteamClient012_BShutdownIfAllPipesClosed(struct w_steam_iface *_this)
 {
-    struct cppISteamClient_SteamClient012_BShutdownIfAllPipesClosed_params params =
+    struct ISteamClient_SteamClient012_BShutdownIfAllPipesClosed_params params =
     {
         .linux_side = _this->u_iface,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient012_BShutdownIfAllPipesClosed( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient012_BShutdownIfAllPipesClosed, &params );
     return params._ret;
 }
 
-void /*ISteamHTTP*/ * __thiscall winISteamClient_SteamClient012_GetISteamHTTP(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamHTTP*/ * __thiscall winISteamClient_SteamClient012_GetISteamHTTP(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient012_GetISteamHTTP_params params =
+    struct ISteamClient_SteamClient012_GetISteamHTTP_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -2587,14 +2551,14 @@ void /*ISteamHTTP*/ * __thiscall winISteamClient_SteamClient012_GetISteamHTTP(st
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient012_GetISteamHTTP( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient012_GetISteamHTTP, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamUnifiedMessages*/ * __thiscall winISteamClient_SteamClient012_GetISteamUnifiedMessages(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamUnifiedMessages*/ * __thiscall winISteamClient_SteamClient012_GetISteamUnifiedMessages(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient012_GetISteamUnifiedMessages_params params =
+    struct ISteamClient_SteamClient012_GetISteamUnifiedMessages_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -2602,14 +2566,14 @@ void /*ISteamUnifiedMessages*/ * __thiscall winISteamClient_SteamClient012_GetIS
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient012_GetISteamUnifiedMessages( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient012_GetISteamUnifiedMessages, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamController*/ * __thiscall winISteamClient_SteamClient012_GetISteamController(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamController*/ * __thiscall winISteamClient_SteamClient012_GetISteamController(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient012_GetISteamController_params params =
+    struct ISteamClient_SteamClient012_GetISteamController_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -2617,14 +2581,14 @@ void /*ISteamController*/ * __thiscall winISteamClient_SteamClient012_GetISteamC
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient012_GetISteamController( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient012_GetISteamController, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamUGC*/ * __thiscall winISteamClient_SteamClient012_GetISteamUGC(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamUGC*/ * __thiscall winISteamClient_SteamClient012_GetISteamUGC(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient012_GetISteamUGC_params params =
+    struct ISteamClient_SteamClient012_GetISteamUGC_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -2632,16 +2596,16 @@ void /*ISteamUGC*/ * __thiscall winISteamClient_SteamClient012_GetISteamUGC(stru
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient012_GetISteamUGC( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient012_GetISteamUGC, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
 extern vtable_ptr winISteamClient_SteamClient012_vtable;
 
-#ifndef __GNUC__
-void __asm_dummy_vtables(void) {
-#endif
+DEFINE_RTTI_DATA0(winISteamClient_SteamClient012, 0, ".?AVISteamClient@@")
+
+__ASM_BLOCK_BEGIN(winISteamClient_SteamClient012_vtables)
     __ASM_VTABLE(winISteamClient_SteamClient012,
         VTABLE_ADD_FUNC(winISteamClient_SteamClient012_CreateSteamPipe)
         VTABLE_ADD_FUNC(winISteamClient_SteamClient012_BReleaseSteamPipe)
@@ -2671,9 +2635,7 @@ void __asm_dummy_vtables(void) {
         VTABLE_ADD_FUNC(winISteamClient_SteamClient012_GetISteamController)
         VTABLE_ADD_FUNC(winISteamClient_SteamClient012_GetISteamUGC)
     );
-#ifndef __GNUC__
-}
-#endif
+__ASM_BLOCK_END
 
 struct w_steam_iface *create_winISteamClient_SteamClient012(void *u_iface)
 {
@@ -2683,8 +2645,6 @@ struct w_steam_iface *create_winISteamClient_SteamClient012(void *u_iface)
     r->u_iface = u_iface;
     return r;
 }
-
-#include "cppISteamClient_SteamClient013.h"
 
 DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient013_CreateSteamPipe, 4)
 DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient013_BReleaseSteamPipe, 8)
@@ -2717,69 +2677,69 @@ DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient013_GetISteamInventory, 16)
 DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient013_GetISteamVideo, 16)
 DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient013_GetISteamAppList, 16)
 
-HSteamPipe __thiscall winISteamClient_SteamClient013_CreateSteamPipe(struct w_steam_iface *_this)
+int32_t __thiscall winISteamClient_SteamClient013_CreateSteamPipe(struct w_steam_iface *_this)
 {
-    struct cppISteamClient_SteamClient013_CreateSteamPipe_params params =
+    struct ISteamClient_SteamClient013_CreateSteamPipe_params params =
     {
         .linux_side = _this->u_iface,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient013_CreateSteamPipe( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient013_CreateSteamPipe, &params );
     return params._ret;
 }
 
-bool __thiscall winISteamClient_SteamClient013_BReleaseSteamPipe(struct w_steam_iface *_this, HSteamPipe hSteamPipe)
+int8_t __thiscall winISteamClient_SteamClient013_BReleaseSteamPipe(struct w_steam_iface *_this, int32_t hSteamPipe)
 {
-    struct cppISteamClient_SteamClient013_BReleaseSteamPipe_params params =
-    {
-        .linux_side = _this->u_iface,
-        .hSteamPipe = hSteamPipe,
-    };
-    TRACE("%p\n", _this);
-    cppISteamClient_SteamClient013_BReleaseSteamPipe( &params );
-    return params._ret;
-}
-
-HSteamUser __thiscall winISteamClient_SteamClient013_ConnectToGlobalUser(struct w_steam_iface *_this, HSteamPipe hSteamPipe)
-{
-    struct cppISteamClient_SteamClient013_ConnectToGlobalUser_params params =
+    struct ISteamClient_SteamClient013_BReleaseSteamPipe_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamPipe = hSteamPipe,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient013_ConnectToGlobalUser( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient013_BReleaseSteamPipe, &params );
     return params._ret;
 }
 
-HSteamUser __thiscall winISteamClient_SteamClient013_CreateLocalUser(struct w_steam_iface *_this, HSteamPipe *phSteamPipe, EAccountType eAccountType)
+int32_t __thiscall winISteamClient_SteamClient013_ConnectToGlobalUser(struct w_steam_iface *_this, int32_t hSteamPipe)
 {
-    struct cppISteamClient_SteamClient013_CreateLocalUser_params params =
+    struct ISteamClient_SteamClient013_ConnectToGlobalUser_params params =
+    {
+        .linux_side = _this->u_iface,
+        .hSteamPipe = hSteamPipe,
+    };
+    TRACE("%p\n", _this);
+    STEAMCLIENT_CALL( ISteamClient_SteamClient013_ConnectToGlobalUser, &params );
+    return params._ret;
+}
+
+int32_t __thiscall winISteamClient_SteamClient013_CreateLocalUser(struct w_steam_iface *_this, int32_t *phSteamPipe, uint32_t eAccountType)
+{
+    struct ISteamClient_SteamClient013_CreateLocalUser_params params =
     {
         .linux_side = _this->u_iface,
         .phSteamPipe = phSteamPipe,
         .eAccountType = eAccountType,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient013_CreateLocalUser( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient013_CreateLocalUser, &params );
     return params._ret;
 }
 
-void __thiscall winISteamClient_SteamClient013_ReleaseUser(struct w_steam_iface *_this, HSteamPipe hSteamPipe, HSteamUser hUser)
+void __thiscall winISteamClient_SteamClient013_ReleaseUser(struct w_steam_iface *_this, int32_t hSteamPipe, int32_t hUser)
 {
-    struct cppISteamClient_SteamClient013_ReleaseUser_params params =
+    struct ISteamClient_SteamClient013_ReleaseUser_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamPipe = hSteamPipe,
         .hUser = hUser,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient013_ReleaseUser( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient013_ReleaseUser, &params );
 }
 
-void /*ISteamUser*/ * __thiscall winISteamClient_SteamClient013_GetISteamUser(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamUser*/ * __thiscall winISteamClient_SteamClient013_GetISteamUser(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient013_GetISteamUser_params params =
+    struct ISteamClient_SteamClient013_GetISteamUser_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -2787,14 +2747,14 @@ void /*ISteamUser*/ * __thiscall winISteamClient_SteamClient013_GetISteamUser(st
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient013_GetISteamUser( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient013_GetISteamUser, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamGameServer*/ * __thiscall winISteamClient_SteamClient013_GetISteamGameServer(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamGameServer*/ * __thiscall winISteamClient_SteamClient013_GetISteamGameServer(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient013_GetISteamGameServer_params params =
+    struct ISteamClient_SteamClient013_GetISteamGameServer_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -2802,26 +2762,26 @@ void /*ISteamGameServer*/ * __thiscall winISteamClient_SteamClient013_GetISteamG
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient013_GetISteamGameServer( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient013_GetISteamGameServer, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void __thiscall winISteamClient_SteamClient013_SetLocalIPBinding(struct w_steam_iface *_this, uint32 unIP, uint16 usPort)
+void __thiscall winISteamClient_SteamClient013_SetLocalIPBinding(struct w_steam_iface *_this, uint32_t unIP, uint16_t usPort)
 {
-    struct cppISteamClient_SteamClient013_SetLocalIPBinding_params params =
+    struct ISteamClient_SteamClient013_SetLocalIPBinding_params params =
     {
         .linux_side = _this->u_iface,
         .unIP = unIP,
         .usPort = usPort,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient013_SetLocalIPBinding( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient013_SetLocalIPBinding, &params );
 }
 
-void /*ISteamFriends*/ * __thiscall winISteamClient_SteamClient013_GetISteamFriends(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamFriends*/ * __thiscall winISteamClient_SteamClient013_GetISteamFriends(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient013_GetISteamFriends_params params =
+    struct ISteamClient_SteamClient013_GetISteamFriends_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -2829,43 +2789,28 @@ void /*ISteamFriends*/ * __thiscall winISteamClient_SteamClient013_GetISteamFrie
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient013_GetISteamFriends( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient013_GetISteamFriends, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamUtils*/ * __thiscall winISteamClient_SteamClient013_GetISteamUtils(struct w_steam_iface *_this, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamUtils*/ * __thiscall winISteamClient_SteamClient013_GetISteamUtils(struct w_steam_iface *_this, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient013_GetISteamUtils_params params =
+    struct ISteamClient_SteamClient013_GetISteamUtils_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamPipe = hSteamPipe,
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient013_GetISteamUtils( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient013_GetISteamUtils, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamMatchmaking*/ * __thiscall winISteamClient_SteamClient013_GetISteamMatchmaking(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamMatchmaking*/ * __thiscall winISteamClient_SteamClient013_GetISteamMatchmaking(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient013_GetISteamMatchmaking_params params =
-    {
-        .linux_side = _this->u_iface,
-        .hSteamUser = hSteamUser,
-        .hSteamPipe = hSteamPipe,
-        .pchVersion = pchVersion,
-    };
-    TRACE("%p\n", _this);
-    cppISteamClient_SteamClient013_GetISteamMatchmaking( &params );
-    params._ret = create_win_interface( pchVersion, params._ret );
-    return params._ret;
-}
-
-void /*ISteamMatchmakingServers*/ * __thiscall winISteamClient_SteamClient013_GetISteamMatchmakingServers(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
-{
-    struct cppISteamClient_SteamClient013_GetISteamMatchmakingServers_params params =
+    struct ISteamClient_SteamClient013_GetISteamMatchmaking_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -2873,14 +2818,14 @@ void /*ISteamMatchmakingServers*/ * __thiscall winISteamClient_SteamClient013_Ge
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient013_GetISteamMatchmakingServers( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient013_GetISteamMatchmaking, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void * __thiscall winISteamClient_SteamClient013_GetISteamGenericInterface(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamMatchmakingServers*/ * __thiscall winISteamClient_SteamClient013_GetISteamMatchmakingServers(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient013_GetISteamGenericInterface_params params =
+    struct ISteamClient_SteamClient013_GetISteamMatchmakingServers_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -2888,14 +2833,14 @@ void * __thiscall winISteamClient_SteamClient013_GetISteamGenericInterface(struc
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient013_GetISteamGenericInterface( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient013_GetISteamMatchmakingServers, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamUserStats*/ * __thiscall winISteamClient_SteamClient013_GetISteamUserStats(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void * __thiscall winISteamClient_SteamClient013_GetISteamGenericInterface(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient013_GetISteamUserStats_params params =
+    struct ISteamClient_SteamClient013_GetISteamGenericInterface_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -2903,14 +2848,29 @@ void /*ISteamUserStats*/ * __thiscall winISteamClient_SteamClient013_GetISteamUs
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient013_GetISteamUserStats( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient013_GetISteamGenericInterface, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamGameServerStats*/ * __thiscall winISteamClient_SteamClient013_GetISteamGameServerStats(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamUserStats*/ * __thiscall winISteamClient_SteamClient013_GetISteamUserStats(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient013_GetISteamGameServerStats_params params =
+    struct ISteamClient_SteamClient013_GetISteamUserStats_params params =
+    {
+        .linux_side = _this->u_iface,
+        .hSteamUser = hSteamUser,
+        .hSteamPipe = hSteamPipe,
+        .pchVersion = pchVersion,
+    };
+    TRACE("%p\n", _this);
+    STEAMCLIENT_CALL( ISteamClient_SteamClient013_GetISteamUserStats, &params );
+    params._ret = create_win_interface( pchVersion, params._ret );
+    return params._ret;
+}
+
+void /*ISteamGameServerStats*/ * __thiscall winISteamClient_SteamClient013_GetISteamGameServerStats(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
+{
+    struct ISteamClient_SteamClient013_GetISteamGameServerStats_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -2918,14 +2878,14 @@ void /*ISteamGameServerStats*/ * __thiscall winISteamClient_SteamClient013_GetIS
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient013_GetISteamGameServerStats( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient013_GetISteamGameServerStats, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamApps*/ * __thiscall winISteamClient_SteamClient013_GetISteamApps(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamApps*/ * __thiscall winISteamClient_SteamClient013_GetISteamApps(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient013_GetISteamApps_params params =
+    struct ISteamClient_SteamClient013_GetISteamApps_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -2933,14 +2893,14 @@ void /*ISteamApps*/ * __thiscall winISteamClient_SteamClient013_GetISteamApps(st
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient013_GetISteamApps( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient013_GetISteamApps, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamNetworking*/ * __thiscall winISteamClient_SteamClient013_GetISteamNetworking(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamNetworking*/ * __thiscall winISteamClient_SteamClient013_GetISteamNetworking(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient013_GetISteamNetworking_params params =
+    struct ISteamClient_SteamClient013_GetISteamNetworking_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -2948,14 +2908,14 @@ void /*ISteamNetworking*/ * __thiscall winISteamClient_SteamClient013_GetISteamN
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient013_GetISteamNetworking( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient013_GetISteamNetworking, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamRemoteStorage*/ * __thiscall winISteamClient_SteamClient013_GetISteamRemoteStorage(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamRemoteStorage*/ * __thiscall winISteamClient_SteamClient013_GetISteamRemoteStorage(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient013_GetISteamRemoteStorage_params params =
+    struct ISteamClient_SteamClient013_GetISteamRemoteStorage_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -2963,14 +2923,14 @@ void /*ISteamRemoteStorage*/ * __thiscall winISteamClient_SteamClient013_GetISte
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient013_GetISteamRemoteStorage( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient013_GetISteamRemoteStorage, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamScreenshots*/ * __thiscall winISteamClient_SteamClient013_GetISteamScreenshots(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamScreenshots*/ * __thiscall winISteamClient_SteamClient013_GetISteamScreenshots(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient013_GetISteamScreenshots_params params =
+    struct ISteamClient_SteamClient013_GetISteamScreenshots_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -2978,57 +2938,57 @@ void /*ISteamScreenshots*/ * __thiscall winISteamClient_SteamClient013_GetISteam
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient013_GetISteamScreenshots( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient013_GetISteamScreenshots, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
 void __thiscall winISteamClient_SteamClient013_RunFrame(struct w_steam_iface *_this)
 {
-    struct cppISteamClient_SteamClient013_RunFrame_params params =
+    struct ISteamClient_SteamClient013_RunFrame_params params =
     {
         .linux_side = _this->u_iface,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient013_RunFrame( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient013_RunFrame, &params );
 }
 
-uint32 __thiscall winISteamClient_SteamClient013_GetIPCCallCount(struct w_steam_iface *_this)
+uint32_t __thiscall winISteamClient_SteamClient013_GetIPCCallCount(struct w_steam_iface *_this)
 {
-    struct cppISteamClient_SteamClient013_GetIPCCallCount_params params =
+    struct ISteamClient_SteamClient013_GetIPCCallCount_params params =
     {
         .linux_side = _this->u_iface,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient013_GetIPCCallCount( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient013_GetIPCCallCount, &params );
     return params._ret;
 }
 
-void __thiscall winISteamClient_SteamClient013_SetWarningMessageHook(struct w_steam_iface *_this, SteamAPIWarningMessageHook_t pFunction)
+void __thiscall winISteamClient_SteamClient013_SetWarningMessageHook(struct w_steam_iface *_this, void (*W_CDECL pFunction)(int32_t, const char *))
 {
-    struct cppISteamClient_SteamClient013_SetWarningMessageHook_params params =
+    struct ISteamClient_SteamClient013_SetWarningMessageHook_params params =
     {
         .linux_side = _this->u_iface,
         .pFunction = pFunction,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient013_SetWarningMessageHook( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient013_SetWarningMessageHook, &params );
 }
 
-bool __thiscall winISteamClient_SteamClient013_BShutdownIfAllPipesClosed(struct w_steam_iface *_this)
+int8_t __thiscall winISteamClient_SteamClient013_BShutdownIfAllPipesClosed(struct w_steam_iface *_this)
 {
-    struct cppISteamClient_SteamClient013_BShutdownIfAllPipesClosed_params params =
+    struct ISteamClient_SteamClient013_BShutdownIfAllPipesClosed_params params =
     {
         .linux_side = _this->u_iface,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient013_BShutdownIfAllPipesClosed( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient013_BShutdownIfAllPipesClosed, &params );
     return params._ret;
 }
 
-void /*ISteamHTTP*/ * __thiscall winISteamClient_SteamClient013_GetISteamHTTP(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamHTTP*/ * __thiscall winISteamClient_SteamClient013_GetISteamHTTP(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient013_GetISteamHTTP_params params =
+    struct ISteamClient_SteamClient013_GetISteamHTTP_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -3036,14 +2996,14 @@ void /*ISteamHTTP*/ * __thiscall winISteamClient_SteamClient013_GetISteamHTTP(st
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient013_GetISteamHTTP( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient013_GetISteamHTTP, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamUnifiedMessages*/ * __thiscall winISteamClient_SteamClient013_GetISteamUnifiedMessages(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamUnifiedMessages*/ * __thiscall winISteamClient_SteamClient013_GetISteamUnifiedMessages(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient013_GetISteamUnifiedMessages_params params =
+    struct ISteamClient_SteamClient013_GetISteamUnifiedMessages_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -3051,14 +3011,14 @@ void /*ISteamUnifiedMessages*/ * __thiscall winISteamClient_SteamClient013_GetIS
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient013_GetISteamUnifiedMessages( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient013_GetISteamUnifiedMessages, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamController*/ * __thiscall winISteamClient_SteamClient013_GetISteamController(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamController*/ * __thiscall winISteamClient_SteamClient013_GetISteamController(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient013_GetISteamController_params params =
+    struct ISteamClient_SteamClient013_GetISteamController_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -3066,14 +3026,14 @@ void /*ISteamController*/ * __thiscall winISteamClient_SteamClient013_GetISteamC
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient013_GetISteamController( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient013_GetISteamController, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamUGC*/ * __thiscall winISteamClient_SteamClient013_GetISteamUGC(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamUGC*/ * __thiscall winISteamClient_SteamClient013_GetISteamUGC(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient013_GetISteamUGC_params params =
+    struct ISteamClient_SteamClient013_GetISteamUGC_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -3081,14 +3041,14 @@ void /*ISteamUGC*/ * __thiscall winISteamClient_SteamClient013_GetISteamUGC(stru
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient013_GetISteamUGC( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient013_GetISteamUGC, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void * __thiscall winISteamClient_SteamClient013_GetISteamInventory(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void * __thiscall winISteamClient_SteamClient013_GetISteamInventory(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient013_GetISteamInventory_params params =
+    struct ISteamClient_SteamClient013_GetISteamInventory_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -3096,13 +3056,13 @@ void * __thiscall winISteamClient_SteamClient013_GetISteamInventory(struct w_ste
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient013_GetISteamInventory( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient013_GetISteamInventory, &params );
     return params._ret;
 }
 
-void * __thiscall winISteamClient_SteamClient013_GetISteamVideo(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void * __thiscall winISteamClient_SteamClient013_GetISteamVideo(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient013_GetISteamVideo_params params =
+    struct ISteamClient_SteamClient013_GetISteamVideo_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -3110,13 +3070,13 @@ void * __thiscall winISteamClient_SteamClient013_GetISteamVideo(struct w_steam_i
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient013_GetISteamVideo( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient013_GetISteamVideo, &params );
     return params._ret;
 }
 
-void /*ISteamAppList*/ * __thiscall winISteamClient_SteamClient013_GetISteamAppList(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamAppList*/ * __thiscall winISteamClient_SteamClient013_GetISteamAppList(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient013_GetISteamAppList_params params =
+    struct ISteamClient_SteamClient013_GetISteamAppList_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -3124,16 +3084,16 @@ void /*ISteamAppList*/ * __thiscall winISteamClient_SteamClient013_GetISteamAppL
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient013_GetISteamAppList( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient013_GetISteamAppList, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
 extern vtable_ptr winISteamClient_SteamClient013_vtable;
 
-#ifndef __GNUC__
-void __asm_dummy_vtables(void) {
-#endif
+DEFINE_RTTI_DATA0(winISteamClient_SteamClient013, 0, ".?AVISteamClient@@")
+
+__ASM_BLOCK_BEGIN(winISteamClient_SteamClient013_vtables)
     __ASM_VTABLE(winISteamClient_SteamClient013,
         VTABLE_ADD_FUNC(winISteamClient_SteamClient013_CreateSteamPipe)
         VTABLE_ADD_FUNC(winISteamClient_SteamClient013_BReleaseSteamPipe)
@@ -3166,9 +3126,7 @@ void __asm_dummy_vtables(void) {
         VTABLE_ADD_FUNC(winISteamClient_SteamClient013_GetISteamVideo)
         VTABLE_ADD_FUNC(winISteamClient_SteamClient013_GetISteamAppList)
     );
-#ifndef __GNUC__
-}
-#endif
+__ASM_BLOCK_END
 
 struct w_steam_iface *create_winISteamClient_SteamClient013(void *u_iface)
 {
@@ -3178,8 +3136,6 @@ struct w_steam_iface *create_winISteamClient_SteamClient013(void *u_iface)
     r->u_iface = u_iface;
     return r;
 }
-
-#include "cppISteamClient_SteamClient014.h"
 
 DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient014_CreateSteamPipe, 4)
 DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient014_BReleaseSteamPipe, 8)
@@ -3211,69 +3167,69 @@ DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient014_GetISteamUGC, 16)
 DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient014_GetISteamAppList, 16)
 DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient014_GetISteamMusic, 16)
 
-HSteamPipe __thiscall winISteamClient_SteamClient014_CreateSteamPipe(struct w_steam_iface *_this)
+int32_t __thiscall winISteamClient_SteamClient014_CreateSteamPipe(struct w_steam_iface *_this)
 {
-    struct cppISteamClient_SteamClient014_CreateSteamPipe_params params =
+    struct ISteamClient_SteamClient014_CreateSteamPipe_params params =
     {
         .linux_side = _this->u_iface,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient014_CreateSteamPipe( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient014_CreateSteamPipe, &params );
     return params._ret;
 }
 
-bool __thiscall winISteamClient_SteamClient014_BReleaseSteamPipe(struct w_steam_iface *_this, HSteamPipe hSteamPipe)
+int8_t __thiscall winISteamClient_SteamClient014_BReleaseSteamPipe(struct w_steam_iface *_this, int32_t hSteamPipe)
 {
-    struct cppISteamClient_SteamClient014_BReleaseSteamPipe_params params =
-    {
-        .linux_side = _this->u_iface,
-        .hSteamPipe = hSteamPipe,
-    };
-    TRACE("%p\n", _this);
-    cppISteamClient_SteamClient014_BReleaseSteamPipe( &params );
-    return params._ret;
-}
-
-HSteamUser __thiscall winISteamClient_SteamClient014_ConnectToGlobalUser(struct w_steam_iface *_this, HSteamPipe hSteamPipe)
-{
-    struct cppISteamClient_SteamClient014_ConnectToGlobalUser_params params =
+    struct ISteamClient_SteamClient014_BReleaseSteamPipe_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamPipe = hSteamPipe,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient014_ConnectToGlobalUser( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient014_BReleaseSteamPipe, &params );
     return params._ret;
 }
 
-HSteamUser __thiscall winISteamClient_SteamClient014_CreateLocalUser(struct w_steam_iface *_this, HSteamPipe *phSteamPipe, EAccountType eAccountType)
+int32_t __thiscall winISteamClient_SteamClient014_ConnectToGlobalUser(struct w_steam_iface *_this, int32_t hSteamPipe)
 {
-    struct cppISteamClient_SteamClient014_CreateLocalUser_params params =
+    struct ISteamClient_SteamClient014_ConnectToGlobalUser_params params =
+    {
+        .linux_side = _this->u_iface,
+        .hSteamPipe = hSteamPipe,
+    };
+    TRACE("%p\n", _this);
+    STEAMCLIENT_CALL( ISteamClient_SteamClient014_ConnectToGlobalUser, &params );
+    return params._ret;
+}
+
+int32_t __thiscall winISteamClient_SteamClient014_CreateLocalUser(struct w_steam_iface *_this, int32_t *phSteamPipe, uint32_t eAccountType)
+{
+    struct ISteamClient_SteamClient014_CreateLocalUser_params params =
     {
         .linux_side = _this->u_iface,
         .phSteamPipe = phSteamPipe,
         .eAccountType = eAccountType,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient014_CreateLocalUser( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient014_CreateLocalUser, &params );
     return params._ret;
 }
 
-void __thiscall winISteamClient_SteamClient014_ReleaseUser(struct w_steam_iface *_this, HSteamPipe hSteamPipe, HSteamUser hUser)
+void __thiscall winISteamClient_SteamClient014_ReleaseUser(struct w_steam_iface *_this, int32_t hSteamPipe, int32_t hUser)
 {
-    struct cppISteamClient_SteamClient014_ReleaseUser_params params =
+    struct ISteamClient_SteamClient014_ReleaseUser_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamPipe = hSteamPipe,
         .hUser = hUser,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient014_ReleaseUser( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient014_ReleaseUser, &params );
 }
 
-void /*ISteamUser*/ * __thiscall winISteamClient_SteamClient014_GetISteamUser(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamUser*/ * __thiscall winISteamClient_SteamClient014_GetISteamUser(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient014_GetISteamUser_params params =
+    struct ISteamClient_SteamClient014_GetISteamUser_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -3281,14 +3237,14 @@ void /*ISteamUser*/ * __thiscall winISteamClient_SteamClient014_GetISteamUser(st
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient014_GetISteamUser( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient014_GetISteamUser, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamGameServer*/ * __thiscall winISteamClient_SteamClient014_GetISteamGameServer(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamGameServer*/ * __thiscall winISteamClient_SteamClient014_GetISteamGameServer(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient014_GetISteamGameServer_params params =
+    struct ISteamClient_SteamClient014_GetISteamGameServer_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -3296,26 +3252,26 @@ void /*ISteamGameServer*/ * __thiscall winISteamClient_SteamClient014_GetISteamG
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient014_GetISteamGameServer( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient014_GetISteamGameServer, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void __thiscall winISteamClient_SteamClient014_SetLocalIPBinding(struct w_steam_iface *_this, uint32 unIP, uint16 usPort)
+void __thiscall winISteamClient_SteamClient014_SetLocalIPBinding(struct w_steam_iface *_this, uint32_t unIP, uint16_t usPort)
 {
-    struct cppISteamClient_SteamClient014_SetLocalIPBinding_params params =
+    struct ISteamClient_SteamClient014_SetLocalIPBinding_params params =
     {
         .linux_side = _this->u_iface,
         .unIP = unIP,
         .usPort = usPort,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient014_SetLocalIPBinding( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient014_SetLocalIPBinding, &params );
 }
 
-void /*ISteamFriends*/ * __thiscall winISteamClient_SteamClient014_GetISteamFriends(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamFriends*/ * __thiscall winISteamClient_SteamClient014_GetISteamFriends(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient014_GetISteamFriends_params params =
+    struct ISteamClient_SteamClient014_GetISteamFriends_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -3323,43 +3279,28 @@ void /*ISteamFriends*/ * __thiscall winISteamClient_SteamClient014_GetISteamFrie
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient014_GetISteamFriends( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient014_GetISteamFriends, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamUtils*/ * __thiscall winISteamClient_SteamClient014_GetISteamUtils(struct w_steam_iface *_this, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamUtils*/ * __thiscall winISteamClient_SteamClient014_GetISteamUtils(struct w_steam_iface *_this, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient014_GetISteamUtils_params params =
+    struct ISteamClient_SteamClient014_GetISteamUtils_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamPipe = hSteamPipe,
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient014_GetISteamUtils( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient014_GetISteamUtils, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamMatchmaking*/ * __thiscall winISteamClient_SteamClient014_GetISteamMatchmaking(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamMatchmaking*/ * __thiscall winISteamClient_SteamClient014_GetISteamMatchmaking(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient014_GetISteamMatchmaking_params params =
-    {
-        .linux_side = _this->u_iface,
-        .hSteamUser = hSteamUser,
-        .hSteamPipe = hSteamPipe,
-        .pchVersion = pchVersion,
-    };
-    TRACE("%p\n", _this);
-    cppISteamClient_SteamClient014_GetISteamMatchmaking( &params );
-    params._ret = create_win_interface( pchVersion, params._ret );
-    return params._ret;
-}
-
-void /*ISteamMatchmakingServers*/ * __thiscall winISteamClient_SteamClient014_GetISteamMatchmakingServers(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
-{
-    struct cppISteamClient_SteamClient014_GetISteamMatchmakingServers_params params =
+    struct ISteamClient_SteamClient014_GetISteamMatchmaking_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -3367,14 +3308,14 @@ void /*ISteamMatchmakingServers*/ * __thiscall winISteamClient_SteamClient014_Ge
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient014_GetISteamMatchmakingServers( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient014_GetISteamMatchmaking, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void * __thiscall winISteamClient_SteamClient014_GetISteamGenericInterface(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamMatchmakingServers*/ * __thiscall winISteamClient_SteamClient014_GetISteamMatchmakingServers(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient014_GetISteamGenericInterface_params params =
+    struct ISteamClient_SteamClient014_GetISteamMatchmakingServers_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -3382,14 +3323,14 @@ void * __thiscall winISteamClient_SteamClient014_GetISteamGenericInterface(struc
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient014_GetISteamGenericInterface( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient014_GetISteamMatchmakingServers, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamUserStats*/ * __thiscall winISteamClient_SteamClient014_GetISteamUserStats(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void * __thiscall winISteamClient_SteamClient014_GetISteamGenericInterface(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient014_GetISteamUserStats_params params =
+    struct ISteamClient_SteamClient014_GetISteamGenericInterface_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -3397,14 +3338,29 @@ void /*ISteamUserStats*/ * __thiscall winISteamClient_SteamClient014_GetISteamUs
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient014_GetISteamUserStats( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient014_GetISteamGenericInterface, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamGameServerStats*/ * __thiscall winISteamClient_SteamClient014_GetISteamGameServerStats(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamUserStats*/ * __thiscall winISteamClient_SteamClient014_GetISteamUserStats(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient014_GetISteamGameServerStats_params params =
+    struct ISteamClient_SteamClient014_GetISteamUserStats_params params =
+    {
+        .linux_side = _this->u_iface,
+        .hSteamUser = hSteamUser,
+        .hSteamPipe = hSteamPipe,
+        .pchVersion = pchVersion,
+    };
+    TRACE("%p\n", _this);
+    STEAMCLIENT_CALL( ISteamClient_SteamClient014_GetISteamUserStats, &params );
+    params._ret = create_win_interface( pchVersion, params._ret );
+    return params._ret;
+}
+
+void /*ISteamGameServerStats*/ * __thiscall winISteamClient_SteamClient014_GetISteamGameServerStats(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
+{
+    struct ISteamClient_SteamClient014_GetISteamGameServerStats_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -3412,14 +3368,14 @@ void /*ISteamGameServerStats*/ * __thiscall winISteamClient_SteamClient014_GetIS
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient014_GetISteamGameServerStats( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient014_GetISteamGameServerStats, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamApps*/ * __thiscall winISteamClient_SteamClient014_GetISteamApps(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamApps*/ * __thiscall winISteamClient_SteamClient014_GetISteamApps(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient014_GetISteamApps_params params =
+    struct ISteamClient_SteamClient014_GetISteamApps_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -3427,14 +3383,14 @@ void /*ISteamApps*/ * __thiscall winISteamClient_SteamClient014_GetISteamApps(st
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient014_GetISteamApps( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient014_GetISteamApps, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamNetworking*/ * __thiscall winISteamClient_SteamClient014_GetISteamNetworking(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamNetworking*/ * __thiscall winISteamClient_SteamClient014_GetISteamNetworking(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient014_GetISteamNetworking_params params =
+    struct ISteamClient_SteamClient014_GetISteamNetworking_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -3442,14 +3398,14 @@ void /*ISteamNetworking*/ * __thiscall winISteamClient_SteamClient014_GetISteamN
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient014_GetISteamNetworking( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient014_GetISteamNetworking, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamRemoteStorage*/ * __thiscall winISteamClient_SteamClient014_GetISteamRemoteStorage(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamRemoteStorage*/ * __thiscall winISteamClient_SteamClient014_GetISteamRemoteStorage(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient014_GetISteamRemoteStorage_params params =
+    struct ISteamClient_SteamClient014_GetISteamRemoteStorage_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -3457,14 +3413,14 @@ void /*ISteamRemoteStorage*/ * __thiscall winISteamClient_SteamClient014_GetISte
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient014_GetISteamRemoteStorage( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient014_GetISteamRemoteStorage, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamScreenshots*/ * __thiscall winISteamClient_SteamClient014_GetISteamScreenshots(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamScreenshots*/ * __thiscall winISteamClient_SteamClient014_GetISteamScreenshots(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient014_GetISteamScreenshots_params params =
+    struct ISteamClient_SteamClient014_GetISteamScreenshots_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -3472,57 +3428,57 @@ void /*ISteamScreenshots*/ * __thiscall winISteamClient_SteamClient014_GetISteam
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient014_GetISteamScreenshots( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient014_GetISteamScreenshots, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
 void __thiscall winISteamClient_SteamClient014_RunFrame(struct w_steam_iface *_this)
 {
-    struct cppISteamClient_SteamClient014_RunFrame_params params =
+    struct ISteamClient_SteamClient014_RunFrame_params params =
     {
         .linux_side = _this->u_iface,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient014_RunFrame( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient014_RunFrame, &params );
 }
 
-uint32 __thiscall winISteamClient_SteamClient014_GetIPCCallCount(struct w_steam_iface *_this)
+uint32_t __thiscall winISteamClient_SteamClient014_GetIPCCallCount(struct w_steam_iface *_this)
 {
-    struct cppISteamClient_SteamClient014_GetIPCCallCount_params params =
+    struct ISteamClient_SteamClient014_GetIPCCallCount_params params =
     {
         .linux_side = _this->u_iface,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient014_GetIPCCallCount( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient014_GetIPCCallCount, &params );
     return params._ret;
 }
 
-void __thiscall winISteamClient_SteamClient014_SetWarningMessageHook(struct w_steam_iface *_this, SteamAPIWarningMessageHook_t pFunction)
+void __thiscall winISteamClient_SteamClient014_SetWarningMessageHook(struct w_steam_iface *_this, void (*W_CDECL pFunction)(int32_t, const char *))
 {
-    struct cppISteamClient_SteamClient014_SetWarningMessageHook_params params =
+    struct ISteamClient_SteamClient014_SetWarningMessageHook_params params =
     {
         .linux_side = _this->u_iface,
         .pFunction = pFunction,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient014_SetWarningMessageHook( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient014_SetWarningMessageHook, &params );
 }
 
-bool __thiscall winISteamClient_SteamClient014_BShutdownIfAllPipesClosed(struct w_steam_iface *_this)
+int8_t __thiscall winISteamClient_SteamClient014_BShutdownIfAllPipesClosed(struct w_steam_iface *_this)
 {
-    struct cppISteamClient_SteamClient014_BShutdownIfAllPipesClosed_params params =
+    struct ISteamClient_SteamClient014_BShutdownIfAllPipesClosed_params params =
     {
         .linux_side = _this->u_iface,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient014_BShutdownIfAllPipesClosed( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient014_BShutdownIfAllPipesClosed, &params );
     return params._ret;
 }
 
-void /*ISteamHTTP*/ * __thiscall winISteamClient_SteamClient014_GetISteamHTTP(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamHTTP*/ * __thiscall winISteamClient_SteamClient014_GetISteamHTTP(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient014_GetISteamHTTP_params params =
+    struct ISteamClient_SteamClient014_GetISteamHTTP_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -3530,14 +3486,14 @@ void /*ISteamHTTP*/ * __thiscall winISteamClient_SteamClient014_GetISteamHTTP(st
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient014_GetISteamHTTP( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient014_GetISteamHTTP, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamUnifiedMessages*/ * __thiscall winISteamClient_SteamClient014_GetISteamUnifiedMessages(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamUnifiedMessages*/ * __thiscall winISteamClient_SteamClient014_GetISteamUnifiedMessages(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient014_GetISteamUnifiedMessages_params params =
+    struct ISteamClient_SteamClient014_GetISteamUnifiedMessages_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -3545,14 +3501,14 @@ void /*ISteamUnifiedMessages*/ * __thiscall winISteamClient_SteamClient014_GetIS
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient014_GetISteamUnifiedMessages( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient014_GetISteamUnifiedMessages, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamController*/ * __thiscall winISteamClient_SteamClient014_GetISteamController(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamController*/ * __thiscall winISteamClient_SteamClient014_GetISteamController(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient014_GetISteamController_params params =
+    struct ISteamClient_SteamClient014_GetISteamController_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -3560,14 +3516,14 @@ void /*ISteamController*/ * __thiscall winISteamClient_SteamClient014_GetISteamC
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient014_GetISteamController( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient014_GetISteamController, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamUGC*/ * __thiscall winISteamClient_SteamClient014_GetISteamUGC(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamUGC*/ * __thiscall winISteamClient_SteamClient014_GetISteamUGC(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient014_GetISteamUGC_params params =
+    struct ISteamClient_SteamClient014_GetISteamUGC_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -3575,14 +3531,14 @@ void /*ISteamUGC*/ * __thiscall winISteamClient_SteamClient014_GetISteamUGC(stru
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient014_GetISteamUGC( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient014_GetISteamUGC, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamAppList*/ * __thiscall winISteamClient_SteamClient014_GetISteamAppList(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamAppList*/ * __thiscall winISteamClient_SteamClient014_GetISteamAppList(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient014_GetISteamAppList_params params =
+    struct ISteamClient_SteamClient014_GetISteamAppList_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -3590,14 +3546,14 @@ void /*ISteamAppList*/ * __thiscall winISteamClient_SteamClient014_GetISteamAppL
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient014_GetISteamAppList( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient014_GetISteamAppList, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamMusic*/ * __thiscall winISteamClient_SteamClient014_GetISteamMusic(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamMusic*/ * __thiscall winISteamClient_SteamClient014_GetISteamMusic(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient014_GetISteamMusic_params params =
+    struct ISteamClient_SteamClient014_GetISteamMusic_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -3605,16 +3561,16 @@ void /*ISteamMusic*/ * __thiscall winISteamClient_SteamClient014_GetISteamMusic(
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient014_GetISteamMusic( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient014_GetISteamMusic, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
 extern vtable_ptr winISteamClient_SteamClient014_vtable;
 
-#ifndef __GNUC__
-void __asm_dummy_vtables(void) {
-#endif
+DEFINE_RTTI_DATA0(winISteamClient_SteamClient014, 0, ".?AVISteamClient@@")
+
+__ASM_BLOCK_BEGIN(winISteamClient_SteamClient014_vtables)
     __ASM_VTABLE(winISteamClient_SteamClient014,
         VTABLE_ADD_FUNC(winISteamClient_SteamClient014_CreateSteamPipe)
         VTABLE_ADD_FUNC(winISteamClient_SteamClient014_BReleaseSteamPipe)
@@ -3646,9 +3602,7 @@ void __asm_dummy_vtables(void) {
         VTABLE_ADD_FUNC(winISteamClient_SteamClient014_GetISteamAppList)
         VTABLE_ADD_FUNC(winISteamClient_SteamClient014_GetISteamMusic)
     );
-#ifndef __GNUC__
-}
-#endif
+__ASM_BLOCK_END
 
 struct w_steam_iface *create_winISteamClient_SteamClient014(void *u_iface)
 {
@@ -3658,8 +3612,6 @@ struct w_steam_iface *create_winISteamClient_SteamClient014(void *u_iface)
     r->u_iface = u_iface;
     return r;
 }
-
-#include "cppISteamClient_SteamClient015.h"
 
 DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient015_CreateSteamPipe, 4)
 DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient015_BReleaseSteamPipe, 8)
@@ -3692,69 +3644,69 @@ DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient015_GetISteamAppList, 16)
 DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient015_GetISteamMusic, 16)
 DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient015_GetISteamMusicRemote, 16)
 
-HSteamPipe __thiscall winISteamClient_SteamClient015_CreateSteamPipe(struct w_steam_iface *_this)
+int32_t __thiscall winISteamClient_SteamClient015_CreateSteamPipe(struct w_steam_iface *_this)
 {
-    struct cppISteamClient_SteamClient015_CreateSteamPipe_params params =
+    struct ISteamClient_SteamClient015_CreateSteamPipe_params params =
     {
         .linux_side = _this->u_iface,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient015_CreateSteamPipe( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient015_CreateSteamPipe, &params );
     return params._ret;
 }
 
-bool __thiscall winISteamClient_SteamClient015_BReleaseSteamPipe(struct w_steam_iface *_this, HSteamPipe hSteamPipe)
+int8_t __thiscall winISteamClient_SteamClient015_BReleaseSteamPipe(struct w_steam_iface *_this, int32_t hSteamPipe)
 {
-    struct cppISteamClient_SteamClient015_BReleaseSteamPipe_params params =
-    {
-        .linux_side = _this->u_iface,
-        .hSteamPipe = hSteamPipe,
-    };
-    TRACE("%p\n", _this);
-    cppISteamClient_SteamClient015_BReleaseSteamPipe( &params );
-    return params._ret;
-}
-
-HSteamUser __thiscall winISteamClient_SteamClient015_ConnectToGlobalUser(struct w_steam_iface *_this, HSteamPipe hSteamPipe)
-{
-    struct cppISteamClient_SteamClient015_ConnectToGlobalUser_params params =
+    struct ISteamClient_SteamClient015_BReleaseSteamPipe_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamPipe = hSteamPipe,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient015_ConnectToGlobalUser( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient015_BReleaseSteamPipe, &params );
     return params._ret;
 }
 
-HSteamUser __thiscall winISteamClient_SteamClient015_CreateLocalUser(struct w_steam_iface *_this, HSteamPipe *phSteamPipe, EAccountType eAccountType)
+int32_t __thiscall winISteamClient_SteamClient015_ConnectToGlobalUser(struct w_steam_iface *_this, int32_t hSteamPipe)
 {
-    struct cppISteamClient_SteamClient015_CreateLocalUser_params params =
+    struct ISteamClient_SteamClient015_ConnectToGlobalUser_params params =
+    {
+        .linux_side = _this->u_iface,
+        .hSteamPipe = hSteamPipe,
+    };
+    TRACE("%p\n", _this);
+    STEAMCLIENT_CALL( ISteamClient_SteamClient015_ConnectToGlobalUser, &params );
+    return params._ret;
+}
+
+int32_t __thiscall winISteamClient_SteamClient015_CreateLocalUser(struct w_steam_iface *_this, int32_t *phSteamPipe, uint32_t eAccountType)
+{
+    struct ISteamClient_SteamClient015_CreateLocalUser_params params =
     {
         .linux_side = _this->u_iface,
         .phSteamPipe = phSteamPipe,
         .eAccountType = eAccountType,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient015_CreateLocalUser( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient015_CreateLocalUser, &params );
     return params._ret;
 }
 
-void __thiscall winISteamClient_SteamClient015_ReleaseUser(struct w_steam_iface *_this, HSteamPipe hSteamPipe, HSteamUser hUser)
+void __thiscall winISteamClient_SteamClient015_ReleaseUser(struct w_steam_iface *_this, int32_t hSteamPipe, int32_t hUser)
 {
-    struct cppISteamClient_SteamClient015_ReleaseUser_params params =
+    struct ISteamClient_SteamClient015_ReleaseUser_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamPipe = hSteamPipe,
         .hUser = hUser,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient015_ReleaseUser( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient015_ReleaseUser, &params );
 }
 
-void /*ISteamUser*/ * __thiscall winISteamClient_SteamClient015_GetISteamUser(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamUser*/ * __thiscall winISteamClient_SteamClient015_GetISteamUser(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient015_GetISteamUser_params params =
+    struct ISteamClient_SteamClient015_GetISteamUser_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -3762,14 +3714,14 @@ void /*ISteamUser*/ * __thiscall winISteamClient_SteamClient015_GetISteamUser(st
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient015_GetISteamUser( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient015_GetISteamUser, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamGameServer*/ * __thiscall winISteamClient_SteamClient015_GetISteamGameServer(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamGameServer*/ * __thiscall winISteamClient_SteamClient015_GetISteamGameServer(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient015_GetISteamGameServer_params params =
+    struct ISteamClient_SteamClient015_GetISteamGameServer_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -3777,26 +3729,26 @@ void /*ISteamGameServer*/ * __thiscall winISteamClient_SteamClient015_GetISteamG
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient015_GetISteamGameServer( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient015_GetISteamGameServer, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void __thiscall winISteamClient_SteamClient015_SetLocalIPBinding(struct w_steam_iface *_this, uint32 unIP, uint16 usPort)
+void __thiscall winISteamClient_SteamClient015_SetLocalIPBinding(struct w_steam_iface *_this, uint32_t unIP, uint16_t usPort)
 {
-    struct cppISteamClient_SteamClient015_SetLocalIPBinding_params params =
+    struct ISteamClient_SteamClient015_SetLocalIPBinding_params params =
     {
         .linux_side = _this->u_iface,
         .unIP = unIP,
         .usPort = usPort,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient015_SetLocalIPBinding( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient015_SetLocalIPBinding, &params );
 }
 
-void /*ISteamFriends*/ * __thiscall winISteamClient_SteamClient015_GetISteamFriends(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamFriends*/ * __thiscall winISteamClient_SteamClient015_GetISteamFriends(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient015_GetISteamFriends_params params =
+    struct ISteamClient_SteamClient015_GetISteamFriends_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -3804,43 +3756,28 @@ void /*ISteamFriends*/ * __thiscall winISteamClient_SteamClient015_GetISteamFrie
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient015_GetISteamFriends( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient015_GetISteamFriends, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamUtils*/ * __thiscall winISteamClient_SteamClient015_GetISteamUtils(struct w_steam_iface *_this, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamUtils*/ * __thiscall winISteamClient_SteamClient015_GetISteamUtils(struct w_steam_iface *_this, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient015_GetISteamUtils_params params =
+    struct ISteamClient_SteamClient015_GetISteamUtils_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamPipe = hSteamPipe,
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient015_GetISteamUtils( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient015_GetISteamUtils, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamMatchmaking*/ * __thiscall winISteamClient_SteamClient015_GetISteamMatchmaking(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamMatchmaking*/ * __thiscall winISteamClient_SteamClient015_GetISteamMatchmaking(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient015_GetISteamMatchmaking_params params =
-    {
-        .linux_side = _this->u_iface,
-        .hSteamUser = hSteamUser,
-        .hSteamPipe = hSteamPipe,
-        .pchVersion = pchVersion,
-    };
-    TRACE("%p\n", _this);
-    cppISteamClient_SteamClient015_GetISteamMatchmaking( &params );
-    params._ret = create_win_interface( pchVersion, params._ret );
-    return params._ret;
-}
-
-void /*ISteamMatchmakingServers*/ * __thiscall winISteamClient_SteamClient015_GetISteamMatchmakingServers(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
-{
-    struct cppISteamClient_SteamClient015_GetISteamMatchmakingServers_params params =
+    struct ISteamClient_SteamClient015_GetISteamMatchmaking_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -3848,14 +3785,14 @@ void /*ISteamMatchmakingServers*/ * __thiscall winISteamClient_SteamClient015_Ge
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient015_GetISteamMatchmakingServers( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient015_GetISteamMatchmaking, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void * __thiscall winISteamClient_SteamClient015_GetISteamGenericInterface(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamMatchmakingServers*/ * __thiscall winISteamClient_SteamClient015_GetISteamMatchmakingServers(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient015_GetISteamGenericInterface_params params =
+    struct ISteamClient_SteamClient015_GetISteamMatchmakingServers_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -3863,14 +3800,14 @@ void * __thiscall winISteamClient_SteamClient015_GetISteamGenericInterface(struc
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient015_GetISteamGenericInterface( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient015_GetISteamMatchmakingServers, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamUserStats*/ * __thiscall winISteamClient_SteamClient015_GetISteamUserStats(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void * __thiscall winISteamClient_SteamClient015_GetISteamGenericInterface(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient015_GetISteamUserStats_params params =
+    struct ISteamClient_SteamClient015_GetISteamGenericInterface_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -3878,14 +3815,29 @@ void /*ISteamUserStats*/ * __thiscall winISteamClient_SteamClient015_GetISteamUs
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient015_GetISteamUserStats( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient015_GetISteamGenericInterface, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamGameServerStats*/ * __thiscall winISteamClient_SteamClient015_GetISteamGameServerStats(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamUserStats*/ * __thiscall winISteamClient_SteamClient015_GetISteamUserStats(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient015_GetISteamGameServerStats_params params =
+    struct ISteamClient_SteamClient015_GetISteamUserStats_params params =
+    {
+        .linux_side = _this->u_iface,
+        .hSteamUser = hSteamUser,
+        .hSteamPipe = hSteamPipe,
+        .pchVersion = pchVersion,
+    };
+    TRACE("%p\n", _this);
+    STEAMCLIENT_CALL( ISteamClient_SteamClient015_GetISteamUserStats, &params );
+    params._ret = create_win_interface( pchVersion, params._ret );
+    return params._ret;
+}
+
+void /*ISteamGameServerStats*/ * __thiscall winISteamClient_SteamClient015_GetISteamGameServerStats(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
+{
+    struct ISteamClient_SteamClient015_GetISteamGameServerStats_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -3893,14 +3845,14 @@ void /*ISteamGameServerStats*/ * __thiscall winISteamClient_SteamClient015_GetIS
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient015_GetISteamGameServerStats( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient015_GetISteamGameServerStats, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamApps*/ * __thiscall winISteamClient_SteamClient015_GetISteamApps(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamApps*/ * __thiscall winISteamClient_SteamClient015_GetISteamApps(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient015_GetISteamApps_params params =
+    struct ISteamClient_SteamClient015_GetISteamApps_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -3908,14 +3860,14 @@ void /*ISteamApps*/ * __thiscall winISteamClient_SteamClient015_GetISteamApps(st
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient015_GetISteamApps( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient015_GetISteamApps, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamNetworking*/ * __thiscall winISteamClient_SteamClient015_GetISteamNetworking(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamNetworking*/ * __thiscall winISteamClient_SteamClient015_GetISteamNetworking(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient015_GetISteamNetworking_params params =
+    struct ISteamClient_SteamClient015_GetISteamNetworking_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -3923,14 +3875,14 @@ void /*ISteamNetworking*/ * __thiscall winISteamClient_SteamClient015_GetISteamN
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient015_GetISteamNetworking( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient015_GetISteamNetworking, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamRemoteStorage*/ * __thiscall winISteamClient_SteamClient015_GetISteamRemoteStorage(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamRemoteStorage*/ * __thiscall winISteamClient_SteamClient015_GetISteamRemoteStorage(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient015_GetISteamRemoteStorage_params params =
+    struct ISteamClient_SteamClient015_GetISteamRemoteStorage_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -3938,14 +3890,14 @@ void /*ISteamRemoteStorage*/ * __thiscall winISteamClient_SteamClient015_GetISte
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient015_GetISteamRemoteStorage( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient015_GetISteamRemoteStorage, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamScreenshots*/ * __thiscall winISteamClient_SteamClient015_GetISteamScreenshots(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamScreenshots*/ * __thiscall winISteamClient_SteamClient015_GetISteamScreenshots(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient015_GetISteamScreenshots_params params =
+    struct ISteamClient_SteamClient015_GetISteamScreenshots_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -3953,72 +3905,57 @@ void /*ISteamScreenshots*/ * __thiscall winISteamClient_SteamClient015_GetISteam
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient015_GetISteamScreenshots( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient015_GetISteamScreenshots, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
 void __thiscall winISteamClient_SteamClient015_RunFrame(struct w_steam_iface *_this)
 {
-    struct cppISteamClient_SteamClient015_RunFrame_params params =
+    struct ISteamClient_SteamClient015_RunFrame_params params =
     {
         .linux_side = _this->u_iface,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient015_RunFrame( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient015_RunFrame, &params );
 }
 
-uint32 __thiscall winISteamClient_SteamClient015_GetIPCCallCount(struct w_steam_iface *_this)
+uint32_t __thiscall winISteamClient_SteamClient015_GetIPCCallCount(struct w_steam_iface *_this)
 {
-    struct cppISteamClient_SteamClient015_GetIPCCallCount_params params =
+    struct ISteamClient_SteamClient015_GetIPCCallCount_params params =
     {
         .linux_side = _this->u_iface,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient015_GetIPCCallCount( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient015_GetIPCCallCount, &params );
     return params._ret;
 }
 
-void __thiscall winISteamClient_SteamClient015_SetWarningMessageHook(struct w_steam_iface *_this, SteamAPIWarningMessageHook_t pFunction)
+void __thiscall winISteamClient_SteamClient015_SetWarningMessageHook(struct w_steam_iface *_this, void (*W_CDECL pFunction)(int32_t, const char *))
 {
-    struct cppISteamClient_SteamClient015_SetWarningMessageHook_params params =
+    struct ISteamClient_SteamClient015_SetWarningMessageHook_params params =
     {
         .linux_side = _this->u_iface,
         .pFunction = pFunction,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient015_SetWarningMessageHook( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient015_SetWarningMessageHook, &params );
 }
 
-bool __thiscall winISteamClient_SteamClient015_BShutdownIfAllPipesClosed(struct w_steam_iface *_this)
+int8_t __thiscall winISteamClient_SteamClient015_BShutdownIfAllPipesClosed(struct w_steam_iface *_this)
 {
-    struct cppISteamClient_SteamClient015_BShutdownIfAllPipesClosed_params params =
+    struct ISteamClient_SteamClient015_BShutdownIfAllPipesClosed_params params =
     {
         .linux_side = _this->u_iface,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient015_BShutdownIfAllPipesClosed( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient015_BShutdownIfAllPipesClosed, &params );
     return params._ret;
 }
 
-void /*ISteamHTTP*/ * __thiscall winISteamClient_SteamClient015_GetISteamHTTP(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamHTTP*/ * __thiscall winISteamClient_SteamClient015_GetISteamHTTP(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient015_GetISteamHTTP_params params =
-    {
-        .linux_side = _this->u_iface,
-        .hSteamuser = hSteamuser,
-        .hSteamPipe = hSteamPipe,
-        .pchVersion = pchVersion,
-    };
-    TRACE("%p\n", _this);
-    cppISteamClient_SteamClient015_GetISteamHTTP( &params );
-    params._ret = create_win_interface( pchVersion, params._ret );
-    return params._ret;
-}
-
-void /*ISteamUnifiedMessages*/ * __thiscall winISteamClient_SteamClient015_GetISteamUnifiedMessages(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
-{
-    struct cppISteamClient_SteamClient015_GetISteamUnifiedMessages_params params =
+    struct ISteamClient_SteamClient015_GetISteamHTTP_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -4026,14 +3963,29 @@ void /*ISteamUnifiedMessages*/ * __thiscall winISteamClient_SteamClient015_GetIS
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient015_GetISteamUnifiedMessages( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient015_GetISteamHTTP, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamController*/ * __thiscall winISteamClient_SteamClient015_GetISteamController(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamUnifiedMessages*/ * __thiscall winISteamClient_SteamClient015_GetISteamUnifiedMessages(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient015_GetISteamController_params params =
+    struct ISteamClient_SteamClient015_GetISteamUnifiedMessages_params params =
+    {
+        .linux_side = _this->u_iface,
+        .hSteamuser = hSteamuser,
+        .hSteamPipe = hSteamPipe,
+        .pchVersion = pchVersion,
+    };
+    TRACE("%p\n", _this);
+    STEAMCLIENT_CALL( ISteamClient_SteamClient015_GetISteamUnifiedMessages, &params );
+    params._ret = create_win_interface( pchVersion, params._ret );
+    return params._ret;
+}
+
+void /*ISteamController*/ * __thiscall winISteamClient_SteamClient015_GetISteamController(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
+{
+    struct ISteamClient_SteamClient015_GetISteamController_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -4041,14 +3993,14 @@ void /*ISteamController*/ * __thiscall winISteamClient_SteamClient015_GetISteamC
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient015_GetISteamController( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient015_GetISteamController, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamUGC*/ * __thiscall winISteamClient_SteamClient015_GetISteamUGC(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamUGC*/ * __thiscall winISteamClient_SteamClient015_GetISteamUGC(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient015_GetISteamUGC_params params =
+    struct ISteamClient_SteamClient015_GetISteamUGC_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -4056,14 +4008,14 @@ void /*ISteamUGC*/ * __thiscall winISteamClient_SteamClient015_GetISteamUGC(stru
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient015_GetISteamUGC( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient015_GetISteamUGC, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamAppList*/ * __thiscall winISteamClient_SteamClient015_GetISteamAppList(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamAppList*/ * __thiscall winISteamClient_SteamClient015_GetISteamAppList(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient015_GetISteamAppList_params params =
+    struct ISteamClient_SteamClient015_GetISteamAppList_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -4071,14 +4023,14 @@ void /*ISteamAppList*/ * __thiscall winISteamClient_SteamClient015_GetISteamAppL
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient015_GetISteamAppList( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient015_GetISteamAppList, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamMusic*/ * __thiscall winISteamClient_SteamClient015_GetISteamMusic(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamMusic*/ * __thiscall winISteamClient_SteamClient015_GetISteamMusic(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient015_GetISteamMusic_params params =
+    struct ISteamClient_SteamClient015_GetISteamMusic_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -4086,14 +4038,14 @@ void /*ISteamMusic*/ * __thiscall winISteamClient_SteamClient015_GetISteamMusic(
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient015_GetISteamMusic( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient015_GetISteamMusic, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamMusicRemote*/ * __thiscall winISteamClient_SteamClient015_GetISteamMusicRemote(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamMusicRemote*/ * __thiscall winISteamClient_SteamClient015_GetISteamMusicRemote(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient015_GetISteamMusicRemote_params params =
+    struct ISteamClient_SteamClient015_GetISteamMusicRemote_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -4101,16 +4053,16 @@ void /*ISteamMusicRemote*/ * __thiscall winISteamClient_SteamClient015_GetISteam
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient015_GetISteamMusicRemote( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient015_GetISteamMusicRemote, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
 extern vtable_ptr winISteamClient_SteamClient015_vtable;
 
-#ifndef __GNUC__
-void __asm_dummy_vtables(void) {
-#endif
+DEFINE_RTTI_DATA0(winISteamClient_SteamClient015, 0, ".?AVISteamClient@@")
+
+__ASM_BLOCK_BEGIN(winISteamClient_SteamClient015_vtables)
     __ASM_VTABLE(winISteamClient_SteamClient015,
         VTABLE_ADD_FUNC(winISteamClient_SteamClient015_CreateSteamPipe)
         VTABLE_ADD_FUNC(winISteamClient_SteamClient015_BReleaseSteamPipe)
@@ -4143,9 +4095,7 @@ void __asm_dummy_vtables(void) {
         VTABLE_ADD_FUNC(winISteamClient_SteamClient015_GetISteamMusic)
         VTABLE_ADD_FUNC(winISteamClient_SteamClient015_GetISteamMusicRemote)
     );
-#ifndef __GNUC__
-}
-#endif
+__ASM_BLOCK_END
 
 struct w_steam_iface *create_winISteamClient_SteamClient015(void *u_iface)
 {
@@ -4155,8 +4105,6 @@ struct w_steam_iface *create_winISteamClient_SteamClient015(void *u_iface)
     r->u_iface = u_iface;
     return r;
 }
-
-#include "cppISteamClient_SteamClient016.h"
 
 DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient016_CreateSteamPipe, 4)
 DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient016_BReleaseSteamPipe, 8)
@@ -4193,69 +4141,69 @@ DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient016_Set_SteamAPI_CPostAPIResu
 DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient016_Remove_SteamAPI_CPostAPIResultInProcess, 8)
 DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient016_Set_SteamAPI_CCheckCallbackRegisteredInProcess, 8)
 
-HSteamPipe __thiscall winISteamClient_SteamClient016_CreateSteamPipe(struct w_steam_iface *_this)
+int32_t __thiscall winISteamClient_SteamClient016_CreateSteamPipe(struct w_steam_iface *_this)
 {
-    struct cppISteamClient_SteamClient016_CreateSteamPipe_params params =
+    struct ISteamClient_SteamClient016_CreateSteamPipe_params params =
     {
         .linux_side = _this->u_iface,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient016_CreateSteamPipe( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient016_CreateSteamPipe, &params );
     return params._ret;
 }
 
-bool __thiscall winISteamClient_SteamClient016_BReleaseSteamPipe(struct w_steam_iface *_this, HSteamPipe hSteamPipe)
+int8_t __thiscall winISteamClient_SteamClient016_BReleaseSteamPipe(struct w_steam_iface *_this, int32_t hSteamPipe)
 {
-    struct cppISteamClient_SteamClient016_BReleaseSteamPipe_params params =
-    {
-        .linux_side = _this->u_iface,
-        .hSteamPipe = hSteamPipe,
-    };
-    TRACE("%p\n", _this);
-    cppISteamClient_SteamClient016_BReleaseSteamPipe( &params );
-    return params._ret;
-}
-
-HSteamUser __thiscall winISteamClient_SteamClient016_ConnectToGlobalUser(struct w_steam_iface *_this, HSteamPipe hSteamPipe)
-{
-    struct cppISteamClient_SteamClient016_ConnectToGlobalUser_params params =
+    struct ISteamClient_SteamClient016_BReleaseSteamPipe_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamPipe = hSteamPipe,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient016_ConnectToGlobalUser( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient016_BReleaseSteamPipe, &params );
     return params._ret;
 }
 
-HSteamUser __thiscall winISteamClient_SteamClient016_CreateLocalUser(struct w_steam_iface *_this, HSteamPipe *phSteamPipe, EAccountType eAccountType)
+int32_t __thiscall winISteamClient_SteamClient016_ConnectToGlobalUser(struct w_steam_iface *_this, int32_t hSteamPipe)
 {
-    struct cppISteamClient_SteamClient016_CreateLocalUser_params params =
+    struct ISteamClient_SteamClient016_ConnectToGlobalUser_params params =
+    {
+        .linux_side = _this->u_iface,
+        .hSteamPipe = hSteamPipe,
+    };
+    TRACE("%p\n", _this);
+    STEAMCLIENT_CALL( ISteamClient_SteamClient016_ConnectToGlobalUser, &params );
+    return params._ret;
+}
+
+int32_t __thiscall winISteamClient_SteamClient016_CreateLocalUser(struct w_steam_iface *_this, int32_t *phSteamPipe, uint32_t eAccountType)
+{
+    struct ISteamClient_SteamClient016_CreateLocalUser_params params =
     {
         .linux_side = _this->u_iface,
         .phSteamPipe = phSteamPipe,
         .eAccountType = eAccountType,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient016_CreateLocalUser( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient016_CreateLocalUser, &params );
     return params._ret;
 }
 
-void __thiscall winISteamClient_SteamClient016_ReleaseUser(struct w_steam_iface *_this, HSteamPipe hSteamPipe, HSteamUser hUser)
+void __thiscall winISteamClient_SteamClient016_ReleaseUser(struct w_steam_iface *_this, int32_t hSteamPipe, int32_t hUser)
 {
-    struct cppISteamClient_SteamClient016_ReleaseUser_params params =
+    struct ISteamClient_SteamClient016_ReleaseUser_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamPipe = hSteamPipe,
         .hUser = hUser,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient016_ReleaseUser( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient016_ReleaseUser, &params );
 }
 
-void /*ISteamUser*/ * __thiscall winISteamClient_SteamClient016_GetISteamUser(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamUser*/ * __thiscall winISteamClient_SteamClient016_GetISteamUser(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient016_GetISteamUser_params params =
+    struct ISteamClient_SteamClient016_GetISteamUser_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -4263,14 +4211,14 @@ void /*ISteamUser*/ * __thiscall winISteamClient_SteamClient016_GetISteamUser(st
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient016_GetISteamUser( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient016_GetISteamUser, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamGameServer*/ * __thiscall winISteamClient_SteamClient016_GetISteamGameServer(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamGameServer*/ * __thiscall winISteamClient_SteamClient016_GetISteamGameServer(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient016_GetISteamGameServer_params params =
+    struct ISteamClient_SteamClient016_GetISteamGameServer_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -4278,26 +4226,26 @@ void /*ISteamGameServer*/ * __thiscall winISteamClient_SteamClient016_GetISteamG
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient016_GetISteamGameServer( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient016_GetISteamGameServer, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void __thiscall winISteamClient_SteamClient016_SetLocalIPBinding(struct w_steam_iface *_this, uint32 unIP, uint16 usPort)
+void __thiscall winISteamClient_SteamClient016_SetLocalIPBinding(struct w_steam_iface *_this, uint32_t unIP, uint16_t usPort)
 {
-    struct cppISteamClient_SteamClient016_SetLocalIPBinding_params params =
+    struct ISteamClient_SteamClient016_SetLocalIPBinding_params params =
     {
         .linux_side = _this->u_iface,
         .unIP = unIP,
         .usPort = usPort,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient016_SetLocalIPBinding( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient016_SetLocalIPBinding, &params );
 }
 
-void /*ISteamFriends*/ * __thiscall winISteamClient_SteamClient016_GetISteamFriends(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamFriends*/ * __thiscall winISteamClient_SteamClient016_GetISteamFriends(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient016_GetISteamFriends_params params =
+    struct ISteamClient_SteamClient016_GetISteamFriends_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -4305,43 +4253,28 @@ void /*ISteamFriends*/ * __thiscall winISteamClient_SteamClient016_GetISteamFrie
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient016_GetISteamFriends( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient016_GetISteamFriends, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamUtils*/ * __thiscall winISteamClient_SteamClient016_GetISteamUtils(struct w_steam_iface *_this, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamUtils*/ * __thiscall winISteamClient_SteamClient016_GetISteamUtils(struct w_steam_iface *_this, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient016_GetISteamUtils_params params =
+    struct ISteamClient_SteamClient016_GetISteamUtils_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamPipe = hSteamPipe,
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient016_GetISteamUtils( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient016_GetISteamUtils, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamMatchmaking*/ * __thiscall winISteamClient_SteamClient016_GetISteamMatchmaking(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamMatchmaking*/ * __thiscall winISteamClient_SteamClient016_GetISteamMatchmaking(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient016_GetISteamMatchmaking_params params =
-    {
-        .linux_side = _this->u_iface,
-        .hSteamUser = hSteamUser,
-        .hSteamPipe = hSteamPipe,
-        .pchVersion = pchVersion,
-    };
-    TRACE("%p\n", _this);
-    cppISteamClient_SteamClient016_GetISteamMatchmaking( &params );
-    params._ret = create_win_interface( pchVersion, params._ret );
-    return params._ret;
-}
-
-void /*ISteamMatchmakingServers*/ * __thiscall winISteamClient_SteamClient016_GetISteamMatchmakingServers(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
-{
-    struct cppISteamClient_SteamClient016_GetISteamMatchmakingServers_params params =
+    struct ISteamClient_SteamClient016_GetISteamMatchmaking_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -4349,14 +4282,14 @@ void /*ISteamMatchmakingServers*/ * __thiscall winISteamClient_SteamClient016_Ge
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient016_GetISteamMatchmakingServers( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient016_GetISteamMatchmaking, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void * __thiscall winISteamClient_SteamClient016_GetISteamGenericInterface(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamMatchmakingServers*/ * __thiscall winISteamClient_SteamClient016_GetISteamMatchmakingServers(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient016_GetISteamGenericInterface_params params =
+    struct ISteamClient_SteamClient016_GetISteamMatchmakingServers_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -4364,14 +4297,14 @@ void * __thiscall winISteamClient_SteamClient016_GetISteamGenericInterface(struc
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient016_GetISteamGenericInterface( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient016_GetISteamMatchmakingServers, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamUserStats*/ * __thiscall winISteamClient_SteamClient016_GetISteamUserStats(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void * __thiscall winISteamClient_SteamClient016_GetISteamGenericInterface(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient016_GetISteamUserStats_params params =
+    struct ISteamClient_SteamClient016_GetISteamGenericInterface_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -4379,14 +4312,29 @@ void /*ISteamUserStats*/ * __thiscall winISteamClient_SteamClient016_GetISteamUs
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient016_GetISteamUserStats( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient016_GetISteamGenericInterface, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamGameServerStats*/ * __thiscall winISteamClient_SteamClient016_GetISteamGameServerStats(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamUserStats*/ * __thiscall winISteamClient_SteamClient016_GetISteamUserStats(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient016_GetISteamGameServerStats_params params =
+    struct ISteamClient_SteamClient016_GetISteamUserStats_params params =
+    {
+        .linux_side = _this->u_iface,
+        .hSteamUser = hSteamUser,
+        .hSteamPipe = hSteamPipe,
+        .pchVersion = pchVersion,
+    };
+    TRACE("%p\n", _this);
+    STEAMCLIENT_CALL( ISteamClient_SteamClient016_GetISteamUserStats, &params );
+    params._ret = create_win_interface( pchVersion, params._ret );
+    return params._ret;
+}
+
+void /*ISteamGameServerStats*/ * __thiscall winISteamClient_SteamClient016_GetISteamGameServerStats(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
+{
+    struct ISteamClient_SteamClient016_GetISteamGameServerStats_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -4394,14 +4342,14 @@ void /*ISteamGameServerStats*/ * __thiscall winISteamClient_SteamClient016_GetIS
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient016_GetISteamGameServerStats( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient016_GetISteamGameServerStats, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamApps*/ * __thiscall winISteamClient_SteamClient016_GetISteamApps(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamApps*/ * __thiscall winISteamClient_SteamClient016_GetISteamApps(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient016_GetISteamApps_params params =
+    struct ISteamClient_SteamClient016_GetISteamApps_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -4409,14 +4357,14 @@ void /*ISteamApps*/ * __thiscall winISteamClient_SteamClient016_GetISteamApps(st
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient016_GetISteamApps( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient016_GetISteamApps, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamNetworking*/ * __thiscall winISteamClient_SteamClient016_GetISteamNetworking(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamNetworking*/ * __thiscall winISteamClient_SteamClient016_GetISteamNetworking(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient016_GetISteamNetworking_params params =
+    struct ISteamClient_SteamClient016_GetISteamNetworking_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -4424,14 +4372,14 @@ void /*ISteamNetworking*/ * __thiscall winISteamClient_SteamClient016_GetISteamN
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient016_GetISteamNetworking( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient016_GetISteamNetworking, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamRemoteStorage*/ * __thiscall winISteamClient_SteamClient016_GetISteamRemoteStorage(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamRemoteStorage*/ * __thiscall winISteamClient_SteamClient016_GetISteamRemoteStorage(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient016_GetISteamRemoteStorage_params params =
+    struct ISteamClient_SteamClient016_GetISteamRemoteStorage_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -4439,14 +4387,14 @@ void /*ISteamRemoteStorage*/ * __thiscall winISteamClient_SteamClient016_GetISte
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient016_GetISteamRemoteStorage( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient016_GetISteamRemoteStorage, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamScreenshots*/ * __thiscall winISteamClient_SteamClient016_GetISteamScreenshots(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamScreenshots*/ * __thiscall winISteamClient_SteamClient016_GetISteamScreenshots(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient016_GetISteamScreenshots_params params =
+    struct ISteamClient_SteamClient016_GetISteamScreenshots_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -4454,72 +4402,57 @@ void /*ISteamScreenshots*/ * __thiscall winISteamClient_SteamClient016_GetISteam
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient016_GetISteamScreenshots( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient016_GetISteamScreenshots, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
 void __thiscall winISteamClient_SteamClient016_RunFrame(struct w_steam_iface *_this)
 {
-    struct cppISteamClient_SteamClient016_RunFrame_params params =
+    struct ISteamClient_SteamClient016_RunFrame_params params =
     {
         .linux_side = _this->u_iface,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient016_RunFrame( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient016_RunFrame, &params );
 }
 
-uint32 __thiscall winISteamClient_SteamClient016_GetIPCCallCount(struct w_steam_iface *_this)
+uint32_t __thiscall winISteamClient_SteamClient016_GetIPCCallCount(struct w_steam_iface *_this)
 {
-    struct cppISteamClient_SteamClient016_GetIPCCallCount_params params =
+    struct ISteamClient_SteamClient016_GetIPCCallCount_params params =
     {
         .linux_side = _this->u_iface,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient016_GetIPCCallCount( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient016_GetIPCCallCount, &params );
     return params._ret;
 }
 
-void __thiscall winISteamClient_SteamClient016_SetWarningMessageHook(struct w_steam_iface *_this, SteamAPIWarningMessageHook_t pFunction)
+void __thiscall winISteamClient_SteamClient016_SetWarningMessageHook(struct w_steam_iface *_this, void (*W_CDECL pFunction)(int32_t, const char *))
 {
-    struct cppISteamClient_SteamClient016_SetWarningMessageHook_params params =
+    struct ISteamClient_SteamClient016_SetWarningMessageHook_params params =
     {
         .linux_side = _this->u_iface,
         .pFunction = pFunction,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient016_SetWarningMessageHook( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient016_SetWarningMessageHook, &params );
 }
 
-bool __thiscall winISteamClient_SteamClient016_BShutdownIfAllPipesClosed(struct w_steam_iface *_this)
+int8_t __thiscall winISteamClient_SteamClient016_BShutdownIfAllPipesClosed(struct w_steam_iface *_this)
 {
-    struct cppISteamClient_SteamClient016_BShutdownIfAllPipesClosed_params params =
+    struct ISteamClient_SteamClient016_BShutdownIfAllPipesClosed_params params =
     {
         .linux_side = _this->u_iface,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient016_BShutdownIfAllPipesClosed( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient016_BShutdownIfAllPipesClosed, &params );
     return params._ret;
 }
 
-void /*ISteamHTTP*/ * __thiscall winISteamClient_SteamClient016_GetISteamHTTP(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamHTTP*/ * __thiscall winISteamClient_SteamClient016_GetISteamHTTP(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient016_GetISteamHTTP_params params =
-    {
-        .linux_side = _this->u_iface,
-        .hSteamuser = hSteamuser,
-        .hSteamPipe = hSteamPipe,
-        .pchVersion = pchVersion,
-    };
-    TRACE("%p\n", _this);
-    cppISteamClient_SteamClient016_GetISteamHTTP( &params );
-    params._ret = create_win_interface( pchVersion, params._ret );
-    return params._ret;
-}
-
-void /*ISteamUnifiedMessages*/ * __thiscall winISteamClient_SteamClient016_GetISteamUnifiedMessages(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
-{
-    struct cppISteamClient_SteamClient016_GetISteamUnifiedMessages_params params =
+    struct ISteamClient_SteamClient016_GetISteamHTTP_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -4527,14 +4460,29 @@ void /*ISteamUnifiedMessages*/ * __thiscall winISteamClient_SteamClient016_GetIS
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient016_GetISteamUnifiedMessages( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient016_GetISteamHTTP, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamController*/ * __thiscall winISteamClient_SteamClient016_GetISteamController(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamUnifiedMessages*/ * __thiscall winISteamClient_SteamClient016_GetISteamUnifiedMessages(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient016_GetISteamController_params params =
+    struct ISteamClient_SteamClient016_GetISteamUnifiedMessages_params params =
+    {
+        .linux_side = _this->u_iface,
+        .hSteamuser = hSteamuser,
+        .hSteamPipe = hSteamPipe,
+        .pchVersion = pchVersion,
+    };
+    TRACE("%p\n", _this);
+    STEAMCLIENT_CALL( ISteamClient_SteamClient016_GetISteamUnifiedMessages, &params );
+    params._ret = create_win_interface( pchVersion, params._ret );
+    return params._ret;
+}
+
+void /*ISteamController*/ * __thiscall winISteamClient_SteamClient016_GetISteamController(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
+{
+    struct ISteamClient_SteamClient016_GetISteamController_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -4542,14 +4490,14 @@ void /*ISteamController*/ * __thiscall winISteamClient_SteamClient016_GetISteamC
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient016_GetISteamController( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient016_GetISteamController, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamUGC*/ * __thiscall winISteamClient_SteamClient016_GetISteamUGC(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamUGC*/ * __thiscall winISteamClient_SteamClient016_GetISteamUGC(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient016_GetISteamUGC_params params =
+    struct ISteamClient_SteamClient016_GetISteamUGC_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -4557,14 +4505,14 @@ void /*ISteamUGC*/ * __thiscall winISteamClient_SteamClient016_GetISteamUGC(stru
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient016_GetISteamUGC( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient016_GetISteamUGC, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamAppList*/ * __thiscall winISteamClient_SteamClient016_GetISteamAppList(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamAppList*/ * __thiscall winISteamClient_SteamClient016_GetISteamAppList(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient016_GetISteamAppList_params params =
+    struct ISteamClient_SteamClient016_GetISteamAppList_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -4572,14 +4520,14 @@ void /*ISteamAppList*/ * __thiscall winISteamClient_SteamClient016_GetISteamAppL
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient016_GetISteamAppList( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient016_GetISteamAppList, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamMusic*/ * __thiscall winISteamClient_SteamClient016_GetISteamMusic(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamMusic*/ * __thiscall winISteamClient_SteamClient016_GetISteamMusic(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient016_GetISteamMusic_params params =
+    struct ISteamClient_SteamClient016_GetISteamMusic_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -4587,14 +4535,14 @@ void /*ISteamMusic*/ * __thiscall winISteamClient_SteamClient016_GetISteamMusic(
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient016_GetISteamMusic( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient016_GetISteamMusic, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamMusicRemote*/ * __thiscall winISteamClient_SteamClient016_GetISteamMusicRemote(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamMusicRemote*/ * __thiscall winISteamClient_SteamClient016_GetISteamMusicRemote(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient016_GetISteamMusicRemote_params params =
+    struct ISteamClient_SteamClient016_GetISteamMusicRemote_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -4602,14 +4550,14 @@ void /*ISteamMusicRemote*/ * __thiscall winISteamClient_SteamClient016_GetISteam
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient016_GetISteamMusicRemote( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient016_GetISteamMusicRemote, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamHTMLSurface*/ * __thiscall winISteamClient_SteamClient016_GetISteamHTMLSurface(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamHTMLSurface*/ * __thiscall winISteamClient_SteamClient016_GetISteamHTMLSurface(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient016_GetISteamHTMLSurface_params params =
+    struct ISteamClient_SteamClient016_GetISteamHTMLSurface_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -4617,49 +4565,49 @@ void /*ISteamHTMLSurface*/ * __thiscall winISteamClient_SteamClient016_GetISteam
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient016_GetISteamHTMLSurface( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient016_GetISteamHTMLSurface, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void __thiscall winISteamClient_SteamClient016_Set_SteamAPI_CPostAPIResultInProcess(struct w_steam_iface *_this, SteamAPI_PostAPIResultInProcess_t func)
+void __thiscall winISteamClient_SteamClient016_Set_SteamAPI_CPostAPIResultInProcess(struct w_steam_iface *_this, void (*W_CDECL func)(uint64_t, void *, uint32_t, int32_t))
 {
-    struct cppISteamClient_SteamClient016_Set_SteamAPI_CPostAPIResultInProcess_params params =
+    struct ISteamClient_SteamClient016_Set_SteamAPI_CPostAPIResultInProcess_params params =
     {
         .linux_side = _this->u_iface,
         .func = func,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient016_Set_SteamAPI_CPostAPIResultInProcess( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient016_Set_SteamAPI_CPostAPIResultInProcess, &params );
 }
 
-void __thiscall winISteamClient_SteamClient016_Remove_SteamAPI_CPostAPIResultInProcess(struct w_steam_iface *_this, SteamAPI_PostAPIResultInProcess_t func)
+void __thiscall winISteamClient_SteamClient016_Remove_SteamAPI_CPostAPIResultInProcess(struct w_steam_iface *_this, void (*W_CDECL func)(uint64_t, void *, uint32_t, int32_t))
 {
-    struct cppISteamClient_SteamClient016_Remove_SteamAPI_CPostAPIResultInProcess_params params =
+    struct ISteamClient_SteamClient016_Remove_SteamAPI_CPostAPIResultInProcess_params params =
     {
         .linux_side = _this->u_iface,
         .func = func,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient016_Remove_SteamAPI_CPostAPIResultInProcess( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient016_Remove_SteamAPI_CPostAPIResultInProcess, &params );
 }
 
-void __thiscall winISteamClient_SteamClient016_Set_SteamAPI_CCheckCallbackRegisteredInProcess(struct w_steam_iface *_this, SteamAPI_CheckCallbackRegistered_t func)
+void __thiscall winISteamClient_SteamClient016_Set_SteamAPI_CCheckCallbackRegisteredInProcess(struct w_steam_iface *_this, uint32_t (*W_CDECL func)(int32_t))
 {
-    struct cppISteamClient_SteamClient016_Set_SteamAPI_CCheckCallbackRegisteredInProcess_params params =
+    struct ISteamClient_SteamClient016_Set_SteamAPI_CCheckCallbackRegisteredInProcess_params params =
     {
         .linux_side = _this->u_iface,
         .func = func,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient016_Set_SteamAPI_CCheckCallbackRegisteredInProcess( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient016_Set_SteamAPI_CCheckCallbackRegisteredInProcess, &params );
 }
 
 extern vtable_ptr winISteamClient_SteamClient016_vtable;
 
-#ifndef __GNUC__
-void __asm_dummy_vtables(void) {
-#endif
+DEFINE_RTTI_DATA0(winISteamClient_SteamClient016, 0, ".?AVISteamClient@@")
+
+__ASM_BLOCK_BEGIN(winISteamClient_SteamClient016_vtables)
     __ASM_VTABLE(winISteamClient_SteamClient016,
         VTABLE_ADD_FUNC(winISteamClient_SteamClient016_CreateSteamPipe)
         VTABLE_ADD_FUNC(winISteamClient_SteamClient016_BReleaseSteamPipe)
@@ -4696,9 +4644,7 @@ void __asm_dummy_vtables(void) {
         VTABLE_ADD_FUNC(winISteamClient_SteamClient016_Remove_SteamAPI_CPostAPIResultInProcess)
         VTABLE_ADD_FUNC(winISteamClient_SteamClient016_Set_SteamAPI_CCheckCallbackRegisteredInProcess)
     );
-#ifndef __GNUC__
-}
-#endif
+__ASM_BLOCK_END
 
 struct w_steam_iface *create_winISteamClient_SteamClient016(void *u_iface)
 {
@@ -4708,8 +4654,6 @@ struct w_steam_iface *create_winISteamClient_SteamClient016(void *u_iface)
     r->u_iface = u_iface;
     return r;
 }
-
-#include "cppISteamClient_SteamClient017.h"
 
 DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient017_CreateSteamPipe, 4)
 DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient017_BReleaseSteamPipe, 8)
@@ -4749,69 +4693,69 @@ DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient017_GetISteamInventory, 16)
 DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient017_GetISteamVideo, 16)
 DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient017_GetISteamParentalSettings, 16)
 
-HSteamPipe __thiscall winISteamClient_SteamClient017_CreateSteamPipe(struct w_steam_iface *_this)
+int32_t __thiscall winISteamClient_SteamClient017_CreateSteamPipe(struct w_steam_iface *_this)
 {
-    struct cppISteamClient_SteamClient017_CreateSteamPipe_params params =
+    struct ISteamClient_SteamClient017_CreateSteamPipe_params params =
     {
         .linux_side = _this->u_iface,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient017_CreateSteamPipe( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient017_CreateSteamPipe, &params );
     return params._ret;
 }
 
-bool __thiscall winISteamClient_SteamClient017_BReleaseSteamPipe(struct w_steam_iface *_this, HSteamPipe hSteamPipe)
+int8_t __thiscall winISteamClient_SteamClient017_BReleaseSteamPipe(struct w_steam_iface *_this, int32_t hSteamPipe)
 {
-    struct cppISteamClient_SteamClient017_BReleaseSteamPipe_params params =
-    {
-        .linux_side = _this->u_iface,
-        .hSteamPipe = hSteamPipe,
-    };
-    TRACE("%p\n", _this);
-    cppISteamClient_SteamClient017_BReleaseSteamPipe( &params );
-    return params._ret;
-}
-
-HSteamUser __thiscall winISteamClient_SteamClient017_ConnectToGlobalUser(struct w_steam_iface *_this, HSteamPipe hSteamPipe)
-{
-    struct cppISteamClient_SteamClient017_ConnectToGlobalUser_params params =
+    struct ISteamClient_SteamClient017_BReleaseSteamPipe_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamPipe = hSteamPipe,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient017_ConnectToGlobalUser( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient017_BReleaseSteamPipe, &params );
     return params._ret;
 }
 
-HSteamUser __thiscall winISteamClient_SteamClient017_CreateLocalUser(struct w_steam_iface *_this, HSteamPipe *phSteamPipe, EAccountType eAccountType)
+int32_t __thiscall winISteamClient_SteamClient017_ConnectToGlobalUser(struct w_steam_iface *_this, int32_t hSteamPipe)
 {
-    struct cppISteamClient_SteamClient017_CreateLocalUser_params params =
+    struct ISteamClient_SteamClient017_ConnectToGlobalUser_params params =
+    {
+        .linux_side = _this->u_iface,
+        .hSteamPipe = hSteamPipe,
+    };
+    TRACE("%p\n", _this);
+    STEAMCLIENT_CALL( ISteamClient_SteamClient017_ConnectToGlobalUser, &params );
+    return params._ret;
+}
+
+int32_t __thiscall winISteamClient_SteamClient017_CreateLocalUser(struct w_steam_iface *_this, int32_t *phSteamPipe, uint32_t eAccountType)
+{
+    struct ISteamClient_SteamClient017_CreateLocalUser_params params =
     {
         .linux_side = _this->u_iface,
         .phSteamPipe = phSteamPipe,
         .eAccountType = eAccountType,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient017_CreateLocalUser( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient017_CreateLocalUser, &params );
     return params._ret;
 }
 
-void __thiscall winISteamClient_SteamClient017_ReleaseUser(struct w_steam_iface *_this, HSteamPipe hSteamPipe, HSteamUser hUser)
+void __thiscall winISteamClient_SteamClient017_ReleaseUser(struct w_steam_iface *_this, int32_t hSteamPipe, int32_t hUser)
 {
-    struct cppISteamClient_SteamClient017_ReleaseUser_params params =
+    struct ISteamClient_SteamClient017_ReleaseUser_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamPipe = hSteamPipe,
         .hUser = hUser,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient017_ReleaseUser( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient017_ReleaseUser, &params );
 }
 
-void /*ISteamUser*/ * __thiscall winISteamClient_SteamClient017_GetISteamUser(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamUser*/ * __thiscall winISteamClient_SteamClient017_GetISteamUser(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient017_GetISteamUser_params params =
+    struct ISteamClient_SteamClient017_GetISteamUser_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -4819,14 +4763,14 @@ void /*ISteamUser*/ * __thiscall winISteamClient_SteamClient017_GetISteamUser(st
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient017_GetISteamUser( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient017_GetISteamUser, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamGameServer*/ * __thiscall winISteamClient_SteamClient017_GetISteamGameServer(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamGameServer*/ * __thiscall winISteamClient_SteamClient017_GetISteamGameServer(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient017_GetISteamGameServer_params params =
+    struct ISteamClient_SteamClient017_GetISteamGameServer_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -4834,26 +4778,26 @@ void /*ISteamGameServer*/ * __thiscall winISteamClient_SteamClient017_GetISteamG
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient017_GetISteamGameServer( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient017_GetISteamGameServer, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void __thiscall winISteamClient_SteamClient017_SetLocalIPBinding(struct w_steam_iface *_this, uint32 unIP, uint16 usPort)
+void __thiscall winISteamClient_SteamClient017_SetLocalIPBinding(struct w_steam_iface *_this, uint32_t unIP, uint16_t usPort)
 {
-    struct cppISteamClient_SteamClient017_SetLocalIPBinding_params params =
+    struct ISteamClient_SteamClient017_SetLocalIPBinding_params params =
     {
         .linux_side = _this->u_iface,
         .unIP = unIP,
         .usPort = usPort,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient017_SetLocalIPBinding( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient017_SetLocalIPBinding, &params );
 }
 
-void /*ISteamFriends*/ * __thiscall winISteamClient_SteamClient017_GetISteamFriends(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamFriends*/ * __thiscall winISteamClient_SteamClient017_GetISteamFriends(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient017_GetISteamFriends_params params =
+    struct ISteamClient_SteamClient017_GetISteamFriends_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -4861,43 +4805,28 @@ void /*ISteamFriends*/ * __thiscall winISteamClient_SteamClient017_GetISteamFrie
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient017_GetISteamFriends( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient017_GetISteamFriends, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamUtils*/ * __thiscall winISteamClient_SteamClient017_GetISteamUtils(struct w_steam_iface *_this, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamUtils*/ * __thiscall winISteamClient_SteamClient017_GetISteamUtils(struct w_steam_iface *_this, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient017_GetISteamUtils_params params =
+    struct ISteamClient_SteamClient017_GetISteamUtils_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamPipe = hSteamPipe,
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient017_GetISteamUtils( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient017_GetISteamUtils, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamMatchmaking*/ * __thiscall winISteamClient_SteamClient017_GetISteamMatchmaking(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamMatchmaking*/ * __thiscall winISteamClient_SteamClient017_GetISteamMatchmaking(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient017_GetISteamMatchmaking_params params =
-    {
-        .linux_side = _this->u_iface,
-        .hSteamUser = hSteamUser,
-        .hSteamPipe = hSteamPipe,
-        .pchVersion = pchVersion,
-    };
-    TRACE("%p\n", _this);
-    cppISteamClient_SteamClient017_GetISteamMatchmaking( &params );
-    params._ret = create_win_interface( pchVersion, params._ret );
-    return params._ret;
-}
-
-void /*ISteamMatchmakingServers*/ * __thiscall winISteamClient_SteamClient017_GetISteamMatchmakingServers(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
-{
-    struct cppISteamClient_SteamClient017_GetISteamMatchmakingServers_params params =
+    struct ISteamClient_SteamClient017_GetISteamMatchmaking_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -4905,14 +4834,14 @@ void /*ISteamMatchmakingServers*/ * __thiscall winISteamClient_SteamClient017_Ge
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient017_GetISteamMatchmakingServers( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient017_GetISteamMatchmaking, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void * __thiscall winISteamClient_SteamClient017_GetISteamGenericInterface(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamMatchmakingServers*/ * __thiscall winISteamClient_SteamClient017_GetISteamMatchmakingServers(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient017_GetISteamGenericInterface_params params =
+    struct ISteamClient_SteamClient017_GetISteamMatchmakingServers_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -4920,14 +4849,14 @@ void * __thiscall winISteamClient_SteamClient017_GetISteamGenericInterface(struc
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient017_GetISteamGenericInterface( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient017_GetISteamMatchmakingServers, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamUserStats*/ * __thiscall winISteamClient_SteamClient017_GetISteamUserStats(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void * __thiscall winISteamClient_SteamClient017_GetISteamGenericInterface(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient017_GetISteamUserStats_params params =
+    struct ISteamClient_SteamClient017_GetISteamGenericInterface_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -4935,14 +4864,29 @@ void /*ISteamUserStats*/ * __thiscall winISteamClient_SteamClient017_GetISteamUs
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient017_GetISteamUserStats( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient017_GetISteamGenericInterface, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamGameServerStats*/ * __thiscall winISteamClient_SteamClient017_GetISteamGameServerStats(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamUserStats*/ * __thiscall winISteamClient_SteamClient017_GetISteamUserStats(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient017_GetISteamGameServerStats_params params =
+    struct ISteamClient_SteamClient017_GetISteamUserStats_params params =
+    {
+        .linux_side = _this->u_iface,
+        .hSteamUser = hSteamUser,
+        .hSteamPipe = hSteamPipe,
+        .pchVersion = pchVersion,
+    };
+    TRACE("%p\n", _this);
+    STEAMCLIENT_CALL( ISteamClient_SteamClient017_GetISteamUserStats, &params );
+    params._ret = create_win_interface( pchVersion, params._ret );
+    return params._ret;
+}
+
+void /*ISteamGameServerStats*/ * __thiscall winISteamClient_SteamClient017_GetISteamGameServerStats(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
+{
+    struct ISteamClient_SteamClient017_GetISteamGameServerStats_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -4950,14 +4894,14 @@ void /*ISteamGameServerStats*/ * __thiscall winISteamClient_SteamClient017_GetIS
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient017_GetISteamGameServerStats( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient017_GetISteamGameServerStats, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamApps*/ * __thiscall winISteamClient_SteamClient017_GetISteamApps(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamApps*/ * __thiscall winISteamClient_SteamClient017_GetISteamApps(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient017_GetISteamApps_params params =
+    struct ISteamClient_SteamClient017_GetISteamApps_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -4965,14 +4909,14 @@ void /*ISteamApps*/ * __thiscall winISteamClient_SteamClient017_GetISteamApps(st
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient017_GetISteamApps( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient017_GetISteamApps, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamNetworking*/ * __thiscall winISteamClient_SteamClient017_GetISteamNetworking(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamNetworking*/ * __thiscall winISteamClient_SteamClient017_GetISteamNetworking(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient017_GetISteamNetworking_params params =
+    struct ISteamClient_SteamClient017_GetISteamNetworking_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -4980,14 +4924,14 @@ void /*ISteamNetworking*/ * __thiscall winISteamClient_SteamClient017_GetISteamN
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient017_GetISteamNetworking( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient017_GetISteamNetworking, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamRemoteStorage*/ * __thiscall winISteamClient_SteamClient017_GetISteamRemoteStorage(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamRemoteStorage*/ * __thiscall winISteamClient_SteamClient017_GetISteamRemoteStorage(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient017_GetISteamRemoteStorage_params params =
+    struct ISteamClient_SteamClient017_GetISteamRemoteStorage_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -4995,14 +4939,14 @@ void /*ISteamRemoteStorage*/ * __thiscall winISteamClient_SteamClient017_GetISte
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient017_GetISteamRemoteStorage( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient017_GetISteamRemoteStorage, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamScreenshots*/ * __thiscall winISteamClient_SteamClient017_GetISteamScreenshots(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamScreenshots*/ * __thiscall winISteamClient_SteamClient017_GetISteamScreenshots(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient017_GetISteamScreenshots_params params =
+    struct ISteamClient_SteamClient017_GetISteamScreenshots_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -5010,57 +4954,57 @@ void /*ISteamScreenshots*/ * __thiscall winISteamClient_SteamClient017_GetISteam
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient017_GetISteamScreenshots( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient017_GetISteamScreenshots, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
 void __thiscall winISteamClient_SteamClient017_RunFrame(struct w_steam_iface *_this)
 {
-    struct cppISteamClient_SteamClient017_RunFrame_params params =
+    struct ISteamClient_SteamClient017_RunFrame_params params =
     {
         .linux_side = _this->u_iface,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient017_RunFrame( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient017_RunFrame, &params );
 }
 
-uint32 __thiscall winISteamClient_SteamClient017_GetIPCCallCount(struct w_steam_iface *_this)
+uint32_t __thiscall winISteamClient_SteamClient017_GetIPCCallCount(struct w_steam_iface *_this)
 {
-    struct cppISteamClient_SteamClient017_GetIPCCallCount_params params =
+    struct ISteamClient_SteamClient017_GetIPCCallCount_params params =
     {
         .linux_side = _this->u_iface,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient017_GetIPCCallCount( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient017_GetIPCCallCount, &params );
     return params._ret;
 }
 
-void __thiscall winISteamClient_SteamClient017_SetWarningMessageHook(struct w_steam_iface *_this, SteamAPIWarningMessageHook_t pFunction)
+void __thiscall winISteamClient_SteamClient017_SetWarningMessageHook(struct w_steam_iface *_this, void (*W_CDECL pFunction)(int32_t, const char *))
 {
-    struct cppISteamClient_SteamClient017_SetWarningMessageHook_params params =
+    struct ISteamClient_SteamClient017_SetWarningMessageHook_params params =
     {
         .linux_side = _this->u_iface,
         .pFunction = pFunction,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient017_SetWarningMessageHook( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient017_SetWarningMessageHook, &params );
 }
 
-bool __thiscall winISteamClient_SteamClient017_BShutdownIfAllPipesClosed(struct w_steam_iface *_this)
+int8_t __thiscall winISteamClient_SteamClient017_BShutdownIfAllPipesClosed(struct w_steam_iface *_this)
 {
-    struct cppISteamClient_SteamClient017_BShutdownIfAllPipesClosed_params params =
+    struct ISteamClient_SteamClient017_BShutdownIfAllPipesClosed_params params =
     {
         .linux_side = _this->u_iface,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient017_BShutdownIfAllPipesClosed( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient017_BShutdownIfAllPipesClosed, &params );
     return params._ret;
 }
 
-void /*ISteamHTTP*/ * __thiscall winISteamClient_SteamClient017_GetISteamHTTP(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamHTTP*/ * __thiscall winISteamClient_SteamClient017_GetISteamHTTP(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient017_GetISteamHTTP_params params =
+    struct ISteamClient_SteamClient017_GetISteamHTTP_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -5068,14 +5012,14 @@ void /*ISteamHTTP*/ * __thiscall winISteamClient_SteamClient017_GetISteamHTTP(st
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient017_GetISteamHTTP( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient017_GetISteamHTTP, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void * __thiscall winISteamClient_SteamClient017_DEPRECATED_GetISteamUnifiedMessages(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void * __thiscall winISteamClient_SteamClient017_DEPRECATED_GetISteamUnifiedMessages(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient017_DEPRECATED_GetISteamUnifiedMessages_params params =
+    struct ISteamClient_SteamClient017_DEPRECATED_GetISteamUnifiedMessages_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -5083,13 +5027,13 @@ void * __thiscall winISteamClient_SteamClient017_DEPRECATED_GetISteamUnifiedMess
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient017_DEPRECATED_GetISteamUnifiedMessages( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient017_DEPRECATED_GetISteamUnifiedMessages, &params );
     return params._ret;
 }
 
-void /*ISteamController*/ * __thiscall winISteamClient_SteamClient017_GetISteamController(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamController*/ * __thiscall winISteamClient_SteamClient017_GetISteamController(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient017_GetISteamController_params params =
+    struct ISteamClient_SteamClient017_GetISteamController_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -5097,14 +5041,14 @@ void /*ISteamController*/ * __thiscall winISteamClient_SteamClient017_GetISteamC
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient017_GetISteamController( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient017_GetISteamController, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamUGC*/ * __thiscall winISteamClient_SteamClient017_GetISteamUGC(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamUGC*/ * __thiscall winISteamClient_SteamClient017_GetISteamUGC(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient017_GetISteamUGC_params params =
+    struct ISteamClient_SteamClient017_GetISteamUGC_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -5112,14 +5056,14 @@ void /*ISteamUGC*/ * __thiscall winISteamClient_SteamClient017_GetISteamUGC(stru
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient017_GetISteamUGC( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient017_GetISteamUGC, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamAppList*/ * __thiscall winISteamClient_SteamClient017_GetISteamAppList(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamAppList*/ * __thiscall winISteamClient_SteamClient017_GetISteamAppList(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient017_GetISteamAppList_params params =
+    struct ISteamClient_SteamClient017_GetISteamAppList_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -5127,14 +5071,14 @@ void /*ISteamAppList*/ * __thiscall winISteamClient_SteamClient017_GetISteamAppL
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient017_GetISteamAppList( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient017_GetISteamAppList, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamMusic*/ * __thiscall winISteamClient_SteamClient017_GetISteamMusic(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamMusic*/ * __thiscall winISteamClient_SteamClient017_GetISteamMusic(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient017_GetISteamMusic_params params =
+    struct ISteamClient_SteamClient017_GetISteamMusic_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -5142,14 +5086,14 @@ void /*ISteamMusic*/ * __thiscall winISteamClient_SteamClient017_GetISteamMusic(
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient017_GetISteamMusic( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient017_GetISteamMusic, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamMusicRemote*/ * __thiscall winISteamClient_SteamClient017_GetISteamMusicRemote(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamMusicRemote*/ * __thiscall winISteamClient_SteamClient017_GetISteamMusicRemote(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient017_GetISteamMusicRemote_params params =
+    struct ISteamClient_SteamClient017_GetISteamMusicRemote_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -5157,14 +5101,14 @@ void /*ISteamMusicRemote*/ * __thiscall winISteamClient_SteamClient017_GetISteam
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient017_GetISteamMusicRemote( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient017_GetISteamMusicRemote, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamHTMLSurface*/ * __thiscall winISteamClient_SteamClient017_GetISteamHTMLSurface(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamHTMLSurface*/ * __thiscall winISteamClient_SteamClient017_GetISteamHTMLSurface(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient017_GetISteamHTMLSurface_params params =
+    struct ISteamClient_SteamClient017_GetISteamHTMLSurface_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -5172,47 +5116,47 @@ void /*ISteamHTMLSurface*/ * __thiscall winISteamClient_SteamClient017_GetISteam
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient017_GetISteamHTMLSurface( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient017_GetISteamHTMLSurface, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void __thiscall winISteamClient_SteamClient017_DEPRECATED_Set_SteamAPI_CPostAPIResultInProcess(struct w_steam_iface *_this, void *_a)
+void __thiscall winISteamClient_SteamClient017_DEPRECATED_Set_SteamAPI_CPostAPIResultInProcess(struct w_steam_iface *_this, void (*W_CDECL _a)(void))
 {
-    struct cppISteamClient_SteamClient017_DEPRECATED_Set_SteamAPI_CPostAPIResultInProcess_params params =
+    struct ISteamClient_SteamClient017_DEPRECATED_Set_SteamAPI_CPostAPIResultInProcess_params params =
     {
         .linux_side = _this->u_iface,
         ._a = _a,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient017_DEPRECATED_Set_SteamAPI_CPostAPIResultInProcess( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient017_DEPRECATED_Set_SteamAPI_CPostAPIResultInProcess, &params );
 }
 
-void __thiscall winISteamClient_SteamClient017_DEPRECATED_Remove_SteamAPI_CPostAPIResultInProcess(struct w_steam_iface *_this, void *_a)
+void __thiscall winISteamClient_SteamClient017_DEPRECATED_Remove_SteamAPI_CPostAPIResultInProcess(struct w_steam_iface *_this, void (*W_CDECL _a)(void))
 {
-    struct cppISteamClient_SteamClient017_DEPRECATED_Remove_SteamAPI_CPostAPIResultInProcess_params params =
+    struct ISteamClient_SteamClient017_DEPRECATED_Remove_SteamAPI_CPostAPIResultInProcess_params params =
     {
         .linux_side = _this->u_iface,
         ._a = _a,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient017_DEPRECATED_Remove_SteamAPI_CPostAPIResultInProcess( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient017_DEPRECATED_Remove_SteamAPI_CPostAPIResultInProcess, &params );
 }
 
-void __thiscall winISteamClient_SteamClient017_Set_SteamAPI_CCheckCallbackRegisteredInProcess(struct w_steam_iface *_this, SteamAPI_CheckCallbackRegistered_t func)
+void __thiscall winISteamClient_SteamClient017_Set_SteamAPI_CCheckCallbackRegisteredInProcess(struct w_steam_iface *_this, uint32_t (*W_CDECL func)(int32_t))
 {
-    struct cppISteamClient_SteamClient017_Set_SteamAPI_CCheckCallbackRegisteredInProcess_params params =
+    struct ISteamClient_SteamClient017_Set_SteamAPI_CCheckCallbackRegisteredInProcess_params params =
     {
         .linux_side = _this->u_iface,
         .func = func,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient017_Set_SteamAPI_CCheckCallbackRegisteredInProcess( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient017_Set_SteamAPI_CCheckCallbackRegisteredInProcess, &params );
 }
 
-void /*ISteamInventory*/ * __thiscall winISteamClient_SteamClient017_GetISteamInventory(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamInventory*/ * __thiscall winISteamClient_SteamClient017_GetISteamInventory(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient017_GetISteamInventory_params params =
+    struct ISteamClient_SteamClient017_GetISteamInventory_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -5220,14 +5164,14 @@ void /*ISteamInventory*/ * __thiscall winISteamClient_SteamClient017_GetISteamIn
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient017_GetISteamInventory( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient017_GetISteamInventory, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamVideo*/ * __thiscall winISteamClient_SteamClient017_GetISteamVideo(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamVideo*/ * __thiscall winISteamClient_SteamClient017_GetISteamVideo(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient017_GetISteamVideo_params params =
+    struct ISteamClient_SteamClient017_GetISteamVideo_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -5235,14 +5179,14 @@ void /*ISteamVideo*/ * __thiscall winISteamClient_SteamClient017_GetISteamVideo(
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient017_GetISteamVideo( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient017_GetISteamVideo, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamParentalSettings*/ * __thiscall winISteamClient_SteamClient017_GetISteamParentalSettings(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamParentalSettings*/ * __thiscall winISteamClient_SteamClient017_GetISteamParentalSettings(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient017_GetISteamParentalSettings_params params =
+    struct ISteamClient_SteamClient017_GetISteamParentalSettings_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -5250,16 +5194,16 @@ void /*ISteamParentalSettings*/ * __thiscall winISteamClient_SteamClient017_GetI
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient017_GetISteamParentalSettings( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient017_GetISteamParentalSettings, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
 extern vtable_ptr winISteamClient_SteamClient017_vtable;
 
-#ifndef __GNUC__
-void __asm_dummy_vtables(void) {
-#endif
+DEFINE_RTTI_DATA0(winISteamClient_SteamClient017, 0, ".?AVISteamClient@@")
+
+__ASM_BLOCK_BEGIN(winISteamClient_SteamClient017_vtables)
     __ASM_VTABLE(winISteamClient_SteamClient017,
         VTABLE_ADD_FUNC(winISteamClient_SteamClient017_CreateSteamPipe)
         VTABLE_ADD_FUNC(winISteamClient_SteamClient017_BReleaseSteamPipe)
@@ -5299,9 +5243,7 @@ void __asm_dummy_vtables(void) {
         VTABLE_ADD_FUNC(winISteamClient_SteamClient017_GetISteamVideo)
         VTABLE_ADD_FUNC(winISteamClient_SteamClient017_GetISteamParentalSettings)
     );
-#ifndef __GNUC__
-}
-#endif
+__ASM_BLOCK_END
 
 struct w_steam_iface *create_winISteamClient_SteamClient017(void *u_iface)
 {
@@ -5311,8 +5253,6 @@ struct w_steam_iface *create_winISteamClient_SteamClient017(void *u_iface)
     r->u_iface = u_iface;
     return r;
 }
-
-#include "cppISteamClient_SteamClient018.h"
 
 DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient018_CreateSteamPipe, 4)
 DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient018_BReleaseSteamPipe, 8)
@@ -5355,69 +5295,69 @@ DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient018_GetISteamParentalSettings
 DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient018_GetISteamInput, 16)
 DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient018_GetISteamParties, 16)
 
-HSteamPipe __thiscall winISteamClient_SteamClient018_CreateSteamPipe(struct w_steam_iface *_this)
+int32_t __thiscall winISteamClient_SteamClient018_CreateSteamPipe(struct w_steam_iface *_this)
 {
-    struct cppISteamClient_SteamClient018_CreateSteamPipe_params params =
+    struct ISteamClient_SteamClient018_CreateSteamPipe_params params =
     {
         .linux_side = _this->u_iface,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient018_CreateSteamPipe( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient018_CreateSteamPipe, &params );
     return params._ret;
 }
 
-bool __thiscall winISteamClient_SteamClient018_BReleaseSteamPipe(struct w_steam_iface *_this, HSteamPipe hSteamPipe)
+int8_t __thiscall winISteamClient_SteamClient018_BReleaseSteamPipe(struct w_steam_iface *_this, int32_t hSteamPipe)
 {
-    struct cppISteamClient_SteamClient018_BReleaseSteamPipe_params params =
-    {
-        .linux_side = _this->u_iface,
-        .hSteamPipe = hSteamPipe,
-    };
-    TRACE("%p\n", _this);
-    cppISteamClient_SteamClient018_BReleaseSteamPipe( &params );
-    return params._ret;
-}
-
-HSteamUser __thiscall winISteamClient_SteamClient018_ConnectToGlobalUser(struct w_steam_iface *_this, HSteamPipe hSteamPipe)
-{
-    struct cppISteamClient_SteamClient018_ConnectToGlobalUser_params params =
+    struct ISteamClient_SteamClient018_BReleaseSteamPipe_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamPipe = hSteamPipe,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient018_ConnectToGlobalUser( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient018_BReleaseSteamPipe, &params );
     return params._ret;
 }
 
-HSteamUser __thiscall winISteamClient_SteamClient018_CreateLocalUser(struct w_steam_iface *_this, HSteamPipe *phSteamPipe, EAccountType eAccountType)
+int32_t __thiscall winISteamClient_SteamClient018_ConnectToGlobalUser(struct w_steam_iface *_this, int32_t hSteamPipe)
 {
-    struct cppISteamClient_SteamClient018_CreateLocalUser_params params =
+    struct ISteamClient_SteamClient018_ConnectToGlobalUser_params params =
+    {
+        .linux_side = _this->u_iface,
+        .hSteamPipe = hSteamPipe,
+    };
+    TRACE("%p\n", _this);
+    STEAMCLIENT_CALL( ISteamClient_SteamClient018_ConnectToGlobalUser, &params );
+    return params._ret;
+}
+
+int32_t __thiscall winISteamClient_SteamClient018_CreateLocalUser(struct w_steam_iface *_this, int32_t *phSteamPipe, uint32_t eAccountType)
+{
+    struct ISteamClient_SteamClient018_CreateLocalUser_params params =
     {
         .linux_side = _this->u_iface,
         .phSteamPipe = phSteamPipe,
         .eAccountType = eAccountType,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient018_CreateLocalUser( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient018_CreateLocalUser, &params );
     return params._ret;
 }
 
-void __thiscall winISteamClient_SteamClient018_ReleaseUser(struct w_steam_iface *_this, HSteamPipe hSteamPipe, HSteamUser hUser)
+void __thiscall winISteamClient_SteamClient018_ReleaseUser(struct w_steam_iface *_this, int32_t hSteamPipe, int32_t hUser)
 {
-    struct cppISteamClient_SteamClient018_ReleaseUser_params params =
+    struct ISteamClient_SteamClient018_ReleaseUser_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamPipe = hSteamPipe,
         .hUser = hUser,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient018_ReleaseUser( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient018_ReleaseUser, &params );
 }
 
-void /*ISteamUser*/ * __thiscall winISteamClient_SteamClient018_GetISteamUser(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamUser*/ * __thiscall winISteamClient_SteamClient018_GetISteamUser(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient018_GetISteamUser_params params =
+    struct ISteamClient_SteamClient018_GetISteamUser_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -5425,14 +5365,14 @@ void /*ISteamUser*/ * __thiscall winISteamClient_SteamClient018_GetISteamUser(st
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient018_GetISteamUser( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient018_GetISteamUser, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamGameServer*/ * __thiscall winISteamClient_SteamClient018_GetISteamGameServer(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamGameServer*/ * __thiscall winISteamClient_SteamClient018_GetISteamGameServer(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient018_GetISteamGameServer_params params =
+    struct ISteamClient_SteamClient018_GetISteamGameServer_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -5440,26 +5380,26 @@ void /*ISteamGameServer*/ * __thiscall winISteamClient_SteamClient018_GetISteamG
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient018_GetISteamGameServer( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient018_GetISteamGameServer, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void __thiscall winISteamClient_SteamClient018_SetLocalIPBinding(struct w_steam_iface *_this, uint32 unIP, uint16 usPort)
+void __thiscall winISteamClient_SteamClient018_SetLocalIPBinding(struct w_steam_iface *_this, uint32_t unIP, uint16_t usPort)
 {
-    struct cppISteamClient_SteamClient018_SetLocalIPBinding_params params =
+    struct ISteamClient_SteamClient018_SetLocalIPBinding_params params =
     {
         .linux_side = _this->u_iface,
         .unIP = unIP,
         .usPort = usPort,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient018_SetLocalIPBinding( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient018_SetLocalIPBinding, &params );
 }
 
-void /*ISteamFriends*/ * __thiscall winISteamClient_SteamClient018_GetISteamFriends(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamFriends*/ * __thiscall winISteamClient_SteamClient018_GetISteamFriends(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient018_GetISteamFriends_params params =
+    struct ISteamClient_SteamClient018_GetISteamFriends_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -5467,43 +5407,28 @@ void /*ISteamFriends*/ * __thiscall winISteamClient_SteamClient018_GetISteamFrie
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient018_GetISteamFriends( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient018_GetISteamFriends, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamUtils*/ * __thiscall winISteamClient_SteamClient018_GetISteamUtils(struct w_steam_iface *_this, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamUtils*/ * __thiscall winISteamClient_SteamClient018_GetISteamUtils(struct w_steam_iface *_this, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient018_GetISteamUtils_params params =
+    struct ISteamClient_SteamClient018_GetISteamUtils_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamPipe = hSteamPipe,
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient018_GetISteamUtils( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient018_GetISteamUtils, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamMatchmaking*/ * __thiscall winISteamClient_SteamClient018_GetISteamMatchmaking(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamMatchmaking*/ * __thiscall winISteamClient_SteamClient018_GetISteamMatchmaking(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient018_GetISteamMatchmaking_params params =
-    {
-        .linux_side = _this->u_iface,
-        .hSteamUser = hSteamUser,
-        .hSteamPipe = hSteamPipe,
-        .pchVersion = pchVersion,
-    };
-    TRACE("%p\n", _this);
-    cppISteamClient_SteamClient018_GetISteamMatchmaking( &params );
-    params._ret = create_win_interface( pchVersion, params._ret );
-    return params._ret;
-}
-
-void /*ISteamMatchmakingServers*/ * __thiscall winISteamClient_SteamClient018_GetISteamMatchmakingServers(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
-{
-    struct cppISteamClient_SteamClient018_GetISteamMatchmakingServers_params params =
+    struct ISteamClient_SteamClient018_GetISteamMatchmaking_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -5511,14 +5436,14 @@ void /*ISteamMatchmakingServers*/ * __thiscall winISteamClient_SteamClient018_Ge
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient018_GetISteamMatchmakingServers( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient018_GetISteamMatchmaking, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void * __thiscall winISteamClient_SteamClient018_GetISteamGenericInterface(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamMatchmakingServers*/ * __thiscall winISteamClient_SteamClient018_GetISteamMatchmakingServers(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient018_GetISteamGenericInterface_params params =
+    struct ISteamClient_SteamClient018_GetISteamMatchmakingServers_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -5526,14 +5451,14 @@ void * __thiscall winISteamClient_SteamClient018_GetISteamGenericInterface(struc
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient018_GetISteamGenericInterface( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient018_GetISteamMatchmakingServers, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamUserStats*/ * __thiscall winISteamClient_SteamClient018_GetISteamUserStats(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void * __thiscall winISteamClient_SteamClient018_GetISteamGenericInterface(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient018_GetISteamUserStats_params params =
+    struct ISteamClient_SteamClient018_GetISteamGenericInterface_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -5541,14 +5466,29 @@ void /*ISteamUserStats*/ * __thiscall winISteamClient_SteamClient018_GetISteamUs
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient018_GetISteamUserStats( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient018_GetISteamGenericInterface, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamGameServerStats*/ * __thiscall winISteamClient_SteamClient018_GetISteamGameServerStats(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamUserStats*/ * __thiscall winISteamClient_SteamClient018_GetISteamUserStats(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient018_GetISteamGameServerStats_params params =
+    struct ISteamClient_SteamClient018_GetISteamUserStats_params params =
+    {
+        .linux_side = _this->u_iface,
+        .hSteamUser = hSteamUser,
+        .hSteamPipe = hSteamPipe,
+        .pchVersion = pchVersion,
+    };
+    TRACE("%p\n", _this);
+    STEAMCLIENT_CALL( ISteamClient_SteamClient018_GetISteamUserStats, &params );
+    params._ret = create_win_interface( pchVersion, params._ret );
+    return params._ret;
+}
+
+void /*ISteamGameServerStats*/ * __thiscall winISteamClient_SteamClient018_GetISteamGameServerStats(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
+{
+    struct ISteamClient_SteamClient018_GetISteamGameServerStats_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -5556,14 +5496,14 @@ void /*ISteamGameServerStats*/ * __thiscall winISteamClient_SteamClient018_GetIS
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient018_GetISteamGameServerStats( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient018_GetISteamGameServerStats, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamApps*/ * __thiscall winISteamClient_SteamClient018_GetISteamApps(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamApps*/ * __thiscall winISteamClient_SteamClient018_GetISteamApps(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient018_GetISteamApps_params params =
+    struct ISteamClient_SteamClient018_GetISteamApps_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -5571,14 +5511,14 @@ void /*ISteamApps*/ * __thiscall winISteamClient_SteamClient018_GetISteamApps(st
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient018_GetISteamApps( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient018_GetISteamApps, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamNetworking*/ * __thiscall winISteamClient_SteamClient018_GetISteamNetworking(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamNetworking*/ * __thiscall winISteamClient_SteamClient018_GetISteamNetworking(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient018_GetISteamNetworking_params params =
+    struct ISteamClient_SteamClient018_GetISteamNetworking_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -5586,14 +5526,14 @@ void /*ISteamNetworking*/ * __thiscall winISteamClient_SteamClient018_GetISteamN
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient018_GetISteamNetworking( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient018_GetISteamNetworking, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamRemoteStorage*/ * __thiscall winISteamClient_SteamClient018_GetISteamRemoteStorage(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamRemoteStorage*/ * __thiscall winISteamClient_SteamClient018_GetISteamRemoteStorage(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient018_GetISteamRemoteStorage_params params =
+    struct ISteamClient_SteamClient018_GetISteamRemoteStorage_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -5601,14 +5541,14 @@ void /*ISteamRemoteStorage*/ * __thiscall winISteamClient_SteamClient018_GetISte
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient018_GetISteamRemoteStorage( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient018_GetISteamRemoteStorage, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamScreenshots*/ * __thiscall winISteamClient_SteamClient018_GetISteamScreenshots(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamScreenshots*/ * __thiscall winISteamClient_SteamClient018_GetISteamScreenshots(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient018_GetISteamScreenshots_params params =
+    struct ISteamClient_SteamClient018_GetISteamScreenshots_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -5616,14 +5556,14 @@ void /*ISteamScreenshots*/ * __thiscall winISteamClient_SteamClient018_GetISteam
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient018_GetISteamScreenshots( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient018_GetISteamScreenshots, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamGameSearch*/ * __thiscall winISteamClient_SteamClient018_GetISteamGameSearch(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamGameSearch*/ * __thiscall winISteamClient_SteamClient018_GetISteamGameSearch(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient018_GetISteamGameSearch_params params =
+    struct ISteamClient_SteamClient018_GetISteamGameSearch_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -5631,57 +5571,57 @@ void /*ISteamGameSearch*/ * __thiscall winISteamClient_SteamClient018_GetISteamG
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient018_GetISteamGameSearch( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient018_GetISteamGameSearch, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
 void __thiscall winISteamClient_SteamClient018_RunFrame(struct w_steam_iface *_this)
 {
-    struct cppISteamClient_SteamClient018_RunFrame_params params =
+    struct ISteamClient_SteamClient018_RunFrame_params params =
     {
         .linux_side = _this->u_iface,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient018_RunFrame( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient018_RunFrame, &params );
 }
 
-uint32 __thiscall winISteamClient_SteamClient018_GetIPCCallCount(struct w_steam_iface *_this)
+uint32_t __thiscall winISteamClient_SteamClient018_GetIPCCallCount(struct w_steam_iface *_this)
 {
-    struct cppISteamClient_SteamClient018_GetIPCCallCount_params params =
+    struct ISteamClient_SteamClient018_GetIPCCallCount_params params =
     {
         .linux_side = _this->u_iface,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient018_GetIPCCallCount( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient018_GetIPCCallCount, &params );
     return params._ret;
 }
 
-void __thiscall winISteamClient_SteamClient018_SetWarningMessageHook(struct w_steam_iface *_this, SteamAPIWarningMessageHook_t pFunction)
+void __thiscall winISteamClient_SteamClient018_SetWarningMessageHook(struct w_steam_iface *_this, void (*W_CDECL pFunction)(int32_t, const char *))
 {
-    struct cppISteamClient_SteamClient018_SetWarningMessageHook_params params =
+    struct ISteamClient_SteamClient018_SetWarningMessageHook_params params =
     {
         .linux_side = _this->u_iface,
         .pFunction = pFunction,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient018_SetWarningMessageHook( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient018_SetWarningMessageHook, &params );
 }
 
-bool __thiscall winISteamClient_SteamClient018_BShutdownIfAllPipesClosed(struct w_steam_iface *_this)
+int8_t __thiscall winISteamClient_SteamClient018_BShutdownIfAllPipesClosed(struct w_steam_iface *_this)
 {
-    struct cppISteamClient_SteamClient018_BShutdownIfAllPipesClosed_params params =
+    struct ISteamClient_SteamClient018_BShutdownIfAllPipesClosed_params params =
     {
         .linux_side = _this->u_iface,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient018_BShutdownIfAllPipesClosed( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient018_BShutdownIfAllPipesClosed, &params );
     return params._ret;
 }
 
-void /*ISteamHTTP*/ * __thiscall winISteamClient_SteamClient018_GetISteamHTTP(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamHTTP*/ * __thiscall winISteamClient_SteamClient018_GetISteamHTTP(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient018_GetISteamHTTP_params params =
+    struct ISteamClient_SteamClient018_GetISteamHTTP_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -5689,14 +5629,14 @@ void /*ISteamHTTP*/ * __thiscall winISteamClient_SteamClient018_GetISteamHTTP(st
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient018_GetISteamHTTP( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient018_GetISteamHTTP, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void * __thiscall winISteamClient_SteamClient018_DEPRECATED_GetISteamUnifiedMessages(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void * __thiscall winISteamClient_SteamClient018_DEPRECATED_GetISteamUnifiedMessages(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient018_DEPRECATED_GetISteamUnifiedMessages_params params =
+    struct ISteamClient_SteamClient018_DEPRECATED_GetISteamUnifiedMessages_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -5704,13 +5644,13 @@ void * __thiscall winISteamClient_SteamClient018_DEPRECATED_GetISteamUnifiedMess
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient018_DEPRECATED_GetISteamUnifiedMessages( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient018_DEPRECATED_GetISteamUnifiedMessages, &params );
     return params._ret;
 }
 
-void /*ISteamController*/ * __thiscall winISteamClient_SteamClient018_GetISteamController(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamController*/ * __thiscall winISteamClient_SteamClient018_GetISteamController(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient018_GetISteamController_params params =
+    struct ISteamClient_SteamClient018_GetISteamController_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -5718,14 +5658,14 @@ void /*ISteamController*/ * __thiscall winISteamClient_SteamClient018_GetISteamC
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient018_GetISteamController( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient018_GetISteamController, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamUGC*/ * __thiscall winISteamClient_SteamClient018_GetISteamUGC(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamUGC*/ * __thiscall winISteamClient_SteamClient018_GetISteamUGC(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient018_GetISteamUGC_params params =
+    struct ISteamClient_SteamClient018_GetISteamUGC_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -5733,14 +5673,14 @@ void /*ISteamUGC*/ * __thiscall winISteamClient_SteamClient018_GetISteamUGC(stru
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient018_GetISteamUGC( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient018_GetISteamUGC, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamAppList*/ * __thiscall winISteamClient_SteamClient018_GetISteamAppList(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamAppList*/ * __thiscall winISteamClient_SteamClient018_GetISteamAppList(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient018_GetISteamAppList_params params =
+    struct ISteamClient_SteamClient018_GetISteamAppList_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -5748,14 +5688,14 @@ void /*ISteamAppList*/ * __thiscall winISteamClient_SteamClient018_GetISteamAppL
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient018_GetISteamAppList( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient018_GetISteamAppList, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamMusic*/ * __thiscall winISteamClient_SteamClient018_GetISteamMusic(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamMusic*/ * __thiscall winISteamClient_SteamClient018_GetISteamMusic(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient018_GetISteamMusic_params params =
+    struct ISteamClient_SteamClient018_GetISteamMusic_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -5763,14 +5703,14 @@ void /*ISteamMusic*/ * __thiscall winISteamClient_SteamClient018_GetISteamMusic(
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient018_GetISteamMusic( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient018_GetISteamMusic, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamMusicRemote*/ * __thiscall winISteamClient_SteamClient018_GetISteamMusicRemote(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamMusicRemote*/ * __thiscall winISteamClient_SteamClient018_GetISteamMusicRemote(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient018_GetISteamMusicRemote_params params =
+    struct ISteamClient_SteamClient018_GetISteamMusicRemote_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -5778,14 +5718,14 @@ void /*ISteamMusicRemote*/ * __thiscall winISteamClient_SteamClient018_GetISteam
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient018_GetISteamMusicRemote( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient018_GetISteamMusicRemote, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamHTMLSurface*/ * __thiscall winISteamClient_SteamClient018_GetISteamHTMLSurface(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamHTMLSurface*/ * __thiscall winISteamClient_SteamClient018_GetISteamHTMLSurface(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient018_GetISteamHTMLSurface_params params =
+    struct ISteamClient_SteamClient018_GetISteamHTMLSurface_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -5793,47 +5733,47 @@ void /*ISteamHTMLSurface*/ * __thiscall winISteamClient_SteamClient018_GetISteam
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient018_GetISteamHTMLSurface( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient018_GetISteamHTMLSurface, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void __thiscall winISteamClient_SteamClient018_DEPRECATED_Set_SteamAPI_CPostAPIResultInProcess(struct w_steam_iface *_this, void *_a)
+void __thiscall winISteamClient_SteamClient018_DEPRECATED_Set_SteamAPI_CPostAPIResultInProcess(struct w_steam_iface *_this, void (*W_CDECL _a)(void))
 {
-    struct cppISteamClient_SteamClient018_DEPRECATED_Set_SteamAPI_CPostAPIResultInProcess_params params =
+    struct ISteamClient_SteamClient018_DEPRECATED_Set_SteamAPI_CPostAPIResultInProcess_params params =
     {
         .linux_side = _this->u_iface,
         ._a = _a,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient018_DEPRECATED_Set_SteamAPI_CPostAPIResultInProcess( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient018_DEPRECATED_Set_SteamAPI_CPostAPIResultInProcess, &params );
 }
 
-void __thiscall winISteamClient_SteamClient018_DEPRECATED_Remove_SteamAPI_CPostAPIResultInProcess(struct w_steam_iface *_this, void *_a)
+void __thiscall winISteamClient_SteamClient018_DEPRECATED_Remove_SteamAPI_CPostAPIResultInProcess(struct w_steam_iface *_this, void (*W_CDECL _a)(void))
 {
-    struct cppISteamClient_SteamClient018_DEPRECATED_Remove_SteamAPI_CPostAPIResultInProcess_params params =
+    struct ISteamClient_SteamClient018_DEPRECATED_Remove_SteamAPI_CPostAPIResultInProcess_params params =
     {
         .linux_side = _this->u_iface,
         ._a = _a,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient018_DEPRECATED_Remove_SteamAPI_CPostAPIResultInProcess( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient018_DEPRECATED_Remove_SteamAPI_CPostAPIResultInProcess, &params );
 }
 
-void __thiscall winISteamClient_SteamClient018_Set_SteamAPI_CCheckCallbackRegisteredInProcess(struct w_steam_iface *_this, SteamAPI_CheckCallbackRegistered_t func)
+void __thiscall winISteamClient_SteamClient018_Set_SteamAPI_CCheckCallbackRegisteredInProcess(struct w_steam_iface *_this, uint32_t (*W_CDECL func)(int32_t))
 {
-    struct cppISteamClient_SteamClient018_Set_SteamAPI_CCheckCallbackRegisteredInProcess_params params =
+    struct ISteamClient_SteamClient018_Set_SteamAPI_CCheckCallbackRegisteredInProcess_params params =
     {
         .linux_side = _this->u_iface,
         .func = func,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient018_Set_SteamAPI_CCheckCallbackRegisteredInProcess( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient018_Set_SteamAPI_CCheckCallbackRegisteredInProcess, &params );
 }
 
-void /*ISteamInventory*/ * __thiscall winISteamClient_SteamClient018_GetISteamInventory(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamInventory*/ * __thiscall winISteamClient_SteamClient018_GetISteamInventory(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient018_GetISteamInventory_params params =
+    struct ISteamClient_SteamClient018_GetISteamInventory_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -5841,14 +5781,14 @@ void /*ISteamInventory*/ * __thiscall winISteamClient_SteamClient018_GetISteamIn
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient018_GetISteamInventory( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient018_GetISteamInventory, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamVideo*/ * __thiscall winISteamClient_SteamClient018_GetISteamVideo(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamVideo*/ * __thiscall winISteamClient_SteamClient018_GetISteamVideo(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient018_GetISteamVideo_params params =
+    struct ISteamClient_SteamClient018_GetISteamVideo_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -5856,14 +5796,14 @@ void /*ISteamVideo*/ * __thiscall winISteamClient_SteamClient018_GetISteamVideo(
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient018_GetISteamVideo( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient018_GetISteamVideo, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamParentalSettings*/ * __thiscall winISteamClient_SteamClient018_GetISteamParentalSettings(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamParentalSettings*/ * __thiscall winISteamClient_SteamClient018_GetISteamParentalSettings(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient018_GetISteamParentalSettings_params params =
+    struct ISteamClient_SteamClient018_GetISteamParentalSettings_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -5871,14 +5811,14 @@ void /*ISteamParentalSettings*/ * __thiscall winISteamClient_SteamClient018_GetI
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient018_GetISteamParentalSettings( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient018_GetISteamParentalSettings, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamInput*/ * __thiscall winISteamClient_SteamClient018_GetISteamInput(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamInput*/ * __thiscall winISteamClient_SteamClient018_GetISteamInput(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient018_GetISteamInput_params params =
+    struct ISteamClient_SteamClient018_GetISteamInput_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -5886,14 +5826,14 @@ void /*ISteamInput*/ * __thiscall winISteamClient_SteamClient018_GetISteamInput(
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient018_GetISteamInput( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient018_GetISteamInput, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamParties*/ * __thiscall winISteamClient_SteamClient018_GetISteamParties(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamParties*/ * __thiscall winISteamClient_SteamClient018_GetISteamParties(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient018_GetISteamParties_params params =
+    struct ISteamClient_SteamClient018_GetISteamParties_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -5901,16 +5841,16 @@ void /*ISteamParties*/ * __thiscall winISteamClient_SteamClient018_GetISteamPart
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient018_GetISteamParties( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient018_GetISteamParties, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
 extern vtable_ptr winISteamClient_SteamClient018_vtable;
 
-#ifndef __GNUC__
-void __asm_dummy_vtables(void) {
-#endif
+DEFINE_RTTI_DATA0(winISteamClient_SteamClient018, 0, ".?AVISteamClient@@")
+
+__ASM_BLOCK_BEGIN(winISteamClient_SteamClient018_vtables)
     __ASM_VTABLE(winISteamClient_SteamClient018,
         VTABLE_ADD_FUNC(winISteamClient_SteamClient018_CreateSteamPipe)
         VTABLE_ADD_FUNC(winISteamClient_SteamClient018_BReleaseSteamPipe)
@@ -5953,9 +5893,7 @@ void __asm_dummy_vtables(void) {
         VTABLE_ADD_FUNC(winISteamClient_SteamClient018_GetISteamInput)
         VTABLE_ADD_FUNC(winISteamClient_SteamClient018_GetISteamParties)
     );
-#ifndef __GNUC__
-}
-#endif
+__ASM_BLOCK_END
 
 struct w_steam_iface *create_winISteamClient_SteamClient018(void *u_iface)
 {
@@ -5965,8 +5903,6 @@ struct w_steam_iface *create_winISteamClient_SteamClient018(void *u_iface)
     r->u_iface = u_iface;
     return r;
 }
-
-#include "cppISteamClient_SteamClient019.h"
 
 DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient019_CreateSteamPipe, 4)
 DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient019_BReleaseSteamPipe, 8)
@@ -6010,69 +5946,69 @@ DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient019_GetISteamInput, 16)
 DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient019_GetISteamParties, 16)
 DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient019_GetISteamRemotePlay, 16)
 
-HSteamPipe __thiscall winISteamClient_SteamClient019_CreateSteamPipe(struct w_steam_iface *_this)
+int32_t __thiscall winISteamClient_SteamClient019_CreateSteamPipe(struct w_steam_iface *_this)
 {
-    struct cppISteamClient_SteamClient019_CreateSteamPipe_params params =
+    struct ISteamClient_SteamClient019_CreateSteamPipe_params params =
     {
         .linux_side = _this->u_iface,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient019_CreateSteamPipe( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient019_CreateSteamPipe, &params );
     return params._ret;
 }
 
-bool __thiscall winISteamClient_SteamClient019_BReleaseSteamPipe(struct w_steam_iface *_this, HSteamPipe hSteamPipe)
+int8_t __thiscall winISteamClient_SteamClient019_BReleaseSteamPipe(struct w_steam_iface *_this, int32_t hSteamPipe)
 {
-    struct cppISteamClient_SteamClient019_BReleaseSteamPipe_params params =
-    {
-        .linux_side = _this->u_iface,
-        .hSteamPipe = hSteamPipe,
-    };
-    TRACE("%p\n", _this);
-    cppISteamClient_SteamClient019_BReleaseSteamPipe( &params );
-    return params._ret;
-}
-
-HSteamUser __thiscall winISteamClient_SteamClient019_ConnectToGlobalUser(struct w_steam_iface *_this, HSteamPipe hSteamPipe)
-{
-    struct cppISteamClient_SteamClient019_ConnectToGlobalUser_params params =
+    struct ISteamClient_SteamClient019_BReleaseSteamPipe_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamPipe = hSteamPipe,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient019_ConnectToGlobalUser( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient019_BReleaseSteamPipe, &params );
     return params._ret;
 }
 
-HSteamUser __thiscall winISteamClient_SteamClient019_CreateLocalUser(struct w_steam_iface *_this, HSteamPipe *phSteamPipe, EAccountType eAccountType)
+int32_t __thiscall winISteamClient_SteamClient019_ConnectToGlobalUser(struct w_steam_iface *_this, int32_t hSteamPipe)
 {
-    struct cppISteamClient_SteamClient019_CreateLocalUser_params params =
+    struct ISteamClient_SteamClient019_ConnectToGlobalUser_params params =
+    {
+        .linux_side = _this->u_iface,
+        .hSteamPipe = hSteamPipe,
+    };
+    TRACE("%p\n", _this);
+    STEAMCLIENT_CALL( ISteamClient_SteamClient019_ConnectToGlobalUser, &params );
+    return params._ret;
+}
+
+int32_t __thiscall winISteamClient_SteamClient019_CreateLocalUser(struct w_steam_iface *_this, int32_t *phSteamPipe, uint32_t eAccountType)
+{
+    struct ISteamClient_SteamClient019_CreateLocalUser_params params =
     {
         .linux_side = _this->u_iface,
         .phSteamPipe = phSteamPipe,
         .eAccountType = eAccountType,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient019_CreateLocalUser( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient019_CreateLocalUser, &params );
     return params._ret;
 }
 
-void __thiscall winISteamClient_SteamClient019_ReleaseUser(struct w_steam_iface *_this, HSteamPipe hSteamPipe, HSteamUser hUser)
+void __thiscall winISteamClient_SteamClient019_ReleaseUser(struct w_steam_iface *_this, int32_t hSteamPipe, int32_t hUser)
 {
-    struct cppISteamClient_SteamClient019_ReleaseUser_params params =
+    struct ISteamClient_SteamClient019_ReleaseUser_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamPipe = hSteamPipe,
         .hUser = hUser,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient019_ReleaseUser( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient019_ReleaseUser, &params );
 }
 
-void /*ISteamUser*/ * __thiscall winISteamClient_SteamClient019_GetISteamUser(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamUser*/ * __thiscall winISteamClient_SteamClient019_GetISteamUser(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient019_GetISteamUser_params params =
+    struct ISteamClient_SteamClient019_GetISteamUser_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -6080,14 +6016,14 @@ void /*ISteamUser*/ * __thiscall winISteamClient_SteamClient019_GetISteamUser(st
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient019_GetISteamUser( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient019_GetISteamUser, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamGameServer*/ * __thiscall winISteamClient_SteamClient019_GetISteamGameServer(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamGameServer*/ * __thiscall winISteamClient_SteamClient019_GetISteamGameServer(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient019_GetISteamGameServer_params params =
+    struct ISteamClient_SteamClient019_GetISteamGameServer_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -6095,26 +6031,26 @@ void /*ISteamGameServer*/ * __thiscall winISteamClient_SteamClient019_GetISteamG
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient019_GetISteamGameServer( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient019_GetISteamGameServer, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void __thiscall winISteamClient_SteamClient019_SetLocalIPBinding(struct w_steam_iface *_this, uint32 unIP, uint16 usPort)
+void __thiscall winISteamClient_SteamClient019_SetLocalIPBinding(struct w_steam_iface *_this, uint32_t unIP, uint16_t usPort)
 {
-    struct cppISteamClient_SteamClient019_SetLocalIPBinding_params params =
+    struct ISteamClient_SteamClient019_SetLocalIPBinding_params params =
     {
         .linux_side = _this->u_iface,
         .unIP = unIP,
         .usPort = usPort,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient019_SetLocalIPBinding( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient019_SetLocalIPBinding, &params );
 }
 
-void /*ISteamFriends*/ * __thiscall winISteamClient_SteamClient019_GetISteamFriends(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamFriends*/ * __thiscall winISteamClient_SteamClient019_GetISteamFriends(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient019_GetISteamFriends_params params =
+    struct ISteamClient_SteamClient019_GetISteamFriends_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -6122,43 +6058,28 @@ void /*ISteamFriends*/ * __thiscall winISteamClient_SteamClient019_GetISteamFrie
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient019_GetISteamFriends( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient019_GetISteamFriends, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamUtils*/ * __thiscall winISteamClient_SteamClient019_GetISteamUtils(struct w_steam_iface *_this, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamUtils*/ * __thiscall winISteamClient_SteamClient019_GetISteamUtils(struct w_steam_iface *_this, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient019_GetISteamUtils_params params =
+    struct ISteamClient_SteamClient019_GetISteamUtils_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamPipe = hSteamPipe,
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient019_GetISteamUtils( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient019_GetISteamUtils, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamMatchmaking*/ * __thiscall winISteamClient_SteamClient019_GetISteamMatchmaking(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamMatchmaking*/ * __thiscall winISteamClient_SteamClient019_GetISteamMatchmaking(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient019_GetISteamMatchmaking_params params =
-    {
-        .linux_side = _this->u_iface,
-        .hSteamUser = hSteamUser,
-        .hSteamPipe = hSteamPipe,
-        .pchVersion = pchVersion,
-    };
-    TRACE("%p\n", _this);
-    cppISteamClient_SteamClient019_GetISteamMatchmaking( &params );
-    params._ret = create_win_interface( pchVersion, params._ret );
-    return params._ret;
-}
-
-void /*ISteamMatchmakingServers*/ * __thiscall winISteamClient_SteamClient019_GetISteamMatchmakingServers(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
-{
-    struct cppISteamClient_SteamClient019_GetISteamMatchmakingServers_params params =
+    struct ISteamClient_SteamClient019_GetISteamMatchmaking_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -6166,14 +6087,14 @@ void /*ISteamMatchmakingServers*/ * __thiscall winISteamClient_SteamClient019_Ge
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient019_GetISteamMatchmakingServers( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient019_GetISteamMatchmaking, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void * __thiscall winISteamClient_SteamClient019_GetISteamGenericInterface(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamMatchmakingServers*/ * __thiscall winISteamClient_SteamClient019_GetISteamMatchmakingServers(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient019_GetISteamGenericInterface_params params =
+    struct ISteamClient_SteamClient019_GetISteamMatchmakingServers_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -6181,14 +6102,14 @@ void * __thiscall winISteamClient_SteamClient019_GetISteamGenericInterface(struc
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient019_GetISteamGenericInterface( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient019_GetISteamMatchmakingServers, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamUserStats*/ * __thiscall winISteamClient_SteamClient019_GetISteamUserStats(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void * __thiscall winISteamClient_SteamClient019_GetISteamGenericInterface(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient019_GetISteamUserStats_params params =
+    struct ISteamClient_SteamClient019_GetISteamGenericInterface_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -6196,14 +6117,29 @@ void /*ISteamUserStats*/ * __thiscall winISteamClient_SteamClient019_GetISteamUs
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient019_GetISteamUserStats( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient019_GetISteamGenericInterface, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamGameServerStats*/ * __thiscall winISteamClient_SteamClient019_GetISteamGameServerStats(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamUserStats*/ * __thiscall winISteamClient_SteamClient019_GetISteamUserStats(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient019_GetISteamGameServerStats_params params =
+    struct ISteamClient_SteamClient019_GetISteamUserStats_params params =
+    {
+        .linux_side = _this->u_iface,
+        .hSteamUser = hSteamUser,
+        .hSteamPipe = hSteamPipe,
+        .pchVersion = pchVersion,
+    };
+    TRACE("%p\n", _this);
+    STEAMCLIENT_CALL( ISteamClient_SteamClient019_GetISteamUserStats, &params );
+    params._ret = create_win_interface( pchVersion, params._ret );
+    return params._ret;
+}
+
+void /*ISteamGameServerStats*/ * __thiscall winISteamClient_SteamClient019_GetISteamGameServerStats(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
+{
+    struct ISteamClient_SteamClient019_GetISteamGameServerStats_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -6211,14 +6147,14 @@ void /*ISteamGameServerStats*/ * __thiscall winISteamClient_SteamClient019_GetIS
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient019_GetISteamGameServerStats( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient019_GetISteamGameServerStats, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamApps*/ * __thiscall winISteamClient_SteamClient019_GetISteamApps(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamApps*/ * __thiscall winISteamClient_SteamClient019_GetISteamApps(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient019_GetISteamApps_params params =
+    struct ISteamClient_SteamClient019_GetISteamApps_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -6226,14 +6162,14 @@ void /*ISteamApps*/ * __thiscall winISteamClient_SteamClient019_GetISteamApps(st
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient019_GetISteamApps( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient019_GetISteamApps, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamNetworking*/ * __thiscall winISteamClient_SteamClient019_GetISteamNetworking(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamNetworking*/ * __thiscall winISteamClient_SteamClient019_GetISteamNetworking(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient019_GetISteamNetworking_params params =
+    struct ISteamClient_SteamClient019_GetISteamNetworking_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -6241,14 +6177,14 @@ void /*ISteamNetworking*/ * __thiscall winISteamClient_SteamClient019_GetISteamN
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient019_GetISteamNetworking( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient019_GetISteamNetworking, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamRemoteStorage*/ * __thiscall winISteamClient_SteamClient019_GetISteamRemoteStorage(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamRemoteStorage*/ * __thiscall winISteamClient_SteamClient019_GetISteamRemoteStorage(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient019_GetISteamRemoteStorage_params params =
+    struct ISteamClient_SteamClient019_GetISteamRemoteStorage_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -6256,14 +6192,14 @@ void /*ISteamRemoteStorage*/ * __thiscall winISteamClient_SteamClient019_GetISte
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient019_GetISteamRemoteStorage( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient019_GetISteamRemoteStorage, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamScreenshots*/ * __thiscall winISteamClient_SteamClient019_GetISteamScreenshots(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamScreenshots*/ * __thiscall winISteamClient_SteamClient019_GetISteamScreenshots(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient019_GetISteamScreenshots_params params =
+    struct ISteamClient_SteamClient019_GetISteamScreenshots_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -6271,14 +6207,14 @@ void /*ISteamScreenshots*/ * __thiscall winISteamClient_SteamClient019_GetISteam
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient019_GetISteamScreenshots( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient019_GetISteamScreenshots, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamGameSearch*/ * __thiscall winISteamClient_SteamClient019_GetISteamGameSearch(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamGameSearch*/ * __thiscall winISteamClient_SteamClient019_GetISteamGameSearch(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient019_GetISteamGameSearch_params params =
+    struct ISteamClient_SteamClient019_GetISteamGameSearch_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -6286,57 +6222,57 @@ void /*ISteamGameSearch*/ * __thiscall winISteamClient_SteamClient019_GetISteamG
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient019_GetISteamGameSearch( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient019_GetISteamGameSearch, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
 void __thiscall winISteamClient_SteamClient019_RunFrame(struct w_steam_iface *_this)
 {
-    struct cppISteamClient_SteamClient019_RunFrame_params params =
+    struct ISteamClient_SteamClient019_RunFrame_params params =
     {
         .linux_side = _this->u_iface,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient019_RunFrame( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient019_RunFrame, &params );
 }
 
-uint32 __thiscall winISteamClient_SteamClient019_GetIPCCallCount(struct w_steam_iface *_this)
+uint32_t __thiscall winISteamClient_SteamClient019_GetIPCCallCount(struct w_steam_iface *_this)
 {
-    struct cppISteamClient_SteamClient019_GetIPCCallCount_params params =
+    struct ISteamClient_SteamClient019_GetIPCCallCount_params params =
     {
         .linux_side = _this->u_iface,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient019_GetIPCCallCount( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient019_GetIPCCallCount, &params );
     return params._ret;
 }
 
-void __thiscall winISteamClient_SteamClient019_SetWarningMessageHook(struct w_steam_iface *_this, SteamAPIWarningMessageHook_t pFunction)
+void __thiscall winISteamClient_SteamClient019_SetWarningMessageHook(struct w_steam_iface *_this, void (*W_CDECL pFunction)(int32_t, const char *))
 {
-    struct cppISteamClient_SteamClient019_SetWarningMessageHook_params params =
+    struct ISteamClient_SteamClient019_SetWarningMessageHook_params params =
     {
         .linux_side = _this->u_iface,
         .pFunction = pFunction,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient019_SetWarningMessageHook( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient019_SetWarningMessageHook, &params );
 }
 
-bool __thiscall winISteamClient_SteamClient019_BShutdownIfAllPipesClosed(struct w_steam_iface *_this)
+int8_t __thiscall winISteamClient_SteamClient019_BShutdownIfAllPipesClosed(struct w_steam_iface *_this)
 {
-    struct cppISteamClient_SteamClient019_BShutdownIfAllPipesClosed_params params =
+    struct ISteamClient_SteamClient019_BShutdownIfAllPipesClosed_params params =
     {
         .linux_side = _this->u_iface,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient019_BShutdownIfAllPipesClosed( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient019_BShutdownIfAllPipesClosed, &params );
     return params._ret;
 }
 
-void /*ISteamHTTP*/ * __thiscall winISteamClient_SteamClient019_GetISteamHTTP(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamHTTP*/ * __thiscall winISteamClient_SteamClient019_GetISteamHTTP(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient019_GetISteamHTTP_params params =
+    struct ISteamClient_SteamClient019_GetISteamHTTP_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -6344,14 +6280,14 @@ void /*ISteamHTTP*/ * __thiscall winISteamClient_SteamClient019_GetISteamHTTP(st
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient019_GetISteamHTTP( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient019_GetISteamHTTP, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void * __thiscall winISteamClient_SteamClient019_DEPRECATED_GetISteamUnifiedMessages(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void * __thiscall winISteamClient_SteamClient019_DEPRECATED_GetISteamUnifiedMessages(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient019_DEPRECATED_GetISteamUnifiedMessages_params params =
+    struct ISteamClient_SteamClient019_DEPRECATED_GetISteamUnifiedMessages_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -6359,13 +6295,13 @@ void * __thiscall winISteamClient_SteamClient019_DEPRECATED_GetISteamUnifiedMess
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient019_DEPRECATED_GetISteamUnifiedMessages( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient019_DEPRECATED_GetISteamUnifiedMessages, &params );
     return params._ret;
 }
 
-void /*ISteamController*/ * __thiscall winISteamClient_SteamClient019_GetISteamController(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamController*/ * __thiscall winISteamClient_SteamClient019_GetISteamController(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient019_GetISteamController_params params =
+    struct ISteamClient_SteamClient019_GetISteamController_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -6373,14 +6309,14 @@ void /*ISteamController*/ * __thiscall winISteamClient_SteamClient019_GetISteamC
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient019_GetISteamController( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient019_GetISteamController, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamUGC*/ * __thiscall winISteamClient_SteamClient019_GetISteamUGC(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamUGC*/ * __thiscall winISteamClient_SteamClient019_GetISteamUGC(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient019_GetISteamUGC_params params =
+    struct ISteamClient_SteamClient019_GetISteamUGC_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -6388,14 +6324,14 @@ void /*ISteamUGC*/ * __thiscall winISteamClient_SteamClient019_GetISteamUGC(stru
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient019_GetISteamUGC( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient019_GetISteamUGC, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamAppList*/ * __thiscall winISteamClient_SteamClient019_GetISteamAppList(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamAppList*/ * __thiscall winISteamClient_SteamClient019_GetISteamAppList(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient019_GetISteamAppList_params params =
+    struct ISteamClient_SteamClient019_GetISteamAppList_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -6403,14 +6339,14 @@ void /*ISteamAppList*/ * __thiscall winISteamClient_SteamClient019_GetISteamAppL
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient019_GetISteamAppList( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient019_GetISteamAppList, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamMusic*/ * __thiscall winISteamClient_SteamClient019_GetISteamMusic(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamMusic*/ * __thiscall winISteamClient_SteamClient019_GetISteamMusic(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient019_GetISteamMusic_params params =
+    struct ISteamClient_SteamClient019_GetISteamMusic_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -6418,14 +6354,14 @@ void /*ISteamMusic*/ * __thiscall winISteamClient_SteamClient019_GetISteamMusic(
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient019_GetISteamMusic( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient019_GetISteamMusic, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamMusicRemote*/ * __thiscall winISteamClient_SteamClient019_GetISteamMusicRemote(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamMusicRemote*/ * __thiscall winISteamClient_SteamClient019_GetISteamMusicRemote(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient019_GetISteamMusicRemote_params params =
+    struct ISteamClient_SteamClient019_GetISteamMusicRemote_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -6433,14 +6369,14 @@ void /*ISteamMusicRemote*/ * __thiscall winISteamClient_SteamClient019_GetISteam
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient019_GetISteamMusicRemote( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient019_GetISteamMusicRemote, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamHTMLSurface*/ * __thiscall winISteamClient_SteamClient019_GetISteamHTMLSurface(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamHTMLSurface*/ * __thiscall winISteamClient_SteamClient019_GetISteamHTMLSurface(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient019_GetISteamHTMLSurface_params params =
+    struct ISteamClient_SteamClient019_GetISteamHTMLSurface_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -6448,47 +6384,47 @@ void /*ISteamHTMLSurface*/ * __thiscall winISteamClient_SteamClient019_GetISteam
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient019_GetISteamHTMLSurface( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient019_GetISteamHTMLSurface, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void __thiscall winISteamClient_SteamClient019_DEPRECATED_Set_SteamAPI_CPostAPIResultInProcess(struct w_steam_iface *_this, void *_a)
+void __thiscall winISteamClient_SteamClient019_DEPRECATED_Set_SteamAPI_CPostAPIResultInProcess(struct w_steam_iface *_this, void (*W_CDECL _a)(void))
 {
-    struct cppISteamClient_SteamClient019_DEPRECATED_Set_SteamAPI_CPostAPIResultInProcess_params params =
+    struct ISteamClient_SteamClient019_DEPRECATED_Set_SteamAPI_CPostAPIResultInProcess_params params =
     {
         .linux_side = _this->u_iface,
         ._a = _a,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient019_DEPRECATED_Set_SteamAPI_CPostAPIResultInProcess( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient019_DEPRECATED_Set_SteamAPI_CPostAPIResultInProcess, &params );
 }
 
-void __thiscall winISteamClient_SteamClient019_DEPRECATED_Remove_SteamAPI_CPostAPIResultInProcess(struct w_steam_iface *_this, void *_a)
+void __thiscall winISteamClient_SteamClient019_DEPRECATED_Remove_SteamAPI_CPostAPIResultInProcess(struct w_steam_iface *_this, void (*W_CDECL _a)(void))
 {
-    struct cppISteamClient_SteamClient019_DEPRECATED_Remove_SteamAPI_CPostAPIResultInProcess_params params =
+    struct ISteamClient_SteamClient019_DEPRECATED_Remove_SteamAPI_CPostAPIResultInProcess_params params =
     {
         .linux_side = _this->u_iface,
         ._a = _a,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient019_DEPRECATED_Remove_SteamAPI_CPostAPIResultInProcess( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient019_DEPRECATED_Remove_SteamAPI_CPostAPIResultInProcess, &params );
 }
 
-void __thiscall winISteamClient_SteamClient019_Set_SteamAPI_CCheckCallbackRegisteredInProcess(struct w_steam_iface *_this, SteamAPI_CheckCallbackRegistered_t func)
+void __thiscall winISteamClient_SteamClient019_Set_SteamAPI_CCheckCallbackRegisteredInProcess(struct w_steam_iface *_this, uint32_t (*W_CDECL func)(int32_t))
 {
-    struct cppISteamClient_SteamClient019_Set_SteamAPI_CCheckCallbackRegisteredInProcess_params params =
+    struct ISteamClient_SteamClient019_Set_SteamAPI_CCheckCallbackRegisteredInProcess_params params =
     {
         .linux_side = _this->u_iface,
         .func = func,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient019_Set_SteamAPI_CCheckCallbackRegisteredInProcess( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient019_Set_SteamAPI_CCheckCallbackRegisteredInProcess, &params );
 }
 
-void /*ISteamInventory*/ * __thiscall winISteamClient_SteamClient019_GetISteamInventory(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamInventory*/ * __thiscall winISteamClient_SteamClient019_GetISteamInventory(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient019_GetISteamInventory_params params =
+    struct ISteamClient_SteamClient019_GetISteamInventory_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -6496,14 +6432,14 @@ void /*ISteamInventory*/ * __thiscall winISteamClient_SteamClient019_GetISteamIn
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient019_GetISteamInventory( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient019_GetISteamInventory, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamVideo*/ * __thiscall winISteamClient_SteamClient019_GetISteamVideo(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamVideo*/ * __thiscall winISteamClient_SteamClient019_GetISteamVideo(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient019_GetISteamVideo_params params =
+    struct ISteamClient_SteamClient019_GetISteamVideo_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -6511,14 +6447,14 @@ void /*ISteamVideo*/ * __thiscall winISteamClient_SteamClient019_GetISteamVideo(
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient019_GetISteamVideo( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient019_GetISteamVideo, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamParentalSettings*/ * __thiscall winISteamClient_SteamClient019_GetISteamParentalSettings(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamParentalSettings*/ * __thiscall winISteamClient_SteamClient019_GetISteamParentalSettings(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient019_GetISteamParentalSettings_params params =
+    struct ISteamClient_SteamClient019_GetISteamParentalSettings_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -6526,14 +6462,14 @@ void /*ISteamParentalSettings*/ * __thiscall winISteamClient_SteamClient019_GetI
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient019_GetISteamParentalSettings( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient019_GetISteamParentalSettings, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamInput*/ * __thiscall winISteamClient_SteamClient019_GetISteamInput(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamInput*/ * __thiscall winISteamClient_SteamClient019_GetISteamInput(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient019_GetISteamInput_params params =
+    struct ISteamClient_SteamClient019_GetISteamInput_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -6541,14 +6477,14 @@ void /*ISteamInput*/ * __thiscall winISteamClient_SteamClient019_GetISteamInput(
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient019_GetISteamInput( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient019_GetISteamInput, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamParties*/ * __thiscall winISteamClient_SteamClient019_GetISteamParties(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamParties*/ * __thiscall winISteamClient_SteamClient019_GetISteamParties(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient019_GetISteamParties_params params =
+    struct ISteamClient_SteamClient019_GetISteamParties_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -6556,14 +6492,14 @@ void /*ISteamParties*/ * __thiscall winISteamClient_SteamClient019_GetISteamPart
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient019_GetISteamParties( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient019_GetISteamParties, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamRemotePlay*/ * __thiscall winISteamClient_SteamClient019_GetISteamRemotePlay(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamRemotePlay*/ * __thiscall winISteamClient_SteamClient019_GetISteamRemotePlay(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient019_GetISteamRemotePlay_params params =
+    struct ISteamClient_SteamClient019_GetISteamRemotePlay_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -6571,16 +6507,16 @@ void /*ISteamRemotePlay*/ * __thiscall winISteamClient_SteamClient019_GetISteamR
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient019_GetISteamRemotePlay( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient019_GetISteamRemotePlay, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
 extern vtable_ptr winISteamClient_SteamClient019_vtable;
 
-#ifndef __GNUC__
-void __asm_dummy_vtables(void) {
-#endif
+DEFINE_RTTI_DATA0(winISteamClient_SteamClient019, 0, ".?AVISteamClient@@")
+
+__ASM_BLOCK_BEGIN(winISteamClient_SteamClient019_vtables)
     __ASM_VTABLE(winISteamClient_SteamClient019,
         VTABLE_ADD_FUNC(winISteamClient_SteamClient019_CreateSteamPipe)
         VTABLE_ADD_FUNC(winISteamClient_SteamClient019_BReleaseSteamPipe)
@@ -6624,9 +6560,7 @@ void __asm_dummy_vtables(void) {
         VTABLE_ADD_FUNC(winISteamClient_SteamClient019_GetISteamParties)
         VTABLE_ADD_FUNC(winISteamClient_SteamClient019_GetISteamRemotePlay)
     );
-#ifndef __GNUC__
-}
-#endif
+__ASM_BLOCK_END
 
 struct w_steam_iface *create_winISteamClient_SteamClient019(void *u_iface)
 {
@@ -6636,8 +6570,6 @@ struct w_steam_iface *create_winISteamClient_SteamClient019(void *u_iface)
     r->u_iface = u_iface;
     return r;
 }
-
-#include "cppISteamClient_SteamClient020.h"
 
 DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient020_CreateSteamPipe, 4)
 DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient020_BReleaseSteamPipe, 8)
@@ -6682,69 +6614,69 @@ DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient020_GetISteamParties, 16)
 DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient020_GetISteamRemotePlay, 16)
 DEFINE_THISCALL_WRAPPER(winISteamClient_SteamClient020_DestroyAllInterfaces, 4)
 
-HSteamPipe __thiscall winISteamClient_SteamClient020_CreateSteamPipe(struct w_steam_iface *_this)
+int32_t __thiscall winISteamClient_SteamClient020_CreateSteamPipe(struct w_steam_iface *_this)
 {
-    struct cppISteamClient_SteamClient020_CreateSteamPipe_params params =
+    struct ISteamClient_SteamClient020_CreateSteamPipe_params params =
     {
         .linux_side = _this->u_iface,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient020_CreateSteamPipe( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient020_CreateSteamPipe, &params );
     return params._ret;
 }
 
-bool __thiscall winISteamClient_SteamClient020_BReleaseSteamPipe(struct w_steam_iface *_this, HSteamPipe hSteamPipe)
+int8_t __thiscall winISteamClient_SteamClient020_BReleaseSteamPipe(struct w_steam_iface *_this, int32_t hSteamPipe)
 {
-    struct cppISteamClient_SteamClient020_BReleaseSteamPipe_params params =
-    {
-        .linux_side = _this->u_iface,
-        .hSteamPipe = hSteamPipe,
-    };
-    TRACE("%p\n", _this);
-    cppISteamClient_SteamClient020_BReleaseSteamPipe( &params );
-    return params._ret;
-}
-
-HSteamUser __thiscall winISteamClient_SteamClient020_ConnectToGlobalUser(struct w_steam_iface *_this, HSteamPipe hSteamPipe)
-{
-    struct cppISteamClient_SteamClient020_ConnectToGlobalUser_params params =
+    struct ISteamClient_SteamClient020_BReleaseSteamPipe_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamPipe = hSteamPipe,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient020_ConnectToGlobalUser( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient020_BReleaseSteamPipe, &params );
     return params._ret;
 }
 
-HSteamUser __thiscall winISteamClient_SteamClient020_CreateLocalUser(struct w_steam_iface *_this, HSteamPipe *phSteamPipe, EAccountType eAccountType)
+int32_t __thiscall winISteamClient_SteamClient020_ConnectToGlobalUser(struct w_steam_iface *_this, int32_t hSteamPipe)
 {
-    struct cppISteamClient_SteamClient020_CreateLocalUser_params params =
+    struct ISteamClient_SteamClient020_ConnectToGlobalUser_params params =
+    {
+        .linux_side = _this->u_iface,
+        .hSteamPipe = hSteamPipe,
+    };
+    TRACE("%p\n", _this);
+    STEAMCLIENT_CALL( ISteamClient_SteamClient020_ConnectToGlobalUser, &params );
+    return params._ret;
+}
+
+int32_t __thiscall winISteamClient_SteamClient020_CreateLocalUser(struct w_steam_iface *_this, int32_t *phSteamPipe, uint32_t eAccountType)
+{
+    struct ISteamClient_SteamClient020_CreateLocalUser_params params =
     {
         .linux_side = _this->u_iface,
         .phSteamPipe = phSteamPipe,
         .eAccountType = eAccountType,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient020_CreateLocalUser( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient020_CreateLocalUser, &params );
     return params._ret;
 }
 
-void __thiscall winISteamClient_SteamClient020_ReleaseUser(struct w_steam_iface *_this, HSteamPipe hSteamPipe, HSteamUser hUser)
+void __thiscall winISteamClient_SteamClient020_ReleaseUser(struct w_steam_iface *_this, int32_t hSteamPipe, int32_t hUser)
 {
-    struct cppISteamClient_SteamClient020_ReleaseUser_params params =
+    struct ISteamClient_SteamClient020_ReleaseUser_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamPipe = hSteamPipe,
         .hUser = hUser,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient020_ReleaseUser( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient020_ReleaseUser, &params );
 }
 
-void /*ISteamUser*/ * __thiscall winISteamClient_SteamClient020_GetISteamUser(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamUser*/ * __thiscall winISteamClient_SteamClient020_GetISteamUser(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient020_GetISteamUser_params params =
+    struct ISteamClient_SteamClient020_GetISteamUser_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -6752,14 +6684,14 @@ void /*ISteamUser*/ * __thiscall winISteamClient_SteamClient020_GetISteamUser(st
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient020_GetISteamUser( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient020_GetISteamUser, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamGameServer*/ * __thiscall winISteamClient_SteamClient020_GetISteamGameServer(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamGameServer*/ * __thiscall winISteamClient_SteamClient020_GetISteamGameServer(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient020_GetISteamGameServer_params params =
+    struct ISteamClient_SteamClient020_GetISteamGameServer_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -6767,26 +6699,26 @@ void /*ISteamGameServer*/ * __thiscall winISteamClient_SteamClient020_GetISteamG
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient020_GetISteamGameServer( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient020_GetISteamGameServer, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void __thiscall winISteamClient_SteamClient020_SetLocalIPBinding(struct w_steam_iface *_this, const SteamIPAddress_t *unIP, uint16 usPort)
+void __thiscall winISteamClient_SteamClient020_SetLocalIPBinding(struct w_steam_iface *_this, const SteamIPAddress_t *unIP, uint16_t usPort)
 {
-    struct cppISteamClient_SteamClient020_SetLocalIPBinding_params params =
+    struct ISteamClient_SteamClient020_SetLocalIPBinding_params params =
     {
         .linux_side = _this->u_iface,
         .unIP = unIP,
         .usPort = usPort,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient020_SetLocalIPBinding( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient020_SetLocalIPBinding, &params );
 }
 
-void /*ISteamFriends*/ * __thiscall winISteamClient_SteamClient020_GetISteamFriends(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamFriends*/ * __thiscall winISteamClient_SteamClient020_GetISteamFriends(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient020_GetISteamFriends_params params =
+    struct ISteamClient_SteamClient020_GetISteamFriends_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -6794,43 +6726,28 @@ void /*ISteamFriends*/ * __thiscall winISteamClient_SteamClient020_GetISteamFrie
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient020_GetISteamFriends( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient020_GetISteamFriends, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamUtils*/ * __thiscall winISteamClient_SteamClient020_GetISteamUtils(struct w_steam_iface *_this, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamUtils*/ * __thiscall winISteamClient_SteamClient020_GetISteamUtils(struct w_steam_iface *_this, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient020_GetISteamUtils_params params =
+    struct ISteamClient_SteamClient020_GetISteamUtils_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamPipe = hSteamPipe,
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient020_GetISteamUtils( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient020_GetISteamUtils, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamMatchmaking*/ * __thiscall winISteamClient_SteamClient020_GetISteamMatchmaking(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamMatchmaking*/ * __thiscall winISteamClient_SteamClient020_GetISteamMatchmaking(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient020_GetISteamMatchmaking_params params =
-    {
-        .linux_side = _this->u_iface,
-        .hSteamUser = hSteamUser,
-        .hSteamPipe = hSteamPipe,
-        .pchVersion = pchVersion,
-    };
-    TRACE("%p\n", _this);
-    cppISteamClient_SteamClient020_GetISteamMatchmaking( &params );
-    params._ret = create_win_interface( pchVersion, params._ret );
-    return params._ret;
-}
-
-void /*ISteamMatchmakingServers*/ * __thiscall winISteamClient_SteamClient020_GetISteamMatchmakingServers(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
-{
-    struct cppISteamClient_SteamClient020_GetISteamMatchmakingServers_params params =
+    struct ISteamClient_SteamClient020_GetISteamMatchmaking_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -6838,14 +6755,14 @@ void /*ISteamMatchmakingServers*/ * __thiscall winISteamClient_SteamClient020_Ge
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient020_GetISteamMatchmakingServers( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient020_GetISteamMatchmaking, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void * __thiscall winISteamClient_SteamClient020_GetISteamGenericInterface(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamMatchmakingServers*/ * __thiscall winISteamClient_SteamClient020_GetISteamMatchmakingServers(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient020_GetISteamGenericInterface_params params =
+    struct ISteamClient_SteamClient020_GetISteamMatchmakingServers_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -6853,14 +6770,14 @@ void * __thiscall winISteamClient_SteamClient020_GetISteamGenericInterface(struc
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient020_GetISteamGenericInterface( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient020_GetISteamMatchmakingServers, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamUserStats*/ * __thiscall winISteamClient_SteamClient020_GetISteamUserStats(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void * __thiscall winISteamClient_SteamClient020_GetISteamGenericInterface(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient020_GetISteamUserStats_params params =
+    struct ISteamClient_SteamClient020_GetISteamGenericInterface_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -6868,14 +6785,29 @@ void /*ISteamUserStats*/ * __thiscall winISteamClient_SteamClient020_GetISteamUs
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient020_GetISteamUserStats( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient020_GetISteamGenericInterface, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamGameServerStats*/ * __thiscall winISteamClient_SteamClient020_GetISteamGameServerStats(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamUserStats*/ * __thiscall winISteamClient_SteamClient020_GetISteamUserStats(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient020_GetISteamGameServerStats_params params =
+    struct ISteamClient_SteamClient020_GetISteamUserStats_params params =
+    {
+        .linux_side = _this->u_iface,
+        .hSteamUser = hSteamUser,
+        .hSteamPipe = hSteamPipe,
+        .pchVersion = pchVersion,
+    };
+    TRACE("%p\n", _this);
+    STEAMCLIENT_CALL( ISteamClient_SteamClient020_GetISteamUserStats, &params );
+    params._ret = create_win_interface( pchVersion, params._ret );
+    return params._ret;
+}
+
+void /*ISteamGameServerStats*/ * __thiscall winISteamClient_SteamClient020_GetISteamGameServerStats(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
+{
+    struct ISteamClient_SteamClient020_GetISteamGameServerStats_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -6883,14 +6815,14 @@ void /*ISteamGameServerStats*/ * __thiscall winISteamClient_SteamClient020_GetIS
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient020_GetISteamGameServerStats( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient020_GetISteamGameServerStats, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamApps*/ * __thiscall winISteamClient_SteamClient020_GetISteamApps(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamApps*/ * __thiscall winISteamClient_SteamClient020_GetISteamApps(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient020_GetISteamApps_params params =
+    struct ISteamClient_SteamClient020_GetISteamApps_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -6898,14 +6830,14 @@ void /*ISteamApps*/ * __thiscall winISteamClient_SteamClient020_GetISteamApps(st
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient020_GetISteamApps( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient020_GetISteamApps, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamNetworking*/ * __thiscall winISteamClient_SteamClient020_GetISteamNetworking(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamNetworking*/ * __thiscall winISteamClient_SteamClient020_GetISteamNetworking(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient020_GetISteamNetworking_params params =
+    struct ISteamClient_SteamClient020_GetISteamNetworking_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -6913,14 +6845,14 @@ void /*ISteamNetworking*/ * __thiscall winISteamClient_SteamClient020_GetISteamN
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient020_GetISteamNetworking( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient020_GetISteamNetworking, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamRemoteStorage*/ * __thiscall winISteamClient_SteamClient020_GetISteamRemoteStorage(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamRemoteStorage*/ * __thiscall winISteamClient_SteamClient020_GetISteamRemoteStorage(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient020_GetISteamRemoteStorage_params params =
+    struct ISteamClient_SteamClient020_GetISteamRemoteStorage_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -6928,14 +6860,14 @@ void /*ISteamRemoteStorage*/ * __thiscall winISteamClient_SteamClient020_GetISte
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient020_GetISteamRemoteStorage( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient020_GetISteamRemoteStorage, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamScreenshots*/ * __thiscall winISteamClient_SteamClient020_GetISteamScreenshots(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamScreenshots*/ * __thiscall winISteamClient_SteamClient020_GetISteamScreenshots(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient020_GetISteamScreenshots_params params =
+    struct ISteamClient_SteamClient020_GetISteamScreenshots_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -6943,14 +6875,14 @@ void /*ISteamScreenshots*/ * __thiscall winISteamClient_SteamClient020_GetISteam
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient020_GetISteamScreenshots( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient020_GetISteamScreenshots, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamGameSearch*/ * __thiscall winISteamClient_SteamClient020_GetISteamGameSearch(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamGameSearch*/ * __thiscall winISteamClient_SteamClient020_GetISteamGameSearch(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient020_GetISteamGameSearch_params params =
+    struct ISteamClient_SteamClient020_GetISteamGameSearch_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -6958,57 +6890,57 @@ void /*ISteamGameSearch*/ * __thiscall winISteamClient_SteamClient020_GetISteamG
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient020_GetISteamGameSearch( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient020_GetISteamGameSearch, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
 void __thiscall winISteamClient_SteamClient020_RunFrame(struct w_steam_iface *_this)
 {
-    struct cppISteamClient_SteamClient020_RunFrame_params params =
+    struct ISteamClient_SteamClient020_RunFrame_params params =
     {
         .linux_side = _this->u_iface,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient020_RunFrame( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient020_RunFrame, &params );
 }
 
-uint32 __thiscall winISteamClient_SteamClient020_GetIPCCallCount(struct w_steam_iface *_this)
+uint32_t __thiscall winISteamClient_SteamClient020_GetIPCCallCount(struct w_steam_iface *_this)
 {
-    struct cppISteamClient_SteamClient020_GetIPCCallCount_params params =
+    struct ISteamClient_SteamClient020_GetIPCCallCount_params params =
     {
         .linux_side = _this->u_iface,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient020_GetIPCCallCount( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient020_GetIPCCallCount, &params );
     return params._ret;
 }
 
-void __thiscall winISteamClient_SteamClient020_SetWarningMessageHook(struct w_steam_iface *_this, SteamAPIWarningMessageHook_t pFunction)
+void __thiscall winISteamClient_SteamClient020_SetWarningMessageHook(struct w_steam_iface *_this, void (*W_CDECL pFunction)(int32_t, const char *))
 {
-    struct cppISteamClient_SteamClient020_SetWarningMessageHook_params params =
+    struct ISteamClient_SteamClient020_SetWarningMessageHook_params params =
     {
         .linux_side = _this->u_iface,
         .pFunction = pFunction,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient020_SetWarningMessageHook( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient020_SetWarningMessageHook, &params );
 }
 
-bool __thiscall winISteamClient_SteamClient020_BShutdownIfAllPipesClosed(struct w_steam_iface *_this)
+int8_t __thiscall winISteamClient_SteamClient020_BShutdownIfAllPipesClosed(struct w_steam_iface *_this)
 {
-    struct cppISteamClient_SteamClient020_BShutdownIfAllPipesClosed_params params =
+    struct ISteamClient_SteamClient020_BShutdownIfAllPipesClosed_params params =
     {
         .linux_side = _this->u_iface,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient020_BShutdownIfAllPipesClosed( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient020_BShutdownIfAllPipesClosed, &params );
     return params._ret;
 }
 
-void /*ISteamHTTP*/ * __thiscall winISteamClient_SteamClient020_GetISteamHTTP(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamHTTP*/ * __thiscall winISteamClient_SteamClient020_GetISteamHTTP(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient020_GetISteamHTTP_params params =
+    struct ISteamClient_SteamClient020_GetISteamHTTP_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -7016,14 +6948,14 @@ void /*ISteamHTTP*/ * __thiscall winISteamClient_SteamClient020_GetISteamHTTP(st
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient020_GetISteamHTTP( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient020_GetISteamHTTP, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void * __thiscall winISteamClient_SteamClient020_DEPRECATED_GetISteamUnifiedMessages(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void * __thiscall winISteamClient_SteamClient020_DEPRECATED_GetISteamUnifiedMessages(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient020_DEPRECATED_GetISteamUnifiedMessages_params params =
+    struct ISteamClient_SteamClient020_DEPRECATED_GetISteamUnifiedMessages_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -7031,13 +6963,13 @@ void * __thiscall winISteamClient_SteamClient020_DEPRECATED_GetISteamUnifiedMess
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient020_DEPRECATED_GetISteamUnifiedMessages( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient020_DEPRECATED_GetISteamUnifiedMessages, &params );
     return params._ret;
 }
 
-void /*ISteamController*/ * __thiscall winISteamClient_SteamClient020_GetISteamController(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamController*/ * __thiscall winISteamClient_SteamClient020_GetISteamController(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient020_GetISteamController_params params =
+    struct ISteamClient_SteamClient020_GetISteamController_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -7045,14 +6977,14 @@ void /*ISteamController*/ * __thiscall winISteamClient_SteamClient020_GetISteamC
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient020_GetISteamController( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient020_GetISteamController, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamUGC*/ * __thiscall winISteamClient_SteamClient020_GetISteamUGC(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamUGC*/ * __thiscall winISteamClient_SteamClient020_GetISteamUGC(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient020_GetISteamUGC_params params =
+    struct ISteamClient_SteamClient020_GetISteamUGC_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -7060,14 +6992,14 @@ void /*ISteamUGC*/ * __thiscall winISteamClient_SteamClient020_GetISteamUGC(stru
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient020_GetISteamUGC( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient020_GetISteamUGC, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamAppList*/ * __thiscall winISteamClient_SteamClient020_GetISteamAppList(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamAppList*/ * __thiscall winISteamClient_SteamClient020_GetISteamAppList(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient020_GetISteamAppList_params params =
+    struct ISteamClient_SteamClient020_GetISteamAppList_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -7075,14 +7007,14 @@ void /*ISteamAppList*/ * __thiscall winISteamClient_SteamClient020_GetISteamAppL
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient020_GetISteamAppList( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient020_GetISteamAppList, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamMusic*/ * __thiscall winISteamClient_SteamClient020_GetISteamMusic(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamMusic*/ * __thiscall winISteamClient_SteamClient020_GetISteamMusic(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient020_GetISteamMusic_params params =
+    struct ISteamClient_SteamClient020_GetISteamMusic_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -7090,14 +7022,14 @@ void /*ISteamMusic*/ * __thiscall winISteamClient_SteamClient020_GetISteamMusic(
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient020_GetISteamMusic( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient020_GetISteamMusic, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamMusicRemote*/ * __thiscall winISteamClient_SteamClient020_GetISteamMusicRemote(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamMusicRemote*/ * __thiscall winISteamClient_SteamClient020_GetISteamMusicRemote(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient020_GetISteamMusicRemote_params params =
+    struct ISteamClient_SteamClient020_GetISteamMusicRemote_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -7105,14 +7037,14 @@ void /*ISteamMusicRemote*/ * __thiscall winISteamClient_SteamClient020_GetISteam
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient020_GetISteamMusicRemote( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient020_GetISteamMusicRemote, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamHTMLSurface*/ * __thiscall winISteamClient_SteamClient020_GetISteamHTMLSurface(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamHTMLSurface*/ * __thiscall winISteamClient_SteamClient020_GetISteamHTMLSurface(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient020_GetISteamHTMLSurface_params params =
+    struct ISteamClient_SteamClient020_GetISteamHTMLSurface_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -7120,47 +7052,47 @@ void /*ISteamHTMLSurface*/ * __thiscall winISteamClient_SteamClient020_GetISteam
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient020_GetISteamHTMLSurface( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient020_GetISteamHTMLSurface, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void __thiscall winISteamClient_SteamClient020_DEPRECATED_Set_SteamAPI_CPostAPIResultInProcess(struct w_steam_iface *_this, void *_a)
+void __thiscall winISteamClient_SteamClient020_DEPRECATED_Set_SteamAPI_CPostAPIResultInProcess(struct w_steam_iface *_this, void (*W_CDECL _a)(void))
 {
-    struct cppISteamClient_SteamClient020_DEPRECATED_Set_SteamAPI_CPostAPIResultInProcess_params params =
+    struct ISteamClient_SteamClient020_DEPRECATED_Set_SteamAPI_CPostAPIResultInProcess_params params =
     {
         .linux_side = _this->u_iface,
         ._a = _a,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient020_DEPRECATED_Set_SteamAPI_CPostAPIResultInProcess( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient020_DEPRECATED_Set_SteamAPI_CPostAPIResultInProcess, &params );
 }
 
-void __thiscall winISteamClient_SteamClient020_DEPRECATED_Remove_SteamAPI_CPostAPIResultInProcess(struct w_steam_iface *_this, void *_a)
+void __thiscall winISteamClient_SteamClient020_DEPRECATED_Remove_SteamAPI_CPostAPIResultInProcess(struct w_steam_iface *_this, void (*W_CDECL _a)(void))
 {
-    struct cppISteamClient_SteamClient020_DEPRECATED_Remove_SteamAPI_CPostAPIResultInProcess_params params =
+    struct ISteamClient_SteamClient020_DEPRECATED_Remove_SteamAPI_CPostAPIResultInProcess_params params =
     {
         .linux_side = _this->u_iface,
         ._a = _a,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient020_DEPRECATED_Remove_SteamAPI_CPostAPIResultInProcess( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient020_DEPRECATED_Remove_SteamAPI_CPostAPIResultInProcess, &params );
 }
 
-void __thiscall winISteamClient_SteamClient020_Set_SteamAPI_CCheckCallbackRegisteredInProcess(struct w_steam_iface *_this, SteamAPI_CheckCallbackRegistered_t func)
+void __thiscall winISteamClient_SteamClient020_Set_SteamAPI_CCheckCallbackRegisteredInProcess(struct w_steam_iface *_this, uint32_t (*W_CDECL func)(int32_t))
 {
-    struct cppISteamClient_SteamClient020_Set_SteamAPI_CCheckCallbackRegisteredInProcess_params params =
+    struct ISteamClient_SteamClient020_Set_SteamAPI_CCheckCallbackRegisteredInProcess_params params =
     {
         .linux_side = _this->u_iface,
         .func = func,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient020_Set_SteamAPI_CCheckCallbackRegisteredInProcess( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient020_Set_SteamAPI_CCheckCallbackRegisteredInProcess, &params );
 }
 
-void /*ISteamInventory*/ * __thiscall winISteamClient_SteamClient020_GetISteamInventory(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamInventory*/ * __thiscall winISteamClient_SteamClient020_GetISteamInventory(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient020_GetISteamInventory_params params =
+    struct ISteamClient_SteamClient020_GetISteamInventory_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -7168,14 +7100,14 @@ void /*ISteamInventory*/ * __thiscall winISteamClient_SteamClient020_GetISteamIn
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient020_GetISteamInventory( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient020_GetISteamInventory, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamVideo*/ * __thiscall winISteamClient_SteamClient020_GetISteamVideo(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamVideo*/ * __thiscall winISteamClient_SteamClient020_GetISteamVideo(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient020_GetISteamVideo_params params =
+    struct ISteamClient_SteamClient020_GetISteamVideo_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -7183,14 +7115,14 @@ void /*ISteamVideo*/ * __thiscall winISteamClient_SteamClient020_GetISteamVideo(
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient020_GetISteamVideo( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient020_GetISteamVideo, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamParentalSettings*/ * __thiscall winISteamClient_SteamClient020_GetISteamParentalSettings(struct w_steam_iface *_this, HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamParentalSettings*/ * __thiscall winISteamClient_SteamClient020_GetISteamParentalSettings(struct w_steam_iface *_this, int32_t hSteamuser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient020_GetISteamParentalSettings_params params =
+    struct ISteamClient_SteamClient020_GetISteamParentalSettings_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamuser = hSteamuser,
@@ -7198,14 +7130,14 @@ void /*ISteamParentalSettings*/ * __thiscall winISteamClient_SteamClient020_GetI
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient020_GetISteamParentalSettings( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient020_GetISteamParentalSettings, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamInput*/ * __thiscall winISteamClient_SteamClient020_GetISteamInput(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamInput*/ * __thiscall winISteamClient_SteamClient020_GetISteamInput(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient020_GetISteamInput_params params =
+    struct ISteamClient_SteamClient020_GetISteamInput_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -7213,14 +7145,14 @@ void /*ISteamInput*/ * __thiscall winISteamClient_SteamClient020_GetISteamInput(
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient020_GetISteamInput( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient020_GetISteamInput, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamParties*/ * __thiscall winISteamClient_SteamClient020_GetISteamParties(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamParties*/ * __thiscall winISteamClient_SteamClient020_GetISteamParties(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient020_GetISteamParties_params params =
+    struct ISteamClient_SteamClient020_GetISteamParties_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -7228,14 +7160,14 @@ void /*ISteamParties*/ * __thiscall winISteamClient_SteamClient020_GetISteamPart
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient020_GetISteamParties( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient020_GetISteamParties, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
-void /*ISteamRemotePlay*/ * __thiscall winISteamClient_SteamClient020_GetISteamRemotePlay(struct w_steam_iface *_this, HSteamUser hSteamUser, HSteamPipe hSteamPipe, const char *pchVersion)
+void /*ISteamRemotePlay*/ * __thiscall winISteamClient_SteamClient020_GetISteamRemotePlay(struct w_steam_iface *_this, int32_t hSteamUser, int32_t hSteamPipe, const char *pchVersion)
 {
-    struct cppISteamClient_SteamClient020_GetISteamRemotePlay_params params =
+    struct ISteamClient_SteamClient020_GetISteamRemotePlay_params params =
     {
         .linux_side = _this->u_iface,
         .hSteamUser = hSteamUser,
@@ -7243,26 +7175,26 @@ void /*ISteamRemotePlay*/ * __thiscall winISteamClient_SteamClient020_GetISteamR
         .pchVersion = pchVersion,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient020_GetISteamRemotePlay( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient020_GetISteamRemotePlay, &params );
     params._ret = create_win_interface( pchVersion, params._ret );
     return params._ret;
 }
 
 void __thiscall winISteamClient_SteamClient020_DestroyAllInterfaces(struct w_steam_iface *_this)
 {
-    struct cppISteamClient_SteamClient020_DestroyAllInterfaces_params params =
+    struct ISteamClient_SteamClient020_DestroyAllInterfaces_params params =
     {
         .linux_side = _this->u_iface,
     };
     TRACE("%p\n", _this);
-    cppISteamClient_SteamClient020_DestroyAllInterfaces( &params );
+    STEAMCLIENT_CALL( ISteamClient_SteamClient020_DestroyAllInterfaces, &params );
 }
 
 extern vtable_ptr winISteamClient_SteamClient020_vtable;
 
-#ifndef __GNUC__
-void __asm_dummy_vtables(void) {
-#endif
+DEFINE_RTTI_DATA0(winISteamClient_SteamClient020, 0, ".?AVISteamClient@@")
+
+__ASM_BLOCK_BEGIN(winISteamClient_SteamClient020_vtables)
     __ASM_VTABLE(winISteamClient_SteamClient020,
         VTABLE_ADD_FUNC(winISteamClient_SteamClient020_CreateSteamPipe)
         VTABLE_ADD_FUNC(winISteamClient_SteamClient020_BReleaseSteamPipe)
@@ -7307,9 +7239,7 @@ void __asm_dummy_vtables(void) {
         VTABLE_ADD_FUNC(winISteamClient_SteamClient020_GetISteamRemotePlay)
         VTABLE_ADD_FUNC(winISteamClient_SteamClient020_DestroyAllInterfaces)
     );
-#ifndef __GNUC__
-}
-#endif
+__ASM_BLOCK_END
 
 struct w_steam_iface *create_winISteamClient_SteamClient020(void *u_iface)
 {
@@ -7320,3 +7250,23 @@ struct w_steam_iface *create_winISteamClient_SteamClient020(void *u_iface)
     return r;
 }
 
+void init_winISteamClient_rtti( char *base )
+{
+#ifdef __x86_64__
+    init_winISteamClient_SteamClient006_rtti( base );
+    init_winISteamClient_SteamClient007_rtti( base );
+    init_winISteamClient_SteamClient008_rtti( base );
+    init_winISteamClient_SteamClient009_rtti( base );
+    init_winISteamClient_SteamClient010_rtti( base );
+    init_winISteamClient_SteamClient011_rtti( base );
+    init_winISteamClient_SteamClient012_rtti( base );
+    init_winISteamClient_SteamClient013_rtti( base );
+    init_winISteamClient_SteamClient014_rtti( base );
+    init_winISteamClient_SteamClient015_rtti( base );
+    init_winISteamClient_SteamClient016_rtti( base );
+    init_winISteamClient_SteamClient017_rtti( base );
+    init_winISteamClient_SteamClient018_rtti( base );
+    init_winISteamClient_SteamClient019_rtti( base );
+    init_winISteamClient_SteamClient020_rtti( base );
+#endif /* __x86_64__ */
+}
