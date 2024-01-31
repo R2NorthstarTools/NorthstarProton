@@ -1,0 +1,80 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Jan200101 <sentrycraft123@gmail.com>
+Date: Sat, 27 Jan 2024 15:40:33 +0100
+Subject: [PATCH] Poke winmm from dsound to implicitly load midimap
+
+Signed-off-by: Jan200101 <sentrycraft123@gmail.com>
+---
+ dlls/dsound/capture.c | 30 ++++++++++++++++++++++++++++++
+ dlls/winmm/waveform.c |  2 ++
+ 2 files changed, 32 insertions(+)
+
+diff --git a/dlls/dsound/capture.c b/dlls/dsound/capture.c
+index 5956da792af..02853e65e92 100644
+--- a/dlls/dsound/capture.c
++++ b/dlls/dsound/capture.c
+@@ -80,6 +80,8 @@ struct DirectSoundCaptureDevice
+ };
+ 
+ static DWORD WINAPI DSOUND_capture_thread(void *user);
++static UINT (WINAPI *pWaveInMessage)(HWAVEIN, UINT, DWORD_PTR, DWORD_PTR);
++
+ 
+ static void capturebuffer_destroy(IDirectSoundCaptureBufferImpl *This)
+ {
+@@ -994,6 +996,26 @@ static struct _TestFormat {
+     {0}
+ };
+ 
++static UINT WaveInMessage(HWAVEIN hWaveIn, UINT uMessage,
++                          DWORD_PTR dwParam1, DWORD_PTR dwParam2)
++{
++    HMODULE hModule;
++    UINT rc = ERROR_CALL_NOT_IMPLEMENTED;
++
++    hModule = LoadLibraryA("winmm.dll");
++    if (!hModule)
++        return 0;
++
++    pWaveInMessage = (void*)GetProcAddress(hModule, "waveInMessage");
++
++    if (pWaveInMessage)
++        rc = pWaveInMessage(hWaveIn, uMessage, dwParam1, dwParam2);
++
++    FreeLibrary(hModule);
++
++    return rc;
++}
++
+ static HRESULT DirectSoundCaptureDevice_Initialize(
+     DirectSoundCaptureDevice ** ppDevice,
+     LPCGUID lpcGUID)
+@@ -1009,7 +1031,15 @@ static HRESULT DirectSoundCaptureDevice_Initialize(
+ 
+     /* Default device? */
+     if ( !lpcGUID || IsEqualGUID(lpcGUID, &GUID_NULL) )
++    {
++        MMRESULT rc;
++        DWORD preferred, status;
++
++        rc = WaveInMessage((HWAVEIN)WAVE_MAPPER, DRVM_MAPPER_PREFERRED_GET,
++                (DWORD_PTR)&preferred, (DWORD_PTR)&status);
++
+         lpcGUID = &DSDEVID_DefaultCapture;
++    }
+ 
+     if(IsEqualGUID(lpcGUID, &DSDEVID_DefaultPlayback) ||
+             IsEqualGUID(lpcGUID, &DSDEVID_DefaultVoicePlayback))
+diff --git a/dlls/winmm/waveform.c b/dlls/winmm/waveform.c
+index 8c0cc4d879c..6879d51cb9c 100644
+--- a/dlls/winmm/waveform.c
++++ b/dlls/winmm/waveform.c
+@@ -3651,6 +3651,8 @@ UINT WINAPI waveInMessage(HWAVEIN hWaveIn, UINT uMessage,
+ {
+     TRACE("(%p, %u, %Id, %Id)\n", hWaveIn, uMessage, dwParam1, dwParam2);
+ 
++    MMDRV_GetNum(MMDRV_MIDIOUT);
++
+     switch(uMessage){
+     case DRV_QUERYFUNCTIONINSTANCEIDSIZE:
+         return WINMM_QueryInstanceIDSize(HandleToULong(hWaveIn),

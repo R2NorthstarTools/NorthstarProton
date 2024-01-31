@@ -323,6 +323,8 @@
     # ntdll-ext4-case-folder
     patch -Np1 < ../patches/wine-hotfixes/staging/ntdll-ext4-case-folder/0002-ntdll-server-Mark-drive_c-as-case-insensitive-when-c.patch
 
+    # dsound-winmm
+    patch -Np1 < ../patches/wine-hotfixes/pending/dsound_winmm.patch
 ### END WINE STAGING APPLY SECTION ###
 
 ### (2-3) GAME PATCH SECTION ###

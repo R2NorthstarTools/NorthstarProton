@@ -1507,6 +1507,8 @@ class Session:
 
         if "northstar" in self.compat_config:
             append_to_env_str(self.env, "WINEDLLOVERRIDES", "wsock32=n,b", ";")
+        else:
+            append_to_env_str(self.env, "WINEDLLOVERRIDES", "midimap=n,b", ";")
 
         if "vkd3dfl12" in self.compat_config:
             if not "VKD3D_FEATURE_LEVEL" in self.env:
