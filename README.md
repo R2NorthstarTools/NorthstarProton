@@ -14,6 +14,7 @@ https://r2northstar.gitbook.io/r2northstar-wiki/installing-northstar/steamdeck-a
 - Valve wine base instead of wine-staging
 - Soft fork of proton-ge-custom instead of using Proton-TKG build system
 - No longer requires a minimum system `glibc` version
+- Support for R2Ronin (speedrunning fork of R2Northstar)
 
 ## LatencyFleX
 
@@ -56,7 +57,7 @@ Build will be placed within the build directory as SOME-BUILD-NAME-HERE.tar.gz.
 
 ## Credits
 
-**Jan ([Jan200101](https://github.com/Jan200101))**, for spearheading the overhaul of NorthstarProton.
+**Jan ([Jan200101](https://github.com/Jan200101))**, for spearheading the overhaul of NorthstarProton and various patches to improve compatability.
 
 **Thomas Crider ([GloriousEggroll](https://github.com/GloriousEggroll))**, for proton-ge-custom.
 
